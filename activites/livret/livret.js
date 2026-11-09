@@ -507,6 +507,7 @@ const Livret = (() => {
     else if (b.attention) zone.append(encadre("attention", "⚠️", b.attention));
     else if (b.retenir) zone.append(encadre("retenir", "📌", b.retenir, "À retenir"));
     else if (b.note) zone.append(encadre("note", "📝", b.note));
+    else if (b.interactif) return interactif(b);
     else if (b.img) return figure(b);
     else if (b.cartes) zone.append(cartes(b.cartes));
     else if (b.onglets) zone.append(onglets(b.onglets));
@@ -560,6 +561,18 @@ const Livret = (() => {
     const img = el("img", { src: "livret/images/" + b.img + ".webp", alt: b.alt || "", loading: "lazy", decoding: "async" });
     const bouton = el("button", { type: "button", title: "Agrandir l'image", onclick: () => zoom(img) }, img);
     return el("figure", { class: "figure" }, bouton, b.leg ? el("figcaption", { html: b.leg }) : null);
+  }
+  // Une animation en ligne (Genially) : l'image s'affiche d'abord, l'animation ne se charge qu'au clic.
+  // Sans Internet, l'image reste utilisable.
+  function interactif(b) {
+    const fig = figure(b);
+    const lancer = el("button", { class: "btn btn-fort interactif-btn", type: "button", onclick: () => {
+      const cadre = el("div", { class: "interactif" },
+        el("iframe", { src: b.interactif, title: b.alt || "Animation interactive", allowfullscreen: true, allow: "fullscreen" }));
+      fig.replaceWith(el("figure", { class: "figure" }, cadre, b.leg ? el("figcaption", { html: b.leg }) : null));
+    } }, "👆 Version interactive : cliquez sur chaque appareil");
+    fig.insertBefore(lancer, fig.querySelector("figcaption"));
+    return fig;
   }
   function zoom(img) {
     const retour = document.activeElement;

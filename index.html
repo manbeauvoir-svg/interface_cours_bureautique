@@ -263,13 +263,16 @@
   @media (max-width: 560px) {
     .barre { gap: 6px; padding: 6px 8px; }
     .barre h1, .barre .seul { display: none; }
-    .barre .retour { margin-right: auto; }
+    .barre a { padding: 0 10px; }
+    /* Le retour se raccourcit (…) pour laisser la place à « Suivante ». */
+    .barre .retour:not(.accueil) { margin-right: auto; flex: 0 1 auto; min-width: 0; display: block; line-height: 40px; overflow: hidden; text-overflow: ellipsis; }
+    .barre .accueil span { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
 </style>
-<link rel="stylesheet" href="activites/livret/polices/polices.css">
+<link rel="stylesheet" href="activites/livret/polices/polices.css?v=202611091350">
 </head>
 <body>
 
@@ -336,6 +339,7 @@
 
 <div id="vue" class="vue" hidden>
   <div class="barre">
+    <a id="vue-accueil" class="retour accueil" href="#" title="Revenir au menu principal">🏠<span> Accueil</span></a>
     <a id="vue-retour" class="retour" href="#">← Sommaire</a>
     <h1 id="vue-titre" tabindex="-1"></h1>
     <a id="vue-seul" class="seul" target="_blank" rel="noopener">Ouvrir dans un onglet</a>
@@ -344,8 +348,8 @@
   <div id="cadre" class="cadre"></div>
 </div>
 
-<script src="catalogue.js"></script>
-<script src="bilan-commun.js"></script>
+<script src="catalogue.js?v=202611091350"></script>
+<script src="bilan-commun.js?v=202611091350"></script>
 <script>
   const $ = id => document.getElementById(id);
   const baseTitre = document.title;
