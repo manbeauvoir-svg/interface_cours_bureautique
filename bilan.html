@@ -19,10 +19,10 @@
   <div id="rubriques"></div>
   <section class="remise">
     <h2>📤 Remettre mon bilan au formateur</h2>
-    <p>Saisissez le code donné par votre formateur, puis enregistrez le fichier dans le dossier qu'il vous a indiqué.</p>
+    <p>Enregistrez le fichier, puis rangez-le dans le dossier indiqué par votre formateur.</p>
     <div class="ligne">
       <label for="code">Mon code stagiaire</label>
-      <input id="code" type="text" autocomplete="off" maxlength="30" placeholder="Exemple : STG-12">
+      <input id="code" type="text" autocomplete="off" maxlength="30" >
       <button id="exporter" class="btn fort" type="button">Enregistrer mon bilan</button>
       <button id="imprimer" class="btn" type="button">Imprimer</button>
     </div>
@@ -38,15 +38,16 @@
   BilanVue.chiffres($("global"), Bilan.cumul(lignes));
   BilanVue.rubriques($("rubriques"), RUBRIQUES, lignes);
 
-  try { $("code").value = localStorage.getItem(Bilan.PREFIXE + "code") || ""; } catch {}
+  // Le code est celui saisi en arrivant sur le site : on ne le retape pas ici.
+  $("code").placeholder = CODE_STAGIAIRE.exemple;
+  if (Bilan.codeActif()) { $("code").value = Bilan.codeActif(); $("code").readOnly = true; }
   $("exporter").addEventListener("click", () => {
-    const code = $("code").value.trim().replace(/[^\p{L}\p{N}_-]+/gu, "-");
+    const code = Bilan.codeActif() || Bilan.verifierCode($("code").value);
     if (!code) {
-      $("message").textContent = "Saisissez d'abord votre code stagiaire.";
+      $("message").textContent = `Saisissez d'abord votre code stagiaire (exemple : ${CODE_STAGIAIRE.exemple}).`;
       $("code").focus();
       return;
     }
-    try { localStorage.setItem(Bilan.PREFIXE + "code", code); } catch {}
     const data = new Blob([JSON.stringify(Bilan.exporter(code), null, 1)], { type: "application/json" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(data);

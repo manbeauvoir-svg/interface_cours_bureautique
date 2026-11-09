@@ -116,6 +116,28 @@
   .groupe { margin-bottom: 30px; }
   .groupe h3 { margin: 0 0 14px; font: 600 1.32rem/1.2 var(--titres); color: var(--encre); }
   .rubrique-synthese { margin: 0 0 16px; padding: 9px 14px; border-radius: 12px; background: #fff; border-left: 6px solid var(--teinte); font-weight: 700; color: var(--doux); }
+  .stagiaire { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: -4px 0 12px; font-weight: 800; }
+  .stagiaire button { padding: 3px 10px; border: 2px solid #fff; border-radius: 10px; background: none; color: #fff; font-size: .9rem; font-weight: 800; }
+  .stagiaire button:hover { background: rgba(255, 255, 255, .16); }
+  .porte {
+    position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 16px; overflow-y: auto;
+    background: linear-gradient(120deg, var(--nuit), var(--nuit-2));
+  }
+  .porte form { width: min(460px, 100%); padding: 28px 26px; border-radius: 22px; background: #fff; box-shadow: 0 14px 40px rgba(0, 0, 0, .3); text-align: center; }
+  .porte-icone { font-size: 3rem; line-height: 1; }
+  .porte h1 { margin: 8px 0 6px; font: 600 1.8rem/1.2 var(--titres); color: var(--nuit); }
+  .porte p { margin: 0 0 16px; color: var(--doux); }
+  .porte label { display: block; margin-bottom: 6px; font-weight: 800; }
+  .porte input {
+    width: 100%; padding: 10px 14px; border: 3px solid var(--nuit); border-radius: 14px;
+    font: 700 1.5rem/1.2 Consolas, "Courier New", monospace; text-align: center; letter-spacing: .06em; text-transform: uppercase;
+  }
+  .porte .entrer {
+    width: 100%; margin-top: 14px; padding: 12px; border: 0; border-radius: 16px; background: var(--soleil);
+    box-shadow: 0 5px 0 var(--soleil-bord); color: #2f2300; font: 600 1.3rem var(--titres);
+  }
+  .porte .erreur { min-height: 1.5em; margin: 10px 0 0; color: #b42318; font-weight: 800; }
+  .porte small { display: block; margin-top: 14px; color: var(--doux); }
   .zero {
     display: block; margin: 14px auto 0; padding: 4px 8px; background: none; border: 0;
     color: #fff; font-size: .9rem; font-weight: 700; text-decoration: underline;
@@ -251,6 +273,18 @@
 </head>
 <body>
 
+<div id="porte" class="porte" hidden>
+  <form id="porte-form" novalidate>
+    <div class="porte-icone" aria-hidden="true">👋</div>
+    <h1>Bonjour !</h1>
+    <p>Pour retrouver votre progression, entrez votre code stagiaire.</p>
+    <label for="porte-code">Mon code stagiaire</label>
+    <input id="porte-code" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="20" aria-describedby="porte-aide porte-erreur">
+    <p id="porte-erreur" class="erreur" role="alert"></p>
+    <button class="entrer" type="submit">Entrer ▶</button>
+    <small id="porte-aide">C'est votre identifiant ESRP, par exemple <b id="porte-exemple"></b>. Vous ne l'avez pas ? Demandez-le à votre formateur.<br><a href="confidentialite.html">🔒 Vos données personnelles</a></small>
+  </form>
+</div>
 <div id="sommaire">
   <header class="bandeau">
     <span class="flottant" aria-hidden="true" style="left:4%;top:12%">⌨️</span>
@@ -267,6 +301,7 @@
           <span>Votre parcours</span>
           <span id="compte" class="compte"></span>
         </div>
+        <div class="stagiaire"><span id="stagiaire-code"></span><button id="changer" type="button">Ce n'est pas moi</button></div>
         <div id="jauge" class="jauge" role="progressbar" aria-label="Activités déjà ouvertes" aria-valuemin="0">
           <div id="jauge-plein" class="jauge-plein"></div>
         </div>
@@ -751,6 +786,30 @@
   $("info-ok").addEventListener("click", () => {
     $("info-donnees").hidden = true;
     try { localStorage.setItem("cours-bureautique:info-lue", "1"); } catch {}
+  });
+
+  /* ---------- Le code stagiaire ---------- */
+  $("porte-exemple").textContent = CODE_STAGIAIRE.exemple;
+  $("porte-code").placeholder = CODE_STAGIAIRE.exemple;
+  $("porte").hidden = !!Bilan.codeActif();
+  if (!$("porte").hidden) $("porte-code").focus();
+  $("stagiaire-code").textContent = "👤 " + Bilan.codeActif();
+  $("porte-form").addEventListener("submit", e => {
+    e.preventDefault();
+    const code = Bilan.verifierCode($("porte-code").value);
+    if (!code) {
+      $("porte-erreur").textContent = `Ce code n'a pas la bonne forme. Il ressemble à ${CODE_STAGIAIRE.exemple}.`;
+      $("porte-code").focus();
+      return;
+    }
+    Bilan.entrer(code);
+    location.reload();   // toute la page repart avec la progression de ce stagiaire
+  });
+  $("changer").addEventListener("click", () => {
+    if (!confirm("Changer de stagiaire ? Votre progression reste enregistrée sur ce poste : vous la retrouverez avec votre code.")) return;
+    Bilan.quitter();
+    location.hash = "";
+    location.reload();
   });
 
   window.addEventListener("hashchange", afficher);

@@ -78,7 +78,55 @@ const Bilan = (() => {
     };
   }
 
-  // Toutes les données du site sur ce poste, sauf le simple réglage de la taille du texte.
+  /* ---------- Un code par stagiaire ----------
+     Le stagiaire actif a ses données sous les clés habituelles, que toutes les pages lisent.
+     Quand il quitte, elles sont rangées sous son code ; le suivant retrouve les siennes. */
+  const RANGEMENT = "cours-bureautique-stagiaire:";
+  const DU_POSTE = ["code", "info-lue", "derniere-utilisation", "livret:grand"];   // réglages du poste, pas d'un stagiaire
+  const clesDuStagiaire = () => Object.keys(localStorage).filter(k => k.startsWith(PREFIXE) && !DU_POSTE.includes(k.slice(PREFIXE.length)));
+  const codeActif = () => { try { return localStorage.getItem(PREFIXE + "code") || ""; } catch { return ""; } };
+  // Majuscules, tirets à la place des espaces : « ev man 001 » devient EV-MAN-001 ; null si la forme n'est pas la bonne.
+  function verifierCode(saisie) {
+    let code = (saisie || "").toUpperCase().trim().replace(/[\s_.]+/g, "-").replace(/-+/g, "-");
+    const morceaux = code.match(/^EV-?([A-Z]+)-?(\d{3})$/);
+    if (morceaux) code = `EV-${morceaux[1]}-${morceaux[2]}`;
+    return CODE_STAGIAIRE.motif.test(code) ? code : null;
+  }
+  function ranger(code) {
+    const donnees = {};
+    clesDuStagiaire().forEach(k => { donnees[k] = localStorage.getItem(k); localStorage.removeItem(k); });
+    if (code && Object.keys(donnees).length) localStorage.setItem(RANGEMENT + code, JSON.stringify({ date: Date.now(), donnees }));
+    return donnees;
+  }
+  function quitter() {
+    try {
+      ranger(codeActif());
+      localStorage.removeItem(PREFIXE + "code");
+      sessionStorage.clear();
+    } catch {}
+  }
+  function entrer(code) {
+    try {
+      const rangees = lireJson(RANGEMENT + code, null);
+      if (codeActif()) ranger(codeActif());
+      else if (rangees) ranger("SANS-CODE");   // une progression d'avant les codes : gardée à part, jamais mélangée
+      // Sinon, la progression faite sans code devient celle du premier code saisi.
+      if (rangees) Object.entries(rangees.donnees || {}).forEach(([k, v]) => localStorage.setItem(k, v));
+      localStorage.removeItem(RANGEMENT + code);
+      localStorage.setItem(PREFIXE + "code", code);
+      sessionStorage.clear();
+    } catch {}
+  }
+  // Pour le formateur, en fin de session : tous les stagiaires de ce poste.
+  function stagiairesDuPoste() {
+    try { return [codeActif(), ...Object.keys(localStorage).filter(k => k.startsWith(RANGEMENT)).map(k => k.slice(RANGEMENT.length))].filter(Boolean); } catch { return []; }
+  }
+  function effacerLePoste() {
+    try { Object.keys(localStorage).filter(k => k.startsWith(RANGEMENT)).forEach(k => localStorage.removeItem(k)); } catch {}
+    toutEffacer();
+  }
+
+  // Les données du stagiaire actif, sauf le simple réglage de la taille du texte.
   function toutEffacer() {
     try {
       Object.keys(localStorage).filter(k => k.startsWith(PREFIXE) && !k.endsWith(":grand")).forEach(k => localStorage.removeItem(k));
@@ -89,11 +137,18 @@ const Bilan = (() => {
   function verifierConservation(mois = CONSERVATION_MOIS, maintenant = Date.now()) {
     try {
       const derniere = +localStorage.getItem(PREFIXE + "derniere-utilisation");
-      if (derniere && maintenant - derniere > mois * 30.44 * 24 * 3600 * 1000) toutEffacer();
+      const limite = mois * 30.44 * 24 * 3600 * 1000;
+      if (derniere && maintenant - derniere > limite) toutEffacer();
+      // Les progressions rangées des autres stagiaires suivent la même règle.
+      Object.keys(localStorage).filter(k => k.startsWith(RANGEMENT)).forEach(k => {
+        const r = lireJson(k, null);
+        if (!r || maintenant - r.date > limite) localStorage.removeItem(k);
+      });
       localStorage.setItem(PREFIXE + "derniere-utilisation", String(maintenant));
     } catch {}
   }
   verifierConservation();
 
-  return { lignesActivites, cumul, duree, exporter, PREFIXE, lireJson, toutEffacer, verifierConservation };
+  return { lignesActivites, cumul, duree, exporter, PREFIXE, lireJson, toutEffacer, verifierConservation,
+    codeActif, verifierCode, entrer, quitter, stagiairesDuPoste, effacerLePoste };
 })();

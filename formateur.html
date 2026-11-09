@@ -23,6 +23,11 @@
   <p id="message" class="message" role="status">Aucun bilan chargé pour le moment.</p>
   <div id="tableau" class="defile"></div>
   <div id="detail"></div>
+  <section class="remise">
+    <h2>🧹 Les stagiaires de ce poste</h2>
+    <p id="poste"></p>
+    <button id="vider" class="btn" type="button">Effacer les progressions de tous les stagiaires de ce poste</button>
+  </section>
 </main>
 <script src="catalogue.js"></script>
 <script src="bilan-commun.js"></script>
@@ -95,6 +100,20 @@
 
   $("dossier").addEventListener("change", e => charger(e.target.files));
   $("fichiers").addEventListener("change", e => charger(e.target.files));
+  // Fin de formation : chaque poste garde les progressions des stagiaires qui s'y sont connectés.
+  function majPoste() {
+    const codes = Bilan.stagiairesDuPoste();
+    document.getElementById("poste").textContent = codes.length
+      ? `Progressions enregistrées sur ce poste : ${codes.join(", ")}. Pensez à faire enregistrer leur bilan avant d'effacer.`
+      : "Aucune progression enregistrée sur ce poste.";
+    document.getElementById("vider").hidden = !codes.length;
+  }
+  document.getElementById("vider").addEventListener("click", () => {
+    if (!confirm("Effacer définitivement les progressions de tous les stagiaires de ce poste ?")) return;
+    Bilan.effacerLePoste();
+    majPoste();
+  });
+  majPoste();
 </script>
 </body>
 </html>

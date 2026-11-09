@@ -22,6 +22,10 @@
 // Durée de conservation : les données d'un poste sont effacées après ce nombre de mois sans utilisation.
 const CONSERVATION_MOIS = 12;
 
+// Le code que le stagiaire tape en arrivant : EV, le dispositif, puis 3 chiffres (EV-MAN-001, EV-OPTIM-001, EV-SAMA-001…).
+// Pour un autre format, changez le motif et l'exemple.
+const CODE_STAGIAIRE = { motif: /^EV-[A-Z]+-\d{3}$/, exemple: "EV-MAN-001" };
+
 // horsParcours : la rubrique n'est ni comptée dans la progression, ni tirée par le dé.
 const RUBRIQUES = [
   { id: "cours",       titre: "Cours",        icone: "📚", couleur: "#0b7285", intro: "Pour découvrir et revoir les notions.", groupes: {
