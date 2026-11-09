@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz : Internet et communication</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "quiz-internet",
+  etiquette: "QUIZ",
+  titre: "Quiz : Internet et communication",
+  icone: "🌐",
+  couleur: "#a21caf",
+  pale: "#f8e8fb",
+  accroche: "Commencez par le quiz de positionnement pour connaître vos priorités. Entraînez-vous thème par thème, puis validez le module avec le quiz final.",
+  cours: "livret-internet",
+  notions: {
+    "cci": {
+      "titre": "À, Cc et Cci",
+      "va": "Qui voit quoi ?"
+    },
+    "onedrive": {
+      "titre": "OneDrive",
+      "va": "OneDrive : stocker et partager dans le cloud"
+    },
+    "securite": {
+      "titre": "la sécurité des e-mails",
+      "va": "Bien écrire et bien s'organiser",
+      "jeu": {
+        "fichier": "livret-bonnes-pratiques",
+        "titre": "le module des bonnes pratiques"
+      }
+    },
+    "mail": {
+      "titre": "la présentation d'un mail",
+      "va": "Les règles d'un mail réussi",
+      "jeu": {
+        "fichier": "jeu-chasse-fautes",
+        "titre": "la chasse aux fautes"
+      }
+    },
+    "recherche": {
+      "titre": "bien chercher sur Internet",
+      "va": "Chercher, c'est une méthode"
+    }
+  },
+  etapes: [
+    {
+      titre: "Quiz de positionnement",
+      icone: "🧭",
+      resume: "Pour savoir par où commencer.",
+      ecrans: [
+        { t: "Quiz de positionnement", b: [
+          { depart: true, titre: "Quiz de positionnement", quiz: [
+            {"v":"cci","q":"Que veut dire Cc ?","r":["Copie carbone","Courrier certifié","Code client"]},
+            {"v":"mail","q":"Quel objet de mail est le plus clair ?","r":["Demande de congé du 12 au 16 mars","Urgent","Salut"]},
+            {"v":"recherche","q":"Une recherche donne trop de résultats. Que faire ?","r":["Ajouter des mots-clés précis","Changer d'ordinateur","Tout lire"]},
+            {"v":"onedrive","q":"Quel outil sert aux réunions en ligne ?","r":["Teams","Excel","OneDrive"]},
+            {"v":"securite","q":"Que vérifier en premier dans un mail inattendu ?","r":["L'adresse de l'expéditeur","La taille du texte","La couleur du message"]},
+            {"v":"cci","q":"Quel champ cache un destinataire aux autres ?","r":["Cci","Cc","À"]},
+            {"v":"mail","q":"Quelle formule d'appel est correcte ?","r":["Bonjour Natacha,","Bonjour, Natacha,","Bonjour, Natacha"]},
+            {"v":"recherche","q":"Comment chercher une expression exacte ?","r":["La mettre entre guillemets","L'écrire en majuscules","Ajouter un point d'exclamation"]},
+            {"v":"onedrive","q":"À quoi sert OneDrive ?","r":["À stocker et partager des fichiers dans le cloud","À écrire des lettres","À faire des calculs"]},
+            {"v":"securite","q":"Vous recevez une pièce jointe d'un inconnu. Que faire ?","r":["Ne pas l'ouvrir et la signaler comme spam","L'ouvrir pour vérifier","La transférer à un collègue"]}
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "Bien rédiger un mail",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Bien rédiger un mail", b: [
+          { quiz: [
+            {"v":"mail","q":"Où placer la virgule dans la formule d'appel ?","r":["À la fin : Bonjour Natacha,","Après Bonjour : Bonjour, Natacha","Il n'en faut pas"]},
+            {"v":"mail","q":"Que faire après la formule d'appel ?","r":["Aller à la ligne","Mettre une signature","Écrire en majuscules"]},
+            {"v":"mail","q":"Que faire avant la formule de fin ?","r":["Sauter une ligne","Ajouter un emoji","Changer de police"]},
+            {"v":"mail","q":"Que contient une signature professionnelle ?","r":["Nom, fonction et coordonnées","Seulement un surnom","Une photo de vacances"]},
+            {"v":"mail","q":"Comment corriger « jaimerais » ?","r":["j'aimerais","jaimerai","j aimerais"]},
+            {"v":"mail","q":"Comment corriger « se moment » ?","r":["ce moment","ceux moment","se moments"]},
+            {"v":"mail","q":"Écrire tout un mail en majuscules, c'est…","r":["à éviter","plus poli","obligatoire"]},
+            { v: "mail", q: "Quelle formule d'appel est correcte ?", r: ["Bonjour Natacha,", "Bonjour, Natacha,", "Bonjour, Natacha"] },
+            { v: "mail", q: "Quel objet est le meilleur ?", r: ["Demande de congé du 12 au 16 mars", "Faut qu'on parle", "URGENT !!!"] },
+            { v: "mail", q: "Que doit-on toujours ajouter à la fin d'un mail ?", r: ["Sa signature", "Une pièce jointe", "Un emoji"] }
+          ], titre: "Vérifiez vos connaissances" }
+        ] }
+      ]
+    },
+    {
+      titre: "Chercher sur Internet",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Chercher sur Internet", b: [
+          { quiz: [
+            {"v":"recherche","q":"Par quelles questions commencer une recherche ?","r":["Qui ? Quoi ? Quand ? Où ? Comment ? Pourquoi ?","Combien ça coûte ?","Quelle est la couleur ?"]},
+            {"v":"recherche","q":"Que cherche Google quand on tape plusieurs mots sans guillemets ?","r":["Les pages qui contiennent ces mots, séparés ou ensemble","Seulement l'expression exacte","Seulement des images"]},
+            {"v":"recherche","q":"Que donne le mot OR entre deux mots ?","r":["L'un ou l'autre","Aucun des deux","Une traduction"]},
+            {"v":"recherche","q":"Comment chercher sur une période, par exemple de 1889 à 1890 ?","r":["1889..1890","1889=1890","1889/1890"]},
+            {"v":"recherche","q":"Que fait-on pour avoir moins de résultats ?","r":["On précise la recherche","On raccourcit à un mot","On enlève les accents"]},
+            {"v":"recherche","q":"Comment écrire une citation exacte ?","r":["Entre guillemets","En gras","En majuscules"]},
+            {"v":"recherche","q":"Comment faire confiance à une information trouvée ?","r":["La comparer avec d'autres sources","Prendre le premier résultat","Regarder le nombre d'images"]},
+            {"v":"recherche","q":"Que préférer pour accéder à un site sensible ?","r":["Taper soi-même l'adresse officielle","Cliquer sur un lien reçu par mail","Passer par une publicité"]},
+            { v: "recherche", q: "Vous cherchez une citation précise. Que faire ?", r: ["La mettre entre guillemets", "L'écrire en majuscules", "Ajouter un point d'exclamation"] },
+            { v: "recherche", q: "Une recherche donne trop de résultats. Quel est le bon réflexe ?", r: ["Préciser avec d'autres mots-clés", "Fermer le navigateur", "Regarder toutes les pages"] }
+          ], titre: "Vérifiez vos connaissances" }
+        ] }
+      ]
+    },
+    {
+      titre: "Quiz final",
+      icone: "🏁",
+      resume: "10 questions pour valider le module.",
+      ecrans: [
+        { t: "Quiz final", b: [
+          { final: true, titre: "Quiz final", quiz: [
+            {"v":"cci","q":"Qui voit un destinataire placé en Cc ?","r":["Tous les destinataires","Personne","Seulement l'expéditeur"]},
+            {"v":"cci","q":"Quel champ utiliser pour le destinataire principal ?","r":["À","Cc","Cci"]},
+            {"v":"mail","q":"Que doit-on toujours mettre à la fin d'un mail professionnel ?","r":["Sa signature","Un emoji","Une pièce jointe"]},
+            {"v":"mail","q":"Quel objet est le plus clair ?","r":["Demande de devis - Projet Alpha","Important !!!","Salut"]},
+            {"v":"mail","q":"Quelle taille maximale de pièce jointe est généralement recommandée ?","r":["10 à 25 Mo","1 Go","5 Go"]},
+            {"v":"recherche","q":"Quelles questions aident à préparer une recherche ?","r":["Qui ? Quoi ? Quand ? Où ? Comment ? Pourquoi ?","Combien de pages ?","Quel navigateur ?"]},
+            {"v":"recherche","q":"Une recherche donne trop de résultats. Que faire ?","r":["Ajouter des mots-clés précis","Changer d'ordinateur","Tout lire"]},
+            {"v":"onedrive","q":"Comment partager un document confidentiel sur OneDrive ?","r":["Avec un partage nominatif","Avec un lien « Tout le monde peut modifier »","En le publiant sur un forum"]},
+            {"v":"onedrive","q":"Quel outil sert aux réunions et au partage d'écran ?","r":["Teams","OneDrive","Excel"]},
+            {"v":"onedrive","q":"Quel outil sert de bibliothèque de documents pour toute l'entreprise ?","r":["SharePoint","Le Bloc-notes","Paint"]}
+          ] }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

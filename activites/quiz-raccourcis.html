@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz des raccourcis clavier</title>
+<style>
+  :root {
+    --encre: #1b2a33; --doux: #4b5c66; --fond: #fff8ec; --teinte: #a21caf;
+    --bon: #14652f; --bon-fond: #d3f4dc; --faux: #a11616; --faux-fond: #fbd5d5;
+    --titres: "Fredoka", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fond); color: var(--encre); font: 500 18px/1.45 "Nunito", "Segoe UI", system-ui, sans-serif; }
+  :focus-visible { outline: 3px solid #e8590c; outline-offset: 2px; }
+  [hidden] { display: none !important; }
+  main { max-width: 760px; margin: 0 auto; padding: 24px 20px 56px; }
+  h1 { margin: 0; font: 700 clamp(1.8rem, 5vw, 2.6rem)/1.1 var(--titres); color: var(--teinte); }
+  .aide { margin: 6px 0 18px; color: var(--doux); }
+  button { font: 800 1rem "Nunito", sans-serif; cursor: pointer; color: inherit; }
+  .themes { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .themes button, .bouton { min-height: 46px; padding: 6px 16px; border-radius: 99px; background: #fff; color: var(--teinte); border: 2px solid var(--teinte); }
+  .themes button[aria-pressed="true"], .bouton { background: var(--teinte); color: #fff; }
+
+  .etat { display: flex; justify-content: space-between; gap: 12px; font-weight: 800; margin-bottom: 8px; }
+  .jauge { height: 12px; border-radius: 99px; background: #eadfca; overflow: hidden; margin-bottom: 18px; }
+  .jauge div { height: 100%; width: 0; background: var(--teinte); border-radius: 99px; transition: width .3s; }
+  .carte { background: #fff; border: 3px solid var(--teinte); border-radius: 22px; box-shadow: 0 7px 0 var(--teinte); padding: 20px; }
+  .question { margin: 0 0 16px; font: 600 1.35rem/1.25 var(--titres); }
+  .options { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 10px; }
+  .option {
+    min-height: 58px; padding: 8px 12px; background: #fff; border: 2px solid #66757e; border-radius: 14px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 5px;
+  }
+  .option:hover:not([disabled]) { background: #f8e6fb; }
+  .option[disabled] { cursor: default; }
+  .option.juste { background: var(--bon-fond); border-color: var(--bon); }
+  .option.fausse { background: var(--faux-fond); border-color: var(--faux); }
+  kbd {
+    display: inline-block; min-width: 2em; padding: 3px 8px; text-align: center; font: 800 .95rem "Nunito", sans-serif;
+    background: #f3f1ea; border: 1px solid #8b969c; border-bottom-width: 3px; border-radius: 7px;
+  }
+  .retour { margin: 14px 0 0; min-height: 1.5em; font-weight: 800; }
+  .retour.oui { color: var(--bon); }
+  .retour.non { color: var(--faux); }
+  .suite { margin-top: 14px; }
+  .fin { text-align: center; }
+  .fin h2 { margin: 0; font: 700 2rem var(--titres); color: var(--teinte); }
+  .fin ul { text-align: left; margin: 12px 0 18px; padding-left: 20px; }
+  .fin li { margin-bottom: 6px; }
+</style>
+<link rel="stylesheet" href="livret/polices/polices.css">
+</head>
+<body>
+<main>
+  <h1>⌨️ Quiz des raccourcis</h1>
+  <p class="aide">Trouvez le bon raccourci. Les questions changent à chaque partie.</p>
+  <div id="themes" class="themes" role="group" aria-label="Choisir un thème"></div>
+
+  <section id="jeu">
+    <div class="etat"><span id="compteur"></span><span id="serie"></span></div>
+    <div class="jauge"><div id="jauge"></div></div>
+    <div class="carte">
+      <p id="question" class="question"></p>
+      <div id="options" class="options"></div>
+      <p id="retour" class="retour" role="status"></p>
+      <button id="suite" class="bouton suite" type="button" hidden>Question suivante →</button>
+    </div>
+  </section>
+
+  <section id="fin" class="carte fin" hidden tabindex="-1">
+    <h2 id="score"></h2>
+    <p id="bilan"></p>
+    <ul id="revoir"></ul>
+    <button id="rejouer" class="bouton" type="button">🔄 Rejouer</button>
+  </section>
+</main>
+
+<script src="livret/resultat-activite.js"></script>
+<script>
+  /*
+    POUR AJOUTER UNE QUESTION : copiez une ligne.
+    q : la question ; r : la bonne réponse ; f : trois mauvaises réponses.
+    Séparez les touches par « + ».
+  */
+  const QUESTIONS = {
+    "Windows": [
+      { q: "Ouvrir l'Explorateur de fichiers", r: "Windows + E", f: ["Windows + D", "Windows + L", "Ctrl + E"] },
+      { q: "Afficher le Bureau", r: "Windows + D", f: ["Windows + E", "Windows + P", "Ctrl + D"] },
+      { q: "Choisir le mode d'affichage pour un second écran", r: "Windows + P", f: ["Ctrl + P", "Windows + E", "Alt + P"] },
+      { q: "Passer d'une fenêtre ouverte à une autre", r: "Alt + Tab", f: ["Ctrl + Tab + F4", "Windows + L", "Maj + Tab + E"] },
+      { q: "Fermer la fenêtre active", r: "Alt + F4", f: ["Alt + F2", "Ctrl + F2", "Maj + F5"] },
+      { q: "Envoyer une fenêtre vers l'autre écran", r: "Windows + Maj + Flèche", f: ["Ctrl + Flèche", "Alt + Flèche", "Maj + Flèche"] }
+    ],
+    "Fichiers": [
+      { q: "Copier la sélection", r: "Ctrl + C", f: ["Ctrl + X", "Ctrl + V", "Ctrl + P"] },
+      { q: "Couper la sélection", r: "Ctrl + X", f: ["Ctrl + C", "Ctrl + V", "Ctrl + Z"] },
+      { q: "Coller", r: "Ctrl + V", f: ["Ctrl + C", "Ctrl + X", "Ctrl + P"] },
+      { q: "Annuler la dernière action", r: "Ctrl + Z", f: ["Ctrl + Y", "Ctrl + A", "Ctrl + X"] },
+      { q: "Rétablir l'action annulée", r: "Ctrl + Y", f: ["Ctrl + Z", "Ctrl + R", "Alt + Y"] },
+      { q: "Tout sélectionner", r: "Ctrl + A", f: ["Ctrl + S", "Ctrl + T", "Alt + A"] },
+      { q: "Renommer le fichier sélectionné", r: "F2", f: ["F5", "F1", "Ctrl + R"] },
+      { q: "Créer un nouveau dossier dans l'Explorateur", r: "Ctrl + Shift + N", f: ["Ctrl + N", "Alt + N", "Windows + N"] },
+      { q: "Supprimer sans passer par la Corbeille", r: "Maj + Suppr", f: ["Suppr", "Ctrl + Suppr", "Alt + Suppr"] }
+    ],
+    "Word, Excel, PowerPoint": [
+      { q: "Enregistrer le document", r: "Ctrl + S", f: ["Ctrl + E", "Ctrl + N", "Alt + S"] },
+      { q: "Imprimer le document", r: "Ctrl + P", f: ["Ctrl + I", "Windows + P", "Alt + P"] },
+      { q: "Remplacer un mot dans Word", r: "Ctrl + H", f: ["Ctrl + R", "Ctrl + F", "Alt + H"] },
+      { q: "Faire une somme automatique dans Excel", r: "Alt + =", f: ["Ctrl + =", "Maj + =", "Ctrl + S"] },
+      { q: "Rechercher un mot dans le texte", r: "Ctrl + F", f: ["Ctrl + R", "Ctrl + H", "Alt + F"] },
+      { q: "Mettre le texte en gras dans Word", r: "Ctrl + G", f: ["Ctrl + B", "Ctrl + I", "Ctrl + U"] },
+      { q: "Mettre le texte en italique dans Word", r: "Ctrl + I", f: ["Ctrl + G", "Ctrl + U", "Ctrl + T"] },
+      { q: "Souligner le texte dans Word", r: "Ctrl + U", f: ["Ctrl + G", "Ctrl + I", "Ctrl + S"] },
+      { q: "Lancer le diaporama depuis le début dans PowerPoint", r: "F5", f: ["F2", "F7", "Ctrl + D"] },
+      { q: "Ajouter une nouvelle diapositive dans PowerPoint", r: "Ctrl + M", f: ["Ctrl + N", "Ctrl + D", "Alt + M"] }
+    ]
+  };
+
+  const TOUT = "Tous les raccourcis";
+  const $ = id => document.getElementById(id);
+  const melanger = t => {
+    const a = t.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+
+  let theme = TOUT, partie = [], rang = 0, points = 0, serie = 0, ratees = [];
+
+  function touches(texte, parent) {
+    texte.split(" + ").forEach((t, i) => {
+      if (i) parent.append(" + ");
+      const k = document.createElement("kbd");
+      k.textContent = t;
+      parent.append(k);
+    });
+  }
+
+  function commencer() {
+    const source = theme === TOUT ? Object.values(QUESTIONS).flat() : QUESTIONS[theme];
+    partie = melanger(source).slice(0, 10);
+    rang = points = serie = 0;
+    ratees = [];
+    reponses = [];
+    $("fin").hidden = true;
+    $("jeu").hidden = false;
+    document.querySelectorAll("#themes button").forEach(b => b.setAttribute("aria-pressed", b.textContent === theme));
+    poser();
+  }
+
+  function poser() {
+    const q = partie[rang];
+    $("compteur").textContent = `Question ${rang + 1} sur ${partie.length}`;
+    $("serie").textContent = serie >= 2 ? `🔥 ${serie} d'affilée` : "";
+    $("jauge").style.width = rang / partie.length * 100 + "%";
+    $("question").textContent = q.q;
+    $("retour").textContent = "";
+    $("retour").className = "retour";
+    $("suite").hidden = true;
+    const zone = $("options");
+    zone.replaceChildren();
+    melanger([q.r, ...q.f]).forEach(texte => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "option";
+      b.dataset.valeur = texte;
+      touches(texte, b);
+      b.addEventListener("click", () => repondre(b, q));
+      zone.append(b);
+    });
+  }
+
+  function repondre(bouton, q) {
+    const ok = bouton.dataset.valeur === q.r;
+    reponses.push({ q: q.q, donne: bouton.dataset.valeur, bonne: q.r, ok });
+    document.querySelectorAll(".option").forEach(b => {
+      b.disabled = true;
+      if (b.dataset.valeur === q.r) b.classList.add("juste");
+    });
+    if (ok) {
+      points++;
+      serie++;
+      $("retour").textContent = "✅ Bien joué !";
+      $("retour").classList.add("oui");
+    } else {
+      serie = 0;
+      ratees.push(q);
+      bouton.classList.add("fausse");
+      $("retour").textContent = `❌ La bonne réponse était ${q.r}.`;
+      $("retour").classList.add("non");
+    }
+    $("serie").textContent = serie >= 2 ? `🔥 ${serie} d'affilée` : "";
+    $("jauge").style.width = (rang + 1) / partie.length * 100 + "%";
+    $("suite").textContent = rang + 1 < partie.length ? "Question suivante →" : "Voir mon résultat →";
+    $("suite").hidden = false;
+    $("suite").focus();
+  }
+
+  $("suite").addEventListener("click", () => {
+    rang++;
+    if (rang < partie.length) {
+      poser();
+      const premiere = document.querySelector(".option");
+      if (premiere) premiere.focus();
+    } else {
+      terminer();
+    }
+  });
+
+  let reponses = [];
+  function terminer() {
+    $("jeu").hidden = true;
+    $("fin").hidden = false;
+    $("score").textContent = `${points} / ${partie.length}`;
+    const part = points / partie.length;
+    $("bilan").textContent = part === 1 ? "🏆 Sans faute !" : part >= .7 ? "👍 Très bien, encore quelques-uns à retenir :" : "💪 À revoir :";
+    $("revoir").hidden = true;
+    ResultatActivite.terminer({ apres: $("bilan"), titre: "Quiz des raccourcis", type: "Quiz", score: points, total: partie.length, detail: reponses });
+    $("fin").focus();
+  }
+
+  $("rejouer").addEventListener("click", commencer);
+
+  [TOUT, ...Object.keys(QUESTIONS)].forEach(nom => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = nom;
+    b.addEventListener("click", () => { theme = nom; commencer(); });
+    $("themes").append(b);
+  });
+  commencer();
+</script>
+</body>
+</html>

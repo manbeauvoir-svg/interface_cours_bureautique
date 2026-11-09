@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Le Ruban de Word - Interactif</title>
+<style>
+  :root{
+    --blue:#2e7dd6; --blue-dark:#1c5aa8;
+    --card:#ffffff; --text:#22314a; --muted:#5c6b82; --border:#dbe4f0;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:linear-gradient(160deg,#eef3fb,#e3edf9);color:var(--text);padding:30px 16px 60px;}
+  .wrap{max-width:1000px;margin:0 auto;}
+  h1{text-align:center;font-size:26px;color:var(--blue-dark);margin-bottom:4px;}
+  .subtitle{text-align:center;color:var(--muted);margin-bottom:26px;font-size:15px;}
+
+  .word-window{background:var(--card);border-radius:10px;box-shadow:0 12px 30px rgba(30,60,110,0.15);overflow:hidden;border:1px solid var(--border);}
+  .titlebar{background:var(--blue-dark);color:#fff;font-size:13px;padding:8px 14px;display:flex;align-items:center;gap:8px;}
+  .titlebar .dot{width:10px;height:10px;border-radius:50%;}
+  .titlebar .dot.r{background:#ff5f57;} .titlebar .dot.y{background:#febc2e;} .titlebar .dot.g{background:#28c840;}
+  .titlebar span.name{margin-left:8px;opacity:0.9;}
+
+  .tabs{display:flex;flex-wrap:wrap;background:#fbfcfe;border-bottom:1px solid var(--border);padding:0 8px;}
+  .tab{padding:11px 16px;font-size:14px;cursor:pointer;color:var(--muted);border-bottom:3px solid transparent;transition:.15s;user-select:none;white-space:nowrap;}
+  .tab:hover{color:var(--blue-dark);background:#eef4fc;}
+  .tab.active{color:var(--blue-dark);font-weight:600;border-bottom:3px solid var(--blue);background:#eef4fc;}
+
+  .ribbon{background:#f7f9fc;padding:14px 18px;display:flex;gap:0;flex-wrap:wrap;min-height:120px;}
+  .group{display:flex;flex-direction:column;align-items:center;padding:6px 16px;border-right:1px solid var(--border);min-width:120px;}
+  .group:last-child{border-right:none;}
+  .group-tools{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;flex:1;}
+  .tool{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 8px;border-radius:6px;cursor:pointer;transition:.15s;width:70px;}
+  .tool:hover{background:#dceafd;}
+  .tool.selected{background:#c9e2ff;box-shadow:inset 0 0 0 1px var(--blue);}
+  .tool-icon{width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+  .tool-label{font-size:10.5px;text-align:center;color:var(--text);line-height:1.15;}
+  .group-name{font-size:11px;color:var(--muted);margin-top:6px;text-align:center;}
+
+  .explain{margin-top:22px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px 22px;min-height:110px;box-shadow:0 6px 18px rgba(30,60,110,0.08);}
+  .explain-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+  .explain-icon{width:40px;height:40px;border-radius:10px;background:#eef4fc;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+  .explain h3{margin:0;color:var(--blue-dark);font-size:17px;}
+  .explain .group-sub{margin:2px 0 0;color:var(--muted);font-size:12.5px;}
+  .explain .role{margin:0 0 10px;color:var(--text);font-size:14.5px;line-height:1.5;}
+  .explain .howto{margin:0;color:var(--muted);font-size:13.5px;line-height:1.5;background:#eef4fc;border-left:3px solid var(--blue);padding:8px 12px;border-radius:4px;}
+  .explain .howto b{color:var(--blue-dark);}
+  .explain .placeholder{color:#9aa8bd;font-style:italic;}
+  .tab-tip{margin-top:14px;background:#fff8e1;border-left:4px solid #ffc107;border-radius:8px;padding:10px 14px;font-size:13.5px;color:#5c5240;line-height:1.5;}
+  .tab-tip b{color:#a8781a;}
+  .tab-tip.hidden{display:none;}
+  .hint{text-align:center;margin-top:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Le Ruban de Word</h1>
+  <p class="subtitle">Cliquez sur un onglet, puis sur un outil, pour voir son rôle et comment l'utiliser.</p>
+
+  <div class="word-window">
+    <div class="titlebar"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div><span class="name">Document1 - Word</span></div>
+    <div class="tabs" id="tabs"></div>
+    <div class="ribbon" id="ribbon"></div>
+  </div>
+
+  <div class="explain" id="explain"><p class="placeholder">Sélectionnez un outil dans le ruban ci-dessus pour afficher son explication ici.</p></div>
+  <div class="tab-tip hidden" id="tabTip"></div>
+  <p class="hint">Astuce : chaque onglet regroupe les outils liés à une même tâche.</p>
+</div>
+
+<script>
+const DATA = {
+  "Fichier": { icon:"📁", tip:"Ctrl+S enregistre rapidement. Utilisez « Enregistrer sous » pour changer le format ou l'emplacement.", groups:[
+    {name:"Gestion du document", tools:[
+      {icon:"🆕", label:"Nouveau", role:"Crée un document vierge ou à partir d'un modèle.", howto:"Fichier → Nouveau → choisissez « Document vierge » ou un modèle proposé."},
+      {icon:"📂", label:"Ouvrir", role:"Ouvre un document déjà existant.", howto:"Fichier → Ouvrir → parcourez vos dossiers ou choisissez un fichier récent."},
+      {icon:"💾", label:"Enregistrer", role:"Sauvegarde les modifications du document.", howto:"Cliquez sur Enregistrer ou Ctrl+S."},
+      {icon:"🖨️", label:"Imprimer", role:"Lance l'impression et règle la mise en page.", howto:"Fichier → Imprimer (Ctrl+P), vérifiez l'aperçu, puis cliquez sur Imprimer."},
+      {icon:"📤", label:"Exporter", role:"Convertit le document, par exemple en PDF.", howto:"Fichier → Exporter → Créer un document PDF/XPS → Publier."},
+      {icon:"⚙️", label:"Options", role:"Accède aux réglages généraux de Word.", howto:"Fichier → Options → parcourez les catégories."}
+    ]}
+  ]},
+  "Accueil": { icon:"🏠", tip:"Double-clic sélectionne un mot, triple-clic sélectionne le paragraphe. Préférez les Styles à la mise en forme manuelle.", groups:[
+    {name:"Presse-papiers", tools:[
+      {icon:"📋", label:"Coller", role:"Insère le contenu copié ou coupé.", howto:"Sélectionnez la destination puis Ctrl+V."},
+      {icon:"✂️", label:"Couper", role:"Retire le texte sélectionné pour le déplacer.", howto:"Sélectionnez le texte, Ctrl+X, puis Ctrl+V à la destination."},
+      {icon:"📄", label:"Copier", role:"Duplique le texte sélectionné.", howto:"Sélectionnez le texte, Ctrl+C, puis Ctrl+V où vous voulez."},
+      {icon:"🖌️", label:"Reproduire la mise en forme", role:"Copie la mise en forme d'un texte pour l'appliquer ailleurs.", howto:"Sélectionnez le texte modèle, cliquez sur le pinceau, puis sélectionnez le texte cible."}
+    ]},
+    {name:"Police", tools:[
+      {icon:"𝐁", label:"Gras", role:"Met le texte sélectionné en gras.", howto:"Sélectionnez le texte puis Ctrl+G."},
+      {icon:"𝐼", label:"Italique", role:"Met le texte sélectionné en italique.", howto:"Sélectionnez le texte puis Ctrl+I."},
+      {icon:"U̲", label:"Souligné", role:"Souligne le texte sélectionné.", howto:"Sélectionnez le texte puis Ctrl+U."},
+      {icon:"🎨", label:"Couleur", role:"Change la couleur du texte.", howto:"Sélectionnez le texte, cliquez sur la flèche du « A » coloré, choisissez une couleur."},
+      {icon:"A⇕", label:"Taille de police", role:"Change la taille du texte.", howto:"Sélectionnez le texte, ouvrez la liste des tailles, choisissez une valeur."},
+      {icon:"🧹", label:"Effacer la mise en forme", role:"Supprime toute la mise en forme du texte sélectionné pour revenir au style normal.", howto:"Sélectionnez le texte puis cliquez sur l'icône gomme (Effacer la mise en forme)."}
+    ]},
+    {name:"Paragraphe", tools:[
+      {icon:"☰", label:"Alignement", role:"Aligne le texte à gauche, au centre, à droite ou justifié.", howto:"Sélectionnez le paragraphe puis cliquez sur l'icône d'alignement voulue."},
+      {icon:"•≡", label:"Listes", role:"Crée des listes à puces ou numérotées.", howto:"Sélectionnez le texte puis cliquez sur l'icône de liste voulue."},
+      {icon:"🔲", label:"Bordures", role:"Ajoute un cadre autour d'un paragraphe ou d'un tableau.", howto:"Sélectionnez le texte, cliquez sur la flèche à côté de l'icône Bordures, choisissez le contour."},
+      {icon:"↕️", label:"Interligne", role:"Ajuste l'espacement entre les lignes d'un paragraphe.", howto:"Sélectionnez le texte, cliquez sur l'icône Interligne, choisissez une valeur (1, 1.5, 2...)."}
+    ]},
+    {name:"Styles", tools:[
+      {icon:"🖋️", label:"Styles", role:"Applique un style prédéfini (Titre 1, Titre 2, Normal...).", howto:"Sélectionnez le texte puis cliquez sur le style dans la galerie."}
+    ]},
+    {name:"Édition", tools:[
+      {icon:"🔍", label:"Rechercher", role:"Recherche un mot ou une expression dans tout le document.", howto:"Ctrl+F, tapez le mot recherché, les occurrences sont surlignées."},
+      {icon:"🔁", label:"Remplacer", role:"Remplace automatiquement un mot par un autre dans tout le document.", howto:"Ctrl+H, saisissez le mot à chercher et son remplacement, cliquez sur Remplacer tout."},
+      {icon:"🖱️", label:"Sélectionner", role:"Sélectionne rapidement tout le document ou des éléments similaires.", howto:"Accueil → Sélectionner → Sélectionner tout (ou Ctrl+A)."}
+    ]}
+  ]},
+  "Insertion": { icon:"➕", tip:"Pour numéroter les pages : Insertion → Numéro de page. Glissez-déposez une image directement depuis l'Explorateur.", groups:[
+    {name:"Pages", tools:[
+      {icon:"📃", label:"Page de garde", role:"Ajoute une page de garde stylisée en début de document.", howto:"Insertion → Page de garde → choisissez un modèle."},
+      {icon:"➕📄", label:"Page vierge", role:"Insère une nouvelle page blanche.", howto:"Insertion → Page vierge."},
+      {icon:"↩", label:"Saut de page", role:"Force le contenu suivant à commencer sur une nouvelle page.", howto:"Placez le curseur où couper, Insertion → Saut de page (ou Ctrl+Entrée)."}
+    ]},
+    {name:"Tableaux", tools:[
+      {icon:"▦", label:"Tableau", role:"Insère un tableau pour organiser des données.", howto:"Insertion → Tableau, glissez pour choisir lignes/colonnes."}
+    ]},
+    {name:"Illustrations", tools:[
+      {icon:"🖼️", label:"Images", role:"Insère une image depuis votre ordinateur.", howto:"Insertion → Images → choisissez le fichier."},
+      {icon:"🔺", label:"Formes", role:"Ajoute des formes géométriques.", howto:"Insertion → Formes → choisissez une forme puis dessinez-la."},
+      {icon:"🧩", label:"Icônes", role:"Insère une icône vectorielle prête à l'emploi.", howto:"Insertion → Icônes, choisissez-en une dans la galerie, cliquez sur Insérer."},
+      {icon:"🗂️", label:"SmartArt", role:"Insère un schéma visuel (organigramme, cycle, liste...).", howto:"Insertion → SmartArt, choisissez un modèle, remplissez le texte."},
+      {icon:"📊", label:"Graphique", role:"Insère un graphique basé sur des données.", howto:"Insertion → Graphique, choisissez un type, remplissez le tableau de données qui s'ouvre."}
+    ]},
+    {name:"Texte", tools:[
+      {icon:"📝", label:"Zone de texte", role:"Ajoute un bloc de texte librement positionnable sur la page.", howto:"Insertion → Zone de texte, cliquez-glissez pour dessiner la zone."},
+      {icon:"🅰️", label:"WordArt", role:"Insère un texte avec un effet visuel décoratif.", howto:"Insertion → WordArt, choisissez un style, tapez votre texte."}
+    ]},
+    {name:"Liens", tools:[
+      {icon:"🔗", label:"Lien hypertexte", role:"Insère un lien cliquable vers un site, un fichier ou un email.", howto:"Sélectionnez le texte, Ctrl+K, collez l'adresse."}
+    ]},
+    {name:"En-tête / pied de page", tools:[
+      {icon:"📑", label:"En-tête", role:"Ajoute un texte répété en haut de chaque page.", howto:"Insertion → En-tête → choisissez un modèle."},
+      {icon:"#️⃣", label:"N° de page", role:"Insère automatiquement la numérotation des pages.", howto:"Insertion → Numéro de page → choisissez la position."}
+    ]},
+    {name:"Symboles", tools:[
+      {icon:"Ω", label:"Symboles", role:"Insère des caractères spéciaux non présents au clavier (©, €, →...).", howto:"Insertion → Symboles → choisissez un caractère dans la liste."},
+      {icon:"√", label:"Équation", role:"Insère une formule mathématique mise en forme.", howto:"Insertion → Équation → choisissez un modèle ou construisez la vôtre."}
+    ]}
+  ]},
+  "Mise en page": { icon:"📐", tip:"Pour changer l'orientation d'une seule page, insérez un saut de section avant et après, puis changez l'orientation de cette section.", groups:[
+    {name:"Mise en page", tools:[
+      {icon:"↔️", label:"Marges", role:"Définit l'espace entre le texte et le bord de la page.", howto:"Mise en page → Marges → choisissez un modèle ou personnalisez."},
+      {icon:"🔄", label:"Orientation", role:"Bascule la page en portrait ou en paysage.", howto:"Mise en page → Orientation → Portrait ou Paysage."},
+      {icon:"📏", label:"Taille", role:"Choisit le format du papier (A4, Lettre...).", howto:"Mise en page → Taille → sélectionnez le format."},
+      {icon:"▦", label:"Colonnes", role:"Met le texte en 1, 2 ou 3 colonnes, façon journal.", howto:"Mise en page → Colonnes → choisissez le nombre de colonnes."},
+      {icon:"↩", label:"Sauts", role:"Insère un saut de page ou de section pour contrôler la mise en page.", howto:"Mise en page → Sauts de pages → choisissez le type de saut."}
+    ]},
+    {name:"Arrière-plan de page", tools:[
+      {icon:"💧", label:"Filigrane", role:"Ajoute un texte ou logo semi-transparent en fond de page.", howto:"Mise en page → Filigrane → choisissez un modèle ou personnalisé."},
+      {icon:"🎨", label:"Couleur de page", role:"Applique une couleur de fond à la page.", howto:"Mise en page → Couleur de page → choisissez une couleur."}
+    ]},
+    {name:"Paragraphe", tools:[
+      {icon:"↹", label:"Retrait", role:"Décale le paragraphe par rapport à la marge.", howto:"Sélectionnez le paragraphe, ajustez le retrait dans le groupe Paragraphe."},
+      {icon:"↕️", label:"Espacement", role:"Ajuste l'espace avant/après les paragraphes.", howto:"Sélectionnez le texte, ajustez l'espacement dans le groupe Paragraphe."}
+    ]}
+  ]},
+  "Références": { icon:"📖", tip:"Pour une TDM automatique, appliquez d'abord les styles Titre 1/2 à vos titres, puis Références → Table des matières → Table automatique.", groups:[
+    {name:"Table des matières", tools:[
+      {icon:"📑", label:"Sommaire", role:"Génère automatiquement une table des matières à partir des titres.", howto:"Appliquez les styles Titre 1/2, puis Références → Table des matières."}
+    ]},
+    {name:"Notes de bas de page", tools:[
+      {icon:"¹", label:"Note de bas de page", role:"Ajoute une remarque en bas de page reliée par un renvoi.", howto:"Placez le curseur après le mot, Références → Insérer une note de bas de page."}
+    ]},
+    {name:"Citations & bibliographie", tools:[
+      {icon:"❝", label:"Citation", role:"Insère une citation académique référencée.", howto:"Références → Insérer une citation → ajoutez la source."},
+      {icon:"📚", label:"Bibliographie", role:"Génère la liste des sources citées.", howto:"Références → Bibliographie, en fin de document."}
+    ]},
+    {name:"Index", tools:[
+      {icon:"🔎", label:"Index", role:"Crée un index alphabétique des termes du document.", howto:"Sélectionnez le mot, Références → Marquer une entrée, puis Insérer l'index."}
+    ]},
+    {name:"Légendes", tools:[
+      {icon:"📇", label:"Insérer une légende", role:"Numérote automatiquement une image, un tableau ou une équation.", howto:"Clic droit sur l'élément → Insérer une légende, choisissez l'étiquette (Figure, Tableau...)."}
+    ]},
+    {name:"Tables de références", tools:[
+      {icon:"⚖️", label:"Table des références juridiques", role:"Génère une table des textes de loi ou décisions citées (documents juridiques).", howto:"Marquez chaque citation avec Références → Marquer une citation, puis insérez la table."}
+    ]}
+  ]},
+  "Publipostage": { icon:"✉️", tip:"Toujours cliquer sur « Aperçu des résultats » avant de terminer la fusion, pour vérifier que les données s'affichent bien.", groups:[
+    {name:"Démarrer la fusion", tools:[
+      {icon:"✉️", label:"Fusion et publipostage", role:"Lance l'assistant pour créer des lettres/étiquettes personnalisées en masse.", howto:"Publipostage → Démarrer la fusion et le publipostage → choisissez le type."},
+      {icon:"📇", label:"Sélection destinataires", role:"Choisit la liste de contacts (Excel, Outlook...) à utiliser.", howto:"Publipostage → Sélection des destinataires → Utiliser une liste existante."}
+    ]},
+    {name:"Champs", tools:[
+      {icon:"🏷️", label:"Insérer un champ", role:"Ajoute un champ variable (ex : «Nom», «Adresse») dans le document.", howto:"Cliquez où insérer, Publipostage → Insérer un champ de fusion."}
+    ]},
+    {name:"Aperçu / Terminer", tools:[
+      {icon:"👁️", label:"Aperçu des résultats", role:"Affiche le document avec les vraies données d'un destinataire.", howto:"Publipostage → Aperçu des résultats."},
+      {icon:"✅", label:"Terminer la fusion", role:"Génère tous les documents personnalisés.", howto:"Publipostage → Terminer et fusionner → Imprimer ou Modifier les documents individuels."}
+    ]}
+  ]},
+  "Révision": { icon:"✔️", tip:"Activez le Suivi des modifications avant d'envoyer un document à relire, pour voir qui a corrigé quoi.", groups:[
+    {name:"Vérification", tools:[
+      {icon:"🔤", label:"Orthographe", role:"Vérifie l'orthographe et la grammaire.", howto:"Révision → Vérifier le document (ou F7)."}
+    ]},
+    {name:"Commentaires", tools:[
+      {icon:"💬", label:"Nouveau commentaire", role:"Ajoute une remarque en marge, sans modifier le texte.", howto:"Sélectionnez le texte, Révision → Nouveau commentaire."}
+    ]},
+    {name:"Suivi", tools:[
+      {icon:"✏️", label:"Suivi des modifications", role:"Enregistre chaque ajout/suppression pour relecture.", howto:"Révision → Suivi des modifications (ou Ctrl+Maj+E)."},
+      {icon:"✔️", label:"Accepter", role:"Valide la modification proposée et l'intègre définitivement au texte.", howto:"Cliquez sur la modification en marge, puis Révision → Accepter."},
+      {icon:"✖️", label:"Refuser", role:"Rejette la modification proposée et revient au texte d'origine.", howto:"Cliquez sur la modification en marge, puis Révision → Refuser."}
+    ]},
+    {name:"Protéger", tools:[
+      {icon:"🔒", label:"Restreindre la modification", role:"Limite ce que les autres peuvent modifier.", howto:"Révision → Restreindre la modification → Activer la protection."}
+    ]},
+    {name:"Comparer", tools:[
+      {icon:"🔄", label:"Comparer", role:"Compare deux versions d'un document et affiche les différences.", howto:"Révision → Comparer → sélectionnez les deux versions à comparer."}
+    ]}
+  ]},
+  "Affichage": { icon:"👁️", tip:"Le Volet de navigation est indispensable pour naviguer dans les longs documents.", groups:[
+    {name:"Modes d'affichage", tools:[
+      {icon:"📄", label:"Mode Lecture", role:"Affiche le document en plein écran pour la lecture.", howto:"Affichage → Mode Lecture."},
+      {icon:"🖨️", label:"Mode Page", role:"Montre le document tel qu'il sera imprimé.", howto:"Affichage → Page (mode actif par défaut)."},
+      {icon:"🌐", label:"Mode Web", role:"Affiche le document comme une page web.", howto:"Affichage → Web."},
+      {icon:"📋", label:"Mode Plan", role:"Structure le document par titres, idéal pour réorganiser les sections.", howto:"Affichage → Plan, utilisez les flèches pour déplacer les sections."}
+    ]},
+    {name:"Affichage", tools:[
+      {icon:"📏", label:"Règle", role:"Affiche/masque la règle graduée.", howto:"Affichage → cochez la case Règle."},
+      {icon:"▤", label:"Quadrillage", role:"Affiche une grille pour aligner précisément les éléments.", howto:"Affichage → cochez la case Quadrillage."},
+      {icon:"🧭", label:"Volet de navigation", role:"Ouvre un panneau pour naviguer entre les titres et pages.", howto:"Affichage → Volet de navigation (ou Ctrl+F)."}
+    ]},
+    {name:"Zoom", tools:[
+      {icon:"🔍", label:"Zoom", role:"Agrandit ou réduit l'affichage du document.", howto:"Affichage → Zoom, ou Ctrl + molette de la souris."}
+    ]},
+    {name:"Fenêtre", tools:[
+      {icon:"⬛⬛", label:"Afficher côte à côte", role:"Compare deux documents en les affichant l'un à côté de l'autre.", howto:"Affichage → Afficher côte à côte, choisissez le second document."}
+    ]}
+  ]}
+};
+
+const tabsEl = document.getElementById('tabs');
+const ribbonEl = document.getElementById('ribbon');
+const explainEl = document.getElementById('explain');
+let activeTab = "Fichier";
+
+function renderTabs(){
+  tabsEl.innerHTML = '';
+  Object.keys(DATA).forEach(name=>{
+    const t = document.createElement('div');
+    t.className = 'tab' + (name===activeTab ? ' active' : '');
+    t.textContent = DATA[name].icon + '  ' + name;
+    t.onclick = ()=>{ activeTab = name; renderTabs(); renderRibbon(); resetExplain(); showTabTip(); };
+    tabsEl.appendChild(t);
+  });
+}
+function showTabTip(){
+  const tipEl = document.getElementById('tabTip');
+  const tip = DATA[activeTab].tip;
+  if(tip){
+    tipEl.innerHTML = `💡 <b>Astuce :</b> ${tip}`;
+    tipEl.classList.remove('hidden');
+  } else {
+    tipEl.classList.add('hidden');
+  }
+}
+function renderRibbon(){
+  ribbonEl.innerHTML = '';
+  DATA[activeTab].groups.forEach(group=>{
+    const g = document.createElement('div');
+    g.className = 'group';
+    const toolsWrap = document.createElement('div');
+    toolsWrap.className = 'group-tools';
+    group.tools.forEach(tool=>{
+      const tEl = document.createElement('div');
+      tEl.className = 'tool';
+      tEl.innerHTML = `<div class="tool-icon">${tool.icon}</div><div class="tool-label">${tool.label}</div>`;
+      tEl.onclick = ()=>{
+        document.querySelectorAll('.tool').forEach(x=>x.classList.remove('selected'));
+        tEl.classList.add('selected');
+        showExplain(tool.icon, tool.label, tool.role, tool.howto);
+      };
+      toolsWrap.appendChild(tEl);
+    });
+    g.appendChild(toolsWrap);
+    const nameEl = document.createElement('div');
+    nameEl.className = 'group-name';
+    nameEl.textContent = group.name;
+    g.appendChild(nameEl);
+    ribbonEl.appendChild(g);
+  });
+}
+function showExplain(icon, label, role, howto){
+  explainEl.innerHTML = `<div class="explain-head"><div class="explain-icon">${icon}</div><h3>${label}</h3></div><p class="role">${role}</p><p class="howto"><b>Comment l'utiliser :</b> ${howto}</p>`;
+}
+function resetExplain(){
+  explainEl.innerHTML = `<p class="placeholder">Sélectionnez un outil dans le ruban ci-dessus pour afficher son explication ici.</p>`;
+}
+renderTabs();
+renderRibbon();
+showTabTip();
+</script>
+</body>
+</html>

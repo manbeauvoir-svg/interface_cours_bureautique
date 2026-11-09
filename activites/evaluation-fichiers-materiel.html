@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Évaluation bureautique : fichiers et matériel</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E🖥️%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#E9EFF3; --surface:#FFFFFF; --ink:#16233A; --muted:#566782; --line:#C9D5DF;
+  --accent:#0F6E7A; --accent-ink:#FFFFFF; --accent-soft:#D5ECEE;
+  --sel:#E9A92F; --sel-soft:#FFF1D2;
+  --ok:#1F7A4D; --ok-soft:#DDF3E6; --bad:#B83A3A; --bad-soft:#F9E1E1;
+  --font-body:"Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-head:"Bricolage Grotesque", "Atkinson Hyperlegible", system-ui, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1722; --surface:#172233; --ink:#E8EEF6; --muted:#9CAEC4; --line:#2C3C52;
+    --accent:#4CC3D0; --accent-ink:#08222A; --accent-soft:#18363F;
+    --sel:#F2B544; --sel-soft:#3B2F14;
+    --ok:#5CCB8A; --ok-soft:#17382A; --bad:#F08080; --bad-soft:#43201F;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1722; --surface:#172233; --ink:#E8EEF6; --muted:#9CAEC4; --line:#2C3C52;
+  --accent:#4CC3D0; --accent-ink:#08222A; --accent-soft:#18363F;
+  --sel:#F2B544; --sel-soft:#3B2F14;
+  --ok:#5CCB8A; --ok-soft:#17382A; --bad:#F08080; --bad-soft:#43201F;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.5 var(--font-body)}
+[hidden]{display:none !important}
+h1,h2,h3{font-family:var(--font-head);letter-spacing:-.01em;line-height:1.15;margin:0}
+h1{font-size:clamp(32px,7vw,52px);font-weight:700}
+h2{font-size:clamp(24px,4.6vw,32px);font-weight:700}
+h3{font-size:20px;font-weight:700}
+p{margin:0}
+.wrap{max-width:940px;margin:0 auto;padding:18px 14px 56px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;display:grid;gap:16px}
+@media (max-width:560px){.panel{padding:16px;border-radius:14px}}
+.lead{color:var(--muted);max-width:62ch}
+:focus-visible{outline:3px solid var(--sel);outline-offset:2px}
+
+/* Boutons */
+.btn{appearance:none;border:0;background:var(--accent);color:var(--accent-ink);font:700 17px var(--font-body);padding:13px 22px;border-radius:10px;cursor:pointer;justify-self:start}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.row-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.note{padding:10px 14px;border-radius:10px;background:var(--sel-soft);border-left:4px solid var(--sel)}
+
+/* Étapes */
+.steps{list-style:none;margin:0 0 14px;padding:0;display:flex;gap:8px;flex-wrap:nowrap}
+.steps li{display:flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--muted);font-weight:700;font-size:15px;white-space:nowrap}
+.steps .dot{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--bg);font-size:14px}
+.steps li.now{color:var(--ink);border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.steps li.now .dot{background:var(--accent);color:var(--accent-ink)}
+.steps li.done{color:var(--ok)}
+.steps li.done .dot{background:var(--ok-soft);color:var(--ok)}
+@media (max-width:640px){.steps li:not(.now) .lbl{display:none}.steps li:not(.now){padding-right:6px}}
+
+/* Intro */
+.intro-list{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.intro-list li{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}
+.intro-list .n{width:34px;height:34px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:700}
+.intro-list b{display:block}
+.intro-list span.d{color:var(--muted);font-size:16px}
+.field{display:grid;gap:6px;max-width:420px}
+.field label{font-weight:700}
+.field input{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:12px 14px}
+
+/* Consigne ex1 */
+.ask{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:12px 16px;border-radius:12px;background:var(--accent-soft);border-left:5px solid var(--accent)}
+.ask small{display:block;color:var(--muted);font-size:14px}
+.ask strong{font-size:19px}
+.dots{display:flex;gap:6px}
+.dots i{width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid var(--accent)}
+.dots i.d{background:var(--accent)}
+.dots i.n{background:var(--sel);border-color:var(--sel)}
+
+/* Bureau */
+.desk{position:relative;height:clamp(420px,58vw,500px);border-radius:12px;overflow:hidden;border:1px solid #1d3a55;user-select:none;-webkit-user-select:none}
+.wallpaper{position:absolute;inset:0;cursor:default;
+  background:
+   radial-gradient(circle at 18% 24%, rgba(255,255,255,.34) 0 20px, transparent 22px),
+   radial-gradient(circle at 31% 12%, rgba(255,255,255,.28) 0 13px, transparent 15px),
+   radial-gradient(circle at 44% 32%, rgba(255,255,255,.2) 0 30px, transparent 32px),
+   radial-gradient(circle at 60% 14%, rgba(255,255,255,.3) 0 11px, transparent 13px),
+   radial-gradient(circle at 74% 24%, rgba(255,255,255,.34) 0 19px, transparent 21px),
+   radial-gradient(circle at 86% 11%, rgba(255,255,255,.26) 0 15px, transparent 17px),
+   radial-gradient(60% 80% at 78% 40%, rgba(255,255,255,.5), transparent 55%),
+   linear-gradient(120deg,#0a64d6 0%,#0a8cf0 42%,#0b4fbf 100%)}
+.desk-icons{position:absolute;left:8px;top:8px;display:grid;grid-template-rows:repeat(4,max-content);grid-auto-flow:column;gap:4px 8px;pointer-events:none}
+.dicon{pointer-events:auto;appearance:none;background:transparent;border:2px solid transparent;border-radius:6px;width:86px;padding:5px 2px;display:grid;justify-items:center;gap:4px;cursor:default;color:#fff;font:400 12.5px/1.2 system-ui,"Segoe UI",sans-serif;text-shadow:0 1px 3px rgba(0,0,0,.75)}
+.dicon:hover{background:rgba(255,255,255,.18)}
+.dicon .ico{position:relative;display:block;width:42px;height:42px}
+.dicon .ico svg{width:42px;height:42px}
+.dicon .lbl{text-align:center;overflow-wrap:anywhere}
+.dicon.sc .ico::after{content:"";position:absolute;left:-1px;bottom:-1px;width:15px;height:15px;border:1px solid #9AA6B6;border-radius:2px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 9l5.5-5.5M4.5 3.5h4v4' fill='none' stroke='%232B6BD6' stroke-width='1.8'/%3E%3C/svg%3E") center/11px no-repeat}
+.taskbar{position:absolute;left:0;right:0;bottom:0;height:48px;display:flex;align-items:center;padding:0 8px;background:rgba(238,244,251,.95);color:#1B2733;border-top:1px solid #C9D3DF}
+.tb-side{flex:1;display:flex;align-items:center;min-width:0}
+.tb-end{justify-content:flex-end}
+.tb-weather{gap:8px;font:12px/1.15 system-ui,"Segoe UI",sans-serif}
+.tb-weather svg{width:26px;height:26px}
+.tb-weather small{display:block;color:#4A5B6C;font-size:12px}
+.tb-center{display:flex;align-items:center;gap:4px}
+.taskbar .start{appearance:none;border:2px solid transparent;background:transparent;width:38px;height:38px;border-radius:6px;display:grid;place-items:center;padding:0}
+.taskbar .start:hover,.tb-ico:hover,.tray:hover{background:rgba(0,0,0,.07)}
+.taskbar .start svg{width:22px;height:22px}
+.tb-search{display:flex;align-items:center;gap:8px;height:32px;width:min(210px,26vw);padding:0 12px;border-radius:16px;background:#fff;border:1px solid #D4DCE6;font:13px system-ui,"Segoe UI",sans-serif;color:#4A5B6C;overflow:hidden;white-space:nowrap}
+.tb-search svg{width:16px;height:16px;flex:none;color:#1B2733}
+.tb-ico{width:38px;height:38px;border-radius:6px;display:grid;place-items:center;border:2px solid transparent}
+.tb-ico svg{width:24px;height:24px}
+.tray{display:flex;align-items:center;gap:8px;padding:2px 8px;border:2px solid transparent;border-radius:6px;font:12px/1.15 system-ui,"Segoe UI",sans-serif;text-align:right;color:#1B2733}
+.tray svg{width:16px;height:16px}
+.picked{outline:3px solid var(--sel);outline-offset:-3px;background:rgba(242,181,68,.3) !important}
+@media (max-width:560px){
+  .dicon{width:78px;font-size:12px}
+  .dicon .ico,.dicon .ico svg{width:38px;height:38px}
+  .desk-icons{gap:2px 2px}
+  .tb-weather,.tb-search,.tb-ico:nth-of-type(n+4),.tray .hide-m{display:none}
+  .tb-side{flex:0 1 auto}.tb-center{flex:1;justify-content:flex-start}.tb-end{flex:0 0 auto}
+}
+
+/* Corrections */
+.fb{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.fb li{display:grid;grid-template-columns:28px 1fr;gap:10px;padding:10px 12px;border-radius:10px;background:var(--bg)}
+.fb li.ok{background:var(--ok-soft)}
+.fb li.bad{background:var(--bad-soft)}
+.fb .ic{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff}
+.fb li.ok .ic{background:var(--ok)}
+.fb li.bad .ic{background:var(--bad)}
+.fb .sub{color:var(--muted);font-size:16px}
+.scorebox{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 14px;padding:14px 16px;border-radius:12px;background:var(--accent-soft)}
+.scorebox strong{font:700 30px var(--font-head)}
+.scorebox.full{background:var(--ok-soft)}
+.result{display:grid;gap:14px;padding-top:6px;border-top:1px dashed var(--line)}
+
+/* Glisser-déposer : éléments communs */
+.chip{display:inline-block;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:15px;line-height:1.2;padding:8px 14px;border-radius:999px;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;border:2px solid transparent}
+.chip.sel{border-color:var(--sel);box-shadow:0 0 0 3px var(--sel-soft)}
+.drag-ghost{position:fixed;z-index:1000;pointer-events:none;margin:0;box-shadow:0 10px 26px rgba(0,0,0,.28);transform:rotate(-2deg);opacity:.96}
+.dragging{opacity:.35}
+.bank{display:flex;flex-wrap:wrap;gap:10px;padding:12px;border:2px dashed var(--line);border-radius:12px;min-height:58px;align-items:center}
+.bank:empty::before{content:"Toutes les étiquettes sont placées.";color:var(--muted)}
+.bank.over{border-color:var(--sel);background:var(--sel-soft)}
+.count{color:var(--muted);font-size:15px}
+
+/* Explorateur (capture simulée, couleurs fixes) */
+.exp{background:#fff;border:1px solid #AEB7C1;border-radius:10px;overflow:hidden;color:#2B2F36;font:13px/1.3 system-ui,"Segoe UI",sans-serif}
+.exp svg{width:18px;height:18px;flex:none}
+.exp-tabs{display:flex;align-items:flex-end;gap:6px;padding:6px 8px 0;background:#DCE8F3}
+.exp-tabs .tab{display:flex;align-items:center;gap:8px;background:#F7FAFD;padding:7px 12px;border-radius:8px 8px 0 0}
+.exp-tabs .plus{padding:0 8px 6px;color:#555;font-size:16px}
+.exp-tabs .wc{margin-left:auto;padding-bottom:6px;letter-spacing:8px;color:#6B7480}
+.zone{position:relative;border:2px dashed #0F6E7A;border-radius:6px;background:#fff;margin:5px;overflow:hidden}
+.zone.over{border-color:#E9A92F;background:#FFF6DF}
+.zone.ok{border:2px solid #1F7A4D}
+.zone.bad{border:2px solid #B83A3A}
+.zone.ok::after,.zone.bad::after{position:absolute;top:4px;right:4px;z-index:3;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;color:#fff;font:700 13px system-ui}
+.zone.ok::after{content:"✓";background:#1F7A4D}
+.zone.bad::after{content:"✗";background:#B83A3A}
+.fake{padding:8px 10px;color:#5E6670;pointer-events:none}
+.slot{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.62);padding:4px;text-align:center}
+.slot:empty::before{content:"Déposez ici";color:#0B6470;font-weight:700;font-size:13px}
+.slot:not(:empty){background:rgba(255,255,255,.8)}
+.slot .chip{background:#0F6E7A;color:#fff;white-space:normal;max-width:100%;font-size:13px;line-height:1.15;padding:6px 10px;border-radius:14px}
+.exp-nav{display:grid;grid-template-columns:128px minmax(0,1.6fr) minmax(0,1fr);align-items:stretch;background:#F7FAFD}
+.zone.nav-z,.zone.addr-z,.zone.search-z{height:50px}
+.nav-fake{letter-spacing:5px;font-size:15px;color:#6B7480;white-space:nowrap;overflow:hidden}
+.pathfake,.cmd-fake{display:flex;align-items:center;gap:8px;white-space:nowrap;overflow:hidden}
+.zone.ribbon-z{height:50px}
+.cmd-fake{gap:16px}
+.exp-body{display:grid;grid-template-columns:minmax(0,37%) minmax(0,1fr)}
+.zone.tree-z,.zone.files-z{min-height:330px}
+.list-fake{display:grid;gap:6px}
+.list-fake span{display:flex;align-items:center;gap:7px;white-space:nowrap;overflow:hidden}
+.list-fake i{display:block;border-top:1px solid #D5D9DE;margin:3px 0}
+.sec-title{color:#1F5FA8;margin:0 0 6px;font-size:13px}
+.drives{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.drives span{display:grid;justify-items:center;gap:2px;width:76px;text-align:center;font-size:11.5px}
+.drives svg{width:38px;height:38px}
+.cmd-fake .push{margin-left:auto}
+.empty-msg{text-align:center;font-size:12.5px}
+.exp-status{padding:5px 10px;border-top:1px solid #DADDE1;color:#555;background:#F7FAFD}
+@media (max-width:560px){
+  .exp-nav{grid-template-columns:1fr 1fr}
+  .zone.nav-z{grid-column:1 / -1;height:44px}
+  .exp-body{grid-template-columns:minmax(0,40%) minmax(0,1fr)}
+}
+
+/* Matériel */
+.hw{display:grid}
+.hw-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:10px;padding:0 4px 8px;font:700 18px var(--font-head)}
+.hw-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:10px;align-items:center;padding:4px 0;border-top:1px solid var(--line)}
+.hw-name{display:flex;align-items:center;gap:10px;font-weight:700;padding-left:4px}
+.hw-name .n{flex:none;width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:15px}
+.photo-cell{border:2px dashed transparent;border-radius:14px;padding:3px}
+.photo-cell.over{border-color:var(--sel);background:var(--sel-soft)}
+.photo-card{position:relative;display:flex;align-items:center;gap:6px;height:88px;padding:6px;background:#F2F5F8;color:#16233A;border:1.5px solid #B9C5D1;border-radius:12px;overflow:hidden}
+.photo-card .art{flex:1;min-width:0;height:100%;display:grid;place-items:center}
+.photo-card .art svg{max-width:100%;max-height:100%}
+.grip,.mvb{appearance:none;border:0;background:#E1E8EF;color:#3B4A5E;border-radius:8px;display:grid;place-items:center;cursor:pointer;padding:0}
+.grip{width:34px;height:100%;cursor:grab;touch-action:none}
+.grip svg,.mvb svg{width:18px;height:18px}
+.mv{display:grid;gap:6px}
+.mvb{width:34px;height:34px}
+.grip[disabled],.mvb[disabled]{opacity:.35;cursor:not-allowed}
+.mark{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700}
+.hw-row.ok .mark{background:#1F7A4D}
+.hw-row.bad .mark{background:#B83A3A}
+.hw-row.bad .photo-card{border-color:#B83A3A}
+.hw-row.ok .photo-card{border-color:#1F7A4D}
+.fixtxt{position:absolute;left:0;right:0;bottom:0;background:#B83A3A;color:#fff;font-size:12px;padding:2px 8px;text-align:center}
+@media (max-width:480px){.photo-card{gap:4px}.grip,.mvb{width:30px}.hw-name{font-size:15px}}
+
+/* QCM */
+.quiz{display:grid;gap:16px}
+fieldset.q{margin:0;padding:14px 14px 12px;border:1.5px solid var(--line);border-radius:14px;display:grid;gap:8px}
+fieldset.q legend{font-weight:700;padding:0 6px}
+.opt{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;padding:10px 12px;border-radius:10px;border:1.5px solid transparent;background:var(--bg);cursor:pointer}
+.opt:hover{border-color:var(--line)}
+.opt input{margin:3px 0 0;width:18px;height:18px;accent-color:var(--accent)}
+.opt.right{background:var(--ok-soft);border-color:var(--ok)}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.why{color:var(--muted);font-size:16px;padding:2px 4px 0}
+
+/* Résultat final */
+.bars{display:grid;gap:12px}
+.bar-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:center}
+.bar-row .track{grid-column:1 / -1;height:12px;border-radius:999px;background:var(--bg);overflow:hidden}
+.bar-row .fill{display:block;height:100%;background:var(--accent);border-radius:999px}
+.big{font:700 clamp(40px,10vw,64px)/1 var(--font-head)}
+.verdict{padding:14px 16px;border-radius:12px;background:var(--accent-soft);font-weight:700}
+
+/* Transmission et espace formateur */
+.status{padding:10px 14px;border-radius:10px;background:var(--bg);border-left:4px solid var(--line)}
+.status.ok{background:var(--ok-soft);border-left-color:var(--ok)}
+.status.warn{background:var(--sel-soft);border-left-color:var(--sel)}
+.linkbtn{appearance:none;background:none;border:0;color:var(--accent);font:700 16px var(--font-body);padding:6px 0;cursor:pointer;justify-self:start;text-decoration:underline;text-underline-offset:3px}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table.res{border-collapse:collapse;width:100%;min-width:700px;font-size:16px}
+table.res th,table.res td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+table.res th{background:var(--bg);font-weight:700;white-space:nowrap}
+table.res .num{text-align:right;white-space:nowrap}
+table.res tr:last-child td{border-bottom:0}
+table.res details summary{cursor:pointer;font-weight:700}
+table.res .errs{margin:6px 0 0;padding-left:18px;color:var(--muted);font-size:15px;font-weight:400}
+table.res p.errs{padding-left:0}
+textarea.paste{width:100%;min-height:96px;font:15px/1.4 var(--font-body);color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;resize:vertical}
+
+@media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important;scroll-behavior:auto !important}}
+</style>
+<link rel="stylesheet" href="livret/polices/polices.css">
+</head>
+<body>
+
+<!-- Pictogrammes réutilisables -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M2 6a2 2 0 0 1 2-2h5l2 2h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z" fill="#F3B63F"/><path d="M2 10h20v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z" fill="#F8CD66"/></symbol>
+  <symbol id="i-word" viewBox="0 0 24 24"><path d="M5 2h9l5 5v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#fff" stroke="#9AA6B6"/><path d="M14 2v5h5" fill="#E3E8EE" stroke="#9AA6B6"/><rect x="1" y="9" width="13" height="9" rx="1.5" fill="#2B5FB8"/><text x="7.5" y="16.2" font-size="7.5" font-weight="700" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif">W</text></symbol>
+  <symbol id="i-sheet" viewBox="0 0 24 24"><path d="M5 2h9l5 5v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#fff" stroke="#9AA6B6"/><path d="M14 2v5h5" fill="#E3E8EE" stroke="#9AA6B6"/><rect x="1" y="9" width="13" height="9" rx="1.5" fill="#1E7A46"/><text x="7.5" y="16.2" font-size="7.5" font-weight="700" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif">X</text></symbol>
+  <symbol id="i-text" viewBox="0 0 24 24"><path d="M5 2h9l5 5v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#fff" stroke="#9AA6B6"/><path d="M14 2v5h5" fill="#E3E8EE" stroke="#9AA6B6"/><path d="M7 11h10M7 14h10M7 17h6" stroke="#8793A3" stroke-width="1.4"/></symbol>
+  <symbol id="i-bin" viewBox="0 0 24 24"><path d="M5 7h14l-1.2 13a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8z" fill="#CFE3F2" stroke="#6C8CA6"/><rect x="4" y="4.5" width="16" height="2.5" rx="1" fill="#9DB9CF"/><rect x="9" y="2.5" width="6" height="2" rx="1" fill="#9DB9CF"/><path d="M9.5 10v8M12 10v8M14.5 10v8" stroke="#6C8CA6" stroke-width="1.2"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#2E86DE"/><ellipse cx="12" cy="12" rx="4.2" ry="10" fill="none" stroke="#fff" stroke-width="1.2"/><path d="M2.5 9h19M2.5 15h19" stroke="#fff" stroke-width="1.2"/></symbol>
+  <symbol id="i-calc" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2.5" fill="#3A4252"/><rect x="6.5" y="4.5" width="11" height="4.5" rx="1" fill="#8FD6C5"/><g fill="#fff"><circle cx="8.3" cy="12.5" r="1.2"/><circle cx="12" cy="12.5" r="1.2"/><circle cx="15.7" cy="12.5" r="1.2"/><circle cx="8.3" cy="16" r="1.2"/><circle cx="12" cy="16" r="1.2"/><circle cx="15.7" cy="16" r="1.2"/><circle cx="8.3" cy="19.2" r="1.2"/><circle cx="12" cy="19.2" r="1.2"/><circle cx="15.7" cy="19.2" r="1.2"/></g></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 9a14 14 0 0 1 20 0M5 12.5a9.5 9.5 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="19.5" r="1.6" fill="currentColor"/></symbol>
+  <symbol id="i-sound" viewBox="0 0 24 24"><path d="M3 9h4l5-4v14l-5-4H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-logo" viewBox="0 0 24 24"><rect x="2" y="2" width="9.2" height="9.2" fill="#4CC3F0"/><rect x="12.8" y="2" width="9.2" height="9.2" fill="#4CC3F0"/><rect x="2" y="12.8" width="9.2" height="9.2" fill="#4CC3F0"/><rect x="12.8" y="12.8" width="9.2" height="9.2" fill="#4CC3F0"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z" fill="#F3B63F"/></symbol>
+  <symbol id="i-pc" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5" fill="#5B8DD6"/><rect x="9" y="17" width="6" height="2" fill="#7A8088"/><rect x="6" y="19" width="12" height="1.6" rx=".8" fill="#7A8088"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2" fill="#3B82F6"/><path d="M2.8 6.8l9.2 6.8 9.2-6.8" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="i-notepad" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="19" rx="2" fill="#4DA3E0"/><rect x="6.5" y="7" width="11" height="12.5" rx="1" fill="#fff"/><path d="M8 10h8M8 13h8M8 16h5" stroke="#9AA6B6" stroke-width="1.2"/><g fill="#2B5F8F"><rect x="7" y="1.8" width="2" height="4" rx="1"/><rect x="11" y="1.8" width="2" height="4" rx="1"/><rect x="15" y="1.8" width="2" height="4" rx="1"/></g></symbol>
+  <symbol id="i-paint" viewBox="0 0 24 24"><path d="M12 3C6.5 3 2.5 6.8 2.5 11.5c0 4.5 3.2 7.5 6.8 7.5 1.6 0 2-1 1.4-2-.7-1.2 0-2.5 1.5-2.5H16c3.4 0 5.5-1.8 5.5-4.3C21.5 6.5 17.5 3 12 3z" fill="#F4C26A" stroke="#C48A2C"/><circle cx="7.5" cy="10" r="1.6" fill="#E5484D"/><circle cx="11" cy="6.8" r="1.6" fill="#3FB06B"/><circle cx="15.5" cy="7.8" r="1.6" fill="#3B82F6"/></symbol>
+  <symbol id="i-pdf" viewBox="0 0 24 24"><path d="M5 2h9l5 5v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#fff" stroke="#9AA6B6"/><path d="M14 2v5h5" fill="#E3E8EE" stroke="#9AA6B6"/><rect x="1" y="9" width="14" height="9" rx="1.5" fill="#D32F2F"/><text x="8" y="15.8" font-size="6" font-weight="700" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif">PDF</text></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><path d="M5 2h9l5 5v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#fff" stroke="#9AA6B6"/><path d="M14 2v5h5" fill="#E3E8EE" stroke="#9AA6B6"/><rect x="5.5" y="10" width="11" height="9" fill="#BFE3F5"/><path d="M5.5 19l3.5-4.5 2.5 3 2-2 3 3.5z" fill="#4CAF50"/><circle cx="14" cy="12.8" r="1.2" fill="#F5C242"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" fill="#F08A4B"/></symbol>
+  <symbol id="i-gallery" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2" fill="#3B82F6"/><path d="M3 17l5-6 4 4 3-3 6 7z" fill="#fff" opacity=".85"/></symbol>
+  <symbol id="i-desktop" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="14" rx="2" fill="#3AA8E0"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M6.5 10l5.5 5.5L17.5 10M5 20h14" fill="none" stroke="#2E9E6B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-netdisk" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="10" rx="2" fill="#4A515C" stroke="#2B3038"/><circle cx="6" cy="12" r="1" fill="#9AA6B6"/><path d="M7 4.5l11 15M18 4.5L7 19.5" stroke="#E5484D" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-chrome" viewBox="0 0 24 24"><path d="M12 12L3.34 7A10 10 0 0 1 20.66 7z" fill="#EA4335"/><path d="M12 12L20.66 7A10 10 0 0 1 12 22z" fill="#FBBC05"/><path d="M12 12L12 22A10 10 0 0 1 3.34 7z" fill="#34A853"/><circle cx="12" cy="12" r="4.8" fill="#fff"/><circle cx="12" cy="12" r="3.7" fill="#4285F4"/></symbol>
+  <symbol id="i-edge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#0F7BC8"/><path d="M4 13c0-4.5 3.5-8 8-8 4 0 7 2.6 7 6 0 2.3-1.7 3.5-3.7 3.5H9.5c0 2.2 1.8 3.3 4 3.3 1.8 0 3.2-.5 4.5-1.4-1.2 2.8-3.7 4.6-6.8 4.6C7.1 21 4 17.5 4 13z" fill="#3BD1A0"/></symbol>
+  <symbol id="i-vlc" viewBox="0 0 24 24"><path d="M12 3l7 16.5H5z" fill="#F7931E"/><path d="M12 3l3.4 8h-6.8z" fill="#fff" opacity=".92"/><path d="M8.6 11h6.8M7 15.5h10" stroke="#fff" stroke-width="1.6"/><rect x="3" y="19.5" width="18" height="2.6" rx="1.3" fill="#3B3B3B"/></symbol>
+  <symbol id="i-ppt" viewBox="0 0 24 24"><path d="M5 2h9l5 5v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#fff" stroke="#9AA6B6"/><path d="M14 2v5h5" fill="#E3E8EE" stroke="#9AA6B6"/><rect x="1" y="9" width="13" height="9" rx="1.5" fill="#D35230"/><text x="7.5" y="16.2" font-size="7.5" font-weight="700" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif">P</text></symbol>
+  <symbol id="i-folderdoc" viewBox="0 0 24 24"><path d="M2 6a2 2 0 0 1 2-2h5l2 2h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z" fill="#F3B63F"/><rect x="7" y="6.5" width="9" height="8" fill="#fff" stroke="#C9CED6"/><path d="M2 11h20v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z" fill="#F8CD66"/></symbol>
+  <symbol id="i-wordapp" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="3" fill="#2B5FB8"/><text x="12" y="17" font-size="12" font-weight="700" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif">W</text></symbol>
+  <symbol id="i-outlook" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="3" fill="#0F6CBD"/><circle cx="10" cy="12" r="4.3" fill="none" stroke="#fff" stroke-width="2"/></symbol>
+  <symbol id="i-store" viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6z" fill="#3A7BD5"/><path d="M9 8a3 3 0 0 1 6 0" fill="none" stroke="#3A7BD5" stroke-width="1.8"/><rect x="9" y="11" width="2.7" height="2.7" fill="#F25022"/><rect x="12.3" y="11" width="2.7" height="2.7" fill="#7FBA00"/><rect x="9" y="14.3" width="2.7" height="2.7" fill="#00A4EF"/><rect x="12.3" y="14.3" width="2.7" height="2.7" fill="#FFB900"/></symbol>
+  <symbol id="i-taskview" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="11" rx="1.5" fill="#222"/><rect x="8" y="9" width="13" height="11" rx="1.5" fill="#fff" stroke="#222"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M14.5 14.5L20 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-battery" viewBox="0 0 24 24"><rect x="2" y="8" width="17" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="4" y="10" width="11" height="5" fill="#2E9E6B"/><rect x="20" y="10.5" width="2" height="4" rx=".8" fill="currentColor"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-7.95A5.5 5.5 0 0 0 7 9.5 4.3 4.3 0 0 0 7 18z" fill="#9DB7D5"/></symbol>
+  <symbol id="i-music" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#E5604D"/><path d="M10 8v7.2a2 2 0 1 1-1.4-1.9V7l6-1.4v6.6a2 2 0 1 1-1.4-1.9V7.7z" fill="#fff"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3" fill="#7B4FD0"/><path d="M10 8.5l5.5 3.5-5.5 3.5z" fill="#fff"/></symbol>
+  <symbol id="i-network" viewBox="0 0 24 24"><rect x="3" y="4" width="14" height="10" rx="1.5" fill="#5B8DD6"/><rect x="8" y="15" width="4" height="2" fill="#7A8088"/><rect x="12" y="12" width="9" height="7" rx="1" fill="#F3B63F"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="9" rx="2" fill="#B5BFCC" stroke="#7A8795"/><circle cx="18" cy="12.5" r="1.3" fill="#3FB06B"/></symbol>
+</svg>
+
+<div class="wrap">
+  <ol class="steps" id="stepper" hidden aria-label="Progression"></ol>
+
+  <!-- ACCUEIL -->
+  <section id="intro" class="panel">
+    <h1>Évaluation bureautique</h1>
+    <p class="lead">Gestion de fichiers et matériel informatique. Quatre exercices, environ vingt minutes. Chaque exercice se corrige dès que vous l’avez validé.</p>
+    <ul class="intro-list">
+      <li><span class="n">1</span><div><b>Le bureau</b><span class="d">Cliquez sur les bons éléments de l’écran.</span></div></li>
+      <li><span class="n">2</span><div><b>L’explorateur de fichiers</b><span class="d">Placez chaque étiquette sur la bonne zone.</span></div></li>
+      <li><span class="n">3</span><div><b>Le matériel</b><span class="d">Remettez les photos dans l’ordre de la liste.</span></div></li>
+      <li><span class="n">4</span><div><b>Les manipulations</b><span class="d">Répondez aux questions sur les fichiers et les dossiers.</span></div></li>
+    </ul>
+    <div class="field">
+      <label for="name">Votre nom</label>
+      <input id="name" type="text" autocomplete="off" placeholder="Prénom et nom">
+      <p class="note">🔒 Votre nom et vos résultats restent sur ce poste et ne sont conservés que pendant votre formation.</p>
+    </div>
+    <button class="btn" id="start">Commencer l’évaluation</button>
+    <button class="linkbtn" id="trainerBtn">Espace formateur</button>
+    <div class="field" id="pinbox" hidden>
+      <label for="pin">Code formateur</label>
+      <div class="row-actions"><input id="pin" type="password" autocomplete="off" style="font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:10px 14px"><button class="btn" id="pinok">Ouvrir</button></div>
+      <p class="note" id="pinerr" hidden>Code incorrect.</p>
+    </div>
+  </section>
+
+  <!-- EXERCICE 1 -->
+  <section id="ex1" class="panel" hidden>
+    <h2>Exercice 1 : le bureau</h2>
+    <p class="lead">Suivez la consigne en cliquant directement sur l’écran. Vous n’avez qu’un essai par consigne.</p>
+    <div class="ask" aria-live="polite">
+      <div id="q1text"></div>
+      <div class="dots" id="q1dots" aria-hidden="true"></div>
+    </div>
+    <div class="desk" id="desk" aria-label="Capture simulée du bureau Windows 11">
+      <div class="wallpaper" data-kind="wallpaper" data-label="le fond d’écran" role="button" tabindex="0" aria-label="Fond d’écran"></div>
+      <div class="desk-icons">
+        <button class="dicon" data-kind="bin" data-label="la Corbeille"><span class="ico"><svg viewBox="0 0 24 24"><use href="#i-bin"/></svg></span><span class="lbl">Corbeille</span></button>
+        <button class="dicon" data-kind="folder" data-label="le dossier Formation"><span class="ico"><svg viewBox="0 0 24 24"><use href="#i-folderdoc"/></svg></span><span class="lbl">Formation</span></button>
+        <button class="dicon sc" data-kind="program" data-label="le programme Google Chrome"><span class="ico"><svg viewBox="0 0 24 24"><use href="#i-chrome"/></svg></span><span class="lbl">Google Chrome</span></button>
+        <button class="dicon sc" data-kind="folder" data-label="le dossier scan"><span class="ico"><svg viewBox="0 0 24 24"><use href="#i-folder"/></svg></span><span class="lbl">scan</span></button>
+        <button class="dicon sc" data-kind="program" data-label="le programme Microsoft Edge"><span class="ico"><svg viewBox="0 0 24 24"><use href="#i-edge"/></svg></span><span class="lbl">Microsoft Edge</span></button>
+        <button class="dicon" data-kind="folder" data-label="le dossier Dossier évaluation"><span class="ico"><svg viewBox="0 0 24 24"><use href="#i-folder"/></svg></span><span class="lbl">DOSSIER EVALUATION</span></button>
+        <button class="dicon sc" data-kind="program" data-label="le programme VLC media player"><span class="ico"><svg viewBox="0 0 24 24"><use href="#i-vlc"/></svg></span><span class="lbl">VLC media player</span></button>
+        <button class="dicon sc" data-kind="program" data-label="le programme Intranet"><span class="ico"><svg viewBox="0 0 24 24"><use href="#i-edge"/></svg></span><span class="lbl">Intranet</span></button>
+        <button class="dicon sc" data-kind="program" data-label="le programme Chrome (profil 2)"><span class="ico"><svg viewBox="0 0 24 24"><use href="#i-chrome"/></svg></span><span class="lbl">Chrome (profil 2)</span></button>
+        <button class="dicon" data-kind="file" data-label="le fichier Projet professionnel.pptx"><span class="ico"><svg viewBox="0 0 24 24"><use href="#i-ppt"/></svg></span><span class="lbl">Projet professionnel.pptx</span></button>
+        <button class="dicon" data-kind="file" data-label="le fichier Compte-rendu.docx"><span class="ico"><svg viewBox="0 0 24 24"><use href="#i-word"/></svg></span><span class="lbl">Compte-rendu.docx</span></button>
+      </div>
+      <div class="taskbar" data-kind="taskbar" data-label="la barre des tâches" role="button" tabindex="0" aria-label="Barre des tâches">
+        <div class="tb-side tb-weather"><svg viewBox="0 0 24 24"><use href="#i-cloud"/></svg><span>9°C<small>Nuageux</small></span></div>
+        <div class="tb-center">
+          <button class="start" data-kind="start" data-label="le bouton Démarrer" aria-label="Bouton Démarrer"><svg viewBox="0 0 24 24"><use href="#i-logo"/></svg></button>
+          <div class="tb-search"><svg viewBox="0 0 24 24"><use href="#i-search"/></svg>Rechercher</div>
+          <span class="tb-ico" data-kind="program" data-label="le programme Microsoft Edge (épinglé dans la barre)" role="button" tabindex="0"><svg viewBox="0 0 24 24"><use href="#i-edge"/></svg></span>
+          <span class="tb-ico" data-kind="program" data-label="le programme Microsoft Store" role="button" tabindex="0"><svg viewBox="0 0 24 24"><use href="#i-store"/></svg></span>
+          <span class="tb-ico" data-kind="program" data-label="le programme Outlook" role="button" tabindex="0"><svg viewBox="0 0 24 24"><use href="#i-outlook"/></svg></span>
+          <span class="tb-ico" data-kind="program" data-label="le programme Explorateur de fichiers" role="button" tabindex="0"><svg viewBox="0 0 24 24"><use href="#i-folder"/></svg></span>
+          <span class="tb-ico" data-kind="program" data-label="le programme Google Chrome (épinglé dans la barre)" role="button" tabindex="0"><svg viewBox="0 0 24 24"><use href="#i-chrome"/></svg></span>
+          <span class="tb-ico" data-kind="program" data-label="le programme Word" role="button" tabindex="0"><svg viewBox="0 0 24 24"><use href="#i-wordapp"/></svg></span>
+        </div>
+        <div class="tb-side tb-end">
+          <div class="tray" data-kind="tray" data-label="l’horloge" role="button" tabindex="0" aria-label="Horloge, zone de notification">
+            <span class="hide-m">⌃</span>
+            <svg viewBox="0 0 24 24"><use href="#i-wifi"/></svg>
+            <svg viewBox="0 0 24 24"><use href="#i-sound"/></svg>
+            <svg class="hide-m" viewBox="0 0 24 24"><use href="#i-battery"/></svg>
+            <span>11:55<br>19/10/2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="r1" class="result" hidden></div>
+  </section>
+
+  <!-- EXERCICE 2 -->
+  <section id="ex2" class="panel" hidden>
+    <h2>Exercice 2 : l’explorateur de fichiers</h2>
+    <p class="lead">Glissez chaque étiquette sur la bonne zone de la fenêtre. Sur téléphone ou tablette, touchez une étiquette, puis touchez la zone.</p>
+    <div class="bank" id="bank" aria-label="Étiquettes disponibles"></div>
+    <div class="count" id="count2" aria-live="polite"></div>
+
+    <div class="exp" id="exp" aria-label="Capture simulée de l’explorateur de fichiers de Windows 11">
+      <div class="exp-tabs"><div class="tab"><svg viewBox="0 0 24 24"><use href="#i-network"/></svg><span>Réseau</span><span>✕</span></div><span class="plus">+</span><span class="wc">— ☐ ✕</span></div>
+      <div class="exp-nav">
+        <div class="zone nav-z" data-zone="acces" tabindex="0" aria-label="Boutons de navigation juste au-dessus du ruban">
+          <div class="fake nav-fake">← → ↑ ✕</div><div class="slot"></div>
+        </div>
+        <div class="zone addr-z" data-zone="chemin" tabindex="0" aria-label="Barre qui indique où l’on se trouve">
+          <div class="fake pathfake"><svg viewBox="0 0 24 24"><use href="#i-network"/></svg><span>›</span><b>Réseau</b></div><div class="slot"></div>
+        </div>
+        <div class="zone search-z" data-zone="recherche" tabindex="0" aria-label="Champ en haut à droite">
+          <div class="fake pathfake">Rechercher dans : Réseau</div><div class="slot"></div>
+        </div>
+      </div>
+      <div class="zone ribbon-z" data-zone="ruban" tabindex="0" aria-label="Barre de commandes : Nouveau, Trier, Afficher, Aperçu">
+        <div class="fake cmd-fake"><span>⊕ Nouveau ▾</span><span>✂ ⧉ ⎘ ⌫</span><span>⇅ Trier ▾</span><span>☰ Afficher ▾</span><span>···</span><span class="push">▯ Aperçu</span></div>
+        <div class="slot"></div>
+      </div>
+      <div class="exp-body">
+        <div class="zone tree-z" data-zone="volet" tabindex="0" aria-label="Colonne de gauche">
+          <div class="fake list-fake">
+            <i></i>
+            <span><svg viewBox="0 0 24 24"><use href="#i-desktop"/></svg>Bureau</span>
+            <span><svg viewBox="0 0 24 24"><use href="#i-download"/></svg>Téléchargements</span>
+            <span><svg viewBox="0 0 24 24"><use href="#i-text"/></svg>Documents</span>
+            <span><svg viewBox="0 0 24 24"><use href="#i-gallery"/></svg>Images</span>
+            <span><svg viewBox="0 0 24 24"><use href="#i-music"/></svg>Musique</span>
+            <span><svg viewBox="0 0 24 24"><use href="#i-video"/></svg>Vidéos</span>
+            <span><svg viewBox="0 0 24 24"><use href="#i-folder"/></svg>1 - Bases</span>
+            <span><svg viewBox="0 0 24 24"><use href="#i-folder"/></svg>Consignes WORD</span>
+            <i></i>
+            <span><svg viewBox="0 0 24 24"><use href="#i-pc"/></svg>Ce PC</span>
+            <span><svg viewBox="0 0 24 24"><use href="#i-disk"/></svg>Espace Pédagogique (L:)</span>
+            <span><svg viewBox="0 0 24 24"><use href="#i-disk"/></svg>Formateurs (P:)</span>
+            <span><svg viewBox="0 0 24 24"><use href="#i-disk"/></svg>Stagiaires (U:)</span>
+            <span><svg viewBox="0 0 24 24"><use href="#i-network"/></svg>Réseau</span>
+          </div>
+          <div class="slot"></div>
+        </div>
+        <div class="zone files-z" data-zone="contenu" tabindex="0" aria-label="Grande zone qui affiche le contenu du dossier">
+          <div class="fake empty-msg">Ce dossier est vide.</div>
+          <div class="slot"></div>
+        </div>
+      </div>
+      <div class="exp-status">0 élément(s)</div>
+    </div>
+    <div class="row-actions">
+      <button class="btn" id="v2">Valider l’exercice</button>
+    </div>
+    <p class="note" id="n2" hidden></p>
+    <div id="r2" class="result" hidden></div>
+  </section>
+
+  <!-- EXERCICE 3 -->
+  <section id="ex3" class="panel" hidden>
+    <h2>Exercice 3 : le matériel</h2>
+    <p class="lead">La liste de gauche est fixe. Déplacez les photos de droite pour que chacune se trouve en face du bon composant. Utilisez la poignée à gauche de chaque photo, ou les flèches.</p>
+    <div class="hw" id="hw"></div>
+    <div class="row-actions">
+      <button class="btn" id="v3">Valider l’ordre</button>
+    </div>
+    <div id="r3" class="result" hidden></div>
+  </section>
+
+  <!-- EXERCICE 4 -->
+  <section id="ex4" class="panel" hidden>
+    <h2>Exercice 4 : manipuler fichiers et dossiers</h2>
+    <p class="lead">Une seule bonne réponse par question.</p>
+    <div class="quiz" id="quiz"></div>
+    <div class="row-actions">
+      <button class="btn" id="v4">Valider l’exercice</button>
+    </div>
+    <p class="note" id="n4" hidden></p>
+    <div id="r4" class="result" hidden></div>
+  </section>
+
+  <!-- RÉSULTAT -->
+  <section id="result" class="panel" hidden>
+    <h2>Résultat de l’évaluation</h2>
+    <div id="final"></div>
+  </section>
+
+  <!-- ESPACE FORMATEUR -->
+  <section id="trainer" class="panel" hidden>
+    <h2>Espace formateur</h2>
+    <p class="status" id="tstatus"></p>
+    <div class="tbl-wrap" id="ttable"></div>
+    <div class="row-actions">
+      <button class="btn" id="csv">Télécharger le tableau (CSV)</button>
+      <button class="btn ghost" data-go="intro">Retour à l’accueil</button>
+      <button class="btn ghost" id="wipe">Effacer tous les résultats</button>
+    </div>
+    <p class="note" id="tnote" hidden></p>
+    <h3>Résultats reçus par message</h3>
+    <p class="lead">Si un stagiaire ne peut pas transmettre son résultat automatiquement, il vous envoie le texte qu’il a copié. Collez-le ici, plusieurs messages à la suite sont acceptés.</p>
+    <textarea class="paste" id="paste" placeholder="Collez ici les résultats reçus"></textarea>
+    <div class="row-actions"><button class="btn ghost" id="addpaste">Ajouter au tableau</button></div>
+    <p class="note" id="pastenote" hidden></p>
+  </section>
+</div>
+
+<script src="livret/resultat-activite.js"></script>
+<script>
+(function(){
+  "use strict";
+  const $  = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+  const shuffle = a => { a=[...a]; for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+
+  const EX_NAMES = ['Le bureau','L’explorateur','Le matériel','Les manipulations'];
+  const MAX = [8,6,8,8];
+  const scores = [0,0,0,0];
+  const panels = ['intro','ex1','ex2','ex3','ex4','result','trainer'];
+  let studentName = '';
+
+  /* ---------- Les résultats restent sur ce poste : rien n'est envoyé sur Internet ---------- */
+  const CODE_FORMATEUR = 'formateur2026';   // à modifier : code demandé pour ouvrir l’espace formateur
+  const CLE_EVALUATION = 'cours-bureautique:evaluations';
+  const isTrainerView = /[?&]formateur(=|&|$)/.test(location.search);
+
+  const finished=[0,0,0,0];
+  const times=[0,0,0,0];
+  let exStart=Date.now();
+  const fmtDur=sec=>{ sec=Math.round(sec||0); const m=Math.floor(sec/60), r=sec%60; return m ? m+' min '+String(r).padStart(2,'0')+' s' : r+' s'; };
+  const errs={1:[],2:[],3:[],4:[]};
+  let live=[], liveFailed=false, startedAt=Date.now();
+  const imported=new Map();
+  const cleSession = String(Date.now()) + '-' + Math.random().toString(36).slice(2, 8);
+  let etatEnvoi = 'idle';
+
+  function markDone(i,s,e){ scores[i]=s; finished[i]=1; errs[i+1]=e; times[i]=Math.max(1,Math.round((Date.now()-exStart)/1000)); sync(); }
+  function payload(){
+    return {v:1, n:studentName||'Stagiaire', t:startedAt, u:Date.now(), s:[...scores], d:[...finished], x:[...times], e:{1:errs[1],2:errs[2],3:errs[3],4:errs[4]}};
+  }
+  function lireLocal(){
+    try{ return JSON.parse(localStorage.getItem(CLE_EVALUATION)) || {}; }catch(_){ return {}; }
+  }
+  function chargerLocal(){
+    live=Object.entries(lireLocal()).map(([k,v])=>({...v,_k:k})).filter(x=>x && x.v===1 && Array.isArray(x.s));
+  }
+  function sync(){
+    try{
+      const tous=lireLocal();
+      tous[cleSession]=payload();
+      localStorage.setItem(CLE_EVALUATION,JSON.stringify(tous));
+      etatEnvoi='sent';
+    }catch(_){ etatEnvoi='failed'; }
+    // Le total apparaît aussi dans « Mon bilan », sans les réponses.
+    if(finished.every(Boolean) && typeof ResultatActivite!=='undefined'){
+      ResultatActivite.noter({titre:'Évaluation : fichiers et matériel',type:'Évaluation',score:scores.reduce((a,b)=>a+b,0),total:MAX.reduce((a,b)=>a+b,0)});
+    }
+    updateStatusUI();
+  }
+  function updateStatusUI(){
+    const el=$('#netstatus'), blk=$('#sendblock'); if(!el||!blk) return;
+    const m={
+      sent:['ok','Résultat enregistré sur ce poste. Vous n’avez rien d’autre à faire.'],
+      failed:['warn','Le résultat n’a pas pu être enregistré sur ce poste : prévenez votre formateur.']
+    }[etatEnvoi] || ['',''];
+    el.className='status '+m[0]; el.textContent=m[1]; el.hidden=!m[1];
+    blk.hidden=true;
+  }
+  function makeCode(){
+    const bytes=new TextEncoder().encode(JSON.stringify(payload()));
+    let bin=''; bytes.forEach(b=>{ bin+=String.fromCharCode(b); });
+    return 'EVAL1:'+btoa(bin);
+  }
+  function readCodes(text){
+    const out=[]; const re=/EVAL1:([A-Za-z0-9+\/=]+)/g; let m;
+    while((m=re.exec(text))){
+      try{
+        const bytes=Uint8Array.from(atob(m[1]),c=>c.charCodeAt(0));
+        const o=JSON.parse(new TextDecoder().decode(bytes));
+        if(o && o.v===1 && Array.isArray(o.s)) out.push(o);
+      }catch(_){}
+    }
+    return out;
+  }
+
+  /* ---------- Espace formateur ---------- */
+  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const fmtDate=t=>new Date(t).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+  const note20=t=>String(Math.round(t/30*200)/10).replace('.',',');
+  function allRows(){
+    const m=new Map();
+    imported.forEach((r,k)=>m.set(k,r));
+    live.forEach(r=>m.set('fb:'+r._k,r));
+    return [...m.values()].sort((a,b)=>(b.u||b.t)-(a.u||a.t));
+  }
+  function errLabels(r){
+    const e=r.e||{}, out=[];
+    (e[1]||[]).forEach(i=>{ if(Q1[i]) out.push(['Exercice 1',Q1[i].t]); });
+    (e[2]||[]).forEach(id=>{ const z=ZONES.find(z=>z.id===id); if(z) out.push(['Exercice 2',z.name]); });
+    (e[3]||[]).forEach(id=>{ const h=HW.find(h=>h.id===id); if(h) out.push(['Exercice 3',h.name]); });
+    (e[4]||[]).forEach(i=>{ if(QUIZ[i]) out.push(['Exercice 4',(i+1)+'. '+QUIZ[i].q]); });
+    return out;
+  }
+  function renderTrainer(){
+    chargerLocal();
+    const ts=$('#tstatus');
+    ts.className='status ok';
+    ts.textContent='Résultats enregistrés sur ce poste uniquement. Vous pouvez aussi coller ici un résultat copié ailleurs.';
+    const rows=allRows();
+    if(!rows.length){ $('#ttable').innerHTML='<p style="padding:14px">Aucun résultat pour le moment.</p>'; return; }
+    $('#ttable').innerHTML='<table class="res"><thead><tr><th>Stagiaire</th><th>Date</th><th class="num">Ex. 1</th><th class="num">Ex. 2</th><th class="num">Ex. 3</th><th class="num">Ex. 4</th><th class="num">Total</th><th class="num">Sur 20</th><th class="num">Durée</th></tr></thead><tbody>'+
+      rows.map(r=>{
+        const total=r.s.reduce((a,b)=>a+b,0);
+        const done=(r.d||[]).reduce((a,b)=>a+b,0);
+        const el=errLabels(r);
+        const dur=(r.x||[]).reduce((a,b)=>a+b,0);
+        const tline=r.x ? `<p class="errs">Temps : ${r.x.map((t,i)=>r.d&&r.d[i]?'ex. '+(i+1)+' '+fmtDur(t):'').filter(Boolean).join(', ')}</p>` : '';
+        const detail = done<4 ? `<p class="errs">En cours : ${done} exercice(s) terminé(s) sur 4.</p>` : '';
+        const list = el.length
+          ? `<ul class="errs">${el.map(([a,b])=>`<li>${esc(a)} : ${esc(b)}</li>`).join('')}</ul>`
+          : (done===4?'<p class="errs">Aucune erreur.</p>':'');
+        return `<tr><td><details><summary>${esc(r.n)}</summary>${detail}${tline}${list}</details></td><td>${fmtDate(r.u||r.t)}</td>`+
+          [0,1,2,3].map(i=>`<td class="num">${r.d && r.d[i] ? r.s[i]+' / '+MAX[i] : '—'}</td>`).join('')+
+          `<td class="num"><b>${total} / 30</b></td><td class="num">${note20(total)}</td><td class="num">${r.x?fmtDur(dur):'—'}</td></tr>`;
+      }).join('')+'</tbody></table>';
+  }
+  function csvCell(v){ v=String(v); return /[;"\n]/.test(v) ? '"'+v.replace(/"/g,'""')+'"' : v; }
+  function openTrainer(){ $('#pinbox').hidden=true; renderTrainer(); go('trainer'); }
+  $('#trainerBtn').addEventListener('click',()=>{
+    if(isTrainerView){ openTrainer(); return; }
+    $('#pinbox').hidden=false; $('#pin').focus();
+  });
+  function tryPin(){
+    if($('#pin').value===CODE_FORMATEUR){ $('#pin').value=''; $('#pinerr').hidden=true; openTrainer(); }
+    else { $('#pinerr').hidden=false; }
+  }
+  $('#pinok').addEventListener('click',tryPin);
+  $('#pin').addEventListener('keydown',e=>{ if(e.key==='Enter') tryPin(); });
+  $('#csv').addEventListener('click',()=>{
+    const note=$('#tnote'); note.hidden=false;
+    const rows=allRows();
+    if(!rows.length){ note.textContent='Aucun résultat à exporter pour le moment.'; return; }
+    const head=['Stagiaire','Date','Exercice 1 (/8)','Exercice 2 (/6)','Exercice 3 (/8)','Exercice 4 (/8)','Total (/30)','Note (/20)','Durée totale','Durée totale (secondes)','Durée ex. 1','Durée ex. 2','Durée ex. 3','Durée ex. 4','Exercices terminés','Erreurs'];
+    const lines=[head.map(csvCell).join(';')];
+    rows.forEach(r=>{
+      const total=r.s.reduce((a,b)=>a+b,0);
+      const done=(r.d||[]).reduce((a,b)=>a+b,0);
+      lines.push([r.n,new Date(r.u||r.t).toLocaleString('fr-FR'),...[0,1,2,3].map(i=>r.d&&r.d[i]?r.s[i]:''),total,note20(total),(r.x?fmtDur((r.x||[]).reduce((a,b)=>a+b,0)):''),(r.x?(r.x||[]).reduce((a,b)=>a+b,0):''),...[0,1,2,3].map(i=>r.x&&r.d&&r.d[i]?fmtDur(r.x[i]):''),done,errLabels(r).map(x=>x[0]+' : '+x[1]).join(' | ')].map(csvCell).join(';'));
+    });
+    try{
+      const blob=new Blob(['\uFEFF'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'});
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(blob); a.download='resultats-evaluation.csv';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(a.href),3000);
+      note.textContent='Tableau téléchargé : ouvrez le fichier CSV avec Excel.';
+    }catch(_){ note.textContent='Le téléchargement a échoué. Réessayez.'; }
+  });
+  $('#wipe').addEventListener('click',async function(){
+    const note=$('#tnote'); note.hidden=false;
+    if(!this.dataset.sure){ this.dataset.sure='1'; this.textContent='Cliquez encore pour tout effacer'; return; }
+    delete this.dataset.sure; this.textContent='Effacer tous les résultats';
+    try{ localStorage.removeItem(CLE_EVALUATION); imported.clear(); live=[]; renderTrainer(); note.textContent='Tous les résultats de ce poste ont été effacés.'; }
+    catch(_){ note.textContent='Effacement impossible.'; }
+  });
+  $('#addpaste').addEventListener('click',()=>{
+    const found=readCodes($('#paste').value);
+    const note=$('#pastenote'); note.hidden=false;
+    if(!found.length){ note.textContent='Aucun résultat reconnu dans le texte collé. Vérifiez que la ligne « Code : EVAL1:… » est complète.'; return; }
+    found.forEach(r=>imported.set(r.n+'|'+r.t,r));
+    $('#paste').value='';
+    note.textContent=found.length+' résultat(s) ajouté(s) au tableau.';
+    renderTrainer();
+  });
+
+  /* ---------- Navigation ---------- */
+  function renderStepper(active){
+    $('#stepper').innerHTML = EX_NAMES.map((n,i)=>
+      `<li class="${i<active?'done':''} ${i===active?'now':''}" ${i===active?'aria-current="step"':''}><span class="dot">${i<active?'✓':i+1}</span><span class="lbl">${n}</span></li>`
+    ).join('');
+  }
+  function go(id){
+    panels.forEach(p => { $('#'+p).hidden = (p!==id); });
+    const idx = panels.indexOf(id)-1;
+    const inEx = idx>=0 && idx<=3;
+    $('#stepper').hidden = !inEx;
+    if(inEx) exStart=Date.now();
+    if(inEx) renderStepper(idx);
+    window.scrollTo({top:0});
+  }
+  document.addEventListener('click', e=>{
+    const b = e.target.closest('[data-go]');
+    if(!b) return;
+    if(b.dataset.go==='result') showResult();
+    go(b.dataset.go);
+  });
+
+  function verdictText(s,m){
+    if(s===m) return 'Parfait, aucune erreur.';
+    if(s>=m*0.6) return 'Bien, quelques points sont à revoir.';
+    return 'À revoir avec votre formateur.';
+  }
+  function scoreBox(i,s){
+    scores[i]=s;
+    return `<div class="scorebox ${s===MAX[i]?'full':''}"><strong>${s} / ${MAX[i]}</strong><span>${verdictText(s,MAX[i])}</span></div>`;
+  }
+  function nextBtn(target,label){
+    return `<div class="row-actions"><button class="btn" data-go="${target}">${label}</button></div>`;
+  }
+  function guard(btn, note, missing, noun, run){
+    if(missing>0 && !btn.dataset.sure){
+      btn.dataset.sure='1';
+      note.hidden=false;
+      note.textContent=`Il reste ${missing} ${noun}. Cliquez de nouveau sur « ${btn.textContent} » pour terminer quand même.`;
+      return;
+    }
+    note.hidden=true;
+    run();
+    btn.hidden=true;
+  }
+
+  /* ---------- Glisser-déposer générique (souris, doigt, stylet) ---------- */
+  function dragify(handle, o){
+    handle.addEventListener('pointerdown', e=>{
+      if(e.pointerType==='mouse' && e.button!==0) return;
+      if(o.disabled && o.disabled()) return;
+      const sx=e.clientX, sy=e.clientY;
+      const src=o.ghostOf();
+      let ghost=null, hover=null, moved=false, ox=0, oy=0;
+      try{ handle.setPointerCapture(e.pointerId); }catch(_){}
+      const clearHover=()=>{ if(hover) hover.classList.remove('over'); hover=null; };
+      const move=ev=>{
+        if(!moved && Math.hypot(ev.clientX-sx, ev.clientY-sy)>6){
+          moved=true;
+          const r=src.getBoundingClientRect();
+          ox=sx-r.left; oy=sy-r.top;
+          ghost=src.cloneNode(true);
+          ghost.classList.add('drag-ghost');
+          ghost.style.width=r.width+'px';
+          ghost.style.height=r.height+'px';
+          document.body.appendChild(ghost);
+          src.classList.add('dragging');
+        }
+        if(moved){
+          ghost.style.left=(ev.clientX-ox)+'px';
+          ghost.style.top=(ev.clientY-oy)+'px';
+          const under=document.elementFromPoint(ev.clientX, ev.clientY);
+          const t=under ? under.closest(o.targetSel) : null;
+          if(t!==hover){ clearHover(); hover=t; if(t) t.classList.add('over'); }
+        }
+      };
+      const finish=(drop)=>{
+        handle.removeEventListener('pointermove',move);
+        handle.removeEventListener('pointerup',up);
+        handle.removeEventListener('pointercancel',cancel);
+        if(ghost) ghost.remove();
+        src.classList.remove('dragging');
+        const t=hover; clearHover();
+        if(moved){ if(drop && t) o.onDrop(t); }
+        else if(drop && o.onTap){ o.onTap(); }
+      };
+      const up=()=>finish(true);
+      const cancel=()=>finish(false);
+      handle.addEventListener('pointermove',move);
+      handle.addEventListener('pointerup',up);
+      handle.addEventListener('pointercancel',cancel);
+    });
+  }
+
+  /* =====================================================
+     EXERCICE 1 : cliquer sur le bureau
+     ===================================================== */
+  const Q1 = [
+    {t:'Cliquez sur l’icône d’un programme.', kind:'program', hint:'Un programme se lance depuis son icône (Chrome, Edge, VLC…). La petite flèche en bas à gauche indique un raccourci. Les icônes de la barre des tâches sont aussi des programmes.'},
+    {t:'Cliquez sur l’icône d’un fichier.', kind:'file', hint:'Un fichier a une icône de page : ici « Projet professionnel.pptx » et « Compte-rendu.docx ».'},
+    {t:'Cliquez sur un dossier.', kind:'folder', hint:'Un dossier est une icône jaune qui sert à ranger des fichiers : ici « Formation », « scan » et « DOSSIER EVALUATION ».'},
+    {t:'Cliquez sur la Corbeille.', kind:'bin', hint:'La Corbeille est l’icône en haut à gauche du bureau.'},
+    {t:'Cliquez sur la barre des tâches.', kind:'taskbar', hint:'La barre des tâches est la bande tout en bas de l’écran, avec le bouton Démarrer et l’horloge.'},
+    {t:'Cliquez sur le bouton Démarrer.', kind:'start', hint:'Le bouton Démarrer est le logo aux quatre carrés, au milieu de la barre des tâches.'},
+    {t:'Cliquez sur l’horloge.', kind:'tray', hint:'L’horloge se trouve dans la zone de notification, à droite de la barre des tâches.'},
+    {t:'Cliquez sur le fond d’écran.', kind:'wallpaper', hint:'Le fond d’écran est l’image qui occupe tout l’écran, en dehors des icônes.'}
+  ];
+  let i1=0, done1=false; const ans1=[];
+  const desk=$('#desk');
+
+  function setQ1(){
+    const q=Q1[i1];
+    $('#q1text').innerHTML=`<small>Consigne ${i1+1} sur ${Q1.length}</small><strong>${q.t}</strong>`;
+    $('#q1dots').innerHTML=Q1.map((_,k)=>`<i class="${k<i1?'d':k===i1?'n':''}"></i>`).join('');
+  }
+  function pick(el){
+    if(done1) return;
+    const q=Q1[i1];
+    const near=el.closest('[data-kind]');
+    const kind=near ? near.dataset.kind : 'wallpaper';
+    const inTask=!!el.closest('[data-kind="taskbar"]');
+    const ok = q.kind==='taskbar' ? inTask : kind===q.kind;
+    ans1.push({ok, label: near ? near.dataset.label : 'le fond d’écran'});
+    const flashEl = near || desk;
+    flashEl.classList.add('picked');
+    setTimeout(()=>flashEl.classList.remove('picked'),380);
+    i1++;
+    if(i1>=Q1.length) finish1(); else setQ1();
+  }
+  desk.addEventListener('click', e=>pick(e.target));
+  desk.addEventListener('keydown', e=>{
+    if((e.key==='Enter'||e.key===' ') && e.target.matches('[role="button"]:not(button)')){
+      e.preventDefault(); pick(e.target);
+    }
+  });
+  function finish1(){
+    done1=true;
+    const s=ans1.filter(a=>a.ok).length;
+    markDone(0,s,ans1.map((a,k)=>a.ok?-1:k).filter(k=>k>=0));
+    $('#q1text').innerHTML='<small>Exercice terminé</small><strong>Voici la correction.</strong>';
+    $('#q1dots').innerHTML=Q1.map(()=>'<i class="d"></i>').join('');
+    const r=$('#r1'); r.hidden=false;
+    r.innerHTML=`<h3>Correction</h3>
+      <ul class="fb">${Q1.map((q,k)=>{const a=ans1[k]; return `<li class="${a.ok?'ok':'bad'}"><span class="ic">${a.ok?'✓':'✗'}</span><div><b>${q.t}</b>${a.ok?'':`<div class="sub">Vous avez cliqué sur ${a.label}. ${q.hint}</div>`}</div></li>`;}).join('')}</ul>
+      ${scoreBox(0,s)}${nextBtn('ex2','Passer à l’exercice 2')}`;
+    r.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+
+  /* =====================================================
+     EXERCICE 2 : étiquettes sur l'explorateur
+     ===================================================== */
+  const ZONES=[
+    {id:'ruban', name:'Ruban', where:'La barre de commandes sous la ligne du chemin (Nouveau, Trier, Afficher, Aperçu…)', why:'Le ruban regroupe les commandes (Nouveau, Copier, Coller, Renommer, Trier, Afficher…).'},
+    {id:'chemin', name:'Chemin d’accès', where:'La barre qui indique où vous êtes (ici : Réseau)', why:'Le chemin d’accès montre où vous êtes dans l’arborescence. On peut cliquer sur un niveau pour y remonter.'},
+    {id:'recherche', name:'Barre de recherche', where:'Le champ en haut à droite (« Rechercher dans : Réseau »)', why:'La barre de recherche cherche un fichier par son nom dans le dossier affiché.'},
+    {id:'acces', name:'Accès rapide', where:'La bande des boutons de navigation (précédent, suivant, remonter, arrêter le chargement), juste au-dessus du ruban', why:'Ces boutons servent à revenir en arrière, avancer, remonter d’un dossier ou arrêter le chargement.'},
+    {id:'volet', name:'Volet de navigation', where:'La colonne de gauche (dossiers épinglés, Ce PC, Réseau)', why:'Le volet de navigation affiche les dossiers, les disques et le réseau pour se déplacer dans l’ordinateur.'},
+    {id:'contenu', name:'Contenu du dossier', where:'La grande zone de droite (ici : « Ce dossier est vide »)', why:'C’est ici que s’affichent les fichiers et les sous-dossiers du dossier ouvert.'}
+  ];
+  const bank=$('#bank');
+  let sel=null, locked2=false;
+
+  function clearSel(){ if(sel){ sel.classList.remove('sel'); sel=null; } }
+  function count2(){
+    const n=$$('.zone .slot .chip',$('#exp')).length;
+    $('#count2').textContent=`${n} / ${ZONES.length} étiquettes placées`;
+  }
+  function toBank(c){ bank.appendChild(c); clearSel(); count2(); }
+  function place(c, zoneEl){
+    const slot=$('.slot',zoneEl);
+    const prev=slot.querySelector('.chip');
+    if(prev && prev!==c) bank.appendChild(prev);
+    slot.appendChild(c);
+    clearSel(); count2();
+  }
+  function tapChip(c){
+    if(locked2) return;
+    if(sel===c){ clearSel(); return; }
+    clearSel(); sel=c; c.classList.add('sel');
+  }
+  shuffle(ZONES).forEach(z=>{
+    const c=document.createElement('div');
+    c.className='chip'; c.textContent=z.name; c.dataset.id=z.id;
+    c.tabIndex=0; c.setAttribute('role','button');
+    bank.appendChild(c);
+    dragify(c,{
+      ghostOf:()=>c, targetSel:'.zone, #bank', disabled:()=>locked2,
+      onDrop:t=>{ if(t.id==='bank') toBank(c); else place(c,t); },
+      onTap:()=>tapChip(c)
+    });
+    c.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); tapChip(c); }});
+  });
+  $$('.zone',$('#exp')).forEach(z=>{
+    z.addEventListener('click',e=>{
+      if(locked2 || e.target.closest('.chip')) return;
+      if(sel) place(sel,z);
+    });
+    z.addEventListener('keydown',e=>{
+      if((e.key==='Enter'||e.key===' ') && e.target===z){ e.preventDefault(); if(sel && !locked2) place(sel,z); }
+    });
+  });
+  bank.addEventListener('click',e=>{
+    if(locked2 || e.target.closest('.chip')) return;
+    if(sel) toBank(sel);
+  });
+  count2();
+
+  $('#v2').addEventListener('click',function(){
+    const placedN=$$('.zone .slot .chip',$('#exp')).length;
+    guard(this,$('#n2'),ZONES.length-placedN,'étiquette(s) non placée(s)',()=>{
+      locked2=true; clearSel();
+      let ok=0; const wrong=[];
+      ZONES.forEach(z=>{
+        const zel=$(`.zone[data-zone="${z.id}"]`,$('#exp'));
+        const chip=$('.chip',zel);
+        const good=chip && chip.dataset.id===z.id;
+        if(good) ok++; else wrong.push(z);
+        zel.classList.add(good?'ok':'bad');
+      });
+      markDone(1,ok,wrong.map(z=>z.id));
+      const r=$('#r2'); r.hidden=false;
+      r.innerHTML=`<h3>Correction</h3>
+        ${wrong.length?`<ul class="fb">${wrong.map(z=>`<li class="bad"><span class="ic">✗</span><div><b>${z.name}</b><div class="sub">${z.where}. ${z.why}</div></div></li>`).join('')}</ul>`:'<p>Toutes les étiquettes sont au bon endroit.</p>'}
+        ${scoreBox(1,ok)}${nextBtn('ex3','Passer à l’exercice 3')}`;
+      r.scrollIntoView({behavior:'smooth',block:'nearest'});
+    });
+  });
+
+  /* =====================================================
+     EXERCICE 3 : remettre les photos dans l'ordre
+     ===================================================== */
+  const keyRows=(rows,cols,x0,y0,dx,dy,w,h,fill)=>{
+    let s='';
+    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++)
+      s+=`<rect x="${x0+c*dx}" y="${y0+r*dy}" width="${w}" height="${h}" rx="1.2" fill="${fill}"/>`;
+    return s;
+  };
+  const SVG={
+    tour:`<svg viewBox="0 0 120 84" role="img"><rect x="36" y="5" width="48" height="74" rx="4" fill="#3A4252" stroke="#1F2530" stroke-width="2"/><rect x="43" y="12" width="34" height="8" rx="1.5" fill="#1F2530"/><rect x="43" y="24" width="34" height="8" rx="1.5" fill="#1F2530"/><circle cx="60" cy="46" r="6" fill="none" stroke="#6BD1DC" stroke-width="2"/><line x1="60" y1="39" x2="60" y2="46" stroke="#6BD1DC" stroke-width="2"/><g stroke="#566074" stroke-width="1.6"><line x1="44" y1="58" x2="76" y2="58"/><line x1="44" y1="62" x2="76" y2="62"/><line x1="44" y1="66" x2="76" y2="66"/></g><circle cx="48" cy="73" r="2" fill="#6BD1DC"/><rect x="54" y="71.5" width="6" height="3" fill="#1F2530"/><rect x="63" y="71.5" width="6" height="3" fill="#1F2530"/></svg>`,
+    ecran:`<svg viewBox="0 0 120 84" role="img"><rect x="12" y="7" width="96" height="58" rx="4" fill="#2B3240"/><rect x="17" y="12" width="86" height="48" rx="1.5" fill="#79C3E0"/><rect x="24" y="18" width="38" height="24" fill="#fff" opacity=".75"/><rect x="66" y="18" width="30" height="8" fill="#fff" opacity=".45"/><rect x="54" y="65" width="12" height="9" fill="#2B3240"/><rect x="38" y="74" width="44" height="5" rx="2.5" fill="#2B3240"/></svg>`,
+    clavier:`<svg viewBox="0 0 120 84" role="img"><rect x="5" y="20" width="110" height="46" rx="5" fill="#C9D2DD" stroke="#8E9BAD" stroke-width="1.5"/>${keyRows(3,12,10,25,8.6,9.5,7,7,'#fff')}<rect x="28" y="54" width="62" height="7" rx="1.5" fill="#fff"/><rect x="10" y="54" width="14" height="7" rx="1.5" fill="#fff"/><rect x="94" y="54" width="16" height="7" rx="1.5" fill="#fff"/></svg>`,
+    souris:`<svg viewBox="0 0 120 84" role="img"><path d="M60 6C85 6 91 28 91 50C91 70 79 78 60 78C41 78 29 70 29 50C29 28 35 6 60 6Z" fill="#E4E9F0" stroke="#8E9BAD" stroke-width="2"/><path d="M29 36H91M60 6V36" stroke="#8E9BAD" stroke-width="2" fill="none"/><rect x="56" y="14" width="8" height="15" rx="4" fill="#566074"/></svg>`,
+    imprimante:`<svg viewBox="0 0 120 84" role="img"><rect x="32" y="6" width="56" height="24" fill="#fff" stroke="#8E9BAD" stroke-width="1.5"/><rect x="10" y="28" width="100" height="36" rx="5" fill="#9AA6B6" stroke="#5E6B7E" stroke-width="2"/><rect x="20" y="38" width="54" height="4" fill="#5E6B7E"/><circle cx="96" cy="40" r="3.2" fill="#59C98A"/><circle cx="86" cy="40" r="2.2" fill="#E8C766"/><rect x="26" y="56" width="68" height="22" fill="#fff" stroke="#8E9BAD" stroke-width="1.5"/><path d="M33 64H87M33 70H75" stroke="#B8C2CF" stroke-width="2"/></svg>`,
+    cle:`<svg viewBox="0 0 120 84" role="img"><rect x="8" y="31" width="28" height="22" fill="#C9D2DD" stroke="#8E9BAD" stroke-width="1.5"/><rect x="14" y="37" width="6" height="6" fill="#566074"/><rect x="24" y="37" width="6" height="6" fill="#566074"/><rect x="36" y="25" width="68" height="34" rx="8" fill="#2E86AB"/><rect x="46" y="33" width="28" height="18" rx="3" fill="#fff" opacity=".2"/><circle cx="92" cy="42" r="4.5" fill="none" stroke="#fff" stroke-width="2"/></svg>`,
+    disque:`<svg viewBox="0 0 120 84" role="img"><rect x="14" y="8" width="92" height="68" rx="6" fill="#B5BFCC" stroke="#5E6B7E" stroke-width="2"/><circle cx="54" cy="42" r="26" fill="#E9EEF4" stroke="#5E6B7E" stroke-width="2"/><circle cx="54" cy="42" r="8" fill="#8E9BAD"/><circle cx="54" cy="42" r="2.5" fill="#5E6B7E"/><path d="M94 16L66 38" stroke="#566074" stroke-width="4.5" stroke-linecap="round"/><circle cx="94" cy="16" r="4.5" fill="#566074"/><g fill="#5E6B7E"><circle cx="21" cy="15" r="2"/><circle cx="99" cy="69" r="2"/><circle cx="21" cy="69" r="2"/></g></svg>`,
+    ram:`<svg viewBox="0 0 120 84" role="img"><rect x="5" y="20" width="110" height="38" fill="#2F8F5B" stroke="#1F6A41" stroke-width="1.5"/>${keyRows(1,6,12,26,17.5,24,13,24,'#1F2530').replace(/rx="1.2"/g,'rx="1.5"')}<g fill="#E3B341">${Array.from({length:21},(_,i)=>(i<10||i>10)?`<rect x="${8+i*5}" y="58" width="3" height="7"/>`:'').join('')}</g><rect x="56" y="55" width="6" height="12" fill="#F2F5F8"/></svg>`
+  };
+  const HW=[
+    {id:'tour', name:'Unité centrale', svg:SVG.tour},
+    {id:'ecran', name:'Écran', svg:SVG.ecran},
+    {id:'clavier', name:'Clavier', svg:SVG.clavier},
+    {id:'souris', name:'Souris', svg:SVG.souris},
+    {id:'imprimante', name:'Imprimante', svg:SVG.imprimante},
+    {id:'cle', name:'Clé USB', svg:SVG.cle},
+    {id:'disque', name:'Disque dur', svg:SVG.disque},
+    {id:'ram', name:'Barrette de mémoire vive (RAM)', svg:SVG.ram}
+  ];
+  const GRIP='<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.8"/><circle cx="15" cy="6" r="1.8"/><circle cx="9" cy="12" r="1.8"/><circle cx="15" cy="12" r="1.8"/><circle cx="9" cy="18" r="1.8"/><circle cx="15" cy="18" r="1.8"/></svg>';
+  const UP='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>';
+  const DOWN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+
+  function derange(n){
+    let a; do{ a=shuffle([...Array(n).keys()]); }while(a.some((v,i)=>v===i));
+    return a;
+  }
+  const order=derange(HW.length);
+  let checked3=false;
+  const hw=$('#hw');
+
+  function swap(i,j,focusSel){
+    if(checked3 || i===j || j<0 || j>=order.length) return;
+    [order[i],order[j]]=[order[j],order[i]];
+    render3();
+    if(focusSel){
+      const b=$(`.photo-cell[data-i="${j}"] ${focusSel}`,hw);
+      if(b && !b.disabled) b.focus(); else { const g=$(`.photo-cell[data-i="${j}"] .grip`,hw); if(g) g.focus(); }
+    }
+  }
+  function render3(){
+    hw.innerHTML=`<div class="hw-head"><span>Composants</span><span>Photos</span></div>`+
+      HW.map((it,i)=>{
+        const k=order[i], ph=HW[k];
+        const st=checked3 ? (k===i?'ok':'bad') : '';
+        return `<div class="hw-row ${st}">
+          <div class="hw-name"><span class="n">${i+1}</span><span>${it.name}</span></div>
+          <div class="photo-cell" data-i="${i}">
+            <div class="photo-card">
+              <button type="button" class="grip" aria-label="Déplacer la photo ${i+1}" ${checked3?'disabled':''}>${GRIP}</button>
+              <div class="art">${ph.svg}</div>
+              <div class="mv">
+                <button type="button" class="mvb up" data-i="${i}" aria-label="Monter la photo ${i+1}" ${checked3||i===0?'disabled':''}>${UP}</button>
+                <button type="button" class="mvb down" data-i="${i}" aria-label="Descendre la photo ${i+1}" ${checked3||i===HW.length-1?'disabled':''}>${DOWN}</button>
+              </div>
+              ${checked3?`<span class="mark">${k===i?'✓':'✗'}</span>`:''}
+              ${checked3&&k!==i?`<span class="fixtxt">C’est : ${ph.name}</span>`:''}
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    if(checked3) return;
+    $$('.grip',hw).forEach(g=>{
+      dragify(g,{
+        ghostOf:()=>g.closest('.photo-card'),
+        targetSel:'.photo-cell',
+        onDrop:t=>swap(+g.closest('.photo-cell').dataset.i, +t.dataset.i)
+      });
+    });
+    $$('.mvb',hw).forEach(b=>{
+      b.addEventListener('click',()=>{
+        const i=+b.dataset.i, up=b.classList.contains('up');
+        swap(i, up?i-1:i+1, up?'.up':'.down');
+      });
+    });
+  }
+  render3();
+
+  $('#v3').addEventListener('click',function(){
+    checked3=true; render3();
+    const ok=HW.filter((_,i)=>order[i]===i).length;
+    markDone(2,ok,HW.filter((_,i)=>order[i]!==i).map(h=>h.id));
+    this.hidden=true;
+    const r=$('#r3'); r.hidden=false;
+    r.innerHTML=`<h3>Correction</h3>
+      <p>${ok===HW.length?'Toutes les photos sont bien placées.':`${ok} photo(s) bien placée(s). Pour les autres, le composant réel est indiqué en rouge sous la photo.`}</p>
+      ${scoreBox(2,ok)}${nextBtn('ex4','Passer à l’exercice 4')}`;
+    r.scrollIntoView({behavior:'smooth',block:'nearest'});
+  });
+
+  /* =====================================================
+     EXERCICE 4 : questions sur les manipulations
+     ===================================================== */
+  const QUIZ=[
+    {q:'Comment créer un nouveau dossier dans l’explorateur de fichiers ?',
+     opts:[
+       {t:'Faire un clic droit dans une zone vide, puis Nouveau, puis Dossier',ok:true},
+       {t:'Faire un clic droit sur un fichier, puis Propriétés'},
+       {t:'Faire un clic droit dans une zone vide, puis Actualiser'},
+       {t:'Double-cliquer sur Ce PC'}],
+     why:'Clic droit dans un espace vide, puis Nouveau, puis Dossier. Le bouton « Nouveau dossier » du ruban fait la même chose.'},
+    {q:'Quelle action permet de renommer un fichier ?',
+     opts:[
+       {t:'Le sélectionner, puis appuyer sur la touche F2',ok:true},
+       {t:'Le sélectionner, puis appuyer sur la touche F5'},
+       {t:'Double-cliquer dessus'},
+       {t:'Le glisser vers la Corbeille'}],
+     why:'F2 (ou clic droit puis Renommer). F5 actualise l’affichage et le double-clic ouvre le fichier.'},
+    {q:'Quel raccourci clavier permet de copier un fichier sélectionné ?',
+     opts:[
+       {t:'Ctrl + C',ok:true},
+       {t:'Ctrl + V'},
+       {t:'Ctrl + Z'},
+       {t:'Ctrl + S'}],
+     why:'Ctrl + C copie, Ctrl + V colle, Ctrl + Z annule la dernière action et Ctrl + S enregistre.'},
+    {q:'Vous voulez déplacer un fichier dans un autre dossier, sans en garder d’exemplaire dans le premier. Que faites-vous ?',
+     opts:[
+       {t:'Le couper (Ctrl + X), ouvrir l’autre dossier, puis le coller (Ctrl + V)',ok:true},
+       {t:'Le copier (Ctrl + C), puis le coller (Ctrl + V) dans l’autre dossier'},
+       {t:'Le renommer avec le nom de l’autre dossier'},
+       {t:'Le supprimer, puis ouvrir l’autre dossier'}],
+     why:'Couper puis coller déplace le fichier. Copier puis coller en laisse un exemplaire dans le dossier d’origine. Le glisser-déposer déplace aussi.'},
+    {q:'Vous supprimez un fichier du disque dur avec la touche Suppr. Où se trouve-t-il ensuite ?',
+     opts:[
+       {t:'Dans la Corbeille',ok:true},
+       {t:'Dans le dossier Téléchargements'},
+       {t:'Dans la barre des tâches'},
+       {t:'Sur le bouton Démarrer'}],
+     why:'Un fichier supprimé du disque dur va dans la Corbeille, où il reste récupérable tant qu’on ne la vide pas.'},
+    {q:'Comment sélectionner plusieurs fichiers qui ne se suivent pas dans la liste ?',
+     opts:[
+       {t:'Maintenir la touche Ctrl enfoncée en cliquant sur chaque fichier',ok:true},
+       {t:'Maintenir la touche Maj enfoncée en cliquant sur le premier et le dernier'},
+       {t:'Double-cliquer sur chaque fichier'},
+       {t:'Appuyer sur Alt + F4'}],
+     why:'Ctrl + clic ajoute les fichiers un par un. Maj + clic sélectionne une série continue. Ctrl + A sélectionne tout.'},
+    {q:'Vous cherchez un fichier dont vous connaissez le nom. Que faites-vous ?',
+     opts:[
+       {t:'Taper son nom dans la barre de recherche de l’explorateur',ok:true},
+       {t:'Trier la liste par taille'},
+       {t:'Ouvrir la Corbeille'},
+       {t:'Passer en affichage « grandes icônes »'}],
+     why:'La barre de recherche, en haut à droite de la fenêtre, retrouve un fichier à partir de son nom.'},
+    {q:'Vous avez supprimé un fichier par erreur. Comment le récupérer ?',
+     opts:[
+       {t:'Ouvrir la Corbeille, faire un clic droit sur le fichier, puis Restaurer',ok:true},
+       {t:'Redémarrer l’ordinateur'},
+       {t:'Vider la Corbeille'},
+       {t:'Renommer le dossier qui le contenait'}],
+     why:'Dans la Corbeille, clic droit sur le fichier puis Restaurer : il retourne dans son dossier d’origine.'}
+  ];
+  QUIZ.forEach(q=>{ q._o=shuffle(q.opts); });
+  $('#quiz').innerHTML=QUIZ.map((q,i)=>`
+    <fieldset class="q" data-i="${i}">
+      <legend>${i+1}. ${q.q}</legend>
+      ${q._o.map((o,j)=>`<label class="opt"><input type="radio" name="q${i}" value="${j}"><span>${o.t}</span></label>`).join('')}
+      <p class="why" hidden>${q.why}</p>
+    </fieldset>`).join('');
+
+  $('#v4').addEventListener('click',function(){
+    const unanswered=QUIZ.filter((_,i)=>!$(`input[name="q${i}"]:checked`)).length;
+    guard(this,$('#n4'),unanswered,'question(s) sans réponse',()=>{
+      let ok=0; const wrongQ=[];
+      QUIZ.forEach((q,i)=>{
+        const fs=$(`fieldset[data-i="${i}"]`);
+        const chosen=$(`input[name="q${i}"]:checked`);
+        const cj=chosen ? +chosen.value : -1;
+        $$('.opt',fs).forEach((lab,j)=>{
+          if(q._o[j].ok) lab.classList.add('right');
+          else if(j===cj) lab.classList.add('wrong');
+        });
+        $$('input',fs).forEach(inp=>inp.disabled=true);
+        $('.why',fs).hidden=false;
+        if(cj>=0 && q._o[cj].ok) ok++; else wrongQ.push(i);
+      });
+      markDone(3,ok,wrongQ);
+      const r=$('#r4'); r.hidden=false;
+      r.innerHTML=`${scoreBox(3,ok)}${nextBtn('result','Voir mon résultat final')}`;
+      r.scrollIntoView({behavior:'smooth',block:'nearest'});
+    });
+  });
+
+  /* =====================================================
+     RÉSULTAT FINAL
+     ===================================================== */
+  function showResult(){
+    const total=scores.reduce((a,b)=>a+b,0);
+    const max=MAX.reduce((a,b)=>a+b,0);
+    const n20=note20(total);
+    const totalTime=times.reduce((a,b)=>a+b,0);
+    const date=new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+    const who=studentName || 'Stagiaire';
+    let verdict;
+    if(total>=max*0.8) verdict='Compétences acquises : vous maîtrisez l’essentiel de la gestion de fichiers et du matériel.';
+    else if(total>=max*0.5) verdict='Compétences en cours d’acquisition : quelques points sont à revoir avec votre formateur.';
+    else verdict='Compétences à retravailler : un temps de révision avec votre formateur est conseillé.';
+    $('#final').innerHTML=`
+      <div style="display:grid;gap:18px">
+        <div><b>${esc(who)}</b><div class="lead">${date}</div></div>
+        <div class="scorebox ${total>=max*0.8?'full':''}"><span class="big">${total} / ${max}</span><span>soit ${n20} sur 20</span><span>Temps : ${fmtDur(totalTime)}</span></div>
+        <div class="verdict">${verdict}</div>
+        <div id="netstatus" class="status" hidden></div>
+        <div class="bars">${EX_NAMES.map((n,i)=>`
+          <div class="bar-row"><span>Exercice ${i+1} : ${n} <small style="color:var(--muted)">(${fmtDur(times[i])})</small></span><b>${scores[i]} / ${MAX[i]}</b>
+            <span class="track"><span class="fill" style="width:${Math.round(scores[i]/MAX[i]*100)}%"></span></span></div>`).join('')}
+        </div>
+        <div id="sendblock" style="display:grid;gap:10px" hidden>
+          <h3>Envoyer mon résultat au formateur</h3>
+          <p class="lead">Copiez ce texte avec le bouton, puis envoyez-le à votre formateur. Ne modifiez pas la dernière ligne.</p>
+          <textarea class="paste" id="sendtxt" readonly rows="7"></textarea>
+          <div class="row-actions"><button class="btn" id="copy">Copier mon résultat</button></div>
+          <p class="note" id="copynote" hidden></p>
+        </div>
+        <div class="row-actions"><button class="btn ghost" id="again">Recommencer</button></div>
+      </div>`;
+    updateStatusUI();
+    const txt=`Évaluation bureautique - ${who} - ${date}\n`+EX_NAMES.map((n,i)=>`Exercice ${i+1} (${n}) : ${scores[i]}/${MAX[i]} en ${fmtDur(times[i])}`).join('\n')+`\nTotal : ${total}/${max} (${n20}/20)\nTemps total : ${fmtDur(totalTime)}\nCode : ${makeCode()}`;
+    const ta=$('#sendtxt'); ta.value=txt;
+    ta.addEventListener('focus',()=>ta.select());
+    $('#again').addEventListener('click',()=>location.reload());
+    $('#copy').addEventListener('click',async()=>{
+      const note=$('#copynote'); note.hidden=false;
+      let ok=false;
+      try{ await navigator.clipboard.writeText(txt); ok=true; }catch(_){}
+      if(!ok){ try{ ta.focus(); ta.select(); ok=document.execCommand('copy'); }catch(_){} }
+      note.textContent = ok
+        ? 'Résultat copié. Collez-le dans un message à votre formateur.'
+        : 'La copie automatique est bloquée. Le texte est sélectionné : copiez-le avec un appui long ou Ctrl + C.';
+      if(!ok){ ta.focus(); ta.select(); }
+    });
+  }
+
+  /* ---------- Démarrage ---------- */
+  function begin(){
+    studentName=$('#name').value.trim();
+    startedAt=Date.now();
+    setQ1();
+    go('ex1');
+  }
+  $('#start').addEventListener('click',begin);
+  $('#name').addEventListener('keydown',e=>{ if(e.key==='Enter') begin(); });
+  if(isTrainerView){ renderTrainer(); go('trainer'); }
+})();
+</script>
+</body>
+</html>

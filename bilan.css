@@ -1,0 +1,61 @@
+:root {
+  --encre: #1b2a33; --doux: #4b5c66; --fond: #fff8ec; --nuit: #17324d; --nuit-2: #24507a;
+  --soleil: #ffc83d; --soleil-bord: #c98a00; --trait: #e6dcc8; --teinte: #17324d;
+  --titres: "Segoe UI", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fond); color: var(--encre); font: 500 1.0625rem/1.5 "Segoe UI", system-ui, sans-serif; }
+:focus-visible { outline: 3px solid #e8590c; outline-offset: 2px; }
+.tete { background: linear-gradient(120deg, var(--nuit), var(--nuit-2)); color: #fff; padding: 22px 16px 26px; }
+.tete-in, .page { max-width: 980px; margin: 0 auto; }
+.tete h1 { margin: 10px 0 6px; font-size: clamp(1.8rem, 5vw, 2.6rem); }
+.tete p { margin: 0 0 14px; max-width: 46em; }
+.retour { color: #fff; font-weight: 800; }
+.chiffres { display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap: 10px; }
+.chiffre { display: flex; flex-direction: column; padding: 11px 13px; border-radius: 14px; background: rgba(255, 255, 255, .12); }
+.chiffre strong { font-size: 1.45rem; color: var(--soleil); line-height: 1.2; }
+.chiffre span { font-size: .9rem; }
+.chiffres.clair .chiffre { background: #fff; border: 2px solid var(--trait); }
+.chiffres.clair strong { color: var(--nuit); }
+.page { padding: 22px 16px 56px; }
+.rubrique { margin-bottom: 22px; padding: 15px 16px; background: #fff; border: 3px solid var(--teinte); border-radius: 18px; }
+.rubrique-tete h2 { margin: 0 0 8px; color: var(--teinte); font-size: 1.4rem; }
+.rubrique-tete p { margin: 6px 0 10px; color: var(--doux); font-weight: 700; font-size: .96rem; }
+.jauge { height: 11px; border-radius: 99px; background: #ece6d8; overflow: hidden; }
+.jauge i { display: block; height: 100%; background: var(--teinte); border-radius: inherit; }
+details { border-top: 1px solid var(--trait); padding: 7px 0; }
+summary { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 14px; cursor: pointer; padding: 3px 0; }
+summary span { color: var(--doux); font-size: .94rem; font-weight: 700; }
+.vide { margin: 5px 0 0; color: var(--doux); font-size: .95rem; }
+.defile { overflow-x: auto; }
+.tab { width: 100%; border-collapse: collapse; margin-top: 7px; font-size: .94rem; background: #fff; }
+.tab th { background: var(--nuit); color: #fff; text-align: left; padding: 6px 9px; white-space: nowrap; }
+.tab td { padding: 6px 9px; border-top: 1px solid var(--trait); }
+.remise { padding: 15px 16px; background: #fff; border-radius: 18px; border: 2px dashed var(--soleil-bord); }
+.remise h2 { margin: 0 0 6px; font-size: 1.25rem; }
+.remise p { margin: 0 0 10px; }
+.ligne { display: flex; flex-wrap: wrap; gap: 9px 10px; align-items: center; }
+.ligne label:not(.btn) { font-weight: 800; }
+.ligne input[type="text"] { min-height: 44px; padding: 5px 11px; border: 2px solid #8a99a2; border-radius: 10px; font: inherit; }
+.btn { display: inline-flex; align-items: center; min-height: 44px; padding: 6px 15px; border: 2px solid var(--nuit); border-radius: 12px; background: #fff; color: var(--nuit); font: 800 1rem "Segoe UI", system-ui, sans-serif; cursor: pointer; }
+.btn.fort { background: var(--soleil); border-color: var(--soleil-bord); color: #2f2300; }
+.message { margin: 9px 0 0; font-weight: 700; }
+.lien { padding: 0; border: 0; background: none; color: var(--nuit-2); font: 800 1rem "Segoe UI", system-ui, sans-serif; text-decoration: underline; cursor: pointer; }
+#detail h2 { margin: 26px 0 10px; }
+@media print {
+  .retour, .remise { display: none; }
+  .tete { background: none; color: #000; }
+  .chiffre { border: 1px solid #999; }
+  .chiffre strong { color: #000; }
+}
+.texte-legal section { margin-bottom: 22px; }
+.texte-legal h2 { margin: 0 0 7px; color: var(--nuit); font-size: 1.3rem; }
+.texte-legal p { margin: 0 0 9px; }
+.texte-legal ul { margin: 0 0 9px; padding-left: 1.25em; }
+.texte-legal li { margin-bottom: 4px; }
+.reponses summary { font-weight: 800; }
+.reponses ul { list-style: none; margin: 6px 0; padding: 0; display: grid; gap: 5px; }
+.reponses li { display: grid; gap: 1px; padding: 6px 9px; border-radius: 8px; border-left: 4px solid; }
+.reponses li.ok { background: #e2f6ea; border-color: #1a7f4b; }
+.reponses li.ko { background: #fdeceb; border-color: #b42318; }
+.reponses .bonne { font-weight: 800; color: #0f5132; }

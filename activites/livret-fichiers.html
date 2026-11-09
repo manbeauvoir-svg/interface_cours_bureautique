@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Les fichiers et dossiers</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "fichiers",
+  numero: 3,
+  titre: "Les fichiers et dossiers",
+  icone: "📁",
+  couleur: "#a16207",
+  pale: "#fdf3d7",
+  accroche: "L'Explorateur de fichiers est le centre névralgique de votre ordinateur : l'outil essentiel pour organiser, retrouver et gérer tous vos documents.",
+  suite: { fichier: "livret-office-commun", titre: "Les fonctions communes d'Office" },
+  notions: {
+    "icones": {
+      "titre": "les icônes",
+      "va": "Chaque icône a un rôle",
+      "jeu": {
+        "fichier": "icones-extensions",
+        "titre": "Icônes, noms et extensions"
+      }
+    },
+    "ext": {
+      "titre": "les extensions",
+      "va": "Les familles d'extensions",
+      "jeu": {
+        "fichier": "icones-extensions",
+        "titre": "Icônes, noms et extensions"
+      }
+    },
+    "affich": {
+      "titre": "les modes d'affichage",
+      "va": "Changer de mode d'affichage",
+      "jeu": {
+        "fichier": "explorateur-fichiers",
+        "titre": "l'activité Explorateur"
+      }
+    },
+    "nom": {
+      "titre": "les règles de nommage",
+      "va": "Un nom clair, ça change tout"
+    }
+  },
+  plus: {"fichier": "exercices-fichiers-excel-powerpoint", "titre": "les grands exercices de classement"},
+  quizPage: "quiz-fichiers",
+  etapes: [
+    {
+      titre: "Les icônes",
+      icone: "🧩",
+      resume: "Reconnaître ce qu'on a devant soi.",
+      ecrans: [
+        { t: "Chaque icône a un rôle", b: [
+          { p: "Dans l'Explorateur de fichiers, les icônes identifient le contenu :" },
+          { cartes: [
+            ["⚙️ Programmes et applications", "Leurs icônes lancent les logiciels."],
+            ["📁 Dossiers (jaunes)", "Ils organisent les fichiers et les sous-dossiers."],
+            ["📄 Fichiers", "Documents ou images : l'icône varie selon le type et ouvre le média spécifique."],
+            ["🗑️ La Corbeille", "Elle gère les fichiers supprimés temporairement."]
+          ] },
+          { img: "p011_1", alt: "Les icônes : un dossier jaune, des logiciels, un fichier, des documents Word et Excel, une présentation et des fichiers vidéo.", leg: "Les principales icônes" },
+          { trier: {
+            titre: "À quoi sert cette icône ?",
+            v: "icones",
+            bacs: ["⚙️ Programme", "📁 Dossier", "📄 Fichier"],
+            items: [["Microsoft Word (le logiciel)", 0], ["Le navigateur Edge", 0], ["01_RH_ET_SOCIAL", 1], ["Téléchargements", 1], ["rapport.docx", 2], ["photo.jpg", 2], ["budget.xlsx", 2]]
+          } }
+        ] }
+      ]
+    },
+    {
+      titre: "Les extensions",
+      icone: "🔖",
+      resume: "Ce qui suit le point dans le nom.",
+      ecrans: [
+        { t: "Une extension, c'est quoi ?", b: [
+          { p: "Une <strong>extension</strong> est une suite de lettres et/ou de chiffres qui suit le point à la fin du nom d'un fichier (par exemple, rapport<strong>.docx</strong>). Elle indique le type de fichier et le logiciel par défaut qui doit être utilisé pour l'ouvrir." },
+          { img: "p012_0", alt: "Les extensions les plus courantes : TXT, DOCX, XLSX, PPTX, PDF, MP4, JPG et PNG avec leur icône.", leg: "Les extensions les plus courantes" },
+          { astuce: "Affichez les extensions de fichiers pour voir leur type." }
+        ] },
+        { t: "Les familles d'extensions", b: [
+          { table: { tete: ["Catégorie", "Extensions communes"], lignes: [
+            ["Documents texte", ".docx (Word), .xlsx (Excel), .pptx (PowerPoint), .txt, .odt"],
+            ["Images", ".jpg, .png, .gif, .bmp, .svg"],
+            ["Audio et vidéo", ".mp3, .wav, .mp4, .avi, .mkv"],
+            ["Archives", ".zip, .rar"],
+            ["Exécutables", ".exe (programme), .bat (script), .dll (bibliothèque)"]
+          ] } },
+          { attention: "Ne jamais ouvrir un fichier <strong>.exe</strong> reçu par e-mail d'un expéditeur inconnu : le risque de virus ou de logiciel malveillant (malware) est élevé." },
+          { trier: {
+            titre: "Rangez ces extensions",
+            v: "ext",
+            bacs: ["📄 Document", "🖼️ Image", "🎵 Audio ou vidéo", "🗜️ Archive", "⚙️ Exécutable"],
+            items: [[".docx", 0], [".xlsx", 0], [".txt", 0], [".jpg", 1], [".png", 1], [".mp3", 2], [".mp4", 2], [".zip", 3], [".rar", 3], [".exe", 4], [".bat", 4]]
+          } }
+        ] }
+      ]
+    },
+    {
+      titre: "Les fichiers PDF",
+      icone: "📕",
+      resume: "Créer, lire, annoter, convertir.",
+      ecrans: [
+        { t: "Un format universel", b: [
+          { p: "Le PDF préserve la mise en page, quel que soit le logiciel ou l'appareil utilisé." },
+          { cartes: [
+            ["Créer un PDF", "Fichier > Enregistrer sous > PDF (ou Exporter) dans Word, Excel ou PowerPoint."],
+            ["Lire un PDF", "Avec Adobe Acrobat Reader (gratuit) ou un navigateur web (Edge, Chrome)."],
+            ["Annoter un PDF", "Surligner, commenter ou signer avec Adobe Reader ou un navigateur."],
+            ["Convertir un PDF", "Avec des outils en ligne gratuits comme iLovePDF ou Smallpdf."]
+          ] }
+        ] },
+        { t: "Le défi : créer un PDF de 3 façons", b: [
+          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Ranger, renommer, trier", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Créer un PDF depuis Word", icone: "📝" } }
+        ] },
+        { t: "Bilan : icônes, extensions et PDF", b: [
+          { qqc: {
+            quoi: "L'Explorateur permet d'organiser et gérer ses documents. Les icônes identifient le contenu : dossiers (jaunes), fichiers, programmes et Corbeille.",
+            pourquoi: "Reconnaître les icônes et les extensions permet d'identifier rapidement un fichier, de l'ouvrir avec le bon logiciel et d'éviter les erreurs.",
+            comment: "Chaque fichier porte une extension (.docx, .xlsx, .jpg, .pdf…) qui indique son type. Le PDF permet de partager sans modifier la mise en page.",
+            retenir: "Ne jamais ouvrir un fichier .exe reçu par e-mail d'un expéditeur inconnu."
+          } },
+          { activite: { fichier: "icones-extensions", titre: "Icônes, noms et extensions", texte: "Le quiz sur la gestion des fichiers.", icone: "🔍" } }
+        ] }
+      ]
+    },
+    {
+      titre: "La fenêtre de l'Explorateur",
+      icone: "🪟",
+      resume: "4 zones et 5 modes d'affichage.",
+      ecrans: [
+        { t: "Quatre zones clés", b: [
+          { sim: "maquette",
+            colonnes: "1fr 3fr",
+            lignes: "56px 44px minmax(150px, 1fr)",
+            zones: [
+              { nom: "Le Ruban", aire: "1 / 1 / 2 / 3", texte: "copier, coller, renommer, créer ou supprimer." },
+              { nom: "Navigation et barre d'adresse", aire: "2 / 1 / 3 / 3", texte: "Précédent, Suivant, Haut, le chemin et la recherche rapide." },
+              { nom: "Le volet de navigation", aire: "3 / 1 / 4 / 2", texte: "Accès rapide, Ce PC, Réseau et dossiers favoris épinglés." },
+              { nom: "La zone principale", aire: "3 / 2 / 4 / 3", texte: "le contenu du dossier, en icônes, en liste ou en détails." }
+            ] },
+          { img: "p014_0", alt: "Fenêtre de l'Explorateur annotée : ruban, barre d'adresse, volet de navigation et zone centrale.", leg: "La vraie fenêtre, annotée" }
+        ] },
+        { t: "Changer de mode d'affichage", b: [
+          { p: "Windows 11 propose plusieurs modes pour adapter la vue à vos besoins. Ils se trouvent dans l'onglet <strong>Affichage</strong> du ruban ou avec le bouton rapide en haut à droite de la fenêtre." },
+          { sim: "affichages", libre: true },
+          { img: "p015_0", alt: "Le même dossier affiché en grandes icônes et en petites icônes dans l'Explorateur.", leg: "Dans le vrai Explorateur : grandes et petites icônes" },
+          { activite: { fichier: "quiz-fichiers", etape: "La fenêtre de l'Explorateur", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Créer, renommer, déplacer…",
+      icone: "✂️",
+      resume: "Toujours 3 méthodes au choix.",
+      ecrans: [
+        { t: "Trois méthodes pour chaque action", b: [
+          { cartes: [
+            ["🎀 Le Ruban", "La barre d'outils en haut de l'Explorateur regroupe toutes les actions sous forme de boutons."],
+            ["🖱️ Le clic droit", "Sur un fichier ou un dossier, il ouvre un menu avec les actions possibles."],
+            ["⌨️ Le raccourci clavier", "La méthode la plus rapide quand on est à l'aise : {Ctrl+C}, {Ctrl+V}, {F2}, {Suppr}."]
+          ] }
+        ] },
+        { t: "Créer un dossier", b: [
+          { p: "Organiser ses fichiers commence par la création de dossiers." },
+          { onglets: [
+            ["Ruban", "Dans l'Explorateur, cliquez sur <strong>Nouveau</strong> dans le ruban, puis sur <strong>Dossier</strong>."],
+            ["Clic droit", "Dans l'espace vide du dossier parent : clic droit, <strong>Nouveau</strong>, puis <strong>Dossier</strong>."],
+            ["Raccourci", "{Ctrl+Maj+N} crée instantanément un nouveau dossier."]
+          ] },
+          { h: "Voir comment faire en vidéo" },
+          { video: { url: "https://drive.google.com/file/d/1kZoCyA8t6ivVbJhOJOlM3gS1ZKEW7IBm/view?usp=sharing", titre: "Avec le ruban" } },
+          { video: { url: "https://drive.google.com/file/d/1zz6Y21BrZuyL0yPHtA41LMZd3VEXn6SB/view?usp=sharing", titre: "Avec le clic droit" } },
+          { video: { url: "https://drive.google.com/file/d/1dg1rcoZoccPMvpa9IvLOT3-V9c-UY38o/view?usp=sharing", titre: "Avec le raccourci clavier" } }
+        ] },
+        { t: "Renommer et supprimer", b: [
+          { h: "Renommer un élément" },
+          { onglets: [
+            ["Ruban", "Sélectionnez l'élément > onglet « Accueil » > <strong>Renommer</strong>."],
+            ["Clic droit", "Clic droit sur l'élément > <strong>Renommer</strong> > saisissez le nouveau nom > {Entrée}."],
+            ["Raccourci", "Sélectionnez l'élément > {F2} > saisissez le nouveau nom > {Entrée}."]
+          ] },
+          { video: { url: "https://drive.google.com/file/d/1lM05bLVXtc1aJRQyWVb3qDTQyNKgdmRy/view?usp=drive_link", titre: "Renommer en vidéo" } },
+          { h: "Supprimer un élément" },
+          { onglets: [
+            ["Ruban", "Sélectionnez l'élément > onglet « Accueil » > <strong>Supprimer</strong>."],
+            ["Clic droit", "Clic droit sur l'élément > <strong>Supprimer</strong> > confirmez."],
+            ["Raccourci", "{Suppr} envoie dans la Corbeille. {Maj+Suppr} supprime définitivement."]
+          ] },
+          { note: "Les éléments supprimés vont généralement dans la Corbeille : vous pouvez les restaurer avant de la vider définitivement." }
+        ] },
+        { t: "Déplacer ou copier ?", b: [
+          { onglets: [
+            ["Déplacer", ["<strong>Ruban :</strong> sélection > « Couper » > ouvrir la destination > « Coller »", "<strong>Clic droit :</strong> « Couper » > aller à la destination > clic droit > « Coller »", "<strong>Raccourci :</strong> {Ctrl+X} > aller à la destination > {Ctrl+V}", "<strong>Autrement :</strong> cliquer-glisser l'élément vers le dossier de destination"]],
+            ["Copier", ["<strong>Ruban :</strong> sélection > « Copier » > ouvrir la destination > « Coller »", "<strong>Clic droit :</strong> « Copier » > aller à la destination > clic droit > « Coller »", "<strong>Raccourci :</strong> {Ctrl+C} > aller à la destination > {Ctrl+V}", "<strong>Autrement :</strong> {Ctrl} enfoncée + cliquer-glisser"]]
+          ] },
+          { sim: "deplacer" },
+          { retenir: "<strong>Déplacer ({Ctrl+X})</strong> : l'élément n'existe plus qu'à un seul endroit. <strong>Copier ({Ctrl+C})</strong> : il existe en deux exemplaires. En cas d'erreur, {Ctrl+Z} annule immédiatement." }
+        ] },
+        { t: "À vous : le cabinet et le garage", b: [
+          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Ranger, renommer, trier", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Le cabinet Quichon et le garage Arkanault", icone: "📝" } }
+        ] },
+        { t: "À vous : le vide-grenier", b: [
+          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Ranger, renommer, trier", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Le vide-grenier de la famille Quichon", icone: "📝" } }
+        ] },
+        { t: "Bilan et premier classement", b: [
+          { qqc: {
+            quoi: "4 zones dans l'Explorateur (ruban, barre d'adresse, volet de navigation, zone centrale) et 5 modes d'affichage : Icônes, Liste, Détails, Mosaïques, Contenu.",
+            pourquoi: "Naviguer efficacement. Savoir créer, renommer, déplacer, copier et supprimer des fichiers est indispensable au quotidien.",
+            comment: "Toute action se fait via 3 méthodes : le ruban, le clic droit ou un raccourci clavier."
+          } },
+          { activite: { fichier: "explorateur-fichiers", titre: "L'Explorateur de fichiers", texte: "Les quiz et l'activité pratique.", icone: "📁" } },
+          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Ranger, renommer, trier", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Premier classement numérique", icone: "📝" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Sélectionner plusieurs fichiers",
+      icone: "☑️",
+      resume: "Maj pour une suite, Ctrl à l'unité.",
+      ecrans: [
+        { t: "Avant toute action : sélectionner", b: [
+          { p: "La méthode varie selon que les fichiers se suivent ou non. Un élément sélectionné apparaît sur fond bleu." },
+          { table: { tete: ["Je veux sélectionner…", "Je fais…"], lignes: [
+            ["Un seul élément", "Un simple clic gauche dessus."],
+            ["Plusieurs éléments qui se suivent", "Clic sur le premier, {Maj} enfoncée, clic sur le dernier."],
+            ["Plusieurs éléments qui ne se suivent pas", "Clic sur le premier, {Ctrl} enfoncée, clic sur chaque autre élément."]
+          ] } },
+          { sim: "selection" }
+        ] }
+      ]
+    },
+    {
+      titre: "L'arborescence",
+      icone: "🌳",
+      resume: "Du disque dur jusqu'au fichier.",
+      ecrans: [
+        { t: "Une structure en niveaux", b: [
+          { p: "L'arborescence organise les fichiers et dossiers de l'ordinateur, du disque dur jusqu'aux fichiers. Chaque dossier est <strong>parent</strong> des éléments qu'il contient." },
+          { ordre: ["💽 Le disque dur : la base (ex : C:)", "📁 Les dossiers principaux (ex : Utilisateurs, Programmes)", "📂 Les sous-dossiers (ex : Documents, Images)", "📄 Les fichiers (ex : Fichier.docx, Photo.jpg)"], titre: "Du plus grand au plus petit", consigne: "Remettez les niveaux dans l'ordre, en partant de la racine." }
+        ] },
+        { t: "Le chemin d'accès", b: [
+          { p: "Il indique l'emplacement d'un fichier, par exemple : <code>C:\\Utilisateurs\\Documents\\Fichier.docx</code>. Regardez-le s'écrire tout seul en haut de la fenêtre :" },
+          { sim: "arborescence" }
+        ] },
+        { t: "Les emplacements clés de Windows 11", b: [
+          { associer: [
+            ["Ce PC", "Disques et périphériques connectés"],
+            ["Bureau", "Raccourcis et fichiers fréquents"],
+            ["Documents", "Rapports, lettres, créations"],
+            ["Téléchargements", "Fichiers venant d'Internet"],
+            ["Images, Vidéos, Musique", "Les médias"]
+          ], titre: "Où va quoi ?" }
+        ] }
+      ]
+    },
+    {
+      titre: "Bien nommer, bien classer",
+      icone: "🏷️",
+      resume: "Retrouver un fichier du premier coup.",
+      ecrans: [
+        { t: "Un nom clair, ça change tout", b: [
+          { p: "Un nom clair permet de retrouver et de comprendre un fichier immédiatement." },
+          { cartes: [
+            ["Pas d'espaces", "Utilisez _. Exemple : rapport_ventes.xlsx"],
+            ["Pas d'accents", "Évitez é, è, ç… Exemple : resume_candidature.docx"],
+            ["Une structure claire", "Contenu_Contexte_Date. Exemple : Facture_ClientAlpha_2024-05.pdf"],
+            ["De la cohérence", "Les mêmes règles pour tous les fichiers, sans exception."]
+          ] },
+          { retenir: "Format recommandé : <code>Contenu_Contexte_Date_Version</code>, par exemple <code>Rapport_Ventes_2024-05_v2.xlsx</code>." }
+        ] },
+        { t: "À vous de renommer", b: [
+          { sim: "nommage" },
+          { trier: {
+            titre: "Bon ou mauvais nom ?",
+            v: "nom",
+            bacs: ["✅ Bon", "❌ Mauvais"],
+            items: [["Rapport_Ventes_2024-05.xlsx", 0], ["CV_Martin_Jean.docx", 0], ["2024-03_Facture_ClientDupont.pdf", 0], ["rapport final.xlsx", 1], ["mon cv copie.docx", 1], ["document1.docx", 1], ["nouveau.docx", 1]]
+          } }
+        ] },
+        { t: "À vous : la maison de Nathalie et Paul", b: [
+          { fiche: { titre: "Le nommage de fichiers", fichier: "fichiers-dossiers/nommage-de-fichiers.docx" } },
+          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Ranger, renommer, trier", titre: "Faire l'exercice dans la rubrique Exercices", texte: "La maison de Nathalie et Paul", icone: "📝" } }
+        ] },
+        { t: "Organiser ses dossiers", b: [
+          { cartes: [
+            ["Arborescence", "Classer par année > projet > type. Exemple : 2024/ProjetX/Comptes_rendus"],
+            ["Dossiers standards", "01_Administratif, 02_Projets, 03_Clients, 04_Archives"],
+            ["Archives", "Déplacer les anciens fichiers dans _Archives. Ne pas les supprimer immédiatement."],
+            ["En cours", "Garder un dossier En_cours pour les fichiers actifs, et le vider régulièrement."]
+          ] },
+          { attention: ["Tout mettre sur le Bureau", "Nommer ses fichiers document1, nouveau, final", "Utiliser des espaces ou des accents dans les noms de fichiers"] }
+        ] },
+        { t: "Bilan : fichiers et dossiers", b: [
+          { qqc: {
+            quoi: "Des fichiers et dossiers organisés en arborescence : Disque C: → Dossiers → Sous-dossiers → Fichiers.",
+            pourquoi: "Retrouver rapidement ses documents, éviter les doublons, travailler de façon structurée.",
+            comment: "Naviguer via le panneau gauche de l'Explorateur. Pas d'espaces ni d'accents : utiliser _ ou -. Exemple : <code>2024-03_Facture_ClientDupont.pdf</code>."
+          } }
+        ] },
+        { t: "Le grand défi : Lumina Design", b: [
+          { p: "Vous êtes assistant(e) chez Lumina Design. Votre responsable vous demande de créer et d'organiser les fichiers de l'entreprise." },
+          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Ranger, renommer, trier", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Créer une arborescence avec nommage", icone: "📝" } }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

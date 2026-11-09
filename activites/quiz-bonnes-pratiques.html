@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz : Les bonnes pratiques</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "quiz-bonnes-pratiques",
+  etiquette: "QUIZ",
+  titre: "Quiz : Les bonnes pratiques",
+  icone: "🛡️",
+  couleur: "#a21caf",
+  pale: "#f8e8fb",
+  accroche: "Commencez par le quiz de positionnement pour connaître vos priorités. Entraînez-vous thème par thème, puis validez le module avec le quiz final.",
+  cours: "livret-bonnes-pratiques",
+  notions: {
+    "piliers": {
+      "titre": "les 6 piliers",
+      "va": "Les 6 piliers de l'action"
+    },
+    "mdp": {
+      "titre": "les mots de passe",
+      "va": "La règle de l'art"
+    },
+    "2fa": {
+      "titre": "la double authentification",
+      "va": "L'authentification à deux facteurs"
+    },
+    "phish": {
+      "titre": "les signes d'alerte",
+      "va": "Les signes d'alerte"
+    },
+    "sauv": {
+      "titre": "la règle 3-2-1",
+      "va": "La règle 3-2-1"
+    },
+    "co2": {
+      "titre": "l'empreinte de nos usages",
+      "va": "Combien pèsent nos usages ?"
+    },
+    "desinfo": {
+      "titre": "vérifier une information",
+      "va": "La méthode en 5 étapes"
+    },
+    "netiquette": {
+      "titre": "la nétiquette",
+      "va": "Le code de bonne conduite"
+    }
+  },
+  etapes: [
+    {
+      titre: "Quiz de positionnement",
+      icone: "🧭",
+      resume: "Pour savoir par où commencer.",
+      ecrans: [
+        { t: "Quiz de positionnement", b: [
+          { depart: true, titre: "Quiz de positionnement", quiz: [
+            {"v":"2fa","q":"Que demande la double authentification en plus du mot de passe ?","r":["Un code temporaire","Votre prénom","Votre adresse"]},
+            {"v":"mdp","q":"Peut-on utiliser le même mot de passe sur plusieurs sites ?","r":["Non, jamais","Oui, c'est plus simple","Oui, si le site est français"]},
+            {"v":"phish","q":"Que faire d'un lien douteux dans un mail ?","r":["Ne pas cliquer","Cliquer pour vérifier","Le partager"]},
+            {"v":"piliers","q":"Avant de remplacer un appareil, que faire ?","r":["Chercher à le réparer","Le jeter tout de suite","En acheter deux"]},
+            {"v":"mdp","q":"Quelle longueur minimale conseiller pour un mot de passe ?","r":["12 caractères","4 caractères","6 caractères"]},
+            {"v":"phish","q":"Comment appelle-t-on l'arnaque par faux mail d'un organisme de confiance ?","r":["Le phishing","Le streaming","Le cloud"]},
+            {"v":"sauv","q":"Que signifie la règle de sauvegarde 3-2-1 ?","r":["3 copies, 2 supports, 1 copie hors ligne","3 ordinateurs, 2 écrans, 1 clé","3 mots de passe, 2 comptes, 1 mail"]},
+            {"v":"desinfo","q":"Comment vérifier une information ?","r":["Comparer au moins 3 sources indépendantes","La partager pour voir les réactions","Croire le premier site"]},
+            {"v":"netiquette","q":"Écrire tout un message en majuscules, c'est…","r":["À éviter : cela donne l'impression de crier","Plus poli","Obligatoire au travail"]},
+            {"v":"co2","q":"Quel usage émet généralement le plus ?","r":["Une heure de visioconférence","Un e-mail sans pièce jointe","Une heure de chat texte"]}
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "Sauvegardes et mises à jour",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Sauvegardes et mises à jour", b: [
+          { quiz: [
+            {"v":"sauv","q":"Dans la règle 3-2-1, que veut dire le 3 ?","r":["3 copies des données","3 mots de passe","3 ordinateurs"]},
+            {"v":"sauv","q":"Dans la règle 3-2-1, que veut dire le 2 ?","r":["2 supports différents","2 personnes","2 sauvegardes par jour"]},
+            {"v":"sauv","q":"Contre quoi la copie hors ligne protège-t-elle notamment ?","r":["Les rançongiciels","Les fautes d'orthographe","Les coupures de courant seulement"]},
+            {"v":"sauv","q":"Comment régler les mises à jour ?","r":["En automatique","En les refusant","Une fois tous les 5 ans"]},
+            { v: "mdp", q: "Quel mot de passe est le plus solide ?", r: ["V3rt!Lampe#92_Toit", "Marie1985", "motdepasse123"], e: "Plus de 12 caractères, tous les types mélangés et rien de personnel." },
+            { v: "mdp", q: "Quelle pratique est à proscrire ?", r: ["Réutiliser le même mot de passe sur plusieurs sites", "Utiliser un gestionnaire de mots de passe", "Activer la 2FA sur sa messagerie"] },
+            { v: "2fa", q: "On vous a volé votre mot de passe. Qu'apporte la 2FA ?", r: ["Elle empêche l'accès, car un code temporaire reste nécessaire", "Elle change votre mot de passe toute seule", "Elle supprime votre compte"] },
+            { v: "phish", q: "« Votre compte sera suspendu, agissez immédiatement ! » Quel est le bon réflexe ?", r: ["Ne pas cliquer et taper soi-même l'adresse du site officiel", "Cliquer vite sur le lien", "Répondre en donnant ses identifiants"] },
+            { v: "phish", q: "Comment vérifier un lien sans risque ?", r: ["Passer la souris dessus, sans cliquer", "Cliquer une seule fois", "Le transférer à ses collègues"] },
+            { v: "sauv", q: "Dans la règle 3-2-1, que signifie le « 1 » ?", r: ["Une copie conservée hors ligne", "Une seule sauvegarde suffit", "Un seul mot de passe"] }
+          ], titre: "Vos réflexes face aux cybermenaces" }
+        ] }
+      ]
+    },
+    {
+      titre: "L'écologie numérique",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "L'écologie numérique", b: [
+          { quiz: [
+            {"v":"co2","q":"Quel usage émet le moins selon le tableau du cours ?","r":["Une heure de chat texte","Une heure de streaming HD","Une heure de visioconférence"]},
+            {"v":"co2","q":"Quel e-mail émet le plus ?","r":["Celui avec une pièce jointe","Celui sans pièce jointe","Ils émettent autant"]},
+            {"v":"co2","q":"Quelle part des émissions mondiales le numérique représente-t-il environ ?","r":["4 %","40 %","0,1 %"]},
+            {"v":"co2","q":"Pour limiter son empreinte, que préférer au réseau mobile ?","r":["Le Wi-Fi","La 5G","La 4G"]},
+            {"v":"co2","q":"Quel achat est le plus sobre ?","r":["Un appareil reconditionné","Un appareil neuf chaque année","Deux appareils neufs"]},
+            {"v":"co2","q":"Que faire de sa boîte mail ?","r":["La vider régulièrement","Tout garder","S'abonner à plus de newsletters"]},
+            {"v":"co2","q":"Comment utiliser l'IA de façon plus sobre ?","r":["La réserver aux besoins réels","L'utiliser pour chaque petite question","Poser plusieurs fois la même question"]},
+            {"v":"co2","q":"Quel moteur de recherche le cours cite-t-il ?","r":["Ecosia","Paint","Teams"]},
+            { v: "co2", q: "Quel geste réduit le plus l'empreinte d'une visioconférence ?", r: ["Couper la caméra", "Parler moins fort", "Fermer la fenêtre du navigateur"] },
+            { v: "co2", q: "Pour un échange rapide avec un collègue, que préférer ?", r: ["Le chat texte", "Une visioconférence", "Un mail avec une pièce jointe"] }
+          ], titre: "Vérifiez vos réflexes" }
+        ] }
+      ]
+    },
+    {
+      titre: "Quiz final",
+      icone: "🏁",
+      resume: "12 questions pour valider le module.",
+      ecrans: [
+        { t: "Quiz final", b: [
+          { final: true, titre: "Quiz final", quiz: [
+            {"v":"mdp","q":"Quel mot de passe est le plus solide ?","r":["T0rt!Lune#47_Pont","Paul1980","azerty123"]},
+            {"v":"mdp","q":"Que faire pour retenir de nombreux mots de passe complexes ?","r":["Utiliser un gestionnaire de mots de passe","Les noter sur un post-it","Utiliser partout le même"]},
+            {"v":"2fa","q":"Que demande la double authentification en plus du mot de passe ?","r":["Un code temporaire","Votre date de naissance","Votre adresse"]},
+            {"v":"phish","q":"Quel signe doit vous alerter dans un mail ?","r":["Un ton urgent et menaçant","Une signature","Une formule de politesse"]},
+            {"v":"phish","q":"Le lien d'un mail vous semble douteux. Que faire ?","r":["Taper vous-même l'adresse du site officiel","Cliquer pour voir","Le transférer à vos contacts"]},
+            {"v":"sauv","q":"Pourquoi faire les mises à jour ?","r":["Elles corrigent des failles de sécurité","Elles ralentissent les pirates pour 1 jour","Elles libèrent de la place"]},
+            {"v":"desinfo","q":"Quel outil retrouve l'origine d'une photo ?","r":["La recherche inversée d'images","Le correcteur d'orthographe","La Corbeille"]},
+            {"v":"desinfo","q":"Quelles questions se poser avant de partager ?","r":["Est-ce vérifié, utile et respectueux ?","Est-ce que ce sera très partagé ?","Est-ce que le titre est drôle ?"]},
+            {"v":"netiquette","q":"En visioconférence, que faire quand on ne parle pas ?","r":["Couper son micro","Quitter la réunion","Monter le son"]},
+            {"v":"netiquette","q":"Que faut-il avant de publier la photo d'une personne ?","r":["Son accord","Son adresse","Rien de particulier"]},
+            {"v":"co2","q":"Quel geste réduit fortement l'empreinte d'une visioconférence ?","r":["Couper la caméra","Parler moins longtemps au micro","Changer de fond d'écran"]},
+            {"v":"piliers","q":"Avant de remplacer un appareil, que faire ?","r":["Chercher à le réparer ou à le mettre à niveau","Le jeter tout de suite","En acheter deux"]}
+          ] }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

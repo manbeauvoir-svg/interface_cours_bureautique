@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz : L'ordinateur</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "quiz-ordinateur",
+  etiquette: "QUIZ",
+  titre: "Quiz : L'ordinateur",
+  icone: "🖥️",
+  couleur: "#a21caf",
+  pale: "#f8e8fb",
+  accroche: "Commencez par le quiz de positionnement pour connaître vos priorités. Entraînez-vous thème par thème, puis validez le module avec le quiz final.",
+  cours: "livret-ordinateur",
+  notions: {
+    "familles": {
+      "titre": "les trois familles de périphériques",
+      "va": "Trois familles de périphériques",
+      "jeu": {
+        "fichier": "pendu",
+        "titre": "le pendu"
+      }
+    },
+    "ordi": {
+      "titre": "ce qu'est un ordinateur",
+      "va": "Qu'est-ce qu'un ordinateur ?",
+      "jeu": {
+        "fichier": "mots-croises",
+        "titre": "les mots croisés"
+      }
+    },
+    "panne": {
+      "titre": "reconnaître un périphérique",
+      "va": "Bilan : matériel et imprimante",
+      "jeu": {
+        "fichier": "mission-equipement",
+        "titre": "Mission Équipement"
+      }
+    },
+    "impr": {
+      "titre": "les réglages de l'imprimante",
+      "va": "Les réglages à connaître"
+    }
+  },
+  etapes: [
+    {
+      titre: "Quiz de positionnement",
+      icone: "🧭",
+      resume: "Pour savoir par où commencer.",
+      ecrans: [
+        { t: "Quiz de positionnement", b: [
+          { depart: true, titre: "Quiz de positionnement", quiz: [
+            {"v":"familles","q":"Le scanner est un périphérique…","r":["d'entrée","de sortie","de stockage"]},
+            {"v":"familles","q":"Le disque dur externe est un périphérique…","r":["de stockage","d'entrée","de sortie"]},
+            {"v":"ordi","q":"Quelle mémoire garde les données des programmes en cours d'exécution ?","r":["La RAM","La clé USB","L'écran"]},
+            {"v":"impr","q":"Quel format permet de partager un document sans l'imprimer ?","r":["PDF","A3","Paysage"]},
+            {"v":"panne","q":"Comment une imprimante se connecte-t-elle le plus souvent ?","r":["En USB ou en Wi-Fi","Par le clavier","Par la prise du casque"]},
+            {"v":"familles","q":"Le clavier est un périphérique…","r":["d'entrée","de sortie","de stockage"]},
+            {"v":"familles","q":"L'imprimante est un périphérique…","r":["de sortie","d'entrée","de stockage"]},
+            {"v":"ordi","q":"Quel est le « cerveau » de l'ordinateur ?","r":["Le processeur","L'écran","La souris"]},
+            {"v":"impr","q":"Quel raccourci ouvre la fenêtre d'impression ?","r":["{Ctrl+P}","{Ctrl+I}","{Ctrl+N}"]},
+            {"v":"panne","q":"Plus rien ne s'affiche à l'écran. Que vérifier d'abord ?","r":["L'écran et son câble","La souris","L'imprimante"]}
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "Le matériel informatique",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Le matériel informatique", b: [
+          { quiz: [
+            {"v":"familles","q":"La webcam est un périphérique…","r":["d'entrée","de sortie","de stockage"]},
+            {"v":"familles","q":"Le casque est un périphérique…","r":["de sortie","d'entrée","de stockage"]},
+            {"v":"familles","q":"La carte SD est un périphérique…","r":["de stockage","d'entrée","de sortie"]},
+            {"v":"ordi","q":"Quel appareil fait partie du hardware ?","r":["Le clavier","Word","Windows"]},
+            {"v":"ordi","q":"Lequel de ces éléments est un logiciel ?","r":["Excel","La souris","L'écran"]},
+            {"v":"panne","q":"Que faut-il souvent installer pour qu'un nouveau périphérique fonctionne ?","r":["Un pilote","Un fond d'écran","Une police"]},
+            {"v":"panne","q":"Pourquoi apprendre à reconnaître ses périphériques ?","r":["Pour les brancher correctement et régler les petits soucis","Pour aller plus vite sur Internet","Pour économiser de l'encre"]},
+            { v: "familles", q: "Quel est le rôle d'un périphérique d'entrée ?", r: ["Envoyer des données vers l'ordinateur", "Afficher des informations", "Stocker des fichiers en externe", "Alimenter l'ordinateur"] },
+            { v: "ordi", q: "Que contient l'unité centrale ?", r: ["Le processeur (CPU), la RAM et le disque dur", "L'écran et le clavier uniquement", "Uniquement la carte graphique", "Le système d'exploitation uniquement"] },
+            { v: "panne", q: "Si rien ne s'affiche à l'écran, quel est le premier réflexe ?", r: ["Vérifier l'écran et son câble", "Réinstaller Windows", "Changer le clavier"], e: "Savoir reconnaître un périphérique aide à résoudre un problème simple." }
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "L'imprimante",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "L'imprimante", b: [
+          { quiz: [
+            {"v":"impr","q":"L'imprimante est un périphérique…","r":["de sortie","d'entrée","de stockage"]},
+            {"v":"impr","q":"Quelle option imprime sur les deux faces de la feuille ?","r":["Recto-verso","Paysage","Mise à l'échelle"]},
+            {"v":"impr","q":"Quelle option adapte le document à la taille de la feuille ?","r":["La mise à l'échelle","Le nombre de copies","Le noir et blanc"]},
+            {"v":"impr","q":"Quelle orientation correspond à une page en hauteur ?","r":["Portrait","Paysage","Recto"]},
+            {"v":"impr","q":"Quel format est le plus grand ?","r":["A3","A4","Ils ont la même taille"]},
+            {"v":"impr","q":"Quel réflexe adopter pour économiser le papier ?","r":["N'imprimer que les pages nécessaires","Imprimer deux exemplaires","Imprimer toujours en A3"]},
+            {"v":"panne","q":"Où suivre un document envoyé à l'imprimante ?","r":["Dans la file d'attente","Dans la Corbeille","Dans le menu Démarrer"]},
+            { v: "impr", q: "Quel raccourci ouvre la fenêtre d'impression ?", r: ["{Ctrl+P}", "{Ctrl+I}", "{Ctrl+S}"] },
+            { v: "impr", q: "Quel format choisir pour partager un document sans l'imprimer ?", r: ["PDF", "A3", "A4"] },
+            { v: "impr", q: "Avant d'imprimer, quel est le bon réflexe ?", r: ["Prévisualiser le document", "Lancer plusieurs copies", "Choisir la couleur"] }
+          ], titre: "Vérifiez vos réflexes" }
+        ] }
+      ]
+    },
+    {
+      titre: "Quiz final",
+      icone: "🏁",
+      resume: "10 questions pour valider le module.",
+      ecrans: [
+        { t: "Quiz final", b: [
+          { final: true, titre: "Quiz final", quiz: [
+            {"v":"familles","q":"Lequel de ces appareils est un périphérique de stockage ?","r":["Une clé USB","Un scanner","Un casque"]},
+            {"v":"familles","q":"Le micro est un périphérique…","r":["d'entrée","de sortie","de stockage"]},
+            {"v":"familles","q":"Les haut-parleurs sont des périphériques…","r":["de sortie","d'entrée","de stockage"]},
+            {"v":"ordi","q":"Que désigne le mot « hardware » ?","r":["Tout ce qu'on peut toucher sur un ordinateur","Les logiciels","Les fichiers enregistrés"]},
+            {"v":"ordi","q":"Que désigne le mot « software » ?","r":["Les programmes et les logiciels","Le clavier et la souris","Les câbles"]},
+            {"v":"ordi","q":"Où se trouvent le processeur et la RAM ?","r":["Dans l'unité centrale","Dans l'écran","Dans le clavier"]},
+            {"v":"panne","q":"Avant d'utiliser une nouvelle imprimante, que faut-il souvent installer ?","r":["Un pilote","Un nouvel écran","Une carte SD"]},
+            {"v":"impr","q":"Quelle orientation choisir pour une page en largeur ?","r":["Paysage","Portrait","Recto-verso"]},
+            {"v":"impr","q":"Quel est le format standard d'une feuille de bureau ?","r":["A4","A3","PDF"]},
+            {"v":"impr","q":"Quel réflexe permet d'économiser du papier ?","r":["N'imprimer que les pages nécessaires","Imprimer deux fois pour vérifier","Toujours imprimer en couleur"]}
+          ] }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

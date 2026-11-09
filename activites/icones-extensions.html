@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activité Complète — Icônes & Extensions</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Nunito,sans-serif;background:#f4f6fb;color:#1a1a2e;line-height:1.6;padding-bottom:4rem;}
+
+/* HEADER */
+.header{background:#0a0a1a;padding:2rem 2rem 1.5rem;text-align:center;position:relative;overflow:hidden;}
+.header::before{content:'';position:absolute;top:-60px;left:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(255,153,51,0.15),transparent 70%);}
+.header::after{content:'';position:absolute;bottom:-60px;right:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(0,102,204,0.15),transparent 70%);}
+.header-badge{display:inline-block;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:999px;padding:0.3rem 1.2rem;font-size:0.72rem;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:#c7def1;margin-bottom:0.8rem;position:relative;z-index:1;}
+.header h1{font-family:Righteous,cursive;font-size:clamp(1.4rem,4vw,2.1rem);background:linear-gradient(135deg,#ff9933,#cc0066);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:0.4rem;position:relative;z-index:1;}
+.header p{color:#c7def1;font-size:0.88rem;font-weight:600;position:relative;z-index:1;}
+
+/* PROGRESS BAR */
+.progress-bar{background:#1e1e3a;padding:1rem 1.5rem;display:flex;align-items:center;gap:0.5rem;justify-content:center;flex-wrap:wrap;}
+.step-dot{width:36px;height:36px;border-radius:50%;border:3px solid #333;background:#1e1e3a;color:#666;font-weight:900;font-size:0.8rem;display:flex;align-items:center;justify-content:center;transition:all 0.3s;flex-shrink:0;}
+.step-dot.active{border-color:#ff9933;color:#ff9933;}
+.step-dot.done{background:linear-gradient(135deg,#ff9933,#cc0066);border-color:transparent;color:#fff;}
+.step-line{flex:1;max-width:60px;height:3px;background:#333;border-radius:2px;}
+.step-line.done{background:linear-gradient(90deg,#ff9933,#cc0066);}
+
+.main{max-width:800px;margin:0 auto;padding:1.5rem 1.2rem;}
+
+/* SCREENS */
+.screen{display:none;}
+.screen.active{display:block;}
+
+/* SECTION HEADER */
+.s-header{background:#fff;border-radius:18px;padding:1.2rem 1.5rem;margin-bottom:1.2rem;box-shadow:0 4px 18px rgba(0,0,0,0.05);border-left:5px solid #ff9933;}
+.s-tag{font-size:0.7rem;font-weight:900;text-transform:uppercase;letter-spacing:0.15em;color:#ff9933;margin-bottom:0.2rem;}
+.s-title{font-family:Righteous,cursive;font-size:1.2rem;color:#0a0a1a;margin-bottom:0.3rem;}
+.s-desc{font-size:0.85rem;color:#666;font-weight:600;}
+
+/* CARDS */
+.card{background:#fff;border-radius:18px;padding:1.3rem;margin-bottom:1rem;box-shadow:0 4px 18px rgba(0,0,0,0.05);}
+
+/* QUIZ (activité 1) */
+.q-num{display:inline-block;background:linear-gradient(135deg,#ff9933,#cc0066);color:#fff;font-weight:900;font-size:0.7rem;border-radius:999px;padding:0.2rem 0.8rem;margin-bottom:0.6rem;}
+.q-text{font-weight:800;font-size:0.95rem;margin-bottom:0.8rem;color:#1a1a2e;}
+.options{display:flex;flex-direction:column;gap:0.5rem;}
+.option{display:flex;align-items:center;gap:0.6rem;background:#f8f9fc;border:2px solid #e8eaf0;border-radius:10px;padding:0.6rem 0.9rem;cursor:pointer;font-weight:700;font-size:0.85rem;color:#444;transition:all 0.15s;}
+.option:hover:not(.disabled){border-color:#0066cc;background:#eef5fd;}
+.option input{accent-color:#0066cc;width:16px;height:16px;flex-shrink:0;cursor:pointer;}
+.option.correct{background:#EAF3DE;border-color:#27500A;color:#27500A;}
+.option.incorrect{background:#FBE9E7;border-color:#CC0066;color:#CC0066;}
+.option.disabled{cursor:default;}
+.expl{display:none;margin-top:0.7rem;background:#f0f5ff;border-left:4px solid #0066cc;border-radius:8px;padding:0.6rem 0.9rem;font-size:0.8rem;color:#444;font-weight:600;}
+.expl.show{display:block;}
+.expl strong{color:#0066cc;}
+
+/* ICON ACTIVITY (activité 2) */
+.icon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:0.8rem;}
+.icon-item{background:#fff;border-radius:14px;padding:1rem 0.8rem;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,0.05);}
+.icon-item svg{width:64px;height:64px;margin:0 auto 0.5rem;}
+.icon-item .label{font-weight:800;font-size:0.8rem;margin-bottom:0.5rem;min-height:2em;}
+.select-label{display:block;font-size:0.7rem;font-weight:700;color:#888;margin-bottom:0.3rem;text-align:left;}
+.icon-select{width:100%;padding:0.4rem 0.5rem;border:2px solid #e8eaf0;border-radius:8px;font-family:Nunito,sans-serif;font-weight:700;font-size:0.78rem;color:#444;background:#f8f9fc;cursor:pointer;outline:none;}
+.icon-select:focus{border-color:#0066cc;}
+.icon-select.correct{border-color:#27500A;background:#EAF3DE;color:#27500A;}
+.icon-select.incorrect{border-color:#CC0066;background:#FBE9E7;color:#CC0066;}
+.icon-fb{font-size:0.72rem;font-weight:700;margin-top:0.3rem;display:none;padding:0.3rem 0.5rem;border-radius:6px;}
+.icon-fb.show{display:block;}
+.icon-fb.ok{background:#EAF3DE;color:#27500A;}
+.icon-fb.ko{background:#FBE9E7;color:#CC0066;}
+
+/* EXT ACTIVITY (activité 3) */
+.ext-grid{display:flex;flex-direction:column;gap:0.8rem;}
+.ext-row{display:flex;align-items:center;gap:1rem;background:#fff;border-radius:14px;padding:1rem 1.2rem;box-shadow:0 4px 14px rgba(0,0,0,0.05);flex-wrap:wrap;}
+.ext-icon{flex-shrink:0;}
+.ext-icon svg{width:52px;height:52px;}
+.ext-name{font-weight:800;font-size:0.9rem;flex:1;min-width:120px;}
+.ext-select{padding:0.45rem 0.6rem;border:2px solid #e8eaf0;border-radius:8px;font-family:Nunito,sans-serif;font-weight:700;font-size:0.82rem;color:#444;background:#f8f9fc;cursor:pointer;outline:none;min-width:110px;}
+.ext-select:focus{border-color:#0066cc;}
+.ext-select.correct{border-color:#27500A;background:#EAF3DE;color:#27500A;}
+.ext-select.incorrect{border-color:#CC0066;background:#FBE9E7;color:#CC0066;}
+.ext-fb{font-size:0.75rem;font-weight:700;display:none;padding:0.25rem 0.5rem;border-radius:6px;}
+.ext-fb.show{display:block;}
+.ext-fb.ok{background:#EAF3DE;color:#27500A;}
+.ext-fb.ko{background:#FBE9E7;color:#CC0066;}
+
+/* SCENARIO (activité 4) */
+.scenario-desc{background:#fff;border-radius:14px;padding:1rem 1.2rem;margin-bottom:1rem;box-shadow:0 4px 14px rgba(0,0,0,0.05);font-size:0.88rem;color:#444;font-weight:600;}
+.scenario-desc strong{color:#0066cc;}
+.files-pile{background:#fff;border-radius:14px;padding:1rem;box-shadow:0 4px 14px rgba(0,0,0,0.05);margin-bottom:1rem;}
+.files-pile h3{font-size:0.8rem;font-weight:900;text-transform:uppercase;letter-spacing:0.1em;color:#888;margin-bottom:0.8rem;}
+.file-chips{display:flex;flex-wrap:wrap;gap:0.6rem;}
+.file-chip{display:flex;align-items:center;gap:0.4rem;background:#f0f4ff;border:2px solid #d0d8f0;border-radius:10px;padding:0.4rem 0.8rem;cursor:grab;font-weight:800;font-size:0.8rem;color:#334;user-select:none;transition:all 0.15s;}
+.file-chip:hover{border-color:#0066cc;background:#e0ecff;}
+.file-chip svg{width:22px;height:22px;flex-shrink:0;}
+.file-chip.dragging{opacity:0.4;}
+.file-chip.placed{opacity:0.4;cursor:default;pointer-events:none;}
+
+.folders-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:0.8rem;margin-bottom:1rem;}
+.drop-folder{background:#fff;border-radius:14px;padding:0.8rem;box-shadow:0 4px 14px rgba(0,0,0,0.05);border:2px dashed #e0e4f0;min-height:130px;transition:all 0.2s;}
+.drop-folder.over{border-color:#0066cc;background:#eef5fd;}
+.drop-folder.correct-folder{border-color:#27500A;border-style:solid;}
+.drop-folder.wrong-folder{border-color:#CC0066;border-style:solid;}
+.folder-label{display:flex;align-items:center;gap:0.4rem;font-weight:900;font-size:0.82rem;margin-bottom:0.6rem;color:#1a1a2e;}
+.folder-label svg{width:22px;height:22px;}
+.dropped-chips{display:flex;flex-wrap:wrap;gap:0.4rem;min-height:50px;}
+.drop-chip{display:flex;align-items:center;gap:0.3rem;border-radius:8px;padding:0.3rem 0.6rem;font-weight:800;font-size:0.75rem;cursor:pointer;transition:all 0.15s;}
+.drop-chip:not(.locked){background:#e8f0fe;color:#334;border:1px solid #c0d0ee;}
+.drop-chip:not(.locked):hover{background:#fbe9e7;color:#cc0066;border-color:#cc0066;}
+.drop-chip svg{width:16px;height:16px;}
+.drop-chip.locked{cursor:default;}
+.drop-chip.ok-chip{background:#EAF3DE;color:#27500A;border:1px solid #a3c97a;}
+.drop-chip.ko-chip{background:#FBE9E7;color:#CC0066;border:1px solid #f4a0a0;}
+.folder-fb{font-size:0.72rem;font-weight:700;margin-top:0.4rem;padding:0.2rem 0.5rem;border-radius:6px;display:none;}
+.folder-fb.show{display:block;}
+.folder-fb.ok{background:#EAF3DE;color:#27500A;}
+.folder-fb.ko{background:#FBE9E7;color:#CC0066;}
+
+/* BTN */
+.btn-row{text-align:center;margin-top:1.2rem;}
+.btn{background:linear-gradient(135deg,#ff9933,#cc0066);color:#fff;border:none;border-radius:999px;padding:0.8rem 2.2rem;font-weight:900;font-size:0.9rem;letter-spacing:0.05em;cursor:pointer;text-transform:uppercase;box-shadow:0 6px 18px rgba(204,0,102,0.25);transition:transform 0.15s;font-family:Nunito,sans-serif;}
+.btn:hover{transform:translateY(-2px);}
+.btn-ghost{background:#fff;color:#0066cc;border:2px solid #0066cc;box-shadow:none;margin-left:0.5rem;}
+
+/* RESULT BANNER */
+.mini-result{border-radius:14px;padding:1rem 1.2rem;margin-top:1rem;text-align:center;display:none;}
+.mini-result.show{display:block;}
+.mini-result.pass{background:#EAF3DE;color:#27500A;}
+.mini-result.low{background:#FBE9E7;color:#CC0066;}
+.mini-result .r-score{font-family:Righteous,cursive;font-size:2rem;margin-bottom:0.2rem;}
+.mini-result .r-msg{font-size:0.85rem;font-weight:700;}
+
+/* FINAL */
+.final{background:#0a0a1a;border-radius:18px;padding:2rem;text-align:center;color:#fff;}
+.final-score{font-family:Righteous,cursive;font-size:3rem;background:linear-gradient(135deg,#ff9933,#cc0066);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.final-msg{color:#c7def1;font-size:0.95rem;font-weight:700;margin-top:0.5rem;}
+.stars{font-size:2rem;margin-bottom:0.5rem;}
+
+.footer{text-align:center;color:#aaa;font-size:0.72rem;font-weight:700;margin-top:2rem;}
+</style>
+<link rel="stylesheet" href="livret/polices/polices.css">
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">Livret pédagogique — Section C — Activité progressive</div>
+  <h1>Icônes, Noms & Extensions de Fichiers</h1>
+  <p>4 activités enchaînées — Pages 10 et 11</p>
+</div>
+
+<div class="progress-bar">
+  <div class="step-dot active" id="dot1">1</div>
+  <div class="step-line" id="line1"></div>
+  <div class="step-dot" id="dot2">2</div>
+  <div class="step-line" id="line2"></div>
+  <div class="step-dot" id="dot3">3</div>
+  <div class="step-line" id="line3"></div>
+  <div class="step-dot" id="dot4">4</div>
+</div>
+
+<div class="main">
+
+<!-- ═══════════════════ ACTIVITÉ 1 — QUIZ ═══════════════════ -->
+<div class="screen active" id="screen1">
+  <div class="s-header">
+    <div class="s-tag">Activité 1 / 4</div>
+    <div class="s-title">Quiz rapide</div>
+    <div class="s-desc">6 questions pour vérifier vos connaissances sur les icônes et les extensions.</div>
+  </div>
+
+  <form id="q-form">
+
+    <div class="card" data-correct="b">
+      <div class="q-num">Q1</div>
+      <div class="q-text">Que signifie la petite flèche dans le coin inférieur gauche d'une icône ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="qq1" value="a"> C'est un dossier compressé</label>
+        <label class="option"><input type="radio" name="qq1" value="b"> C'est un raccourci vers un fichier ou dossier situé ailleurs</label>
+        <label class="option"><input type="radio" name="qq1" value="c"> Le fichier est en lecture seule</label>
+        <label class="option"><input type="radio" name="qq1" value="d"> Le fichier est en cours de téléchargement</label>
+      </div>
+      <div class="expl"><strong>Réponse : raccourci.</strong> La petite flèche est l'indicateur visuel universel d'un raccourci. Supprimer le raccourci ne supprime pas le fichier original.</div>
+    </div>
+
+    <div class="card" data-correct="c">
+      <div class="q-num">Q2</div>
+      <div class="q-text">Quelle extension est associée à un fichier Excel ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="qq2" value="a"> .docx</label>
+        <label class="option"><input type="radio" name="qq2" value="b"> .pptx</label>
+        <label class="option"><input type="radio" name="qq2" value="c"> .xlsx</label>
+        <label class="option"><input type="radio" name="qq2" value="d"> .pdf</label>
+      </div>
+      <div class="expl"><strong>Réponse : .xlsx</strong> — .docx = Word, .pptx = PowerPoint, .pdf = document universel.</div>
+    </div>
+
+    <div class="card" data-correct="b">
+      <div class="q-num">Q3</div>
+      <div class="q-text">À quoi reconnaît-on un dossier compressé dans l'Explorateur ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="qq3" value="a"> Sa couleur est rouge</label>
+        <label class="option"><input type="radio" name="qq3" value="b"> Il affiche une fermeture éclair sur son icône</label>
+        <label class="option"><input type="radio" name="qq3" value="c"> Il a une petite flèche dans le coin</label>
+        <label class="option"><input type="radio" name="qq3" value="d"> Son nom contient toujours le mot "ZIP"</label>
+      </div>
+      <div class="expl"><strong>Réponse : fermeture éclair.</strong> C'est le symbole visuel des dossiers compressés (.zip). La flèche, elle, signale un raccourci.</div>
+    </div>
+
+    <div class="card" data-correct="b">
+      <div class="q-num">Q4</div>
+      <div class="q-text">Vous recevez un fichier nommé "note.pdf.exe". Que faut-il faire ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="qq4" value="a"> L'ouvrir, c'est un PDF donc sans danger</label>
+        <label class="option"><input type="radio" name="qq4" value="b"> Ne pas l'ouvrir — c'est un .exe déguisé, potentiellement malveillant</label>
+        <label class="option"><input type="radio" name="qq4" value="c"> Le renommer en .pdf pour le rendre sûr</label>
+        <label class="option"><input type="radio" name="qq4" value="d"> Le placer dans la Corbeille puis l'imprimer</label>
+      </div>
+      <div class="expl"><strong>Réponse : ne pas l'ouvrir.</strong> Seule la dernière extension compte (.exe = programme). C'est une technique courante pour piéger les utilisateurs.</div>
+    </div>
+
+    <div class="card" data-correct="c">
+      <div class="q-num">Q5</div>
+      <div class="q-text">Quel est le principal avantage du format PDF pour partager un document ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="qq5" value="a"> Il est plus facile à modifier que Word</label>
+        <label class="option"><input type="radio" name="qq5" value="b"> Il réduit automatiquement la taille du fichier</label>
+        <label class="option"><input type="radio" name="qq5" value="c"> Il préserve la mise en page quel que soit le logiciel ou l'appareil utilisé</label>
+        <label class="option"><input type="radio" name="qq5" value="d"> Il ne peut être ouvert que sur Windows</label>
+      </div>
+      <div class="expl"><strong>Réponse : préserve la mise en page.</strong> C'est le format universel idéal pour partager un document dont on ne veut pas modifier l'apparence.</div>
+    </div>
+
+    <div class="card" data-correct="a">
+      <div class="q-num">Q6</div>
+      <div class="q-text">Quelle extension correspond à un fichier image ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="qq6" value="a"> .jpg</label>
+        <label class="option"><input type="radio" name="qq6" value="b"> .mp3</label>
+        <label class="option"><input type="radio" name="qq6" value="c"> .zip</label>
+        <label class="option"><input type="radio" name="qq6" value="d"> .exe</label>
+      </div>
+      <div class="expl"><strong>Réponse : .jpg</strong> — .mp3 = audio, .zip = archive, .exe = programme exécutable.</div>
+    </div>
+
+    <div class="btn-row">
+      <button type="submit" class="btn" id="q-submit">Valider</button>
+      <button type="button" class="btn btn-ghost" id="q-retry" style="display:none">Réessayer</button>
+    </div>
+  </form>
+
+  <div class="mini-result" id="r1">
+    <div class="r-score" id="r1-score"></div>
+    <div class="r-msg" id="r1-msg"></div>
+  </div>
+  <div class="btn-row" id="next1-row" style="display:none">
+    <button class="btn" onclick="goTo(2)">Activité suivante →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════ ACTIVITÉ 2 — ASSOCIATION ICÔNES / NOMS ═══════════════════ -->
+<div class="screen" id="screen2">
+  <div class="s-header">
+    <div class="s-tag">Activité 2 / 4</div>
+    <div class="s-title">Reconnaître les icônes</div>
+    <div class="s-desc">Pour chaque icône, sélectionnez le bon nom dans la liste.</div>
+  </div>
+
+  <div class="icon-grid" id="icon-grid">
+
+
+    <!-- FICHIER VIDÉO → devient A -->
+    <div class="icon-item" data-correct="Fichier vidéo">
+      <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 3 H47 L62 18 V77 H8 Z" fill="#fff" stroke="#ddd" stroke-width="2"/>
+        <path d="M47 3 V18 H62 Z" fill="#eee" stroke="#ddd" stroke-width="2"/>
+        <rect x="8" y="28" width="54" height="16" fill="#E64A19"/>
+        <text x="35" y="41" fill="#fff" font-size="11" font-weight="900" text-anchor="middle" font-family="Arial,sans-serif">MP4</text>
+        <circle cx="35" cy="62" r="12" fill="#F5F5F5" stroke="#ddd"/>
+        <path d="M30 56 L44 62 L30 68 Z" fill="#E64A19"/>
+      </svg>
+      <div class="label">Icône A</div>
+      <label class="select-label">C'est :</label>
+      <select class="icon-select" data-field="i2-a">
+        <option value="">— choisir —</option>
+        <option>Dossier</option><option>Dossier compressé</option><option>Fichier Word</option><option>Fichier PDF</option><option>Fichier image</option><option>Raccourci</option><option>Fichier vidéo</option><option>Corbeille</option>
+      </select>
+      <div class="icon-fb"></div>
+    </div>
+
+    <!-- RACCOURCI → devient B -->
+    <div class="icon-item" data-correct="Raccourci">
+      <svg viewBox="0 0 80 75" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 13 L33 13 L41 22 L76 22 L76 56 A4 4 0 0 1 72 60 L8 60 A4 4 0 0 1 4 56 Z" fill="#FDB924"/>
+        <path d="M4 13 A4 4 0 0 1 8 9 L28 9 L36 18 L4 18 Z" fill="#FFD15C"/>
+        <rect x="3" y="45" width="22" height="22" rx="5" fill="#fff" stroke="#bbb"/>
+        <path d="M9 62 L19 52 M19 52 H10 M19 52 V61" stroke="#1a1a2e" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="label">Icône B</div>
+      <label class="select-label">C'est :</label>
+      <select class="icon-select" data-field="i2-b">
+        <option value="">— choisir —</option>
+        <option>Dossier</option><option>Dossier compressé</option><option>Fichier Word</option><option>Fichier PDF</option><option>Fichier image</option><option>Raccourci</option><option>Fichier vidéo</option><option>Corbeille</option>
+      </select>
+      <div class="icon-fb"></div>
+    </div>
+
+    <!-- CORBEILLE → devient C -->
+    <div class="icon-item" data-correct="Corbeille">
+      <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg">
+        <rect x="26" y="4" width="18" height="7" rx="2" fill="#90A4AE"/>
+        <rect x="12" y="13" width="46" height="8" rx="3" fill="#B0BEC5"/>
+        <path d="M18 23 H52 L48 73 A3 3 0 0 1 45 76 H25 A3 3 0 0 1 22 73 Z" fill="#CFD8DC" stroke="#90A4AE" stroke-width="2"/>
+        <line x1="28" y1="30" x2="30" y2="68" stroke="#90A4AE" stroke-width="3"/>
+        <line x1="35" y1="30" x2="35" y2="68" stroke="#90A4AE" stroke-width="3"/>
+        <line x1="42" y1="30" x2="40" y2="68" stroke="#90A4AE" stroke-width="3"/>
+      </svg>
+      <div class="label">Icône C</div>
+      <label class="select-label">C'est :</label>
+      <select class="icon-select" data-field="i2-c">
+        <option value="">— choisir —</option>
+        <option>Dossier</option><option>Dossier compressé</option><option>Fichier Word</option><option>Fichier PDF</option><option>Fichier image</option><option>Raccourci</option><option>Fichier vidéo</option><option>Corbeille</option>
+      </select>
+      <div class="icon-fb"></div>
+    </div>
+
+    <!-- FICHIER WORD → devient D -->
+    <div class="icon-item" data-correct="Fichier Word">
+      <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 3 H47 L62 18 V77 H8 Z" fill="#fff" stroke="#ddd" stroke-width="2"/>
+        <path d="M47 3 V18 H62 Z" fill="#eee" stroke="#ddd" stroke-width="2"/>
+        <rect x="8" y="28" width="54" height="16" fill="#2B579A"/>
+        <text x="35" y="41" fill="#fff" font-size="11" font-weight="900" text-anchor="middle" font-family="Arial,sans-serif">DOCX</text>
+        <line x1="14" y1="56" x2="56" y2="56" stroke="#E0E0E0" stroke-width="3" stroke-linecap="round"/>
+        <line x1="14" y1="66" x2="56" y2="66" stroke="#E0E0E0" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <div class="label">Icône D</div>
+      <label class="select-label">C'est :</label>
+      <select class="icon-select" data-field="i2-d">
+        <option value="">— choisir —</option>
+        <option>Dossier</option><option>Dossier compressé</option><option>Fichier Word</option><option>Fichier PDF</option><option>Fichier image</option><option>Raccourci</option><option>Fichier vidéo</option><option>Corbeille</option>
+      </select>
+      <div class="icon-fb"></div>
+    </div>
+
+    <!-- DOSSIER COMPRESSÉ → devient E -->
+    <div class="icon-item" data-correct="Dossier compressé">
+      <svg viewBox="0 0 80 65" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 13 L33 13 L41 22 L76 22 L76 56 A4 4 0 0 1 72 60 L8 60 A4 4 0 0 1 4 56 Z" fill="#90A4AE"/>
+        <path d="M4 13 A4 4 0 0 1 8 9 L28 9 L36 18 L4 18 Z" fill="#B0BEC5"/>
+        <rect x="36" y="22" width="8" height="38" fill="#FFD600"/>
+        <circle cx="40" cy="30" r="3" fill="#37474F"/>
+        <circle cx="40" cy="39" r="3" fill="#37474F"/>
+        <circle cx="40" cy="48" r="3" fill="#37474F"/>
+      </svg>
+      <div class="label">Icône E</div>
+      <label class="select-label">C'est :</label>
+      <select class="icon-select" data-field="i2-e">
+        <option value="">— choisir —</option>
+        <option>Dossier</option><option>Dossier compressé</option><option>Fichier Word</option><option>Fichier PDF</option><option>Fichier image</option><option>Raccourci</option><option>Fichier vidéo</option><option>Corbeille</option>
+      </select>
+      <div class="icon-fb"></div>
+    </div>
+
+    <!-- FICHIER IMAGE → devient F -->
+    <div class="icon-item" data-correct="Fichier image">
+      <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 3 H47 L62 18 V77 H8 Z" fill="#fff" stroke="#ddd" stroke-width="2"/>
+        <path d="M47 3 V18 H62 Z" fill="#eee" stroke="#ddd" stroke-width="2"/>
+        <rect x="14" y="28" width="42" height="32" fill="#F5F5F5" stroke="#ddd"/>
+        <circle cx="24" cy="37" r="4" fill="#FFC107"/>
+        <path d="M14 57 L31 40 L42 52 L50 43 L56 57 Z" fill="#90CAF9"/>
+      </svg>
+      <div class="label">Icône F</div>
+      <label class="select-label">C'est :</label>
+      <select class="icon-select" data-field="i2-f">
+        <option value="">— choisir —</option>
+        <option>Dossier</option><option>Dossier compressé</option><option>Fichier Word</option><option>Fichier PDF</option><option>Fichier image</option><option>Raccourci</option><option>Fichier vidéo</option><option>Corbeille</option>
+      </select>
+      <div class="icon-fb"></div>
+    </div>
+
+    <!-- DOSSIER → devient G -->
+    <div class="icon-item" data-correct="Dossier">
+      <svg viewBox="0 0 80 65" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 13 L33 13 L41 22 L76 22 L76 56 A4 4 0 0 1 72 60 L8 60 A4 4 0 0 1 4 56 Z" fill="#FDB924"/>
+        <path d="M4 13 A4 4 0 0 1 8 9 L28 9 L36 18 L4 18 Z" fill="#FFD15C"/>
+      </svg>
+      <div class="label">Icône G</div>
+      <label class="select-label">C'est :</label>
+      <select class="icon-select" data-field="i2-g">
+        <option value="">— choisir —</option>
+        <option>Dossier</option><option>Dossier compressé</option><option>Fichier Word</option><option>Fichier PDF</option><option>Fichier image</option><option>Raccourci</option><option>Fichier vidéo</option><option>Corbeille</option>
+      </select>
+      <div class="icon-fb"></div>
+    </div>
+
+    <!-- FICHIER PDF → devient H -->
+    <div class="icon-item" data-correct="Fichier PDF">
+      <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 3 H47 L62 18 V77 H8 Z" fill="#fff" stroke="#ddd" stroke-width="2"/>
+        <path d="M47 3 V18 H62 Z" fill="#eee" stroke="#ddd" stroke-width="2"/>
+        <rect x="8" y="28" width="54" height="16" fill="#E53935"/>
+        <text x="35" y="41" fill="#fff" font-size="12" font-weight="900" text-anchor="middle" font-family="Arial,sans-serif">PDF</text>
+        <line x1="14" y1="56" x2="56" y2="56" stroke="#E0E0E0" stroke-width="3" stroke-linecap="round"/>
+        <line x1="14" y1="66" x2="56" y2="66" stroke="#E0E0E0" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <div class="label">Icône H</div>
+      <label class="select-label">C'est :</label>
+      <select class="icon-select" data-field="i2-h">
+        <option value="">— choisir —</option>
+        <option>Dossier</option><option>Dossier compressé</option><option>Fichier Word</option><option>Fichier PDF</option><option>Fichier image</option><option>Raccourci</option><option>Fichier vidéo</option><option>Corbeille</option>
+      </select>
+      <div class="icon-fb"></div>
+    </div>
+
+  </div>
+
+  <div class="btn-row">
+    <button class="btn" id="i2-submit">Valider</button>
+    <button class="btn btn-ghost" id="i2-retry" style="display:none">Réessayer</button>
+  </div>
+  <div class="mini-result" id="r2"><div class="r-score" id="r2-score"></div><div class="r-msg" id="r2-msg"></div></div>
+  <div class="btn-row" id="next2-row" style="display:none"><button class="btn" onclick="goTo(3)">Activité suivante →</button></div>
+</div>
+
+<!-- ═══════════════════ ACTIVITÉ 3 — EXTENSIONS ═══════════════════ -->
+<div class="screen" id="screen3">
+  <div class="s-header">
+    <div class="s-tag">Activité 3 / 4</div>
+    <div class="s-title">Attribuer la bonne extension</div>
+    <div class="s-desc">Pour chaque fichier décrit, choisissez l'extension correcte.</div>
+  </div>
+
+  <div class="ext-grid" id="ext-grid">
+
+    <div class="ext-row" data-correct=".pdf">
+      <div class="ext-icon"><svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg"><path d="M8 3 H47 L62 18 V77 H8 Z" fill="#fff" stroke="#ddd" stroke-width="2"/><path d="M47 3 V18 H62 Z" fill="#eee" stroke="#ddd" stroke-width="2"/><rect x="8" y="28" width="54" height="16" fill="#E53935"/><text x="35" y="41" fill="#fff" font-size="11" font-weight="900" text-anchor="middle" font-family="Arial">?</text></svg></div>
+      <div class="ext-name">Document envoyé à un client, mise en page figée</div>
+      <select class="ext-select">
+        <option value="">— extension —</option>
+        <option>.docx</option><option>.xlsx</option><option>.pptx</option><option>.pdf</option><option>.jpg</option><option>.mp4</option><option>.zip</option><option>.exe</option>
+      </select>
+      <div class="ext-fb"></div>
+    </div>
+
+    <div class="ext-row" data-correct=".mp4">
+      <div class="ext-icon"><svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg"><path d="M8 3 H47 L62 18 V77 H8 Z" fill="#fff" stroke="#ddd" stroke-width="2"/><path d="M47 3 V18 H62 Z" fill="#eee" stroke="#ddd" stroke-width="2"/><rect x="8" y="28" width="54" height="16" fill="#E64A19"/><text x="35" y="41" fill="#fff" font-size="11" font-weight="900" text-anchor="middle" font-family="Arial">?</text><circle cx="35" cy="63" r="11" fill="#F5F5F5" stroke="#ddd"/><path d="M30 57 L44 63 L30 69 Z" fill="#E64A19"/></svg></div>
+      <div class="ext-name">Vidéo enregistrée avec un smartphone</div>
+      <select class="ext-select">
+        <option value="">— extension —</option>
+        <option>.docx</option><option>.xlsx</option><option>.pptx</option><option>.pdf</option><option>.jpg</option><option>.mp4</option><option>.zip</option><option>.exe</option>
+      </select>
+      <div class="ext-fb"></div>
+    </div>
+
+    <div class="ext-row" data-correct=".docx">
+      <div class="ext-icon"><svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg"><path d="M8 3 H47 L62 18 V77 H8 Z" fill="#fff" stroke="#ddd" stroke-width="2"/><path d="M47 3 V18 H62 Z" fill="#eee" stroke="#ddd" stroke-width="2"/><rect x="8" y="28" width="54" height="16" fill="#2B579A"/><text x="35" y="41" fill="#fff" font-size="11" font-weight="900" text-anchor="middle" font-family="Arial">?</text></svg></div>
+      <div class="ext-name">Rapport de réunion rédigé avec Word</div>
+      <select class="ext-select">
+        <option value="">— extension —</option>
+        <option>.docx</option><option>.xlsx</option><option>.pptx</option><option>.pdf</option><option>.jpg</option><option>.mp4</option><option>.zip</option><option>.exe</option>
+      </select>
+      <div class="ext-fb"></div>
+    </div>
+
+    <div class="ext-row" data-correct=".zip">
+      <div class="ext-icon"><svg viewBox="0 0 80 65" xmlns="http://www.w3.org/2000/svg"><path d="M4 13 L33 13 L41 22 L76 22 L76 56 A4 4 0 0 1 72 60 L8 60 A4 4 0 0 1 4 56 Z" fill="#90A4AE"/><path d="M4 13 A4 4 0 0 1 8 9 L28 9 L36 18 L4 18 Z" fill="#B0BEC5"/><rect x="36" y="22" width="8" height="38" fill="#FFD600"/><circle cx="40" cy="30" r="3" fill="#37474F"/><circle cx="40" cy="39" r="3" fill="#37474F"/><circle cx="40" cy="48" r="3" fill="#37474F"/></svg></div>
+      <div class="ext-name">Ensemble de 20 photos compressées pour envoi par e-mail</div>
+      <select class="ext-select">
+        <option value="">— extension —</option>
+        <option>.docx</option><option>.xlsx</option><option>.pptx</option><option>.pdf</option><option>.jpg</option><option>.mp4</option><option>.zip</option><option>.exe</option>
+      </select>
+      <div class="ext-fb"></div>
+    </div>
+
+    <div class="ext-row" data-correct=".jpg">
+      <div class="ext-icon"><svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg"><path d="M8 3 H47 L62 18 V77 H8 Z" fill="#fff" stroke="#ddd" stroke-width="2"/><path d="M47 3 V18 H62 Z" fill="#eee" stroke="#ddd" stroke-width="2"/><rect x="14" y="24" width="42" height="32" fill="#F5F5F5" stroke="#ddd"/><circle cx="24" cy="33" r="4" fill="#FFC107"/><path d="M14 53 L31 36 L42 48 L50 39 L56 53 Z" fill="#90CAF9"/></svg></div>
+      <div class="ext-name">Photo prise avec un appareil photo numérique</div>
+      <select class="ext-select">
+        <option value="">— extension —</option>
+        <option>.docx</option><option>.xlsx</option><option>.pptx</option><option>.pdf</option><option>.jpg</option><option>.mp4</option><option>.zip</option><option>.exe</option>
+      </select>
+      <div class="ext-fb"></div>
+    </div>
+
+    <div class="ext-row" data-correct=".xlsx">
+      <div class="ext-icon"><svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg"><path d="M8 3 H47 L62 18 V77 H8 Z" fill="#fff" stroke="#ddd" stroke-width="2"/><path d="M47 3 V18 H62 Z" fill="#eee" stroke="#ddd" stroke-width="2"/><rect x="8" y="28" width="54" height="16" fill="#1D6F42"/><text x="35" y="41" fill="#fff" font-size="11" font-weight="900" text-anchor="middle" font-family="Arial">?</text></svg></div>
+      <div class="ext-name">Tableau de suivi des dépenses créé avec Excel</div>
+      <select class="ext-select">
+        <option value="">— extension —</option>
+        <option>.docx</option><option>.xlsx</option><option>.pptx</option><option>.pdf</option><option>.jpg</option><option>.mp4</option><option>.zip</option><option>.exe</option>
+      </select>
+      <div class="ext-fb"></div>
+    </div>
+
+    <div class="ext-row" data-correct=".pptx">
+      <div class="ext-icon"><svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg"><path d="M8 3 H47 L62 18 V77 H8 Z" fill="#fff" stroke="#ddd" stroke-width="2"/><path d="M47 3 V18 H62 Z" fill="#eee" stroke="#ddd" stroke-width="2"/><rect x="8" y="28" width="54" height="16" fill="#C55A11"/><text x="35" y="41" fill="#fff" font-size="11" font-weight="900" text-anchor="middle" font-family="Arial">?</text></svg></div>
+      <div class="ext-name">Diaporama de présentation fait avec PowerPoint</div>
+      <select class="ext-select">
+        <option value="">— extension —</option>
+        <option>.docx</option><option>.xlsx</option><option>.pptx</option><option>.pdf</option><option>.jpg</option><option>.mp4</option><option>.zip</option><option>.exe</option>
+      </select>
+      <div class="ext-fb"></div>
+    </div>
+
+  </div>
+
+  <div class="btn-row">
+    <button class="btn" id="e3-submit">Valider</button>
+    <button class="btn btn-ghost" id="e3-retry" style="display:none">Réessayer</button>
+  </div>
+  <div class="mini-result" id="r3"><div class="r-score" id="r3-score"></div><div class="r-msg" id="r3-msg"></div></div>
+  <div class="btn-row" id="next3-row" style="display:none"><button class="btn" onclick="goTo(4)">Activité suivante →</button></div>
+</div>
+
+<!-- ═══════════════════ ACTIVITÉ 4 — SCÉNARIO ═══════════════════ -->
+<div class="screen" id="screen4">
+  <div class="s-header">
+    <div class="s-tag">Activité 4 / 4</div>
+    <div class="s-title">Le bureau en désordre !</div>
+    <div class="s-desc">Faites glisser chaque fichier dans le bon dossier. Cliquez sur un fichier déposé pour le retirer.</div>
+  </div>
+
+  <div class="scenario-desc">
+    🖥️ Votre bureau est encombré de <strong>8 fichiers</strong> de types différents. Rangez-les chacun dans le bon dossier : <strong>Documents</strong>, <strong>Images</strong>, <strong>Vidéos</strong> ou <strong>Archives</strong>.
+  </div>
+
+  <div class="files-pile">
+    <h3>📂 Fichiers à classer</h3>
+    <div class="file-chips" id="chips-pool">
+
+      <div class="file-chip" draggable="true" data-folder="Documents" data-name="rapport.docx">
+        <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M8 3H47L62 18V77H8Z" fill="#fff" stroke="#ddd" stroke-width="3"/><rect x="8" y="28" width="54" height="16" fill="#2B579A"/><text x="35" y="41" fill="#fff" font-size="14" font-weight="900" text-anchor="middle" font-family="Arial">W</text></svg>
+        rapport.docx
+      </div>
+
+      <div class="file-chip" draggable="true" data-folder="Images" data-name="vacances.jpg">
+        <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M8 3H47L62 18V77H8Z" fill="#fff" stroke="#ddd" stroke-width="3"/><rect x="14" y="24" width="42" height="32" fill="#F5F5F5" stroke="#ddd"/><circle cx="24" cy="33" r="5" fill="#FFC107"/><path d="M14 53L31 36 42 48 50 39 56 53Z" fill="#90CAF9"/></svg>
+        vacances.jpg
+      </div>
+
+      <div class="file-chip" draggable="true" data-folder="Vidéos" data-name="formation.mp4">
+        <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M8 3H47L62 18V77H8Z" fill="#fff" stroke="#ddd" stroke-width="3"/><rect x="8" y="28" width="54" height="16" fill="#E64A19"/><text x="35" y="41" fill="#fff" font-size="11" font-weight="900" text-anchor="middle" font-family="Arial">MP4</text><circle cx="35" cy="63" r="11" fill="#F5F5F5" stroke="#ddd"/><path d="M30 57L44 63 30 69Z" fill="#E64A19"/></svg>
+        formation.mp4
+      </div>
+
+      <div class="file-chip" draggable="true" data-folder="Archives" data-name="photos_2024.zip">
+        <svg viewBox="0 0 80 65" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M4 13L33 13 41 22 76 22 76 56A4 4 0 0 1 72 60H8A4 4 0 0 1 4 56Z" fill="#90A4AE"/><rect x="36" y="22" width="8" height="38" fill="#FFD600"/><circle cx="40" cy="30" r="3" fill="#37474F"/><circle cx="40" cy="42" r="3" fill="#37474F"/></svg>
+        photos_2024.zip
+      </div>
+
+      <div class="file-chip" draggable="true" data-folder="Documents" data-name="budget.xlsx">
+        <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M8 3H47L62 18V77H8Z" fill="#fff" stroke="#ddd" stroke-width="3"/><rect x="8" y="28" width="54" height="16" fill="#1D6F42"/><text x="35" y="41" fill="#fff" font-size="14" font-weight="900" text-anchor="middle" font-family="Arial">X</text></svg>
+        budget.xlsx
+      </div>
+
+      <div class="file-chip" draggable="true" data-folder="Images" data-name="logo.png">
+        <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M8 3H47L62 18V77H8Z" fill="#fff" stroke="#ddd" stroke-width="3"/><rect x="14" y="24" width="42" height="32" fill="#F5F5F5" stroke="#ddd"/><circle cx="24" cy="33" r="5" fill="#FFC107"/><path d="M14 53L31 36 42 48 50 39 56 53Z" fill="#90CAF9"/></svg>
+        logo.png
+      </div>
+
+      <div class="file-chip" draggable="true" data-folder="Vidéos" data-name="réunion.mp4">
+        <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M8 3H47L62 18V77H8Z" fill="#fff" stroke="#ddd" stroke-width="3"/><rect x="8" y="28" width="54" height="16" fill="#E64A19"/><text x="35" y="41" fill="#fff" font-size="11" font-weight="900" text-anchor="middle" font-family="Arial">MP4</text><circle cx="35" cy="63" r="11" fill="#F5F5F5" stroke="#ddd"/><path d="M30 57L44 63 30 69Z" fill="#E64A19"/></svg>
+        réunion.mp4
+      </div>
+
+      <div class="file-chip" draggable="true" data-folder="Documents" data-name="contrat.pdf">
+        <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M8 3H47L62 18V77H8Z" fill="#fff" stroke="#ddd" stroke-width="3"/><rect x="8" y="28" width="54" height="16" fill="#E53935"/><text x="35" y="41" fill="#fff" font-size="11" font-weight="900" text-anchor="middle" font-family="Arial">PDF</text></svg>
+        contrat.pdf
+      </div>
+
+    </div>
+  </div>
+
+  <div class="folders-grid">
+
+    <div class="drop-folder" data-folder="Documents">
+      <div class="folder-label">
+        <svg viewBox="0 0 80 65" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M4 13L33 13 41 22 76 22 76 56A4 4 0 0 1 72 60H8A4 4 0 0 1 4 56Z" fill="#FDB924"/></svg>
+        Documents
+      </div>
+      <div class="dropped-chips" id="drop-Documents"></div>
+      <div class="folder-fb"></div>
+    </div>
+
+    <div class="drop-folder" data-folder="Images">
+      <div class="folder-label">
+        <svg viewBox="0 0 80 65" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M4 13L33 13 41 22 76 22 76 56A4 4 0 0 1 72 60H8A4 4 0 0 1 4 56Z" fill="#29B6F6"/></svg>
+        Images
+      </div>
+      <div class="dropped-chips" id="drop-Images"></div>
+      <div class="folder-fb"></div>
+    </div>
+
+    <div class="drop-folder" data-folder="Vidéos">
+      <div class="folder-label">
+        <svg viewBox="0 0 80 65" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M4 13L33 13 41 22 76 22 76 56A4 4 0 0 1 72 60H8A4 4 0 0 1 4 56Z" fill="#EF5350"/></svg>
+        Vidéos
+      </div>
+      <div class="dropped-chips" id="drop-Vidéos"></div>
+      <div class="folder-fb"></div>
+    </div>
+
+    <div class="drop-folder" data-folder="Archives">
+      <div class="folder-label">
+        <svg viewBox="0 0 80 65" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M4 13L33 13 41 22 76 22 76 56A4 4 0 0 1 72 60H8A4 4 0 0 1 4 56Z" fill="#90A4AE"/></svg>
+        Archives
+      </div>
+      <div class="dropped-chips" id="drop-Archives"></div>
+      <div class="folder-fb"></div>
+    </div>
+
+  </div>
+
+  <div class="btn-row">
+    <button class="btn" id="s4-submit">Valider le classement</button>
+    <button class="btn btn-ghost" id="s4-retry" style="display:none">Réessayer</button>
+  </div>
+  <div class="mini-result" id="r4"><div class="r-score" id="r4-score"></div><div class="r-msg" id="r4-msg"></div></div>
+  <div class="btn-row" id="next4-row" style="display:none"><button class="btn" onclick="showFinal()">Voir mon bilan →</button></div>
+</div>
+
+<!-- ═══════════════════ BILAN FINAL ═══════════════════ -->
+<div class="screen" id="screen5">
+
+  <!-- SCORE GLOBAL -->
+  <div class="final">
+    <div class="stars" id="final-stars"></div>
+    <div class="result-score final-score" id="final-score"></div>
+    <div class="final-msg" id="final-msg"></div>
+  </div>
+
+  <!-- DÉTAIL PAR ACTIVITÉ -->
+  <div style="background:#fff;border-radius:18px;padding:1.4rem;margin-top:1.2rem;box-shadow:0 4px 18px rgba(0,0,0,0.05);">
+    <div style="font-family:'Righteous',cursive;font-size:1rem;color:#0a0a1a;margin-bottom:1rem;">📊 Détail par activité</div>
+    <div id="act-details"></div>
+
+    <!-- MOYENNE GLOBALE -->
+    <div style="border-top:2px solid #e8eaf0;margin-top:1rem;padding-top:1rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+        <span style="font-weight:900;font-size:0.9rem;color:#1a1a2e;">Moyenne globale</span>
+        <span style="font-family:'Righteous',cursive;font-size:1.1rem;color:#cc0066;" id="avg-pct"></span>
+      </div>
+      <div style="background:#e8eaf0;border-radius:999px;height:14px;overflow:hidden;">
+        <div id="bar-avg" style="height:100%;border-radius:999px;background:linear-gradient(90deg,#ff9933,#cc0066);width:0%;transition:width 1s ease;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CE QU'IL FAUT REVOIR -->
+  <div id="review-box" style="display:none;background:#fff;border-radius:18px;padding:1.4rem;margin-top:1.2rem;box-shadow:0 4px 18px rgba(0,0,0,0.05);border-left:5px solid #ff9933;">
+    <div style="font-family:'Righteous',cursive;font-size:1rem;color:#0a0a1a;margin-bottom:0.8rem;">📖 Points à revoir dans le livret</div>
+    <div id="review-list"></div>
+  </div>
+
+  <div class="btn-row" style="margin-top:1.2rem;">
+    <button class="btn" onclick="goTo(1);" style="background:#fff;color:#0066cc;border:2px solid #0066cc;box-shadow:none;">🔄 Recommencer depuis le début</button>
+  </div>
+</div>
+
+<div class="footer">UGECAM Île-de-France — Formation Numérique Complète · Activité progressive pages 10-11</div>
+
+</div>
+
+<script src="livret/resultat-activite.js"></script>
+<script>
+/* ── SCORES ── */
+const scores = {a1:0,a2:0,a3:0,a4:0,t1:6,t2:8,t3:7,t4:8};
+
+/* ── NAVIGATION ── */
+function goTo(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen'+n).classList.add('active');
+  document.querySelectorAll('.step-dot').forEach((d,i)=>{
+    d.classList.remove('active','done');
+    if(i+1<n) d.classList.add('done');
+    else if(i+1===n) d.classList.add('active');
+  });
+  document.querySelectorAll('.step-line').forEach((l,i)=>{
+    l.classList.toggle('done', i+1<n);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ── MINI RESULT ── */
+function showMini(id, score, total, msgs, nextRow, submitBtn, retryBtn){
+  const el = document.getElementById(id);
+  el.classList.add('show');
+  document.getElementById(id+'-score').textContent = score+' / '+total;
+  const pct = score/total;
+  document.getElementById(id+'-msg').textContent = pct===1 ? msgs[0] : pct>=0.7 ? msgs[1] : pct>=0.5 ? msgs[2] : msgs[3];
+  el.className = 'mini-result show '+(pct>=0.5?'pass':'low');
+  if(nextRow) document.getElementById(nextRow).style.display='block';
+  if(submitBtn) document.getElementById(submitBtn).style.display='none';
+  if(retryBtn) document.getElementById(retryBtn).style.display = pct<1 ? 'inline-block':'none';
+}
+
+/* ── ACTIVITÉ 1 : QUIZ ── */
+const qForm = document.getElementById('q-form');
+qForm.addEventListener('submit',function(e){
+  e.preventDefault();
+  const cards = qForm.querySelectorAll('.card[data-correct]');
+  let sc=0;
+  cards.forEach(card=>{
+    const correct=card.getAttribute('data-correct');
+    const sel=card.querySelector('input:checked');
+    card.querySelectorAll('input').forEach(i=>i.disabled=true);
+    card.querySelectorAll('.option').forEach(o=>{
+      o.classList.add('disabled');
+      const v=o.querySelector('input').value;
+      if(v===correct) o.classList.add('correct');
+      else if(sel&&v===sel.value&&v!==correct) o.classList.add('incorrect');
+    });
+    card.querySelector('.expl').classList.add('show');
+    if(sel&&sel.value===correct) sc++;
+  });
+  scores.a1=sc;
+  showMini('r1',sc,scores.t1,['🎉 Parfait !','👍 Très bien !','🙂 Pas mal, relisez la page 10.','📖 Relisez les pages 10-11.'],'next1-row','q-submit','q-retry');
+});
+document.getElementById('q-retry').addEventListener('click',function(){
+  qForm.querySelectorAll('.card[data-correct]').forEach(card=>{
+    card.querySelectorAll('input').forEach(i=>{i.checked=false;i.disabled=false;});
+    card.querySelectorAll('.option').forEach(o=>o.classList.remove('correct','incorrect','disabled'));
+    card.querySelector('.expl').classList.remove('show');
+  });
+  document.getElementById('r1').classList.remove('show');
+  document.getElementById('q-submit').style.display='';
+  this.style.display='none';
+  document.getElementById('next1-row').style.display='none';
+});
+
+/* ── ACTIVITÉ 2 : ICÔNES ── */
+document.getElementById('i2-submit').addEventListener('click',function(){
+  const items = document.querySelectorAll('#screen2 .icon-item[data-correct]');
+  let sc=0;
+  items.forEach(item=>{
+    const correct=item.getAttribute('data-correct');
+    const sel=item.querySelector('.icon-select');
+    const fb=item.querySelector('.icon-fb');
+    sel.disabled=true;
+    const ok=sel.value===correct;
+    sel.classList.add(ok?'correct':'incorrect');
+    fb.textContent=ok?'✅ Correct !' : '❌ Réponse : '+correct;
+    fb.className='icon-fb show '+(ok?'ok':'ko');
+    if(ok) sc++;
+  });
+  scores.a2=sc;
+  showMini('r2',sc,scores.t2,['🎉 Toutes les icônes reconnues !','👍 Presque ! Quelques icônes à revoir.','🙂 Regardez bien la flèche du raccourci.','📖 Relisez la page 10 du livret.'],'next2-row','i2-submit','i2-retry');
+});
+document.getElementById('i2-retry').addEventListener('click',function(){
+  document.querySelectorAll('#screen2 .icon-item[data-correct]').forEach(item=>{
+    const sel=item.querySelector('.icon-select');
+    sel.value='';sel.disabled=false;
+    sel.classList.remove('correct','incorrect');
+    const fb=item.querySelector('.icon-fb');
+    fb.classList.remove('show','ok','ko');
+  });
+  document.getElementById('r2').classList.remove('show');
+  document.getElementById('i2-submit').style.display='';
+  this.style.display='none';
+  document.getElementById('next2-row').style.display='none';
+});
+
+/* ── ACTIVITÉ 3 : EXTENSIONS ── */
+document.getElementById('e3-submit').addEventListener('click',function(){
+  const rows=document.querySelectorAll('#ext-grid .ext-row[data-correct]');
+  let sc=0;
+  rows.forEach(row=>{
+    const correct=row.getAttribute('data-correct');
+    const sel=row.querySelector('.ext-select');
+    const fb=row.querySelector('.ext-fb');
+    sel.disabled=true;
+    const ok=sel.value===correct;
+    sel.classList.add(ok?'correct':'incorrect');
+    fb.textContent=ok?'✅ Correct !' : '❌ Réponse : '+correct;
+    fb.className='ext-fb show '+(ok?'ok':'ko');
+    if(ok) sc++;
+  });
+  scores.a3=sc;
+  showMini('r3',sc,scores.t3,['🎉 Toutes les extensions maîtrisées !','👍 Très bien ! Quelques extensions à revoir.','🙂 Bon début, relisez le tableau page 11.','📖 Relisez le tableau des extensions page 11.'],'next3-row','e3-submit','e3-retry');
+});
+document.getElementById('e3-retry').addEventListener('click',function(){
+  document.querySelectorAll('#ext-grid .ext-row[data-correct]').forEach(row=>{
+    const sel=row.querySelector('.ext-select');
+    sel.value='';sel.disabled=false;sel.classList.remove('correct','incorrect');
+    const fb=row.querySelector('.ext-fb');
+    fb.classList.remove('show','ok','ko');fb.textContent='';
+  });
+  document.getElementById('r3').classList.remove('show');
+  document.getElementById('e3-submit').style.display='';
+  this.style.display='none';
+  document.getElementById('next3-row').style.display='none';
+});
+
+/* ── ACTIVITÉ 4 : DRAG & DROP ── */
+let dragged=null;
+
+document.querySelectorAll('.file-chip').forEach(chip=>{
+  chip.addEventListener('dragstart',function(){
+    dragged=this;
+    setTimeout(()=>this.classList.add('dragging'),0);
+  });
+  chip.addEventListener('dragend',function(){
+    this.classList.remove('dragging');
+  });
+});
+
+document.querySelectorAll('.drop-folder').forEach(folder=>{
+  folder.addEventListener('dragover',function(e){
+    e.preventDefault();
+    this.classList.add('over');
+  });
+  folder.addEventListener('dragleave',function(){
+    this.classList.remove('over');
+  });
+  folder.addEventListener('drop',function(e){
+    e.preventDefault();
+    this.classList.remove('over');
+    if(!dragged||dragged.classList.contains('placed')) return;
+    const zone=this.querySelector('.dropped-chips');
+    const name=dragged.getAttribute('data-name');
+
+    const dropChip=document.createElement('div');
+    dropChip.className='drop-chip';
+    dropChip.innerHTML=dragged.innerHTML+'<span style="margin-left:2px;font-size:0.65rem;color:#888">✕</span>';
+    dropChip.setAttribute('data-name',name);
+    dropChip.setAttribute('data-origin-folder',this.getAttribute('data-folder'));
+    dropChip.addEventListener('click',function(){
+      if(this.classList.contains('locked')) return;
+      const orig=document.querySelector('.file-chip[data-name="'+this.getAttribute('data-name')+'"]');
+      if(orig){orig.classList.remove('placed');}
+      this.remove();
+    });
+    zone.appendChild(dropChip);
+    dragged.classList.add('placed');
+    dragged=null;
+  });
+});
+
+document.getElementById('s4-submit').addEventListener('click',function(){
+  let sc=0;
+  document.querySelectorAll('.drop-folder').forEach(folder=>{
+    const fName=folder.getAttribute('data-folder');
+    const chips=folder.querySelectorAll('.drop-chip');
+    chips.forEach(chip=>{
+      chip.classList.add('locked');
+      const orig=document.querySelector('.file-chip[data-name="'+chip.getAttribute('data-name')+'"]');
+      const ok=orig&&orig.getAttribute('data-folder')===fName;
+      chip.classList.add(ok?'ok-chip':'ko-chip');
+      if(ok) sc++;
+    });
+  });
+  const unplaced=document.querySelectorAll('.file-chip:not(.placed)').length;
+  scores.a4=sc;
+  const total=scores.t4;
+  const pct=sc/total;
+  const el=document.getElementById('r4');
+  document.getElementById('r4-score').textContent=sc+' / '+total+(unplaced>0?' ('+unplaced+' fichier(s) non placé(s))':'');
+  document.getElementById('r4-msg').textContent=pct===1?'🎉 Bureau parfaitement rangé !':pct>=0.7?'👍 Très bien, vérifiez les fichiers en rouge.':pct>=0.5?'🙂 Quelques erreurs, relisez le tableau page 11.':'📖 Relisez les extensions page 11 et recommencez.';
+  el.className='mini-result show '+(pct>=0.5?'pass':'low');
+  el.style.display='block';
+  document.getElementById('next4-row').style.display='block';
+  document.getElementById('s4-submit').style.display='none';
+  if(pct<1) document.getElementById('s4-retry').style.display='inline-block';
+});
+
+document.getElementById('s4-retry').addEventListener('click',function(){
+  // Return all chips to pool
+  document.querySelectorAll('.dropped-chips').forEach(zone=>{
+    zone.querySelectorAll('.drop-chip').forEach(dc=>{
+      const orig=document.querySelector('.file-chip[data-name="'+dc.getAttribute('data-name')+'"]');
+      if(orig) orig.classList.remove('placed');
+      dc.remove();
+    });
+  });
+  document.querySelectorAll('.drop-folder').forEach(f=>{
+    f.classList.remove('correct-folder','wrong-folder');
+    f.querySelector('.folder-fb').classList.remove('show','ok','ko');
+  });
+  document.getElementById('r4').classList.remove('show');
+  document.getElementById('r4').style.display='none';
+  document.getElementById('s4-submit').style.display='';
+  this.style.display='none';
+  document.getElementById('next4-row').style.display='none';
+});
+
+/* ── BILAN FINAL ── */
+function showFinal(){
+  const acts=[
+    {
+      sc:scores.a1, tot:scores.t1,
+      label:'Activité 1 — Quiz rapide',
+      acquis:'Notions générales sur les icônes, extensions et PDF maîtrisées.',
+      revoir:'Relisez les définitions des extensions (page 11) et le rôle de chaque icône (page 10).',
+      page:'page 10-11'
+    },
+    {
+      sc:scores.a2, tot:scores.t2,
+      label:'Activité 2 — Reconnaître les icônes',
+      acquis:'Vous distinguez correctement dossiers, fichiers, raccourcis et dossiers compressés.',
+      revoir:'Attention à la flèche du raccourci et à la fermeture éclair du dossier compressé (page 10).',
+      page:'page 10'
+    },
+    {
+      sc:scores.a3, tot:scores.t3,
+      label:'Activité 3 — Attribuer les extensions',
+      acquis:'Vous associez correctement chaque type de fichier à sa bonne extension.',
+      revoir:'Revoyez le tableau des extensions courantes : .docx / .xlsx / .pptx / .pdf / .jpg / .mp4 / .zip (page 11).',
+      page:'page 11'
+    },
+    {
+      sc:scores.a4, tot:scores.t4,
+      label:'Activité 4 — Bureau en désordre',
+      acquis:'Vous savez classer des fichiers dans les bons dossiers selon leur extension.',
+      revoir:'Revoyez les catégories de fichiers : Documents (.docx, .xlsx, .pdf), Images (.jpg, .png), Vidéos (.mp4), Archives (.zip) — page 11.',
+      page:'page 11'
+    }
+  ];
+
+  const grandTotal=scores.t1+scores.t2+scores.t3+scores.t4;
+  const grandScore=scores.a1+scores.a2+scores.a3+scores.a4;
+
+  // Calcul moyenne des pourcentages individuels
+  let sumPct=0;
+  acts.forEach(a=>{ sumPct+=a.tot>0?Math.round((a.sc/a.tot)*100):0; });
+  const moyenne=Math.round(sumPct/acts.length);
+
+  // Score global
+  document.getElementById('final-score').textContent=grandScore+' / '+grandTotal+' ('+Math.round(grandScore/grandTotal*100)+' %)';
+  ResultatActivite.noter({titre:"Icônes, noms et extensions",type:'Exercice',score:grandScore,total:grandTotal,detail:acts.map(a=>({q:a.label||'Activité',donne:a.sc+' / '+a.tot,ok:a.sc===a.tot}))});
+  document.getElementById('final-stars').textContent=moyenne===100?'⭐⭐⭐':moyenne>=70?'⭐⭐':'⭐';
+  document.getElementById('final-msg').textContent=moyenne===100
+    ?'Félicitations ! Vous maîtrisez parfaitement les icônes, les extensions et le classement des fichiers.'
+    :moyenne>=70
+    ?'Très bon résultat ! Consultez le détail ci-dessous pour identifier les points à consolider.'
+    :'Des notions restent à retravailler. Le détail ci-dessous vous guide vers les bonnes pages du livret.';
+
+  // Détail par activité
+  const detailEl=document.getElementById('act-details');
+  detailEl.innerHTML='';
+  let hasReview=false;
+  const reviewItems=[];
+
+  acts.forEach((a,i)=>{
+    const p=a.tot>0?Math.round((a.sc/a.tot)*100):0;
+    sumPct+=0; // already computed
+    const status=p>=80?{icon:'✅',label:'Acquis',color:'#27500A',bg:'#EAF3DE',border:'#a3c97a'}
+                :p>=60?{icon:'⚠️',label:'À consolider',color:'#7a4f00',bg:'#fff8e1',border:'#ffc107'}
+                      :{icon:'❌',label:'À revoir',color:'#CC0066',bg:'#FBE9E7',border:'#f4a0a0'};
+
+    detailEl.innerHTML+=`
+      <div style="margin-bottom:0.9rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.25rem;flex-wrap:wrap;gap:0.3rem;">
+          <span style="font-weight:800;font-size:0.85rem;color:#444;">${a.label}</span>
+          <span style="display:inline-flex;align-items:center;gap:0.3rem;background:${status.bg};border:1px solid ${status.border};border-radius:999px;padding:0.15rem 0.7rem;font-size:0.75rem;font-weight:900;color:${status.color};">${status.icon} ${status.label} — ${a.sc}/${a.tot} (${p}%)</span>
+        </div>
+        <div style="background:#e8eaf0;border-radius:999px;height:10px;overflow:hidden;margin-bottom:0.4rem;">
+          <div id="bar${i+1}" style="height:100%;border-radius:999px;background:linear-gradient(90deg,#ff9933,#cc0066);width:0%;transition:width 0.8s ${i*0.15}s ease;"></div>
+        </div>
+        <div style="font-size:0.78rem;font-weight:600;color:${status.color};padding:0.3rem 0.5rem;background:${status.bg};border-radius:7px;">${p>=80?'✔ '+a.acquis:'↳ '+a.revoir}</div>
+      </div>`;
+
+    if(p<80){
+      hasReview=true;
+      reviewItems.push(`<div style="display:flex;gap:0.6rem;align-items:flex-start;margin-bottom:0.6rem;padding:0.6rem 0.8rem;background:#fff8f0;border-left:4px solid #ff9933;border-radius:8px;">
+        <span style="font-size:1rem;flex-shrink:0;">${status.icon}</span>
+        <div>
+          <div style="font-weight:800;font-size:0.82rem;color:#1a1a2e;">${a.label} <span style="color:#ff9933;">(${a.page})</span></div>
+          <div style="font-size:0.78rem;color:#666;font-weight:600;margin-top:0.15rem;">${a.revoir}</div>
+        </div>
+      </div>`);
+    }
+  });
+
+  // Animer les barres après rendu
+  setTimeout(()=>{
+    acts.forEach((a,i)=>{
+      const p=a.tot>0?Math.round((a.sc/a.tot)*100):0;
+      const b=document.getElementById('bar'+(i+1));
+      if(b) b.style.width=p+'%';
+    });
+    document.getElementById('bar-avg').style.width=moyenne+'%';
+  },150);
+
+  // Moyenne
+  document.getElementById('avg-pct').textContent=moyenne+' %';
+
+  // Ce qu'il faut revoir
+  if(hasReview){
+    document.getElementById('review-box').style.display='block';
+    document.getElementById('review-list').innerHTML=reviewItems.join('');
+  }
+
+  goTo(5);
+}
+</script>
+
+</body>
+</html>

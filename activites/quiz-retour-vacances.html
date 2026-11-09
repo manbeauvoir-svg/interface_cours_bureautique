@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Retour Vacances — Bureautique</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Nunito,sans-serif;background:#f4f6fb;color:#1a1a2e;line-height:1.6;padding-bottom:4rem;}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,#0a0a1a,#1a1a3e);padding:2rem;text-align:center;position:relative;overflow:hidden;}
+.header::before{content:'☀️';position:absolute;top:10px;right:30px;font-size:3rem;opacity:0.15;}
+.header::after{content:'🏖️';position:absolute;bottom:5px;left:20px;font-size:2.5rem;opacity:0.12;}
+.hbadge{display:inline-block;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:999px;padding:0.3rem 1.2rem;font-size:0.7rem;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:#c7def1;margin-bottom:0.8rem;position:relative;z-index:1;}
+.header h1{font-family:Righteous,cursive;font-size:clamp(1.4rem,4vw,2.2rem);background:linear-gradient(135deg,#ff9933,#cc0066);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:0.3rem;position:relative;z-index:1;}
+.header p{color:#c7def1;font-size:0.85rem;font-weight:600;position:relative;z-index:1;}
+
+/* PROGRESS */
+.progress-wrap{background:#1e1e3a;padding:0.8rem 1rem;display:flex;align-items:center;gap:0.3rem;justify-content:center;flex-wrap:wrap;}
+.step-dot{width:30px;height:30px;border-radius:50%;border:2px solid #333;background:#1e1e3a;color:#666;font-weight:900;font-size:0.72rem;display:flex;align-items:center;justify-content:center;transition:all 0.3s;flex-shrink:0;}
+.step-dot.active{border-color:#ff9933;color:#ff9933;}
+.step-dot.done{background:linear-gradient(135deg,#ff9933,#cc0066);border-color:transparent;color:#fff;}
+.step-line{flex:1;max-width:40px;height:2px;background:#333;border-radius:2px;}
+.step-line.done{background:linear-gradient(90deg,#ff9933,#cc0066);}
+
+.main{max-width:860px;margin:0 auto;padding:1.5rem 1.2rem;}
+.screen{display:none;}
+.screen.active{display:block;}
+
+/* SECTION HEADER */
+.s-header{background:#fff;border-radius:18px;padding:1.2rem 1.5rem;margin-bottom:1.2rem;box-shadow:0 4px 18px rgba(0,0,0,0.05);border-left:5px solid #ff9933;}
+.s-tag{font-size:0.7rem;font-weight:900;text-transform:uppercase;letter-spacing:0.15em;color:#ff9933;}
+.s-title{font-family:Righteous,cursive;font-size:1.2rem;color:#0a0a1a;margin:0.2rem 0;}
+.s-desc{font-size:0.85rem;color:#666;font-weight:600;}
+
+/* CARDS & OPTIONS */
+.card{background:#fff;border-radius:16px;padding:1.2rem;margin-bottom:1rem;box-shadow:0 4px 16px rgba(0,0,0,0.05);}
+.qnum{display:inline-block;background:linear-gradient(135deg,#ff9933,#cc0066);color:#fff;font-weight:900;font-size:0.7rem;border-radius:999px;padding:0.2rem 0.8rem;margin-bottom:0.5rem;}
+.qtext{font-weight:800;font-size:0.95rem;margin-bottom:0.8rem;}
+.options{display:flex;flex-direction:column;gap:0.45rem;}
+.opt{display:flex;align-items:center;gap:0.6rem;background:#f8f9fc;border:2px solid #e8eaf0;border-radius:10px;padding:0.55rem 0.9rem;cursor:pointer;font-weight:700;font-size:0.85rem;color:#444;transition:all 0.15s;}
+.opt:hover:not(.disabled){border-color:#0066cc;background:#eef5fd;}
+.opt input{accent-color:#0066cc;width:16px;height:16px;flex-shrink:0;}
+.opt.correct{background:#EAF3DE;border-color:#27500A;color:#27500A;}
+.opt.incorrect{background:#FBE9E7;border-color:#CC0066;color:#CC0066;}
+.opt.disabled{cursor:default;}
+.expl{display:none;margin-top:0.6rem;background:#f0f5ff;border-left:4px solid #0066cc;border-radius:8px;padding:0.6rem 0.9rem;font-size:0.8rem;color:#444;font-weight:600;}
+.expl.show{display:block;}
+
+/* BOUTONS */
+.btn-row{text-align:center;margin-top:1.2rem;}
+.btn{background:linear-gradient(135deg,#ff9933,#cc0066);color:#fff;border:none;border-radius:999px;padding:0.8rem 2.2rem;font-weight:900;font-size:0.9rem;cursor:pointer;text-transform:uppercase;box-shadow:0 6px 18px rgba(204,0,102,0.2);transition:transform 0.15s;font-family:Nunito,sans-serif;}
+.btn:hover{transform:translateY(-2px);}
+.btn-ghost{background:#fff;color:#0066cc;border:2px solid #0066cc;box-shadow:none;margin-left:0.5rem;}
+
+/* MINI RESULT */
+.mini-result{border-radius:14px;padding:1rem;margin-top:1rem;text-align:center;display:none;}
+.mini-result.show{display:block;}
+.mini-result.pass{background:#EAF3DE;color:#27500A;}
+.mini-result.low{background:#FBE9E7;color:#CC0066;}
+.r-score{font-family:Righteous,cursive;font-size:1.8rem;}
+.r-msg{font-size:0.85rem;font-weight:700;margin-top:0.2rem;}
+
+/* BUREAU DRAG DROP */
+.desktop-wrap{position:relative;border-radius:16px;overflow:hidden;margin-bottom:1rem;box-shadow:0 4px 16px rgba(0,0,0,0.1);}
+.desktop-bg{width:100%;background:linear-gradient(135deg,#1565c0,#0d47a1);padding:20px;min-height:320px;position:relative;}
+.taskbar{background:rgba(0,0,0,0.7);padding:6px 12px;display:flex;align-items:center;gap:8px;backdrop-filter:blur(10px);}
+.taskbar-start{background:#0066cc;border-radius:4px;padding:4px 10px;color:#fff;font-size:0.75rem;font-weight:800;}
+.taskbar-icons{display:flex;gap:6px;flex:1;}
+.taskbar-icon{width:28px;height:28px;background:rgba(255,255,255,0.2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;}
+.taskbar-notif{margin-left:auto;display:flex;align-items:center;gap:4px;color:rgba(255,255,255,0.8);font-size:0.7rem;}
+.desktop-icons{display:flex;flex-wrap:wrap;gap:12px;padding:10px;}
+.desktop-icon{display:flex;flex-direction:column;align-items:center;gap:4px;color:#fff;font-size:0.65rem;font-weight:700;width:60px;text-align:center;text-shadow:1px 1px 2px rgba(0,0,0,0.8);}
+.desktop-icon span:first-child{font-size:1.8rem;}
+
+/* ZONES LABELS */
+.zone-labels{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.8rem;}
+.zone-chip{padding:0.4rem 0.9rem;background:#f0f4ff;border:2px solid #c0d0ee;border-radius:10px;font-weight:800;font-size:0.82rem;color:#334;cursor:grab;user-select:none;transition:all 0.15s;}
+.zone-chip:hover{border-color:#0066cc;background:#deeaff;}
+.zone-chip.dragging{opacity:0.3;}
+.zone-chip.placed{opacity:0.4;pointer-events:none;background:#e8eaf0;border-color:#ccc;}
+
+/* DROP TARGETS */
+.drop-target{position:absolute;border:2px dashed rgba(255,255,255,0.5);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;color:rgba(255,255,255,0.6);transition:all 0.2s;cursor:default;}
+.drop-target.over{border-color:#ff9933;background:rgba(255,153,51,0.2);}
+.drop-target.filled{border-style:solid;background:rgba(0,0,0,0.3);}
+.drop-target.correct-drop{border-color:#27ae60;background:rgba(39,174,96,0.25);color:#27ae60;}
+.drop-target.incorrect-drop{border-color:#e74c3c;background:rgba(231,76,60,0.2);color:#e74c3c;}
+.drop-badge{font-size:0.7rem;font-weight:900;padding:0.2rem 0.5rem;border-radius:6px;background:rgba(0,0,0,0.6);color:#fff;text-align:center;white-space:nowrap;}
+
+/* EXPLORATEUR */
+.explorer-mock{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.08);margin-bottom:1rem;}
+.exp-titlebar{background:#1e1e3a;padding:0.4rem 0.8rem;display:flex;align-items:center;gap:0.4rem;}
+.exp-dot{width:10px;height:10px;border-radius:50%;}
+.exp-menubar{background:#f5f5f5;border-bottom:1px solid #ddd;padding:0.2rem 0.5rem;display:flex;gap:0.3rem;}
+.exp-tab{padding:0.2rem 0.7rem;font-size:0.72rem;font-weight:700;color:#555;cursor:default;}
+.exp-toolbar{background:#fafafa;border-bottom:1px solid #eee;padding:0.3rem 0.8rem;display:flex;align-items:center;gap:0.5rem;}
+.exp-body{display:flex;min-height:200px;}
+.exp-nav{width:140px;background:#f8f8f8;border-right:1px solid #eee;padding:0.5rem;flex-shrink:0;}
+.exp-nav-item{padding:0.2rem 0.4rem;font-size:0.72rem;font-weight:600;color:#444;display:flex;align-items:center;gap:0.3rem;border-radius:4px;margin-bottom:2px;}
+.exp-nav-item:hover{background:#e8eaf0;}
+.exp-main{flex:1;padding:0.8rem;}
+.exp-statusbar{background:#f0f0f0;border-top:1px solid #ddd;padding:0.2rem 0.8rem;font-size:0.65rem;color:#888;}
+
+/* ICONES ACTIVITY */
+.icon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.8rem;}
+.icon-item{background:#fff;border-radius:14px;padding:1rem 0.8rem;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,0.05);}
+.icon-item svg{width:60px;height:60px;margin:0 auto 0.5rem;}
+.icon-select{width:100%;padding:0.4rem;border:2px solid #e8eaf0;border-radius:8px;font-family:Nunito,sans-serif;font-weight:700;font-size:0.78rem;color:#444;background:#f8f9fc;cursor:pointer;margin-top:0.4rem;}
+.icon-select.correct{border-color:#27500A;background:#EAF3DE;color:#27500A;}
+.icon-select.incorrect{border-color:#CC0066;background:#FBE9E7;color:#CC0066;}
+.icon-fb{font-size:0.72rem;font-weight:700;margin-top:0.3rem;padding:0.2rem 0.4rem;border-radius:6px;display:none;}
+.icon-fb.show{display:block;}
+.icon-fb.ok{background:#EAF3DE;color:#27500A;}
+.icon-fb.ko{background:#FBE9E7;color:#CC0066;}
+
+/* ARBORESCENCE */
+.tree-builder{background:#fff;border-radius:16px;padding:1.2rem;box-shadow:0 4px 16px rgba(0,0,0,0.05);margin-bottom:1rem;}
+.target-tree{background:#f8f9fc;border-radius:10px;padding:1rem;margin-bottom:1rem;font-family:monospace;font-size:0.82rem;line-height:1.8;border:2px solid #e8eaf0;}
+.target-tree .folder{color:#0066cc;font-weight:800;}
+.target-tree .file{color:#555;}
+.arbo-drop-area{min-height:120px;border:2px dashed #c0d0ee;border-radius:10px;padding:0.8rem;display:flex;flex-wrap:wrap;gap:0.5rem;align-items:flex-start;transition:all 0.2s;}
+.arbo-drop-area.over{border-color:#0066cc;background:#eef5fd;}
+.arbo-item{padding:0.3rem 0.7rem;background:#f0f4ff;border:2px solid #c0d0ee;border-radius:8px;font-weight:800;font-size:0.8rem;cursor:grab;user-select:none;}
+.naming-input{width:100%;padding:0.6rem 0.8rem;border:2px solid #e8eaf0;border-radius:8px;font-family:monospace;font-weight:700;font-size:0.85rem;color:#1a1a2e;outline:none;transition:border-color 0.15s;}
+.naming-input:focus{border-color:#0066cc;}
+.naming-fb{display:none;font-size:0.8rem;font-weight:700;}
+.placed-item{padding:0.3rem 0.7rem;border-radius:8px;font-weight:800;font-size:0.8rem;border:2px solid #e8eaf0;cursor:pointer;}
+.placed-item.ok-arbo{background:#EAF3DE;border-color:#27500A;color:#27500A;}
+.placed-item.ko-arbo{background:#FBE9E7;border-color:#CC0066;color:#CC0066;}
+
+/* BILAN */
+.final-card{background:#0a0a1a;border-radius:18px;padding:2rem;text-align:center;color:#fff;}
+.final-score{font-family:Righteous,cursive;font-size:3rem;background:linear-gradient(135deg,#ff9933,#cc0066);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.final-msg{color:#c7def1;font-size:0.95rem;font-weight:700;margin-top:0.5rem;}
+.stars{font-size:2rem;margin-bottom:0.5rem;}
+.detail-row{margin-bottom:0.9rem;}
+.bar-track{background:#e8eaf0;border-radius:999px;height:10px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#ff9933,#cc0066);width:0%;transition:width 0.8s ease;}
+.status-badge{font-size:0.72rem;font-weight:900;border-radius:999px;padding:0.1rem 0.7rem;}
+.fb-inline{font-size:0.77rem;font-weight:600;padding:0.3rem 0.5rem;border-radius:7px;margin-top:0.3rem;}
+
+/* TABLEAU DE BORD */
+.dashboard{background:#0a0a1a;min-height:100vh;padding:2rem;color:#fff;}
+.dashboard h2{font-family:Righteous,cursive;font-size:1.5rem;color:#ff9933;margin-bottom:1.5rem;text-align:center;}
+.db-table{width:100%;border-collapse:collapse;font-size:0.82rem;}
+.db-table th{background:#1e1e3a;color:#c7def1;padding:0.6rem 0.8rem;text-align:left;font-weight:900;}
+.db-table td{padding:0.5rem 0.8rem;border-bottom:1px solid #1e1e3a;font-weight:700;}
+.db-table tr:hover td{background:#1a1a2e;}
+.db-score{font-family:Righteous,cursive;font-size:1rem;}
+.db-avg{color:#ff9933;}
+.db-good{color:#27ae60;}
+.db-mid{color:#f39c12;}
+.db-low{color:#e74c3c;}
+.db-refresh{background:linear-gradient(135deg,#ff9933,#cc0066);border:none;border-radius:999px;padding:0.6rem 1.5rem;color:#fff;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;margin-bottom:1rem;}
+.db-export{background:#27ae60;border:none;border-radius:999px;padding:0.6rem 1.5rem;color:#fff;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;margin-bottom:1rem;margin-left:0.5rem;}
+.db-back{background:#333;border:none;border-radius:999px;padding:0.6rem 1.5rem;color:#fff;font-weight:700;cursor:pointer;font-family:Nunito,sans-serif;margin-bottom:1rem;margin-left:0.5rem;}
+.db-empty{text-align:center;color:#666;padding:2rem;}
+
+/* ACCUEIL */
+.welcome-card{background:#fff;border-radius:18px;padding:2rem;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,0.08);max-width:500px;margin:2rem auto;}
+.welcome-card h2{font-family:Righteous,cursive;font-size:1.3rem;color:#1a1a2e;margin-bottom:0.5rem;}
+.welcome-card p{color:#666;font-size:0.85rem;margin-bottom:1.5rem;}
+.input-name{width:100%;padding:0.8rem 1rem;border:2px solid #e8eaf0;border-radius:12px;font-family:Nunito,sans-serif;font-weight:700;font-size:0.95rem;color:#1a1a2e;margin-bottom:0.5rem;outline:none;transition:border-color 0.15s;}
+.input-name:focus{border-color:#0066cc;}
+
+.footer{text-align:center;color:#aaa;font-size:0.72rem;font-weight:700;margin-top:2rem;}
+</style>
+<link rel="stylesheet" href="livret/polices/polices.css">
+</head>
+<body>
+
+<!-- ══ ÉCRAN 0 : ACCUEIL ══ -->
+<div class="screen active" id="screen0">
+  <div class="header">
+    <div class="hbadge">Retour de vacances ☀️</div>
+    <h1>Quiz Bureautique</h1>
+    <p>Windows & Explorateur de fichiers · 5 activités</p>
+  </div>
+  <div class="main">
+    <div class="welcome-card">
+      <h2>👋 Bienvenue !</h2>
+      <p>Ce quiz de retour de vacances vous permet de faire un petit rappel des notions vues avant la pause. Vos résultats aideront le formateur à adapter la suite du parcours selon vos acquis. Commencez par saisir votre prénom et nom.</p>
+      <input class="input-name" id="input-prenom" type="text" placeholder="Votre prénom" autocomplete="off">
+      <input class="input-name" id="input-nom" type="text" placeholder="Votre nom" autocomplete="off">
+      <p style="font-size:0.8rem;color:#666;margin-top:0.5rem;">🔒 Votre nom et vos résultats restent sur ce poste et ne sont conservés que pendant votre formation.</p>
+      <div class="btn-row" style="margin-top:1rem;">
+        <button class="btn" onclick="startQuiz()">Commencer →</button>
+      </div>
+      <p id="name-error" style="color:#CC0066;font-size:0.8rem;margin-top:0.5rem;display:none;">Veuillez saisir votre prénom et nom.</p>
+    </div>
+    <div style="text-align:center;margin-top:2rem;">
+      <button onclick="showDashboard()" style="background:none;border:none;color:#999;font-size:0.75rem;cursor:pointer;font-family:Nunito,sans-serif;text-decoration:underline;">Accès formateur</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ÉCRAN 1 : QCM ══ -->
+<div class="screen" id="screen1">
+  <div class="header">
+    <div class="hbadge">Activité 1 / 5</div>
+    <h1>Quiz — Windows & Explorateur</h1>
+    <p id="header-name"></p>
+  </div>
+  <div class="progress-wrap">
+    <div class="step-dot active" id="dot1">1</div><div class="step-line" id="line1"></div>
+    <div class="step-dot" id="dot2">2</div><div class="step-line" id="line2"></div>
+    <div class="step-dot" id="dot3">3</div><div class="step-line" id="line3"></div>
+    <div class="step-dot" id="dot4">4</div><div class="step-line" id="line4"></div>
+    <div class="step-dot" id="dot5">5</div>
+  </div>
+  <div class="main">
+    <div class="s-header">
+      <div class="s-tag">Activité 1 / 5 — QCM</div>
+      <div class="s-title">Questions sur Windows & l'Explorateur</div>
+      <div class="s-desc">10 questions pour tester vos connaissances. Lisez bien : certaines ont plusieurs bonnes réponses.</div>
+    </div>
+    <form id="qcm-form">
+
+      <!-- Q1 : à quoi sert le Bureau — QCM simple -->
+      <div class="card" data-type="single" data-correct="c">
+        <div class="qnum">Q1</div>
+        <div class="qtext">À quoi sert le Bureau de Windows ?</div>
+        <div class="options">
+          <label class="opt"><input type="radio" name="q1" value="a"> À stocker définitivement tous ses fichiers</label>
+          <label class="opt"><input type="radio" name="q1" value="b"> À accéder aux paramètres du système uniquement</label>
+          <label class="opt"><input type="radio" name="q1" value="c"> C'est l'espace de travail principal : on y trouve des raccourcis vers les applications et fichiers fréquents</label>
+          <label class="opt"><input type="radio" name="q1" value="d"> À sauvegarder automatiquement les documents</label>
+        </div>
+        <div class="expl">✅ Le Bureau est l'<strong>espace de travail principal</strong>. Il contient des raccourcis vers les applications et fichiers fréquents. Il ne remplace pas un vrai dossier de stockage — il ne faut pas y mettre tous ses fichiers !</div>
+      </div>
+
+      <!-- Q2 : à quoi sert l'Explorateur — QCM simple -->
+      <div class="card" data-type="single" data-correct="b">
+        <div class="qnum">Q2</div>
+        <div class="qtext">À quoi sert l'Explorateur de fichiers ?</div>
+        <div class="options">
+          <label class="opt"><input type="radio" name="q2" value="a"> À naviguer sur Internet</label>
+          <label class="opt"><input type="radio" name="q2" value="b"> À organiser, retrouver et gérer tous ses documents, photos et applications</label>
+          <label class="opt"><input type="radio" name="q2" value="c"> À modifier le texte de ses documents Word</label>
+          <label class="opt"><input type="radio" name="q2" value="d"> À installer des logiciels</label>
+        </div>
+        <div class="expl">✅ L'Explorateur de fichiers est le <strong>centre névralgique de votre ordinateur</strong> — l'outil essentiel pour organiser, retrouver et gérer tous vos documents, photos et applications.</div>
+      </div>
+
+      <!-- Q3 : renommer fichier vs dossier — QCM simple -->
+      <div class="card" data-type="single" data-correct="a">
+        <div class="qnum">Q3</div>
+        <div class="qtext">Y a-t-il une différence entre renommer un fichier et renommer un dossier ?</div>
+        <div class="options">
+          <label class="opt"><input type="radio" name="q3" value="a"> Non, la procédure est identique : sélectionner > F2 > saisir le nouveau nom > Entrée</label>
+          <label class="opt"><input type="radio" name="q3" value="b"> Oui, un fichier se renomme avec F2 mais un dossier uniquement par clic droit</label>
+          <label class="opt"><input type="radio" name="q3" value="c"> Oui, on ne peut pas renommer un dossier s'il contient des fichiers</label>
+          <label class="opt"><input type="radio" name="q3" value="d"> Oui, renommer un dossier supprime son contenu</label>
+        </div>
+        <div class="expl">✅ <strong>Aucune différence de procédure</strong> : que ce soit un fichier ou un dossier, on sélectionne, on appuie sur F2, on saisit le nouveau nom et on valide avec Entrée. On peut aussi utiliser le clic droit > Renommer.</div>
+      </div>
+
+      <!-- Q4 : comment renommer — plusieurs réponses -->
+      <div class="card" data-type="multi" data-correct="a,c,d">
+        <div class="qnum">Q4</div>
+        <div class="qtext">Quelles sont les méthodes correctes pour renommer un fichier ? <em style="color:#888;font-size:0.8rem;">(Plusieurs réponses possibles)</em></div>
+        <div class="options">
+          <label class="opt"><input type="checkbox" name="q4" value="a"> Sélectionner le fichier puis appuyer sur F2</label>
+          <label class="opt"><input type="checkbox" name="q4" value="b"> Double-cliquer sur le fichier pour l'ouvrir puis le renommer</label>
+          <label class="opt"><input type="checkbox" name="q4" value="c"> Clic droit sur le fichier > Renommer</label>
+          <label class="opt"><input type="checkbox" name="q4" value="d"> Sélectionner le fichier > onglet Accueil du Ruban > Renommer</label>
+        </div>
+        <div class="expl">✅ <strong>F2, clic droit > Renommer, et le Ruban</strong> sont les 3 méthodes valides. Double-cliquer ouvre le fichier dans son application, il ne permet pas de le renommer.</div>
+      </div>
+
+      <!-- Q5 : sélection à la souris — QCM simple -->
+      <div class="card" data-type="single" data-correct="b">
+        <div class="qnum">Q5</div>
+        <div class="qtext">Pour sélectionner un fichier dans l'Explorateur, quel bouton de la souris utilise-t-on ?</div>
+        <div class="options">
+          <label class="opt"><input type="radio" name="q5" value="a"> Le bouton droit</label>
+          <label class="opt"><input type="radio" name="q5" value="b"> Le bouton gauche (un seul clic)</label>
+          <label class="opt"><input type="radio" name="q5" value="c"> Le double-clic gauche</label>
+          <label class="opt"><input type="radio" name="q5" value="d"> La molette</label>
+        </div>
+        <div class="expl">✅ Un <strong>simple clic gauche</strong> sélectionne l'élément (il apparaît en bleu). Le double-clic gauche l'ouvre. Le clic droit ouvre le menu contextuel.</div>
+      </div>
+
+      <!-- Q6 : menu contextuel — plusieurs réponses -->
+      <div class="card" data-type="multi" data-correct="b,d">
+        <div class="qnum">Q6</div>
+        <div class="qtext">Comment fait-on apparaître le menu contextuel (menu avec plus d'options) sur le Bureau ou dans l'Explorateur ? <em style="color:#888;font-size:0.8rem;">(Plusieurs réponses possibles)</em></div>
+        <div class="options">
+          <label class="opt"><input type="checkbox" name="q6" value="a"> Double-clic gauche</label>
+          <label class="opt"><input type="checkbox" name="q6" value="b"> Clic droit de la souris</label>
+          <label class="opt"><input type="checkbox" name="q6" value="c"> Ctrl + clic gauche</label>
+          <label class="opt"><input type="checkbox" name="q6" value="d"> La touche Menu du clavier (entre Alt Gr et Ctrl droit)</label>
+        </div>
+        <div class="expl">✅ Le menu contextuel s'ouvre avec le <strong>clic droit</strong> ou la <strong>touche Menu</strong> du clavier. Il affiche les actions disponibles pour l'élément sélectionné : ouvrir, renommer, copier, supprimer...</div>
+      </div>
+
+      <!-- Q7 : sélection multiple — plusieurs réponses -->
+      <div class="card" data-type="multi" data-correct="b,c">
+        <div class="qnum">Q7</div>
+        <div class="qtext">Comment sélectionner plusieurs fichiers dans l'Explorateur ? <em style="color:#888;font-size:0.8rem;">(Plusieurs réponses possibles)</em></div>
+        <div class="options">
+          <label class="opt"><input type="checkbox" name="q7" value="a"> Alt + clic sur chaque fichier</label>
+          <label class="opt"><input type="checkbox" name="q7" value="b"> Ctrl + clic sur chaque fichier (fichiers non consécutifs)</label>
+          <label class="opt"><input type="checkbox" name="q7" value="c"> Clic sur le premier + Shift + clic sur le dernier (fichiers consécutifs)</label>
+          <label class="opt"><input type="checkbox" name="q7" value="d"> Clic droit + sélectionner</label>
+        </div>
+        <div class="expl">✅ <strong>Ctrl + clic</strong> pour des fichiers épars, <strong>Shift + clic</strong> pour une série consécutive. On peut aussi utiliser Ctrl+A pour tout sélectionner.</div>
+      </div>
+
+      <!-- Q8 : arborescence — QCM simple -->
+      <div class="card" data-type="single" data-correct="c">
+        <div class="qnum">Q8</div>
+        <div class="qtext">Dans l'arborescence Documents\BUREAUTIQUE\02_Word\Images, quel est le dossier "parent" de Images ?</div>
+        <div class="options">
+          <label class="opt"><input type="radio" name="q8" value="a"> Documents</label>
+          <label class="opt"><input type="radio" name="q8" value="b"> BUREAUTIQUE</label>
+          <label class="opt"><input type="radio" name="q8" value="c"> 02_Word</label>
+          <label class="opt"><input type="radio" name="q8" value="d"> Le disque dur</label>
+        </div>
+        <div class="expl">✅ Le dossier <strong>parent</strong> est le dossier qui contient directement l'élément. Images est à l'intérieur de 02_Word, donc 02_Word est son parent.</div>
+      </div>
+
+      <!-- Q9 : Corbeille — QCM simple -->
+      <div class="card" data-type="single" data-correct="b">
+        <div class="qnum">Q9</div>
+        <div class="qtext">Qu'est-ce que la Corbeille ?</div>
+        <div class="options">
+          <label class="opt"><input type="radio" name="q9" value="a"> Un dossier pour archiver les vieux fichiers</label>
+          <label class="opt"><input type="radio" name="q9" value="b"> Un emplacement temporaire qui stocke les fichiers supprimés avant suppression définitive</label>
+          <label class="opt"><input type="radio" name="q9" value="c"> Un outil de compression de fichiers</label>
+          <label class="opt"><input type="radio" name="q9" value="d"> Un dossier caché sur le disque dur</label>
+        </div>
+        <div class="expl">✅ La Corbeille stocke <strong>temporairement</strong> les fichiers supprimés. Tant qu'elle n'est pas vidée, on peut les restaurer. Maj+Suppr supprime directement sans passer par la Corbeille.</div>
+      </div>
+
+      <!-- Q10 : icônes dossier compressé — QCM simple -->
+      <div class="card" data-type="single" data-correct="a">
+        <div class="qnum">Q10</div>
+        <div class="qtext">Comment reconnaît-on un dossier compressé (.zip) dans l'Explorateur ?</div>
+        <div class="options">
+          <label class="opt"><input type="radio" name="q10" value="a"> Il affiche une fermeture éclair sur son icône</label>
+          <label class="opt"><input type="radio" name="q10" value="b"> Il a une petite flèche dans le coin inférieur gauche</label>
+          <label class="opt"><input type="radio" name="q10" value="c"> Son icône est rouge</label>
+          <label class="opt"><input type="radio" name="q10" value="d"> Son nom contient toujours "ZIP"</label>
+        </div>
+        <div class="expl">✅ La <strong>fermeture éclair</strong> est le symbole visuel des dossiers compressés (.zip). La petite flèche, elle, signale un raccourci.</div>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn" id="qcm-submit">Valider le QCM</button>
+        <button type="button" class="btn btn-ghost" id="qcm-retry" style="display:none">Réessayer</button>
+      </div>
+    </form>
+    <div class="mini-result" id="r1"><div class="r-score" id="r1s"></div><div class="r-msg" id="r1m"></div></div>
+    <div class="btn-row" id="n1" style="display:none"><button class="btn" onclick="goTo(2)">Activité suivante →</button></div>
+  </div>
+</div>
+
+<!-- ══ ÉCRAN 2 : BUREAU DRAG DROP ══ -->
+<div class="screen" id="screen2">
+  <div class="header"><div class="hbadge">Activité 2 / 5</div><h1>Le Bureau Windows 11</h1><p id="header-name2"></p></div>
+  <div class="progress-wrap">
+    <div class="step-dot done" id="dot1b">✓</div><div class="step-line done"></div>
+    <div class="step-dot active">2</div><div class="step-line" id="line2b"></div>
+    <div class="step-dot">3</div><div class="step-line"></div>
+    <div class="step-dot">4</div><div class="step-line"></div>
+    <div class="step-dot">5</div>
+  </div>
+  <div class="main">
+    <div class="s-header">
+      <div class="s-tag">Activité 2 / 5 — Glisser-Déposer</div>
+      <div class="s-title">Identifier les zones du Bureau Windows 11</div>
+      <div class="s-desc">Faites glisser chaque étiquette sur la bonne zone du Bureau.</div>
+    </div>
+
+    <div class="zone-labels" id="bureau-chips">
+      <div class="zone-chip" draggable="true" data-label="Icônes du Bureau">🗂️ Icônes du Bureau</div>
+      <div class="zone-chip" draggable="true" data-label="Fond d'écran">🖼️ Fond d'écran</div>
+      <div class="zone-chip" draggable="true" data-label="Barre des tâches">📌 Barre des tâches</div>
+      <div class="zone-chip" draggable="true" data-label="Menu Démarrer">🪟 Menu Démarrer</div>
+      <div class="zone-chip" draggable="true" data-label="Zone de notification">🔔 Zone de notification</div>
+    </div>
+
+    <!-- Bureau simulé avec zones numérotées -->
+    <div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.1);margin-bottom:1rem;">
+
+      <!-- Zone de travail du bureau (fond d'écran + icônes) -->
+      <div style="background:linear-gradient(135deg,#1a3a6e,#0d47a1);padding:12px;min-height:200px;position:relative;display:flex;gap:10px;">
+
+        <!-- ZONE 1 : Icônes du Bureau -->
+        <div style="display:flex;flex-direction:column;gap:6px;width:72px;flex-shrink:0;">
+          <div style="font-size:0.6rem;color:rgba(255,255,255,0.5);text-align:center;font-weight:700;">① Déposez ici</div>
+          <div class="drop-target" id="dt-icones" data-correct="Icônes du Bureau"
+            style="position:relative;width:72px;height:40px;transform:none;top:auto;left:auto;">
+            <span class="drop-badge">?</span>
+          </div>
+          <!-- Icônes déco -->
+          <div style="display:flex;flex-direction:column;gap:6px;pointer-events:none;">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+              <span style="font-size:1.4rem;">📄</span>
+              <span style="font-size:0.55rem;color:#fff;text-shadow:1px 1px 2px rgba(0,0,0,0.8);">Document</span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+              <span style="font-size:1.4rem;">🗑️</span>
+              <span style="font-size:0.55rem;color:#fff;text-shadow:1px 1px 2px rgba(0,0,0,0.8);">Corbeille</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ZONE 2 : Fond d'écran (centre) -->
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+          <div style="font-size:0.6rem;color:rgba(255,255,255,0.5);font-weight:700;">② Déposez ici</div>
+          <div class="drop-target" id="dt-fond" data-correct="Fond d'écran"
+            style="position:relative;width:160px;height:50px;transform:none;top:auto;left:auto;">
+            <span class="drop-badge">?</span>
+          </div>
+          <div style="pointer-events:none;opacity:0.15;font-size:3rem;">🏔️</div>
+        </div>
+
+      </div>
+
+      <!-- Barre des tâches complète en bas -->
+      <div style="background:rgba(10,10,26,0.92);backdrop-filter:blur(10px);">
+
+        <!-- Zone 3 : label Barre des tâches au-dessus -->
+        <div style="padding:4px 8px 0;display:flex;align-items:center;gap:6px;">
+          <div style="font-size:0.6rem;color:rgba(255,255,255,0.4);font-weight:700;">③ Déposez ici ↓</div>
+          <div class="drop-target" id="dt-taskbar" data-correct="Barre des tâches"
+            style="position:relative;width:140px;height:28px;transform:none;top:auto;left:auto;">
+            <span class="drop-badge" style="font-size:0.65rem;">?</span>
+          </div>
+        </div>
+
+        <!-- Contenu visuel de la barre -->
+        <div style="display:flex;align-items:center;gap:6px;padding:6px 10px;">
+
+          <!-- ZONE 4 : Menu Démarrer -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+            <div style="font-size:0.55rem;color:rgba(255,255,255,0.4);font-weight:700;">④</div>
+            <div class="drop-target" id="dt-start" data-correct="Menu Démarrer"
+              style="position:relative;width:50px;height:34px;transform:none;top:auto;left:auto;">
+              <span class="drop-badge" style="font-size:0.6rem;">?</span>
+            </div>
+            <div style="pointer-events:none;font-size:1.1rem;margin-top:2px;">🪟</div>
+          </div>
+
+          <!-- Icônes épinglées déco -->
+          <div style="display:flex;gap:5px;flex:1;justify-content:center;pointer-events:none;">
+            <div style="width:28px;height:28px;background:rgba(255,255,255,0.15);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;">📁</div>
+            <div style="width:28px;height:28px;background:rgba(255,255,255,0.15);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;">🌐</div>
+            <div style="width:28px;height:28px;background:rgba(255,255,255,0.15);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;">⚙️</div>
+          </div>
+
+          <!-- ZONE 5 : Zone de notification -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+            <div style="font-size:0.55rem;color:rgba(255,255,255,0.4);font-weight:700;">⑤</div>
+            <div class="drop-target" id="dt-notif" data-correct="Zone de notification"
+              style="position:relative;width:90px;height:34px;transform:none;top:auto;left:auto;">
+              <span class="drop-badge" style="font-size:0.6rem;">?</span>
+            </div>
+            <div style="pointer-events:none;font-size:0.65rem;color:rgba(255,255,255,0.5);">🔔 📶 14:30</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="bureau-submit">Valider</button>
+      <button class="btn btn-ghost" id="bureau-retry" style="display:none">Réessayer</button>
+    </div>
+    <div class="mini-result" id="r2"><div class="r-score" id="r2s"></div><div class="r-msg" id="r2m"></div></div>
+    <div class="btn-row" id="n2" style="display:none"><button class="btn" onclick="goTo(3)">Activité suivante →</button></div>
+  </div>
+</div>
+
+<!-- ══ ÉCRAN 3 : EXPLORATEUR DRAG DROP ══ -->
+<div class="screen" id="screen3">
+  <div class="header"><div class="hbadge">Activité 3 / 5</div><h1>L'Explorateur de Fichiers</h1><p id="header-name3"></p></div>
+  <div class="progress-wrap">
+    <div class="step-dot done">✓</div><div class="step-line done"></div>
+    <div class="step-dot done">✓</div><div class="step-line done"></div>
+    <div class="step-dot active">3</div><div class="step-line"></div>
+    <div class="step-dot">4</div><div class="step-line"></div>
+    <div class="step-dot">5</div>
+  </div>
+  <div class="main">
+    <div class="s-header">
+      <div class="s-tag">Activité 3 / 5 — Glisser-Déposer</div>
+      <div class="s-title">Identifier les zones de l'Explorateur</div>
+      <div class="s-desc">Faites glisser chaque étiquette sur la bonne zone de l'Explorateur de fichiers.</div>
+    </div>
+
+    <div class="zone-labels" id="exp-chips">
+      <div class="zone-chip" draggable="true" data-label="Ruban">🎀 Ruban</div>
+      <div class="zone-chip" draggable="true" data-label="Barre d'adresse">📍 Barre d'adresse</div>
+      <div class="zone-chip" draggable="true" data-label="Volet de navigation">🗂️ Volet de navigation</div>
+      <div class="zone-chip" draggable="true" data-label="Zone d'affichage">📋 Zone d'affichage</div>
+      <div class="zone-chip" draggable="true" data-label="Barre d'état">ℹ️ Barre d'état</div>
+    </div>
+
+    <div style="position:relative;margin-bottom:1rem;">
+      <div class="explorer-mock">
+        <div class="exp-titlebar">
+          <div class="exp-dot" style="background:#e74c3c;"></div>
+          <div class="exp-dot" style="background:#f39c12;"></div>
+          <div class="exp-dot" style="background:#27ae60;"></div>
+          <span style="color:#c7def1;font-size:0.75rem;margin-left:0.5rem;">Explorateur de fichiers</span>
+        </div>
+
+        <!-- RUBAN drop -->
+        <div style="position:relative;">
+          <div class="drop-target" id="et-ruban" data-correct="Ruban"
+            style="position:absolute;top:0;left:0;right:0;height:100%;z-index:2;pointer-events:auto;">
+            <span class="drop-badge">?</span>
+          </div>
+          <div class="exp-menubar" style="pointer-events:none;">
+            <div class="exp-tab">Fichier</div><div class="exp-tab">Accueil</div>
+            <div class="exp-tab">Partage</div><div class="exp-tab">Affichage</div>
+          </div>
+          <div class="exp-toolbar" style="pointer-events:none;">
+            <span style="font-size:0.75rem;color:#666;">← → ↑ &nbsp; 📁 Documents &gt; BUREAUTIQUE</span>
+          </div>
+        </div>
+
+        <!-- BARRE D'ADRESSE drop -->
+        <div style="position:relative;">
+          <div class="drop-target" id="et-adresse" data-correct="Barre d'adresse"
+            style="position:absolute;top:0;left:0;right:0;height:100%;z-index:2;">
+            <span class="drop-badge">?</span>
+          </div>
+          <div style="background:#fff;border-bottom:1px solid #eee;padding:0.3rem 0.8rem;display:flex;align-items:center;gap:0.5rem;pointer-events:none;">
+            <span style="font-size:0.72rem;color:#555;flex:1;">📁 Ce PC › Documents › BUREAUTIQUE</span>
+            <span style="font-size:0.72rem;color:#999;">🔍 Rechercher</span>
+          </div>
+        </div>
+
+        <div class="exp-body">
+          <!-- VOLET DE NAVIGATION drop -->
+          <div style="position:relative;width:140px;flex-shrink:0;">
+            <div class="drop-target" id="et-nav" data-correct="Volet de navigation"
+              style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:2;">
+              <span class="drop-badge">?</span>
+            </div>
+            <div class="exp-nav" style="pointer-events:none;">
+              <div class="exp-nav-item">⭐ Accès rapide</div>
+              <div class="exp-nav-item">📁 Bureau</div>
+              <div class="exp-nav-item">📄 Documents</div>
+              <div class="exp-nav-item">📥 Télécharg.</div>
+              <div class="exp-nav-item">🖥️ Ce PC</div>
+            </div>
+          </div>
+
+          <!-- ZONE D'AFFICHAGE drop -->
+          <div style="position:relative;flex:1;">
+            <div class="drop-target" id="et-zone" data-correct="Zone d'affichage"
+              style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:2;">
+              <span class="drop-badge">?</span>
+            </div>
+            <div class="exp-main" style="pointer-events:none;">
+              <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                <div style="display:flex;align-items:center;gap:4px;font-size:0.72rem;"><span>📁</span>01_Gestion</div>
+                <div style="display:flex;align-items:center;gap:4px;font-size:0.72rem;"><span>📁</span>02_Word</div>
+                <div style="display:flex;align-items:center;gap:4px;font-size:0.72rem;"><span>📄</span>rapport.docx</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BARRE D'ÉTAT drop -->
+        <div style="position:relative;">
+          <div class="drop-target" id="et-statut" data-correct="Barre d'état"
+            style="position:absolute;top:0;left:0;right:0;height:100%;z-index:2;">
+            <span class="drop-badge">?</span>
+          </div>
+          <div class="exp-statusbar" style="pointer-events:none;">3 éléments &nbsp;|&nbsp; 1 élément sélectionné</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="exp-submit">Valider</button>
+      <button class="btn btn-ghost" id="exp-retry" style="display:none">Réessayer</button>
+    </div>
+    <div class="mini-result" id="r3"><div class="r-score" id="r3s"></div><div class="r-msg" id="r3m"></div></div>
+    <div class="btn-row" id="n3" style="display:none"><button class="btn" onclick="goTo(4)">Activité suivante →</button></div>
+  </div>
+</div>
+
+<!-- ══ ÉCRAN 4 : ICÔNES ══ -->
+<div class="screen" id="screen4">
+  <div class="header"><div class="hbadge">Activité 4 / 5</div><h1>Reconnaître les Icônes</h1><p id="header-name4"></p></div>
+  <div class="progress-wrap">
+    <div class="step-dot done">✓</div><div class="step-line done"></div>
+    <div class="step-dot done">✓</div><div class="step-line done"></div>
+    <div class="step-dot done">✓</div><div class="step-line done"></div>
+    <div class="step-dot active">4</div><div class="step-line"></div>
+    <div class="step-dot">5</div>
+  </div>
+  <div class="main">
+    <div class="s-header">
+      <div class="s-tag">Activité 4 / 5 — Identification</div>
+      <div class="s-title">Quel type d'icône est-ce ?</div>
+      <div class="s-desc">Sélectionnez le bon type pour chaque icône.</div>
+    </div>
+
+    <div class="icon-grid" id="icon-grid">
+
+      <!-- Fichier vidéo — MP4 orange -->
+      <div class="icon-item" data-correct="Fichier vidéo (.mp4)">
+        <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 3H47L62 18V77H8Z" fill="#fff" stroke="#ddd" stroke-width="2"/>
+          <path d="M47 3V18H62Z" fill="#eee" stroke="#ddd" stroke-width="2"/>
+          <rect x="8" y="26" width="54" height="18" fill="#E64A19"/>
+          <text x="35" y="39" fill="#fff" font-size="10" font-weight="900" text-anchor="middle" font-family="Arial">MP4</text>
+          <circle cx="35" cy="60" r="11" fill="#f5f5f5" stroke="#ddd"/>
+          <path d="M30 54L44 60L30 66Z" fill="#E64A19"/>
+        </svg>
+        <select class="icon-select"><option value="">— Choisir —</option><option>Dossier</option><option>Raccourci</option><option>Dossier compressé</option><option>Fichier Word (.docx)</option><option>Fichier Excel (.xlsx)</option><option>Fichier PowerPoint (.pptx)</option><option>Fichier PDF</option><option>Fichier image (.jpg)</option><option>Fichier vidéo (.mp4)</option><option>Corbeille</option><option>Navigateur Internet</option><option>Messagerie électronique</option></select>
+        <div class="icon-fb"></div>
+      </div>
+
+      <!-- Raccourci -->
+      <div class="icon-item" data-correct="Raccourci">
+        <svg viewBox="0 0 80 75" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 13L33 13 41 22 76 22 76 56A4 4 0 0 1 72 60H8A4 4 0 0 1 4 56Z" fill="#FDB924"/>
+          <path d="M4 13A4 4 0 0 1 8 9H28L36 18H4Z" fill="#FFD15C"/>
+          <rect x="3" y="45" width="22" height="22" rx="5" fill="#fff" stroke="#bbb"/>
+          <path d="M9 62L19 52 M19 52H10 M19 52V61" stroke="#1a1a2e" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <select class="icon-select"><option value="">— Choisir —</option><option>Dossier</option><option>Raccourci</option><option>Dossier compressé</option><option>Fichier Word (.docx)</option><option>Fichier Excel (.xlsx)</option><option>Fichier PowerPoint (.pptx)</option><option>Fichier PDF</option><option>Fichier image (.jpg)</option><option>Fichier vidéo (.mp4)</option><option>Corbeille</option><option>Navigateur Internet</option><option>Messagerie électronique</option></select>
+        <div class="icon-fb"></div>
+      </div>
+
+      <!-- Fichier PDF — rouge -->
+      <div class="icon-item" data-correct="Fichier PDF">
+        <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 3H47L62 18V77H8Z" fill="#fff" stroke="#ddd" stroke-width="2"/>
+          <path d="M47 3V18H62Z" fill="#eee" stroke="#ddd" stroke-width="2"/>
+          <rect x="8" y="26" width="54" height="18" fill="#E53935"/>
+          <text x="35" y="39" fill="#fff" font-size="12" font-weight="900" text-anchor="middle" font-family="Arial">PDF</text>
+          <line x1="14" y1="56" x2="56" y2="56" stroke="#E0E0E0" stroke-width="3" stroke-linecap="round"/>
+          <line x1="14" y1="65" x2="56" y2="65" stroke="#E0E0E0" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <select class="icon-select"><option value="">— Choisir —</option><option>Dossier</option><option>Raccourci</option><option>Dossier compressé</option><option>Fichier Word (.docx)</option><option>Fichier Excel (.xlsx)</option><option>Fichier PowerPoint (.pptx)</option><option>Fichier PDF</option><option>Fichier image (.jpg)</option><option>Fichier vidéo (.mp4)</option><option>Corbeille</option><option>Navigateur Internet</option><option>Messagerie électronique</option></select>
+        <div class="icon-fb"></div>
+      </div>
+
+      <!-- Fichier Word — W bleu foncé -->
+      <div class="icon-item" data-correct="Fichier Word (.docx)">
+        <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 3H47L62 18V77H8Z" fill="#fff" stroke="#ddd" stroke-width="2"/>
+          <path d="M47 3V18H62Z" fill="#eee" stroke="#ddd" stroke-width="2"/>
+          <rect x="8" y="26" width="54" height="18" fill="#2B579A"/>
+          <text x="35" y="39" fill="#fff" font-size="14" font-weight="900" text-anchor="middle" font-family="Arial">W</text>
+          <line x1="14" y1="56" x2="56" y2="56" stroke="#E0E0E0" stroke-width="3" stroke-linecap="round"/>
+          <line x1="14" y1="65" x2="46" y2="65" stroke="#E0E0E0" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <select class="icon-select"><option value="">— Choisir —</option><option>Dossier</option><option>Raccourci</option><option>Dossier compressé</option><option>Fichier Word (.docx)</option><option>Fichier Excel (.xlsx)</option><option>Fichier PowerPoint (.pptx)</option><option>Fichier PDF</option><option>Fichier image (.jpg)</option><option>Fichier vidéo (.mp4)</option><option>Corbeille</option><option>Navigateur Internet</option><option>Messagerie électronique</option></select>
+        <div class="icon-fb"></div>
+      </div>
+
+      <!-- Corbeille -->
+      <div class="icon-item" data-correct="Corbeille">
+        <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg">
+          <rect x="26" y="4" width="18" height="7" rx="2" fill="#90A4AE"/>
+          <rect x="12" y="13" width="46" height="8" rx="3" fill="#B0BEC5"/>
+          <path d="M18 23H52L48 73A3 3 0 0 1 45 76H25A3 3 0 0 1 22 73Z" fill="#CFD8DC" stroke="#90A4AE" stroke-width="2"/>
+          <line x1="28" y1="30" x2="30" y2="68" stroke="#90A4AE" stroke-width="3"/>
+          <line x1="35" y1="30" x2="35" y2="68" stroke="#90A4AE" stroke-width="3"/>
+          <line x1="42" y1="30" x2="40" y2="68" stroke="#90A4AE" stroke-width="3"/>
+        </svg>
+        <select class="icon-select"><option value="">— Choisir —</option><option>Dossier</option><option>Raccourci</option><option>Dossier compressé</option><option>Fichier Word (.docx)</option><option>Fichier Excel (.xlsx)</option><option>Fichier PowerPoint (.pptx)</option><option>Fichier PDF</option><option>Fichier image (.jpg)</option><option>Fichier vidéo (.mp4)</option><option>Corbeille</option><option>Navigateur Internet</option><option>Messagerie électronique</option></select>
+        <div class="icon-fb"></div>
+      </div>
+
+      <!-- Fichier Excel — X vert -->
+      <div class="icon-item" data-correct="Fichier Excel (.xlsx)">
+        <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 3H47L62 18V77H8Z" fill="#fff" stroke="#ddd" stroke-width="2"/>
+          <path d="M47 3V18H62Z" fill="#eee" stroke="#ddd" stroke-width="2"/>
+          <rect x="8" y="26" width="54" height="18" fill="#1D6F42"/>
+          <text x="35" y="39" fill="#fff" font-size="14" font-weight="900" text-anchor="middle" font-family="Arial">X</text>
+          <line x1="14" y1="56" x2="56" y2="56" stroke="#E0E0E0" stroke-width="3" stroke-linecap="round"/>
+          <line x1="14" y1="65" x2="46" y2="65" stroke="#E0E0E0" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <select class="icon-select"><option value="">— Choisir —</option><option>Dossier</option><option>Raccourci</option><option>Dossier compressé</option><option>Fichier Word (.docx)</option><option>Fichier Excel (.xlsx)</option><option>Fichier PowerPoint (.pptx)</option><option>Fichier PDF</option><option>Fichier image (.jpg)</option><option>Fichier vidéo (.mp4)</option><option>Corbeille</option><option>Navigateur Internet</option><option>Messagerie électronique</option></select>
+        <div class="icon-fb"></div>
+      </div>
+
+      <!-- Dossier compressé -->
+      <div class="icon-item" data-correct="Dossier compressé">
+        <svg viewBox="0 0 80 65" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 13L33 13 41 22 76 22 76 56A4 4 0 0 1 72 60H8A4 4 0 0 1 4 56Z" fill="#90A4AE"/>
+          <path d="M4 13A4 4 0 0 1 8 9H28L36 18H4Z" fill="#B0BEC5"/>
+          <rect x="36" y="22" width="8" height="38" fill="#FFD600"/>
+          <circle cx="40" cy="30" r="3" fill="#37474F"/>
+          <circle cx="40" cy="40" r="3" fill="#37474F"/>
+          <circle cx="40" cy="50" r="3" fill="#37474F"/>
+        </svg>
+        <select class="icon-select"><option value="">— Choisir —</option><option>Dossier</option><option>Raccourci</option><option>Dossier compressé</option><option>Fichier Word (.docx)</option><option>Fichier Excel (.xlsx)</option><option>Fichier PowerPoint (.pptx)</option><option>Fichier PDF</option><option>Fichier image (.jpg)</option><option>Fichier vidéo (.mp4)</option><option>Corbeille</option><option>Navigateur Internet</option><option>Messagerie électronique</option></select>
+        <div class="icon-fb"></div>
+      </div>
+
+      <!-- Messagerie — O bleu/blanc Outlook -->
+      <div class="icon-item" data-correct="Messagerie électronique">
+        <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="og" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0072C6"/><stop offset="1" stop-color="#004E8C"/></linearGradient></defs>
+          <rect x="5" y="5" width="70" height="70" rx="14" fill="url(#og)"/>
+          <text x="40" y="52" fill="#fff" font-size="36" font-weight="900" text-anchor="middle" font-family="Arial">O</text>
+          <rect x="38" y="18" width="30" height="22" rx="3" fill="#fff" opacity="0.9"/>
+          <path d="M38 20L53 30L68 20" stroke="#0072C6" stroke-width="2" fill="none"/>
+        </svg>
+        <select class="icon-select"><option value="">— Choisir —</option><option>Dossier</option><option>Raccourci</option><option>Dossier compressé</option><option>Fichier Word (.docx)</option><option>Fichier Excel (.xlsx)</option><option>Fichier PowerPoint (.pptx)</option><option>Fichier PDF</option><option>Fichier image (.jpg)</option><option>Fichier vidéo (.mp4)</option><option>Corbeille</option><option>Navigateur Internet</option><option>Messagerie électronique</option></select>
+        <div class="icon-fb"></div>
+      </div>
+
+      <!-- Fichier image — paysage -->
+      <div class="icon-item" data-correct="Fichier image (.jpg)">
+        <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 3H47L62 18V77H8Z" fill="#fff" stroke="#ddd" stroke-width="2"/>
+          <path d="M47 3V18H62Z" fill="#eee" stroke="#ddd" stroke-width="2"/>
+          <rect x="13" y="26" width="44" height="34" fill="#f5f5f5" stroke="#ddd"/>
+          <circle cx="23" cy="35" r="5" fill="#FFC107"/>
+          <path d="M13 56L30 38L41 50L50 42L57 56Z" fill="#90CAF9"/>
+        </svg>
+        <select class="icon-select"><option value="">— Choisir —</option><option>Dossier</option><option>Raccourci</option><option>Dossier compressé</option><option>Fichier Word (.docx)</option><option>Fichier Excel (.xlsx)</option><option>Fichier PowerPoint (.pptx)</option><option>Fichier PDF</option><option>Fichier image (.jpg)</option><option>Fichier vidéo (.mp4)</option><option>Corbeille</option><option>Navigateur Internet</option><option>Messagerie électronique</option></select>
+        <div class="icon-fb"></div>
+      </div>
+
+      <!-- Dossier jaune -->
+      <div class="icon-item" data-correct="Dossier">
+        <svg viewBox="0 0 80 65" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 13L33 13 41 22 76 22 76 56A4 4 0 0 1 72 60H8A4 4 0 0 1 4 56Z" fill="#FDB924"/>
+          <path d="M4 13A4 4 0 0 1 8 9H28L36 18H4Z" fill="#FFD15C"/>
+        </svg>
+        <select class="icon-select"><option value="">— Choisir —</option><option>Dossier</option><option>Raccourci</option><option>Dossier compressé</option><option>Fichier Word (.docx)</option><option>Fichier Excel (.xlsx)</option><option>Fichier PowerPoint (.pptx)</option><option>Fichier PDF</option><option>Fichier image (.jpg)</option><option>Fichier vidéo (.mp4)</option><option>Corbeille</option><option>Navigateur Internet</option><option>Messagerie électronique</option></select>
+        <div class="icon-fb"></div>
+      </div>
+
+      <!-- Navigateur Internet — E bleu Edge -->
+      <div class="icon-item" data-correct="Navigateur Internet">
+        <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="eg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1E88E5"/><stop offset="1" stop-color="#0D47A1"/></linearGradient></defs>
+          <rect x="5" y="5" width="70" height="70" rx="14" fill="url(#eg)"/>
+          <text x="40" y="52" fill="#fff" font-size="38" font-weight="900" text-anchor="middle" font-family="Arial">e</text>
+        </svg>
+        <select class="icon-select"><option value="">— Choisir —</option><option>Dossier</option><option>Raccourci</option><option>Dossier compressé</option><option>Fichier Word (.docx)</option><option>Fichier Excel (.xlsx)</option><option>Fichier PowerPoint (.pptx)</option><option>Fichier PDF</option><option>Fichier image (.jpg)</option><option>Fichier vidéo (.mp4)</option><option>Corbeille</option><option>Navigateur Internet</option><option>Messagerie électronique</option></select>
+        <div class="icon-fb"></div>
+      </div>
+
+      <!-- Fichier PowerPoint — P orange -->
+      <div class="icon-item" data-correct="Fichier PowerPoint (.pptx)">
+        <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 3H47L62 18V77H8Z" fill="#fff" stroke="#ddd" stroke-width="2"/>
+          <path d="M47 3V18H62Z" fill="#eee" stroke="#ddd" stroke-width="2"/>
+          <rect x="8" y="26" width="54" height="18" fill="#C55A11"/>
+          <text x="35" y="39" fill="#fff" font-size="14" font-weight="900" text-anchor="middle" font-family="Arial">P</text>
+          <line x1="14" y1="56" x2="56" y2="56" stroke="#E0E0E0" stroke-width="3" stroke-linecap="round"/>
+          <line x1="14" y1="65" x2="46" y2="65" stroke="#E0E0E0" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <select class="icon-select"><option value="">— Choisir —</option><option>Dossier</option><option>Raccourci</option><option>Dossier compressé</option><option>Fichier Word (.docx)</option><option>Fichier Excel (.xlsx)</option><option>Fichier PowerPoint (.pptx)</option><option>Fichier PDF</option><option>Fichier image (.jpg)</option><option>Fichier vidéo (.mp4)</option><option>Corbeille</option><option>Navigateur Internet</option><option>Messagerie électronique</option></select>
+        <div class="icon-fb"></div>
+      </div>
+
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="icon-submit">Valider</button>
+      <button class="btn btn-ghost" id="icon-retry" style="display:none">Réessayer</button>
+    </div>
+    <div class="mini-result" id="r4"><div class="r-score" id="r4s"></div><div class="r-msg" id="r4m"></div></div>
+    <div class="btn-row" id="n4" style="display:none"><button class="btn" onclick="goTo(5)">Activité suivante →</button></div>
+  </div>
+</div>
+
+<!-- ══ ÉCRAN 5 : ARBORESCENCE RESTAURANT ══ -->
+<div class="screen" id="screen5">
+  <div class="header"><div class="hbadge">Activité 5 / 5</div><h1>🍽️ Restaurant Le Saveur</h1><p id="header-name5"></p></div>
+  <div class="progress-wrap">
+    <div class="step-dot done">✓</div><div class="step-line done"></div>
+    <div class="step-dot done">✓</div><div class="step-line done"></div>
+    <div class="step-dot done">✓</div><div class="step-line done"></div>
+    <div class="step-dot done">✓</div><div class="step-line done"></div>
+    <div class="step-dot active">5</div>
+  </div>
+  <div class="main">
+
+    <!-- VOLET 1 -->
+    <div class="s-header">
+      <div class="s-tag">Activité 5 / 5 — Volet 1 : Reconstituer l'arborescence</div>
+      <div class="s-title">Classer les fichiers du Restaurant Le Saveur</div>
+      <div class="s-desc">Faites glisser chaque élément dans la bonne zone. Cliquez sur un élément déposé pour le retirer.</div>
+    </div>
+
+    <div class="tree-builder">
+      <div style="font-weight:800;font-size:0.85rem;color:#cc0066;margin-bottom:0.5rem;">🎯 Arborescence cible :</div>
+      <div class="target-tree" style="font-size:0.78rem;">
+        <span class="folder">📁 Documents</span><br>
+        &nbsp;&nbsp;└─ <span class="folder">📁 RESTAURANT_LE_SAVEUR</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="folder">📁 01_Menus_et_Cartes</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├─ <span class="folder">📁 Archives</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├─ <span class="file">📄 Menu_Printemps_2026.docx</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└─ <span class="file">📄 Carte_Vins_2026.pdf</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="folder">📁 02_Fournisseurs</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├─ <span class="file">📊 Commandes_Legumes_Juin.xlsx</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└─ <span class="file">📄 Contrat_Boulanger_Martin.docx</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="folder">📁 03_Personnel</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├─ <span class="folder">📁 Contrats</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└─ <span class="file">📊 Planning_Semaine_28.xlsx</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ <span class="folder">📁 04_Comptabilite</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <span class="file">📊 Chiffre_Affaires_Mai.xlsx</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ <span class="file">📄 Facture_Epicerie_Fine.pdf</span>
+      </div>
+
+      <div style="font-weight:800;font-size:0.85rem;color:#cc0066;margin-bottom:0.5rem;margin-top:1rem;">📦 Tous les éléments à classer — glissez chacun dans la bonne zone :</div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem;" id="arbo-chips">
+        <div class="arbo-item" draggable="true" data-val="Chiffre_Affaires_Mai.xlsx" data-type="file">📊 Chiffre_Affaires_Mai.xlsx</div>
+        <div class="arbo-item" draggable="true" data-val="01_Menus_et_Cartes" data-type="folder">📁 01_Menus_et_Cartes</div>
+        <div class="arbo-item" draggable="true" data-val="Contrat_Boulanger_Martin.docx" data-type="file">📄 Contrat_Boulanger_Martin.docx</div>
+        <div class="arbo-item" draggable="true" data-val="03_Personnel" data-type="folder">📁 03_Personnel</div>
+        <div class="arbo-item" draggable="true" data-val="Archives" data-type="folder">📁 Archives</div>
+        <div class="arbo-item" draggable="true" data-val="Planning_Semaine_28.xlsx" data-type="file">📊 Planning_Semaine_28.xlsx</div>
+        <div class="arbo-item" draggable="true" data-val="RESTAURANT_LE_SAVEUR" data-type="folder">📁 RESTAURANT_LE_SAVEUR</div>
+        <div class="arbo-item" draggable="true" data-val="Carte_Vins_2026.pdf" data-type="file">📄 Carte_Vins_2026.pdf</div>
+        <div class="arbo-item" draggable="true" data-val="04_Comptabilite" data-type="folder">📁 04_Comptabilite</div>
+        <div class="arbo-item" draggable="true" data-val="Menu_Printemps_2026.docx" data-type="file">📄 Menu_Printemps_2026.docx</div>
+        <div class="arbo-item" draggable="true" data-val="Contrats" data-type="folder">📁 Contrats</div>
+        <div class="arbo-item" draggable="true" data-val="Commandes_Legumes_Juin.xlsx" data-type="file">📊 Commandes_Legumes_Juin.xlsx</div>
+        <div class="arbo-item" draggable="true" data-val="02_Fournisseurs" data-type="folder">📁 02_Fournisseurs</div>
+        <div class="arbo-item" draggable="true" data-val="Facture_Epicerie_Fine.pdf" data-type="file">📄 Facture_Epicerie_Fine.pdf</div>
+      </div>
+
+      <!-- ZONES DE DÉPÔT -->
+      <div style="display:flex;flex-direction:column;gap:0.8rem;">
+
+        <!-- Documents (racine fixe) -->
+        <div style="background:#e8f4ff;border-radius:12px;padding:0.8rem;border:2px solid #b0d0f0;">
+          <div style="font-weight:900;font-size:0.85rem;color:#1a1a2e;margin-bottom:0.5rem;">📁 Documents <span style="font-size:0.7rem;color:#888;font-weight:600;">(dossier racine — fixe)</span></div>
+          <div style="font-size:0.75rem;color:#666;font-weight:700;margin-bottom:0.3rem;">Déposez ici le dossier principal du restaurant :</div>
+          <div class="arbo-drop-area" id="drop-documents" data-correct='["RESTAURANT_LE_SAVEUR"]' style="min-height:44px;">
+            <span style="color:#ccc;font-size:0.75rem;font-weight:700;">Déposez RESTAURANT_LE_SAVEUR ici...</span>
+          </div>
+        </div>
+
+        <!-- RESTAURANT_LE_SAVEUR -->
+        <div style="background:#f8f9fc;border-radius:12px;padding:0.8rem;border:2px dashed #cc0066;margin-left:1.5rem;">
+          <div style="font-weight:900;font-size:0.82rem;color:#cc0066;margin-bottom:0.5rem;">📁 RESTAURANT_LE_SAVEUR <span style="font-size:0.7rem;color:#888;font-weight:600;">(les 4 pôles à déposer ici)</span></div>
+          <div class="arbo-drop-area" id="drop-restaurant" data-correct='["01_Menus_et_Cartes","02_Fournisseurs","03_Personnel","04_Comptabilite"]' style="min-height:50px;">
+            <span style="color:#ccc;font-size:0.75rem;font-weight:700;">Déposez les 4 dossiers pôles ici...</span>
+          </div>
+        </div>
+
+        <!-- 01_Menus_et_Cartes -->
+        <div style="background:#f8f9fc;border-radius:12px;padding:0.8rem;border:2px solid #e8eaf0;margin-left:3rem;">
+          <div style="font-weight:900;font-size:0.82rem;color:#0066cc;margin-bottom:0.4rem;">📁 01_Menus_et_Cartes</div>
+          <div style="padding-left:0.8rem;">
+            <div style="font-size:0.72rem;color:#888;font-weight:700;margin-bottom:0.3rem;">Fichiers :</div>
+            <div class="arbo-drop-area" id="drop-menus" data-correct='["Menu_Printemps_2026.docx","Carte_Vins_2026.pdf"]' style="min-height:44px;">
+              <span style="color:#ccc;font-size:0.75rem;font-weight:700;">Déposez les fichiers ici...</span>
+            </div>
+            <div style="font-size:0.72rem;color:#888;font-weight:700;margin:0.4rem 0 0.3rem;">Sous-dossier :</div>
+            <div class="arbo-drop-area" id="drop-menus-archives" data-correct='["Archives"]' style="min-height:40px;">
+              <span style="color:#ccc;font-size:0.75rem;font-weight:700;">Déposez Archives ici...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 02_Fournisseurs -->
+        <div style="background:#f8f9fc;border-radius:12px;padding:0.8rem;border:2px solid #e8eaf0;margin-left:3rem;">
+          <div style="font-weight:900;font-size:0.82rem;color:#0066cc;margin-bottom:0.4rem;">📁 02_Fournisseurs</div>
+          <div class="arbo-drop-area" id="drop-fournisseurs" data-correct='["Commandes_Legumes_Juin.xlsx","Contrat_Boulanger_Martin.docx"]' style="min-height:44px;">
+            <span style="color:#ccc;font-size:0.75rem;font-weight:700;">Déposez les fichiers ici...</span>
+          </div>
+        </div>
+
+        <!-- 03_Personnel -->
+        <div style="background:#f8f9fc;border-radius:12px;padding:0.8rem;border:2px solid #e8eaf0;margin-left:3rem;">
+          <div style="font-weight:900;font-size:0.82rem;color:#0066cc;margin-bottom:0.4rem;">📁 03_Personnel</div>
+          <div style="padding-left:0.8rem;">
+            <div style="font-size:0.72rem;color:#888;font-weight:700;margin-bottom:0.3rem;">Fichier :</div>
+            <div class="arbo-drop-area" id="drop-personnel-fichiers" data-correct='["Planning_Semaine_28.xlsx"]' style="min-height:40px;">
+              <span style="color:#ccc;font-size:0.75rem;font-weight:700;">Déposez le fichier ici...</span>
+            </div>
+            <div style="font-size:0.72rem;color:#888;font-weight:700;margin:0.4rem 0 0.3rem;">Sous-dossier :</div>
+            <div class="arbo-drop-area" id="drop-personnel-contrats" data-correct='["Contrats"]' style="min-height:40px;">
+              <span style="color:#ccc;font-size:0.75rem;font-weight:700;">Déposez Contrats ici...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 04_Comptabilite -->
+        <div style="background:#f8f9fc;border-radius:12px;padding:0.8rem;border:2px solid #e8eaf0;margin-left:3rem;">
+          <div style="font-weight:900;font-size:0.82rem;color:#0066cc;margin-bottom:0.4rem;">📁 04_Comptabilite</div>
+          <div class="arbo-drop-area" id="drop-compta" data-correct='["Chiffre_Affaires_Mai.xlsx","Facture_Epicerie_Fine.pdf"]' style="min-height:44px;">
+            <span style="color:#ccc;font-size:0.75rem;font-weight:700;">Déposez les fichiers ici...</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="arbo-submit">Valider le classement</button>
+      <button class="btn btn-ghost" id="arbo-retry" style="display:none">Réessayer</button>
+    </div>
+    <div class="mini-result" id="r5"><div class="r-score" id="r5s"></div><div class="r-msg" id="r5m"></div></div>
+    <div class="btn-row" id="n5" style="display:none"><button class="btn" onclick="showVolet2()">Volet 2 — Nommage →</button></div>
+
+    <!-- VOLET 2 -->
+    <div id="volet2" style="display:none;margin-top:1.5rem;">
+      <div class="s-header" style="border-color:#cc0066;">
+        <div class="s-tag" style="color:#cc0066;">Volet 2 — Nommer correctement les fichiers</div>
+        <div class="s-title">Corriger les noms de fichiers</div>
+        <div class="s-desc">Ces fichiers ont été mal nommés. Saisissez le nom correct en respectant les règles.</div>
+      </div>
+
+      <div class="card" style="background:#fff8e1;border-left:4px solid #ffc107;">
+        <div style="font-weight:900;font-size:0.85rem;color:#f57f17;margin-bottom:0.5rem;">📋 Règles de nommage</div>
+        <div style="font-size:0.82rem;color:#555;font-weight:600;line-height:1.8;">
+          ✅ Remplacer les <strong>espaces</strong> par des <strong>tirets bas _</strong><br>
+          ✅ Supprimer les <strong>accents</strong> (é→e, è→e, ê→e, à→a, ô→o, û→u, ç→c...)<br>
+          ✅ Supprimer les <strong>caractères spéciaux</strong> (! @ # & ( ) ' " ? espace)<br>
+          ✅ Conserver l'<strong>extension</strong> (.docx, .pdf, .xlsx...)<br>
+          ✅ Exemple : <code style="background:#f0f0f0;padding:0.1rem 0.4rem;border-radius:4px;">carte été 2026.docx</code> → <code style="background:#EAF3DE;padding:0.1rem 0.4rem;border-radius:4px;">carte_ete_2026.docx</code>
+        </div>
+      </div>
+
+      <div id="naming-form">
+
+        <div class="card" data-answer="Recette_Boeuf_Bourguignon.pdf">
+          <div class="qnum">Fichier 1</div>
+          <div style="background:#fef2f2;border-radius:8px;padding:0.5rem 0.8rem;font-family:monospace;font-size:0.85rem;font-weight:700;color:#cc0066;margin-bottom:0.7rem;">❌ Recette Bœuf Bourguignon!.pdf</div>
+          <div style="font-size:0.8rem;font-weight:700;color:#555;margin-bottom:0.4rem;">Saisissez le nom corrigé :</div>
+          <input type="text" class="naming-input" placeholder="nom_corrige.pdf" autocomplete="off" spellcheck="false">
+          <div class="naming-fb"></div>
+        </div>
+
+        <div class="card" data-answer="Planning_Juillet_2026.xlsx">
+          <div class="qnum">Fichier 2</div>
+          <div style="background:#fef2f2;border-radius:8px;padding:0.5rem 0.8rem;font-family:monospace;font-size:0.85rem;font-weight:700;color:#cc0066;margin-bottom:0.7rem;">❌ planning juillet 2026.xlsx</div>
+          <div style="font-size:0.8rem;font-weight:700;color:#555;margin-bottom:0.4rem;">Saisissez le nom corrigé :</div>
+          <input type="text" class="naming-input" placeholder="nom_corrige.xlsx" autocomplete="off" spellcheck="false">
+          <div class="naming-fb"></div>
+        </div>
+
+        <div class="card" data-answer="Contrat_Fournisseur_Dupont.docx">
+          <div class="qnum">Fichier 3</div>
+          <div style="background:#fef2f2;border-radius:8px;padding:0.5rem 0.8rem;font-family:monospace;font-size:0.85rem;font-weight:700;color:#cc0066;margin-bottom:0.7rem;">❌ Contrat fournisseur (Dupont).docx</div>
+          <div style="font-size:0.8rem;font-weight:700;color:#555;margin-bottom:0.4rem;">Saisissez le nom corrigé :</div>
+          <input type="text" class="naming-input" placeholder="nom_corrige.docx" autocomplete="off" spellcheck="false">
+          <div class="naming-fb"></div>
+        </div>
+
+        <div class="card" data-answer="Facture_Epicerie_Fine_Juin.pdf">
+          <div class="qnum">Fichier 4</div>
+          <div style="background:#fef2f2;border-radius:8px;padding:0.5rem 0.8rem;font-family:monospace;font-size:0.85rem;font-weight:700;color:#cc0066;margin-bottom:0.7rem;">❌ Facture épicerie fine & Juin.pdf</div>
+          <div style="font-size:0.8rem;font-weight:700;color:#555;margin-bottom:0.4rem;">Saisissez le nom corrigé :</div>
+          <input type="text" class="naming-input" placeholder="nom_corrige.pdf" autocomplete="off" spellcheck="false">
+          <div class="naming-fb"></div>
+        </div>
+
+        <div class="card" data-answer="Menu_Noel_2026.docx">
+          <div class="qnum">Fichier 5</div>
+          <div style="background:#fef2f2;border-radius:8px;padding:0.5rem 0.8rem;font-family:monospace;font-size:0.85rem;font-weight:700;color:#cc0066;margin-bottom:0.7rem;">❌ Ménu Noël 2026!.docx</div>
+          <div style="font-size:0.8rem;font-weight:700;color:#555;margin-bottom:0.4rem;">Saisissez le nom corrigé :</div>
+          <input type="text" class="naming-input" placeholder="nom_corrige.docx" autocomplete="off" spellcheck="false">
+          <div class="naming-fb"></div>
+        </div>
+
+      </div>
+
+      <div class="btn-row">
+        <button class="btn" id="naming-submit">Valider les noms</button>
+        <button class="btn btn-ghost" id="naming-retry" style="display:none">Réessayer</button>
+      </div>
+      <div class="mini-result" id="r5b"><div class="r-score" id="r5bs"></div><div class="r-msg" id="r5bm"></div></div>
+      <div class="btn-row" id="n5b" style="display:none"><button class="btn" onclick="showFinal()">Voir mon bilan →</button></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ BILAN FINAL ══ -->
+<div class="screen" id="screen6">
+  <div class="header"><div class="hbadge">Bilan Final</div><h1>Vos Résultats</h1><p id="header-name6"></p></div>
+  <div class="main">
+    <div class="final-card">
+      <div class="stars" id="fstars"></div>
+      <div class="final-score" id="fscore"></div>
+      <div class="final-msg" id="fmsg"></div>
+    </div>
+    <div style="background:#fff;border-radius:18px;padding:1.4rem;margin-top:1.2rem;box-shadow:0 4px 18px rgba(0,0,0,0.05);">
+      <div style="font-family:Righteous,cursive;font-size:1rem;color:#0a0a1a;margin-bottom:1rem;">📊 Détail par activité</div>
+      <div id="bilan-detail"></div>
+      <div style="border-top:2px solid #e8eaf0;margin-top:1rem;padding-top:1rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+          <span style="font-weight:900;font-size:0.9rem;">Moyenne globale</span>
+          <span style="font-family:Righteous,cursive;font-size:1.1rem;color:#cc0066;" id="avg-pct"></span>
+        </div>
+        <div class="bar-track" style="height:14px;"><div id="bar-avg" class="bar-fill"></div></div>
+      </div>
+    </div>
+    <div class="footer" style="margin-top:1.5rem;">
+      <button onclick="showDashboard()" style="background:linear-gradient(135deg,#ff9933,#cc0066);border:none;border-radius:999px;padding:0.5rem 1.5rem;color:#fff;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;">📊 Tableau de bord formateur</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TABLEAU DE BORD FORMATEUR ══ -->
+<div class="screen" id="screen-dashboard">
+  <div class="dashboard">
+    <h2>📊 Tableau de Bord Formateur</h2>
+    <div>
+      <button class="db-refresh" onclick="loadDashboard()">🔄 Actualiser</button>
+      <button class="db-export" onclick="exportCSV()">📥 Exporter CSV</button>
+      <button class="db-back" onclick="goBackFromDashboard()">← Retour</button>
+    </div>
+    <div id="dashboard-content"><div class="db-empty">Chargement...</div></div>
+  </div>
+</div>
+
+<div class="footer" id="main-footer">UGECAM Île-de-France — Formation Numérique Complète · Quiz Retour Vacances</div>
+
+<script src="livret/resultat-activite.js"></script>
+<script>
+  // Les résultats restent sur ce poste : rien n'est envoyé sur Internet.
+  const CLE_RETOUR = 'cours-bureautique:retour-vacances';
+  function lireResultats(){
+    try{ return JSON.parse(localStorage.getItem(CLE_RETOUR)) || {}; }catch(e){ return {}; }
+  }
+  window.enregistrerResultat = async function(userName, result){
+    const tous = lireResultats();
+    tous[userName.trim()] = result;
+    localStorage.setItem(CLE_RETOUR, JSON.stringify(tous));
+  };
+  window.chargerResultats = async function(){ return Object.values(lireResultats()); };
+  function echapper(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+</script>
+
+<script>
+let userName = '';
+let scores = {a1:0,a2:0,a3:0,a4:0,a5:0};
+let totals = {a1:8,a2:5,a3:5,a4:12,a5:5};
+let draggedChip = null;
+let draggedArbo = null;
+const STORAGE_KEY = 'quiz_vacances_results';
+
+/* ── NOM ── */
+function startQuiz(){
+  const p=document.getElementById('input-prenom').value.trim();
+  const n=document.getElementById('input-nom').value.trim();
+  if(!p||!n){document.getElementById('name-error').style.display='block';return;}
+  userName=p+' '+n;
+  document.getElementById('name-error').style.display='none';
+  ['header-name','header-name2','header-name3','header-name4','header-name5','header-name6'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.textContent='👤 '+userName;
+  });
+  goTo(1);
+}
+
+/* ── NAVIGATION ── */
+function goTo(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen'+n).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function miniResult(sid,sc,tot,pass,low,nextId,subId,retId){
+  const el=document.getElementById('r'+sid);
+  const p=sc/tot;
+  document.getElementById('r'+sid+'s').textContent=sc+' / '+tot;
+  document.getElementById('r'+sid+'m').textContent=p===1?pass[0]:p>=0.6?pass[1]:low;
+  el.className='mini-result show '+(p>=0.6?'pass':'low');
+  document.getElementById(nextId).style.display='block';
+  document.getElementById(subId).style.display='none';
+  if(retId) document.getElementById(retId).style.display=p<1?'inline-block':'none';
+}
+
+/* ══ ACTIVITÉ 1 : QCM ══ */
+document.getElementById('qcm-form').addEventListener('submit',function(e){
+  e.preventDefault();let sc=0;
+  this.querySelectorAll('.card[data-type]').forEach(card=>{
+    const type=card.getAttribute('data-type');
+    const correct=card.getAttribute('data-correct').split(',').sort();
+
+    if(type==='single'){
+      const sel=card.querySelector('input:checked');
+      card.querySelectorAll('input').forEach(i=>i.disabled=true);
+      card.querySelectorAll('.opt').forEach(o=>{
+        o.classList.add('disabled');
+        const v=o.querySelector('input').value;
+        if(correct.includes(v)) o.classList.add('correct');
+        else if(sel&&v===sel.value&&!correct.includes(v)) o.classList.add('incorrect');
+      });
+      if(sel&&correct.includes(sel.value)) sc++;
+    } else {
+      // Multi
+      const checked=[...card.querySelectorAll('input:checked')].map(i=>i.value).sort();
+      card.querySelectorAll('input').forEach(i=>i.disabled=true);
+      card.querySelectorAll('.opt').forEach(o=>{
+        o.classList.add('disabled');
+        const v=o.querySelector('input').value;
+        if(correct.includes(v)) o.classList.add('correct');
+        else if(checked.includes(v)&&!correct.includes(v)) o.classList.add('incorrect');
+      });
+      if(JSON.stringify(checked)===JSON.stringify(correct)) sc++;
+    }
+    card.querySelector('.expl').classList.add('show');
+  });
+  scores.a1=sc;
+  totals.a1=10;
+  miniResult(1,sc,10,['🎉 Parfait !','👍 Bien !'],'🙂 À retravailler — relisez le livret pages 5-22.','n1','qcm-submit','qcm-retry');
+});
+document.getElementById('qcm-retry').addEventListener('click',function(){
+  document.querySelectorAll('#qcm-form .card').forEach(c=>{
+    c.querySelectorAll('input').forEach(i=>{i.checked=false;i.disabled=false;});
+    c.querySelectorAll('.opt').forEach(o=>o.classList.remove('correct','incorrect','disabled'));
+    c.querySelector('.expl').classList.remove('show');
+  });
+  document.getElementById('r1').classList.remove('show');document.getElementById('qcm-submit').style.display='';this.style.display='none';document.getElementById('n1').style.display='none';
+});
+
+/* ══ DRAG DROP GÉNÉRIQUE ══ */
+function initDragDrop(chipsId, dropSelector, onDrop){
+  document.getElementById(chipsId).querySelectorAll('.zone-chip').forEach(chip=>{
+    chip.addEventListener('dragstart',function(){draggedChip=this;setTimeout(()=>this.classList.add('dragging'),0);});
+    chip.addEventListener('dragend',function(){this.classList.remove('dragging');draggedChip=null;});
+  });
+  document.querySelectorAll(dropSelector).forEach(zone=>{
+    zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('over');});
+    zone.addEventListener('dragleave',()=>zone.classList.remove('over'));
+    zone.addEventListener('drop',e=>{
+      e.preventDefault();zone.classList.remove('over');
+      if(draggedChip&&!draggedChip.classList.contains('placed')){
+        onDrop(zone, draggedChip);
+      }
+    });
+  });
+}
+
+/* ══ ACTIVITÉ 2 : BUREAU ══ */
+const bureauDrops = {};
+initDragDrop('bureau-chips','[id^="dt-"]',function(zone,chip){
+  const label=chip.getAttribute('data-label');
+  // Retirer si déjà un chip dans cette zone
+  if(bureauDrops[zone.id]){
+    const old=bureauDrops[zone.id];
+    document.querySelector(`#bureau-chips .zone-chip[data-label="${old}"]`).classList.remove('placed');
+  }
+  bureauDrops[zone.id]=label;
+  chip.classList.add('placed');
+  zone.classList.add('filled');
+  zone.querySelector('.drop-badge').textContent=label;
+});
+
+document.getElementById('bureau-submit').addEventListener('click',function(){
+  let sc=0;
+  document.querySelectorAll('[id^="dt-"]').forEach(zone=>{
+    const correct=zone.getAttribute('data-correct');
+    const placed=bureauDrops[zone.id];
+    if(placed===correct){zone.classList.add('correct-drop');sc++;}
+    else zone.classList.add('incorrect-drop');
+  });
+  scores.a2=sc;
+  miniResult(2,sc,5,['🎉 Parfait !','👍 Bien !'],'🙂 Relisez les pages 7-9.','n2','bureau-submit','bureau-retry');
+});
+document.getElementById('bureau-retry').addEventListener('click',function(){
+  document.querySelectorAll('[id^="dt-"]').forEach(zone=>{zone.classList.remove('correct-drop','incorrect-drop','filled');zone.querySelector('.drop-badge').textContent='?';});
+  document.querySelectorAll('#bureau-chips .zone-chip').forEach(c=>c.classList.remove('placed'));
+  Object.keys(bureauDrops).forEach(k=>delete bureauDrops[k]);
+  document.getElementById('r2').classList.remove('show');document.getElementById('bureau-submit').style.display='';this.style.display='none';document.getElementById('n2').style.display='none';
+});
+
+/* ══ ACTIVITÉ 3 : EXPLORATEUR ══ */
+const expDrops = {};
+initDragDrop('exp-chips','[id^="et-"]',function(zone,chip){
+  const label=chip.getAttribute('data-label');
+  if(expDrops[zone.id]){
+    const old=expDrops[zone.id];
+    document.querySelector(`#exp-chips .zone-chip[data-label="${old}"]`).classList.remove('placed');
+  }
+  expDrops[zone.id]=label;
+  chip.classList.add('placed');
+  zone.classList.add('filled');
+  zone.querySelector('.drop-badge').textContent=label;
+});
+
+document.getElementById('exp-submit').addEventListener('click',function(){
+  let sc=0;
+  document.querySelectorAll('[id^="et-"]').forEach(zone=>{
+    const correct=zone.getAttribute('data-correct');
+    const placed=expDrops[zone.id];
+    if(placed===correct){zone.classList.add('correct-drop');sc++;}
+    else zone.classList.add('incorrect-drop');
+  });
+  scores.a3=sc;
+  miniResult(3,sc,5,['🎉 Parfait !','👍 Bien !'],'🙂 Relisez les pages 12-13.','n3','exp-submit','exp-retry');
+});
+document.getElementById('exp-retry').addEventListener('click',function(){
+  document.querySelectorAll('[id^="et-"]').forEach(zone=>{zone.classList.remove('correct-drop','incorrect-drop','filled');zone.querySelector('.drop-badge').textContent='?';});
+  document.querySelectorAll('#exp-chips .zone-chip').forEach(c=>c.classList.remove('placed'));
+  Object.keys(expDrops).forEach(k=>delete expDrops[k]);
+  document.getElementById('r3').classList.remove('show');document.getElementById('exp-submit').style.display='';this.style.display='none';document.getElementById('n3').style.display='none';
+});
+
+/* ══ ACTIVITÉ 4 : ICÔNES ══ */
+document.getElementById('icon-submit').addEventListener('click',function(){
+  let sc=0;
+  document.querySelectorAll('#icon-grid .icon-item').forEach(item=>{
+    const correct=item.getAttribute('data-correct');
+    const sel=item.querySelector('.icon-select');
+    const fb=item.querySelector('.icon-fb');
+    sel.disabled=true;
+    const ok=sel.value===correct;
+    sel.classList.add(ok?'correct':'incorrect');
+    fb.textContent=ok?'✅ Correct !':'❌ '+correct;
+    fb.className='icon-fb show '+(ok?'ok':'ko');
+    if(ok)sc++;
+  });
+  scores.a4=sc;
+  miniResult(4,sc,12,['🎉 Parfait !','👍 Bien !'],'🙂 Relisez les pages 10-11.','n4','icon-submit','icon-retry');
+});
+document.getElementById('icon-retry').addEventListener('click',function(){
+  document.querySelectorAll('#icon-grid .icon-item').forEach(item=>{
+    const sel=item.querySelector('.icon-select');sel.value='';sel.disabled=false;sel.classList.remove('correct','incorrect');
+    const fb=item.querySelector('.icon-fb');fb.classList.remove('show','ok','ko');fb.textContent='';
+  });
+  document.getElementById('r4').classList.remove('show');document.getElementById('icon-submit').style.display='';this.style.display='none';document.getElementById('n4').style.display='none';
+});
+
+/* ══ ACTIVITÉ 5 — VOLET 1 : ARBORESCENCE ══ */
+const arboDrops = {};
+const dropZones = ['drop-documents','drop-restaurant','drop-menus','drop-menus-archives','drop-fournisseurs','drop-personnel-fichiers','drop-personnel-contrats','drop-compta'];
+const correctZones = {
+  'drop-documents':['RESTAURANT_LE_SAVEUR'],
+  'drop-restaurant':['01_Menus_et_Cartes','02_Fournisseurs','03_Personnel','04_Comptabilite'],
+  'drop-menus':['Menu_Printemps_2026.docx','Carte_Vins_2026.pdf'],
+  'drop-menus-archives':['Archives'],
+  'drop-fournisseurs':['Commandes_Legumes_Juin.xlsx','Contrat_Boulanger_Martin.docx'],
+  'drop-personnel-fichiers':['Planning_Semaine_28.xlsx'],
+  'drop-personnel-contrats':['Contrats'],
+  'drop-compta':['Chiffre_Affaires_Mai.xlsx','Facture_Epicerie_Fine.pdf']
+};
+dropZones.forEach(id=>{arboDrops[id]=[];});
+
+document.querySelectorAll('.arbo-item').forEach(item=>{
+  item.addEventListener('dragstart',function(){draggedArbo=this;setTimeout(()=>this.classList.add('dragging'),0);});
+  item.addEventListener('dragend',function(){this.classList.remove('dragging');draggedArbo=null;});
+});
+
+document.querySelectorAll('.arbo-drop-area').forEach(zone=>{
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('over');});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('over'));
+  zone.addEventListener('drop',e=>{
+    e.preventDefault();zone.classList.remove('over');
+    if(!draggedArbo||draggedArbo.classList.contains('placed-arbo'))return;
+    const val=draggedArbo.getAttribute('data-val');
+    const zid=zone.id;
+    if(!arboDrops[zid])return;
+    arboDrops[zid].push(val);
+    draggedArbo.classList.add('placed-arbo');
+    const hint=zone.querySelector('span');if(hint)hint.remove();
+    const placed=document.createElement('div');
+    placed.className='placed-item';
+    placed.setAttribute('data-val',val);
+    placed.setAttribute('data-zone',zid);
+    const icon=draggedArbo.getAttribute('data-type')==='folder'?'📁':'📄';
+    placed.innerHTML=icon+' '+val+' <span style="font-size:0.65rem;opacity:0.6;">✕</span>';
+    placed.addEventListener('click',function(){
+      if(this.classList.contains('ok-arbo')||this.classList.contains('ko-arbo'))return;
+      const v=this.getAttribute('data-val');
+      const zk=this.getAttribute('data-zone');
+      arboDrops[zk]=arboDrops[zk].filter(x=>x!==v);
+      const orig=document.querySelector(`.arbo-item[data-val="${v}"]`);
+      if(orig)orig.classList.remove('placed-arbo');
+      this.remove();
+    });
+    zone.appendChild(placed);
+  });
+});
+
+document.getElementById('arbo-submit').addEventListener('click',function(){
+  let sc=0,total=0;
+  dropZones.forEach(zid=>{
+    const correct=correctZones[zid];
+    total+=correct.length;
+    document.querySelectorAll(`#${zid} .placed-item`).forEach(item=>{
+      const v=item.getAttribute('data-val');
+      const ok=correct.includes(v);
+      item.classList.add(ok?'ok-arbo':'ko-arbo');
+      if(ok)sc++;
+    });
+  });
+  scores.a5=sc;
+  totals.a5=total+5; // total volet1 + volet2
+  const pct=sc/total;
+  const el=document.getElementById('r5');
+  document.getElementById('r5s').textContent=sc+' / '+total;
+  document.getElementById('r5m').textContent=pct===1?'🎉 Classement parfait !':pct>=0.6?'👍 Bien ! Vérifiez les éléments en rouge.':'🙂 Relisez le cours sur l\'arborescence.';
+  el.className='mini-result show '+(pct>=0.6?'pass':'low');
+  document.getElementById('n5').style.display='block';
+  document.getElementById('arbo-submit').style.display='none';
+  if(pct<1) document.getElementById('arbo-retry').style.display='inline-block';
+});
+
+document.getElementById('arbo-retry').addEventListener('click',function(){
+  document.querySelectorAll('.placed-item').forEach(i=>i.remove());
+  document.querySelectorAll('.arbo-item').forEach(i=>i.classList.remove('placed-arbo'));
+  dropZones.forEach(id=>{
+    arboDrops[id]=[];
+    const zone=document.getElementById(id);
+    if(zone&&!zone.querySelector('span')){
+      const s=document.createElement('span');s.style.cssText='color:#ccc;font-size:0.75rem;font-weight:700;';s.textContent='Déposez ici...';zone.appendChild(s);
+    }
+  });
+  document.getElementById('r5').classList.remove('show');
+  document.getElementById('arbo-submit').style.display='';
+  this.style.display='none';
+  document.getElementById('n5').style.display='none';
+});
+
+function showVolet2(){
+  document.getElementById('volet2').style.display='block';
+  document.getElementById('volet2').scrollIntoView({behavior:'smooth'});
+}
+
+/* ══ ACTIVITÉ 5 — VOLET 2 : NOMMAGE ══ */
+// Normalisation pour comparaison souple
+function normalize(str){
+  return str.trim()
+    .replace(/\s+/g,'_')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'') // accents
+    .replace(/[!@#&()'"\?\,;:]/g,'')
+    .toLowerCase();
+}
+
+document.getElementById('naming-submit').addEventListener('click',function(){
+  let sc=0;
+  document.querySelectorAll('#naming-form .card').forEach(card=>{
+    const answer=card.getAttribute('data-answer');
+    const input=card.querySelector('.naming-input');
+    const fb=card.querySelector('.naming-fb');
+    input.disabled=true;
+    const userVal=input.value.trim();
+    const ok=normalize(userVal)===normalize(answer);
+    input.style.border='2px solid '+(ok?'#27500A':'#CC0066');
+    input.style.background=ok?'#EAF3DE':'#FBE9E7';
+    fb.style.display='block';
+    fb.style.marginTop='0.4rem';
+    fb.style.padding='0.3rem 0.6rem';
+    fb.style.borderRadius='7px';
+    if(ok){
+      fb.textContent='✅ Correct !';
+      fb.style.background='#EAF3DE';fb.style.color='#27500A';
+      sc++;
+    } else {
+      fb.innerHTML='❌ Réponse attendue : <code style="background:#f0f0f0;padding:0.1rem 0.4rem;border-radius:4px;">'+answer+'</code>';
+      fb.style.background='#FBE9E7';fb.style.color='#CC0066';
+    }
+  });
+  scores.a5=(scores.a5||0)+sc;
+  const el=document.getElementById('r5b');
+  document.getElementById('r5bs').textContent=sc+' / 5';
+  const pct=sc/5;
+  document.getElementById('r5bm').textContent=pct===1?'🎉 Tous les noms sont corrects !':pct>=0.6?'👍 Bien ! Vérifiez les règles pour les erreurs.':'🙂 Relisez les règles de nommage.';
+  el.className='mini-result show '+(pct>=0.6?'pass':'low');
+  document.getElementById('n5b').style.display='block';
+  this.style.display='none';
+  if(pct<1) document.getElementById('naming-retry').style.display='inline-block';
+});
+
+document.getElementById('naming-retry').addEventListener('click',function(){
+  document.querySelectorAll('#naming-form .card').forEach(card=>{
+    const input=card.querySelector('.naming-input');
+    input.value='';input.disabled=false;
+    input.style.border='';input.style.background='';
+    const fb=card.querySelector('.naming-fb');fb.style.display='none';fb.textContent='';
+  });
+  document.getElementById('r5b').classList.remove('show');
+  document.getElementById('naming-submit').style.display='';
+  this.style.display='none';
+  document.getElementById('n5b').style.display='none';
+});
+
+/* ══ BILAN + SAUVEGARDE ══ */
+async function showFinal(){
+  const acts=[
+    {sc:scores.a1,tot:totals.a1,label:'QCM — Windows & Explorateur'},
+    {sc:scores.a2,tot:totals.a2,label:'Bureau Windows 11'},
+    {sc:scores.a3,tot:totals.a3,label:'Zones de l\'Explorateur'},
+    {sc:scores.a4,tot:totals.a4,label:'Reconnaissance des icônes'},
+    {sc:scores.a5,tot:totals.a5,label:'Arborescence fictive'},
+  ];
+  const grand=acts.reduce((s,a)=>s+a.sc,0);
+  const grandTot=acts.reduce((s,a)=>s+a.tot,0);
+  let sumPct=0;acts.forEach(a=>{sumPct+=a.tot>0?Math.round((a.sc/a.tot)*100):0;});
+  const moy=Math.round(sumPct/acts.length);
+
+  document.getElementById('fscore').textContent=grand+' / '+grandTot+' ('+Math.round(grand/grandTot*100)+' %)';
+  ResultatActivite.noter({titre:'Quiz du retour de vacances',type:'Quiz',score:grand,total:grandTot,detail:acts.map(a=>({q:a.label,donne:a.sc+' / '+a.tot,ok:a.sc===a.tot}))});
+  document.getElementById('fstars').textContent=moy===100?'⭐⭐⭐':moy>=70?'⭐⭐':'⭐';
+  document.getElementById('fmsg').textContent=moy>=80?'Excellent ! Vos acquis sont bien consolidés.':moy>=60?'Bon rappel ! Quelques notions à retravailler.':'Certaines notions nécessitent une révision — revoyez le livret.';
+  document.getElementById('header-name6').textContent='👤 '+userName;
+
+  const detailEl=document.getElementById('bilan-detail');detailEl.innerHTML='';
+  acts.forEach((a,i)=>{
+    const p=a.tot>0?Math.round((a.sc/a.tot)*100):0;
+    const color=p>=80?'#27500A':p>=60?'#7a4f00':'#CC0066';
+    const bg=p>=80?'#EAF3DE':p>=60?'#fff8e1':'#FBE9E7';
+    detailEl.innerHTML+=`<div class="detail-row"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.25rem;flex-wrap:wrap;gap:0.3rem;"><span style="font-weight:800;font-size:0.85rem;color:#444;">${a.label}</span><span class="status-badge" style="background:${bg};color:${color};">${a.sc}/${a.tot} (${p}%)</span></div><div class="bar-track"><div id="fb${i+1}" class="bar-fill"></div></div></div>`;
+  });
+  setTimeout(()=>{acts.forEach((a,i)=>{const p=a.tot>0?Math.round((a.sc/a.tot)*100):0;document.getElementById('fb'+(i+1)).style.width=p+'%';});document.getElementById('bar-avg').style.width=moy+'%';},150);
+  document.getElementById('avg-pct').textContent=moy+' %';
+
+  // Sauvegarde dans le storage partagé
+  const result={
+    nom:userName,
+    a1:scores.a1,t1:totals.a1,
+    a2:scores.a2,t2:totals.a2,
+    a3:scores.a3,t3:totals.a3,
+    a4:scores.a4,t4:totals.a4,
+    a5:scores.a5,t5:totals.a5,
+    moyenne:moy,
+    timestamp:new Date().toLocaleString('fr-FR')
+  };
+  try{
+    await window.enregistrerResultat(userName,result);
+  }catch(e){console.log('Storage:',e);}
+
+  goTo(6);
+}
+
+/* ══ TABLEAU DE BORD ══ */
+function showDashboard(){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-dashboard').classList.add('active');
+  loadDashboard();
+}
+function goBackFromDashboard(){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  if(userName) document.getElementById('screen6').classList.add('active');
+  else document.getElementById('screen0').classList.add('active');
+}
+
+async function loadDashboard(){
+  const content=document.getElementById('dashboard-content');
+  content.innerHTML='<div class="db-empty">Chargement...</div>';
+  try{
+    const data=await window.chargerResultats();
+    if(!data.length){content.innerHTML='<div class="db-empty">Aucun résultat enregistré pour le moment.</div>';return;}
+    data.sort((a,b)=>b.moyenne-a.moyenne);
+    let html=`<table class="db-table"><thead><tr>
+      <th>#</th><th>Nom</th><th>QCM</th><th>Bureau</th><th>Explorateur</th><th>Icônes</th><th>Arborescence</th><th>Moyenne</th><th>Date</th>
+    </tr></thead><tbody>`;
+    data.forEach((d,i)=>{
+      const mc=d.moyenne>=80?'db-good':d.moyenne>=60?'db-mid':'db-low';
+      html+=`<tr>
+        <td>${i+1}</td>
+        <td style="font-weight:900;">${echapper(d.nom)}</td>
+        <td class="db-score">${d.a1||0}/${d.t1||8}</td>
+        <td class="db-score">${d.a2||0}/${d.t2||5}</td>
+        <td class="db-score">${d.a3||0}/${d.t3||5}</td>
+        <td class="db-score">${d.a4||0}/${d.t4||6}</td>
+        <td class="db-score">${d.a5||0}/${d.t5||5}</td>
+        <td class="db-score db-avg ${mc}">${d.moyenne||0}%</td>
+        <td style="font-size:0.72rem;color:#666;">${d.timestamp||'—'}</td>
+      </tr>`;
+    });
+    html+=`</tbody></table>`;
+    html+=`<div style="margin-top:1rem;color:#666;font-size:0.75rem;font-weight:700;text-align:center;">${data.length} résultat(s) enregistré(s) sur ce poste</div>`;
+    content.innerHTML=html;
+  }catch(e){content.innerHTML='<div class="db-empty">Erreur de chargement : '+e.message+'</div>';}
+}
+
+async function exportCSV(){
+  try{
+    const data=await window.chargerResultats();
+    if(!data.length)return;
+    let csv='Nom,QCM,Bureau,Explorateur,Icônes,Arborescence,Moyenne,Date\n';
+    data.forEach(d=>{csv+=`${d.nom},${d.a1||0}/${d.t1||8},${d.a2||0}/${d.t2||5},${d.a3||0}/${d.t3||5},${d.a4||0}/${d.t4||6},${d.a5||0}/${d.t5||5},${d.moyenne||0}%,${d.timestamp||''}\n`;});
+    const blob=new Blob([csv],{type:'text/csv'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=url;a.download='resultats_quiz_bureautique.csv';a.click();
+  }catch(e){alert('Export impossible : '+e.message);}
+}
+</script>
+</body>
+</html>

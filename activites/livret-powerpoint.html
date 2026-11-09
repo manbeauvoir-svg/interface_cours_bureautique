@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Microsoft PowerPoint</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "powerpoint",
+  numero: 7,
+  titre: "Microsoft PowerPoint",
+  icone: "🎞️",
+  couleur: "#c2410c",
+  pale: "#fdece2",
+  accroche: "Le logiciel de présentation visuelle : concevoir des diaporamas structurés et dynamiques pour communiquer efficacement.",
+  suite: { fichier: "livret-internet", titre: "Internet et communication" },
+  notions: {
+    "iface": {
+      "titre": "la fenêtre de PowerPoint",
+      "va": "Se repérer dans la fenêtre",
+      "jeu": {
+        "fichier": "jeu-quel-onglet",
+        "titre": "le jeu « Quel onglet ? »"
+      }
+    },
+    "bases": {
+      "titre": "les notions essentielles",
+      "va": "Les notions essentielles",
+      "jeu": {
+        "fichier": "quiz-raccourcis",
+        "titre": "le quiz des raccourcis"
+      }
+    },
+    "media": {
+      "titre": "les éléments multimédias",
+      "va": "Quatre façons d'enrichir une présentation"
+    },
+    "masque": {
+      "titre": "le masque des diapositives",
+      "va": "Essayez : le pouvoir du masque"
+    },
+    "diapo": {
+      "titre": "les commandes du diaporama",
+      "va": "Prenez les commandes du diaporama"
+    },
+    "presentateur": {
+      "titre": "le mode Présentateur",
+      "va": "Déclencher les animations à la main"
+    },
+    "exercice": {
+      "titre": "une présentation complète",
+      "va": "L'exercice : une présentation complète"
+    }
+  },
+  plus: {"fichier": "exercices-fichiers-excel-powerpoint", "titre": "les exercices Fichiers, Excel et PowerPoint"},
+  quizPage: "quiz-powerpoint",
+  etapes: [
+    {
+      titre: "L'interface de PowerPoint",
+      icone: "🧭",
+      resume: "5 zones pour structurer vos idées.",
+      ecrans: [
+        { t: "Se repérer dans la fenêtre", b: [
+          { p: "Chaque élément vous aide à structurer vos idées, à embellir votre contenu et à le livrer efficacement à votre audience." },
+          { sim: "maquette",
+            colonnes: "1fr 3fr",
+            lignes: "56px minmax(120px, 1fr) 46px 34px",
+            zones: [
+              { nom: "Le Ruban", aire: "1 / 1 / 2 / 3", texte: "comme dans les autres logiciels Office, il est organisé par onglets et regroupe les fonctions essentielles." },
+              { nom: "Volet des diapositives", aire: "2 / 1 / 4 / 2", texte: "à gauche, les miniatures de toutes vos diapositives, pour naviguer, réorganiser et avoir une vue d'ensemble." },
+              { nom: "Zone de travail", aire: "2 / 2 / 3 / 3", texte: "l'espace central où vous concevez chaque diapositive : texte, images, graphiques, multimédia." },
+              { nom: "Volet des notes", aire: "3 / 2 / 4 / 3", texte: "sous la zone de travail, des notes discrètes, visibles uniquement en mode présentateur." },
+              { nom: "Barre d'état", aire: "4 / 1 / 5 / 3", texte: "en bas : le numéro de la diapositive, le zoom et les modes d'affichage." }
+            ] },
+          { img: "p073_0", alt: "La fenêtre de PowerPoint avec ses zones signalées : ruban, barre d'accès rapide, volet des diapositives, zone de document et barre d'état.", leg: "La vraie fenêtre de PowerPoint" }
+        ] },
+        { t: "Les onglets de PowerPoint", b: [
+          { p: "Chaque onglet du ruban regroupe les outils liés à une tâche précise." },
+          { activite: { fichier: "ruban-powerpoint", titre: "Le ruban de PowerPoint interactif", texte: "Découvrir les onglets et les commandes.", icone: "🎀" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Les bases",
+      icone: "🖼️",
+      resume: "Vos premiers diaporamas.",
+      ecrans: [
+        { t: "Les notions essentielles", b: [
+          { cartes: [
+            ["Créer et choisir un thème", "Nouvelle présentation, puis un thème (couleurs, polices, arrière-plan) : il assure la cohérence de toutes les diapositives."],
+            ["Ajouter et organiser", "Accueil > Nouvelle diapositive ({Ctrl+M}). Choisissez une disposition. Réorganisez par glisser-déposer dans le volet gauche."],
+            ["Texte et images", "Cliquez dans une zone pour écrire. Onglet Insertion : images, icônes, formes, graphiques, vidéos. Redimensionnez et déplacez librement."],
+            ["Animations et transitions", "Transition : un effet entre deux diapositives. Animation : un effet sur un élément. À utiliser avec modération pour ne pas distraire."],
+            ["Lancer et présenter", "{F5} depuis le début, {Maj+F5} depuis la diapositive actuelle. Flèches pour naviguer, {Échap} pour quitter."]
+          ] },
+          { astuce: "Moins c'est plus : une idée par diapositive, peu de texte et des visuels forts pour capter l'attention." }
+        ] },
+        { t: "À vous : Bienvenue chez Formatech", b: [
+          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "PowerPoint", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Bienvenue chez Formatech", icone: "📝" } }
+        ] },
+        { t: "Quiz : les bases", b: [
+          { activite: { fichier: "quiz-powerpoint", etape: "Les bases", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Les éléments multimédias",
+      icone: "🎬",
+      resume: "Enrichir sans distraire.",
+      ecrans: [
+        { t: "Quatre façons d'enrichir une présentation", b: [
+          { cartes: [
+            ["🎬 Vidéos", "Démonstrations, témoignages. Insertion > Vidéo > Cet appareil (locale) ou Vidéos en ligne (YouTube)."],
+            ["🎵 Audio", "Narration, musique d'ambiance, extraits. Insertion > Audio > Audio sur mon PC ou Enregistrer l'audio."],
+            ["📊 Graphiques", "Visualiser des données ou des relations d'idées. Outils SmartArt pour les schémas, graphiques Excel pour les chiffres."],
+            ["🗂️ Tableaux", "Organiser des données clairement. Insertion > Tableau, ou Objet pour un tableau Excel."]
+          ] },
+          { attention: "Les médias doivent compléter votre message, pas le remplacer ni le distraire. Testez-les toujours avant la présentation !" }
+        ] },
+        { t: "Une vidéo en arrière-plan", b: [
+          { pas: [
+            "Insertion > Vidéo > « Vidéo sur mon PC » ou « Vidéo en ligne ».",
+            "Redimensionnez la vidéo pour qu'elle couvre toute la diapositive.",
+            "Clic droit sur la vidéo > « Envoyer en arrière-plan ».",
+            "Sélectionnez la vidéo > onglet Lecture > cochez « Démarrer automatiquement » et « Boucle jusqu'à l'arrêt ».",
+            "Cochez aussi « Masquer pendant le diaporama » si la vidéo doit rester invisible hors lecture."
+          ] },
+          { astuce: "Placez vos zones de texte au-dessus, avec un fond semi-transparent, pour garantir la lisibilité." }
+        ] },
+        { t: "Quiz : les éléments multimédias", b: [
+          { activite: { fichier: "quiz-powerpoint", etape: "Les éléments multimédias", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Thèmes et masque",
+      icone: "🎭",
+      resume: "Une seule modification, toutes les diapositives.",
+      ecrans: [
+        { t: "Essayez : le pouvoir du masque", b: [
+          { p: "Le <strong>masque des diapositives</strong> définit une fois pour toutes les éléments de chaque diapositive. Toute modification se répercute partout." },
+          { sim: "masque" }
+        ] },
+        { t: "Pas à pas dans PowerPoint", b: [
+          { onglets: [
+            ["Appliquer un thème", { pas: ["Onglet Création.", "Choisissez un thème dans la galerie.", "La flèche déroulante donne accès à tous les thèmes.", "Personnalisez les couleurs et polices avec « Variantes »."], progressif: false }],
+            ["Utiliser le masque", { pas: ["Affichage > Masque des diapositives.", "Modifiez la diapositive maître (en haut) pour des changements globaux.", "Modifiez les dispositions pour des mises en page particulières.", "Insérez le logo, l'arrière-plan, les polices globales.", "« Fermer le mode Masque » pour revenir à la vue normale."], progressif: false }]
+          ] },
+          { retenir: "Le masque est le moyen le plus efficace d'harmoniser une présentation en un seul endroit. Configurez-le AVANT de créer vos diapositives." }
+        ] }
+      ]
+    },
+    {
+      titre: "Présenter comme un pro",
+      icone: "🎤",
+      resume: "Structurer, puis prendre la parole.",
+      ecrans: [
+        { t: "Structurer sa présentation", b: [
+          { ordre: [
+            "<strong>Définir l'objectif :</strong> le message à retenir, en une phrase.",
+            "<strong>Construire le plan :</strong> introduction, 3 points maximum, conclusion et appel à l'action.",
+            "<strong>Concevoir les diapositives :</strong> une idée, un titre clair, un visuel fort, peu de texte (règle des 6x6).",
+            "<strong>Répéter :</strong> se chronométrer et s'entraîner avec le mode Présentateur."
+          ], titre: "Les 4 étapes", consigne: "Remettez-les dans le bon ordre." }
+        ] },
+        { t: "Prenez les commandes du diaporama", b: [
+          { sim: "diaporama" },
+          { table: { tete: ["Touche", "Effet"], lignes: [
+            ["{→}, {Entrée} ou {Espace}", "Diapositive suivante"],
+            ["{←} ou {Retour arrière}", "Diapositive précédente"],
+            ["Un numéro + {Entrée}", "Aller directement à cette diapositive"],
+            ["{B} / {W}", "Écran noir / écran blanc"],
+            ["{Échap}", "Quitter le diaporama"],
+            ["Clic droit > Voir toutes les diapositives", "Naviguer visuellement"]
+          ] } }
+        ] },
+        { t: "Déclencher les animations à la main", b: [
+          { pas: [
+            "Par défaut, les animations se déclenchent au clic de souris.",
+            "Dans le « Volet Animation », sélectionnez une animation.",
+            "Modifiez le déclencheur : « Au clic », « Avec le précédent » ou « Après le précédent ».",
+            "Pour un objet précis : clic droit sur l'animation > « Déclencheur » > choisissez l'objet cliquable.",
+            "En mode présentateur, utilisez {Entrée} ou le clic pour déclencher chaque animation."
+          ] },
+          { retenir: "<strong>Le mode Présentateur :</strong> clic droit > « Afficher le mode Présentateur ». Vous voyez vos notes, la diapositive suivante et un minuteur. Votre audience ne voit que la présentation." }
+        ] },
+        { t: "L'exercice : une présentation complète", b: [
+          { p: "Utilisez le fichier « Présentation Société – Exercice PowerPoint », dans votre dossier réseau P:." },
+          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "PowerPoint", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Une présentation professionnelle", icone: "📝" } }
+        ] },
+        { t: "Quiz : présentation professionnelle", b: [
+          { activite: { fichier: "quiz-powerpoint", etape: "Présenter comme un pro", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Bilan : Microsoft PowerPoint",
+      icone: "🏁",
+      resume: "Résumés, quiz et défis.",
+      ecrans: [
+        { t: "Les bases en résumé", b: [
+          { qqc: {
+            quoi: "Le ruban, le volet des diapositives, la zone de travail, le volet des notes et la barre d'état. Créer des diapositives, insérer du texte, des images, des formes.",
+            pourquoi: "L'outil standard pour des présentations visuelles : structurer un message clair et le délivrer avec impact.",
+            comment: "Nouvelle diapositive : Accueil. Image : Insertion > Images. Diaporama : {F5} ou {Maj+F5}. Enregistrer : {Ctrl+S} (.pptx).",
+            retenir: "Chaque diapositive a un message principal. Les dispositions prédéfinies font gagner du temps. {F5} lance, {Échap} quitte."
+          } }
+        ] },
+        { t: "Les notions avancées en résumé", b: [
+          { qqc: {
+            quoi: "Transitions, animations, masque, multimédia, numérotation et mode Présentateur.",
+            pourquoi: "Des présentations cohérentes et percutantes. Le masque garantit une identité visuelle. Les animations guident l'attention vers les points clés.",
+            comment: "Transitions : onglet Transitions > Appliquer à toutes. Animations : sélectionner un élément > onglet Animations. Masque : Affichage > Masque des diapositives.",
+            retenir: "Privilégier des transitions sobres (Fondu, Pousser). Ne pas surcharger d'animations. L'écran public et l'écran présentateur sont différents."
+          } },
+          { activite: { fichier: "quiz-powerpoint", etape: "Quiz final", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] },
+        { t: "Défi 1 : Ma_Presentation", b: [
+          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "PowerPoint", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Une présentation de 5 diapositives", icone: "📝" } }
+        ] },
+        { t: "Défi 2 : passer au niveau pro", b: [
+          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "PowerPoint", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Masque, transitions et mode Présentateur", icone: "📝" } }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

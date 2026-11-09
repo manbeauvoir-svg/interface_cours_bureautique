@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Suivi formateur</title>
+<link rel="stylesheet" href="bilan.css">
+</head>
+<body>
+<header class="tete">
+  <div class="tete-in">
+    <h1>🧑‍🏫 Le suivi des stagiaires</h1>
+    <p>Choisissez le dossier où les stagiaires rangent leurs bilans. Les fichiers sont lus uniquement sur cet ordinateur : rien n'est envoyé sur Internet. Ces résultats sont des données personnelles : conservez les fichiers de bilan uniquement pendant la formation, puis supprimez-les.</p>
+    <div class="ligne">
+      <label class="btn fort" for="dossier">📁 Choisir le dossier des bilans</label>
+      <input id="dossier" type="file" webkitdirectory multiple hidden>
+      <label class="btn" for="fichiers">Ou choisir des fichiers</label>
+      <input id="fichiers" type="file" accept=".json" multiple hidden>
+    </div>
+  </div>
+</header>
+<main class="page">
+  <p id="message" class="message" role="status">Aucun bilan chargé pour le moment.</p>
+  <div id="tableau" class="defile"></div>
+  <div id="detail"></div>
+</main>
+<script src="catalogue.js"></script>
+<script src="bilan-commun.js"></script>
+<script src="bilan-vue.js"></script>
+<script>
+  const $ = id => document.getElementById(id);
+  const creer = BilanVue.creer;
+  let bilans = [];
+
+  async function charger(fichiers) {
+    const parCode = new Map();
+    let ignores = 0;
+    for (const f of fichiers) {
+      if (!f.name.toLowerCase().endsWith(".json")) continue;
+      try {
+        const b = JSON.parse(await f.text());
+        if (b.format !== "bilan-cours-bureautique-1" || !b.code) { ignores++; continue; }
+        // Un stagiaire peut déposer plusieurs bilans : on garde le plus récent.
+        if (!parCode.has(b.code) || parCode.get(b.code).date < b.date) parCode.set(b.code, b);
+      } catch { ignores++; }
+    }
+    bilans = [...parCode.values()].sort((a, b) => a.code.localeCompare(b.code, "fr"));
+    $("message").textContent = `${bilans.length} stagiaire${bilans.length > 1 ? "s" : ""}` + (ignores ? ` · ${ignores} fichier${ignores > 1 ? "s" : ""} ignoré${ignores > 1 ? "s" : ""}` : "");
+    dessiner();
+  }
+
+  function dessiner() {
+    $("detail").replaceChildren();
+    if (!bilans.length) { $("tableau").replaceChildren(); return; }
+    const rub = bilans[0].rubriques.map(r => r.titre);
+    const table = creer("table", { className: "tab" });
+    const tete = creer("tr");
+    ["Stagiaire", "Mis à jour", "Ouvertes", "Terminés", "Quiz finals validés", "⭐", "Réussite", "Essais", "Temps", ...rub].forEach(t => tete.append(creer("th", { scope: "col" }, t)));
+    table.append(creer("thead", {}), creer("tbody"));
+    table.tHead.append(tete);
+    bilans.forEach(b => {
+      const g = b.global;
+      const lien = creer("button", { className: "lien", type: "button" }, b.code);
+      lien.addEventListener("click", () => detail(b));
+      const l = creer("tr");
+      const code = creer("td");
+      code.append(lien);
+      l.append(code,
+        creer("td", {}, new Date(b.date).toLocaleDateString("fr-FR")),
+        creer("td", {}, `${g.ouvertes} / ${g.activites}`),
+        creer("td", {}, String(g.terminees)),
+        creer("td", {}, String(g.valides || 0)),
+        creer("td", {}, String(g.etoiles)),
+        creer("td", {}, g.reussite === null ? "–" : g.reussite + " %"),
+        creer("td", {}, String(g.essais)),
+        creer("td", {}, Bilan.duree(g.temps)),
+        ...b.rubriques.map(r => creer("td", {}, `${r.ouvertes} / ${r.activites}`)));
+      table.tBodies[0].append(l);
+    });
+    $("tableau").replaceChildren(table);
+  }
+
+  function detail(b) {
+    const zone = creer("section");
+    zone.append(creer("h2", {}, `Le détail de ${b.code}`));
+    const chiffres = creer("div", { className: "chiffres clair" });
+    BilanVue.chiffres(chiffres, b.global);
+    zone.append(chiffres);
+    const rubriques = creer("div");
+    BilanVue.rubriques(rubriques, RUBRIQUES, b.activites, b.rubriques);
+    zone.append(rubriques);
+    $("detail").replaceChildren(zone);
+    zone.scrollIntoView();
+  }
+
+  $("dossier").addEventListener("change", e => charger(e.target.files));
+  $("fichiers").addEventListener("change", e => charger(e.target.files));
+</script>
+</body>
+</html>

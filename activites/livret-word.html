@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Microsoft Word</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "word",
+  numero: 5,
+  titre: "Microsoft Word",
+  icone: "📄",
+  couleur: "#1e5fb4",
+  pale: "#e7f0fb",
+  accroche: "Le logiciel de traitement de texte : créer, mettre en forme et partager des documents professionnels (lettres, rapports, CV).",
+  suite: { fichier: "ruban-excel", titre: "Le ruban d'Excel" },
+  notions: {
+    "enreg": {
+      "titre": "enregistrer un document",
+      "va": "Trois façons d'enregistrer",
+      "jeu": {
+        "fichier": "quiz-raccourcis",
+        "titre": "le quiz des raccourcis"
+      }
+    },
+    "ruban": {
+      "titre": "le Ruban",
+      "va": "Le Ruban, votre boîte à outils",
+      "jeu": {
+        "fichier": "jeu-quel-onglet",
+        "titre": "le jeu « Quel onglet ? »"
+      }
+    },
+    "saisie": {
+      "titre": "les règles de la frappe",
+      "va": "Les règles de la frappe",
+      "jeu": {
+        "fichier": "jeu-chasse-fautes",
+        "titre": "la chasse aux fautes"
+      }
+    },
+    "marge": {
+      "titre": "sélectionner avec la marge",
+      "va": "Sélectionner avec la marge"
+    },
+    "annuler": {
+      "titre": "annuler et rétablir",
+      "va": "Bilan et premier document",
+      "jeu": {
+        "fichier": "quiz-raccourcis",
+        "titre": "le quiz des raccourcis"
+      }
+    },
+    "ccc": {
+      "titre": "couper, copier, coller",
+      "va": "Couper, copier, coller : la différence",
+      "jeu": {
+        "fichier": "quiz-raccourcis",
+        "titre": "le quiz des raccourcis"
+      }
+    },
+    "police": {
+      "titre": "la police de caractères",
+      "va": "Les options de la police",
+      "jeu": {
+        "fichier": "jeu-police",
+        "titre": "le quiz de la police"
+      }
+    },
+    "align": {
+      "titre": "alignements et retraits",
+      "va": "Les alignements"
+    },
+    "interligne": {
+      "titre": "l'interligne et les espacements",
+      "va": "L'interligne et les espacements"
+    },
+    "puces": {
+      "titre": "les puces et les numéros",
+      "va": "Puces, numéros, listes à niveaux"
+    },
+    "bordures": {
+      "titre": "bordures et trames",
+      "va": "Mettre un paragraphe en valeur"
+    },
+    "tab": {
+      "titre": "les tabulations",
+      "va": "Une tabulation, à quoi ça sert ?"
+    },
+    "ins": {
+      "titre": "images, formes et WordArt",
+      "va": "Insérer et habiller"
+    },
+    "affichage": {
+      "titre": "les modes d'affichage",
+      "va": "Quatre modes, quatre usages"
+    },
+    "styles": {
+      "titre": "les styles",
+      "va": "Un style, qu'est-ce que c'est ?"
+    },
+    "tdm": {
+      "titre": "insérer une table des matières",
+      "va": "Insérer une table automatique"
+    },
+    "tdmmaj": {
+      "titre": "mettre à jour la table",
+      "va": "Mettre à jour, personnaliser, supprimer"
+    },
+    "tableau": {
+      "titre": "insérer un tableau",
+      "va": "Trois façons d'insérer un tableau"
+    },
+    "tabonglets": {
+      "titre": "les onglets du tableau",
+      "va": "Les deux onglets contextuels",
+      "jeu": {
+        "fichier": "jeu-quel-onglet",
+        "titre": "le jeu « Quel onglet ? »"
+      }
+    },
+    "lien": {
+      "titre": "les liens hypertextes",
+      "va": "Créer un lien hypertexte",
+      "jeu": {
+        "fichier": "quiz-raccourcis",
+        "titre": "le quiz des raccourcis"
+      }
+    },
+    "publi": {
+      "titre": "le principe du publipostage",
+      "va": "Le principe"
+    },
+    "publi4": {
+      "titre": "les 4 étapes du publipostage",
+      "va": "Les 4 étapes dans Word"
+    }
+  },
+  plus: {"fichier": "exercices-word", "titre": "tous les exercices Word"},
+  quizPage: "quiz-word",
+  parties: [
+    { titre: "Les bases", icone: "🧭", intro: "L'interface, créer, enregistrer, saisir, sélectionner, copier.", etapes: 5 },
+    { titre: "La mise en forme", icone: "🎨", intro: "La police, les paragraphes, les puces, les bordures, les tabulations, les images.", etapes: 6 },
+    { titre: "Les documents longs", icone: "📑", intro: "Imprimer, les modes d'affichage, les styles, la table des matières, les tableaux.", etapes: 5 },
+    { titre: "Le publipostage", icone: "✉️", intro: "Le courrier personnalisé, puis le bilan du module.", etapes: 2 }
+  ],
+  etapes: [
+    {
+      titre: "L'interface de Word",
+      icone: "🧭",
+      resume: "Les 4 zones à connaître.",
+      ecrans: [
+        { t: "Se repérer dans la fenêtre", b: [
+          { p: "Comprendre chaque élément de l'interface vous permet de naviguer avec aisance et de travailler plus vite." },
+          { sim: "maquette",
+            colonnes: "1fr 3fr",
+            lignes: "40px 58px minmax(140px, 1fr) 36px",
+            zones: [
+              { nom: "Barre d'accès rapide", aire: "1 / 1 / 2 / 3", texte: "en haut à gauche, les commandes les plus utilisées (Enregistrer, Annuler, Rétablir). Elle est personnalisable." },
+              { nom: "Le Ruban", aire: "2 / 1 / 3 / 3", texte: "organisé par onglets (Accueil, Insertion, Mise en page…), il contient toutes les commandes, regroupées par fonctions." },
+              { nom: "Zone de document", aire: "3 / 1 / 4 / 3", texte: "l'espace principal où vous saisissez et modifiez votre texte, tel qu'il apparaîtra à l'impression ou à la lecture." },
+              { nom: "Barre d'état", aire: "4 / 1 / 5 / 3", texte: "en bas de la fenêtre : nombre de mots, langue et options d'affichage." }
+            ] },
+          { img: "p026_0", alt: "La fenêtre de Word avec ses zones signalées : ruban, barre d'accès rapide, zone de document et barre d'état.", leg: "La vraie fenêtre de Word" }
+        ] }
+      ]
+    },
+    {
+      titre: "Créer et enregistrer",
+      icone: "💾",
+      resume: "Ne plus jamais perdre son travail.",
+      ecrans: [
+        { t: "Trois façons d'enregistrer", b: [
+          { p: "Ouvrir Word → Nouveau document → saisir le texte → Enregistrer." },
+          { cartes: [
+            ["Enregistrer {Ctrl+S}", "Enregistre à l'emplacement actuel, sans boîte de dialogue. Idéal pour sauvegarder rapidement en cours de travail."],
+            ["Enregistrer sous {F12}", "Permet de choisir l'emplacement, le nom et le format : .docx (Word), .pdf (partage), .odt (LibreOffice)…"],
+            ["Enregistrement automatique", "Disponible quand le fichier est sur OneDrive. S'active dans la barre de titre et sauvegarde en temps réel."]
+          ] },
+          { img: "p027_0", alt: "L'écran Fichier > Nouveau de Word avec les modèles proposés.", leg: "Fichier > Nouveau" },
+          { img: "p027_1", alt: "La fenêtre Enregistrer sous, avec le choix de l'emplacement, du nom et du format.", leg: "Enregistrer sous" }
+        ] },
+        { t: "Le Ruban, votre boîte à outils", b: [
+          { p: "Le Ruban regroupe toutes les commandes, organisées par onglets. L'onglet <strong>Accueil</strong> est le plus utilisé : il centralise les outils de saisie et de mise en forme, en 5 groupes : Presse-papiers, Police, Paragraphe, Styles et Édition." },
+          { activite: { fichier: "ruban-word", titre: "Le ruban de Word interactif", texte: "Sélectionnez un outil pour afficher son explication.", icone: "🎀" } }
+        ] },
+        { t: "Quiz : créer, enregistrer et le Ruban", b: [
+          { activite: { fichier: "quiz-word", etape: "Créer et enregistrer", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Saisir et vérifier",
+      icone: "⌨️",
+      resume: "Les espaces, les marques et les fautes.",
+      ecrans: [
+        { t: "Les règles de la frappe", b: [
+          { p: "Où mettre les espaces autour de la ponctuation ? Voici les règles à connaître et à appliquer." },
+          { table: { tete: ["Signe", "La règle", "Exemple"], lignes: [
+            ["Virgule et point", "Pas d'espace avant, un espace après.", "Il fait beau, nous allons sortir."],
+            ["Point-virgule, deux-points", "Un espace avant et un espace après.", "Il fait beau : nous allons sortir ; prenons un chapeau."],
+            ["Point d'interrogation, d'exclamation", "Un espace avant et un espace après.", "Fait-il beau ? Si oui, sortons !"],
+            ["Parenthèses", "Un espace avant d'ouvrir, un espace après avoir fermé, aucun à l'intérieur.", "Il fait beau (nous allons sortir) et…"],
+            ["Guillemets français", "Un espace à l'intérieur de chaque côté.", "Il fait « beau »."],
+            ["% et €", "Un espace avant le signe.", "50 % de chance, 10 €"]
+          ] } },
+          { fiche: { titre: "Les bases de la saisie", fichier: "word/fiches/bases-de-la-saisie.docx", gros: "word/fiches/bases-de-la-saisie-gros.docx" } },
+          { activite: { fichier: "quiz-word", etape: "Saisir et vérifier", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] },
+        { t: "Les marques de paragraphe", b: [
+          { p: "Le bouton <strong>¶</strong> de l'onglet Accueil affiche les marques invisibles du document. Ce sont elles qui expliquent les espaces et les lignes bizarres." },
+          { associer: [
+            ["¶", "La fin d'un paragraphe : la touche {Entrée}"],
+            ["→", "Une tabulation : la touche {Tab}"],
+            ["↵", "Un saut de ligne, sans nouveau paragraphe : {Maj+Entrée}"],
+            ["·", "Un espace entre deux mots"],
+            ["•", "Une puce dans une liste"]
+          ], titre: "Que veut dire cette marque ?" }
+        ] },
+        { t: "À vous : saisir et corriger", b: [
+          { p: "Le correcteur souligne les mots mal écrits : faites un clic droit dessus pour voir les propositions." },
+          { activite: { fichier: "exercices-word", etape: "Saisir et vérifier", titre: "Faire les exercices dans la rubrique Exercices", texte: "La princesse Bérénice · L'électricité · Direction le grand large", icone: "📝" } },
+          { activite: { fichier: "jeu-chasse-fautes", titre: "La chasse aux fautes", texte: "Pour s'entraîner à repérer les fautes, sans rien saisir.", icone: "🔎" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Saisir, sélectionner, mettre en forme",
+      icone: "✍️",
+      resume: "Les gestes de base.",
+      ecrans: [
+        { t: "Sélectionner avec la marge", b: [
+          { p: "Word insère le texte là où se trouve le <strong>curseur clignotant</strong>. Pour modifier, il faut d'abord sélectionner. La méthode la plus précise passe par la <strong>marge</strong>, la zone blanche à gauche du texte." },
+          { sim: "word-selection" },
+          { table: { tete: ["Dans la marge", "Dans le texte"], lignes: [
+            ["1 clic → la ligne entière", "Double-clic sur un mot → le mot"],
+            ["Double-clic → le paragraphe entier", "Triple-clic → le paragraphe"],
+            ["Triple-clic ou {Ctrl}+clic → tout le document", "{Ctrl+A} → tout le document"]
+          ] } },
+          { astuce: "Cette méthode est plus précise que le cliqué-glissé, déconseillé pour les grandes sélections. Ensuite : {Ctrl+X} couper, {Ctrl+C} copier, {Ctrl+V} coller." }
+        ] },
+        { t: "La mise en forme essentielle", b: [
+          { sim: "word-forme" },
+          { onglets: [
+            ["Police", ["Type de police (Calibri, Times New Roman…)", "Taille (12 pts pour le corps, 16 pts pour les titres)", "Attributs (gras, italique, souligné)", "Couleur de police"]],
+            ["Paragraphe", ["Alignement (gauche, centré, droite, justifié)", "Espacement des lignes et des paragraphes"]]
+          ] },
+          { img: "p029_0", alt: "Le groupe Police du ruban : police, taille, gras, italique, souligné et couleur.", leg: "Le groupe Police" },
+          { img: "p029_1", alt: "Le groupe Paragraphe du ruban : listes, retraits, alignements et interligne.", leg: "Le groupe Paragraphe" }
+        ] }
+      ]
+    },
+    {
+      titre: "Couper, copier, coller",
+      icone: "✂️",
+      resume: "Déplacer du texte sans tout retaper.",
+      ecrans: [
+        { t: "Couper, copier, coller : la différence", b: [
+          { table: { tete: ["Action", "Raccourci", "Ce qui se passe"], lignes: [
+            ["Couper", "{Ctrl+X}", "Le texte quitte sa place et attend d'être collé ailleurs : il est déplacé."],
+            ["Copier", "{Ctrl+C}", "Le texte reste à sa place et un double attend d'être collé."],
+            ["Coller", "{Ctrl+V}", "Le texte apparaît là où se trouve le curseur."]
+          ] } },
+          { activite: { fichier: "quiz-word", etape: "Couper, copier, coller", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] },
+        { t: "À vous : remettre un texte en ordre", b: [
+          { activite: { fichier: "exercices-word", etape: "Couper, copier, coller", titre: "Faire les exercices dans la rubrique Exercices", texte: "Les jours de la semaine · Chez ma tante · L'écologie au quotidien", icone: "📝" } }
+        ] }
+      ]
+    },
+    {
+      titre: "La police en détail",
+      icone: "🔤",
+      resume: "Barré, indice, exposant, petites majuscules…",
+      ecrans: [
+        { t: "Les options de la police", b: [
+          { cartes: [
+            ["Barré", "Barre le texte d'une ligne, sans le supprimer."],
+            ["Indice", "Écrit en petit, sous la ligne : H<sub>2</sub>O."],
+            ["Exposant", "Écrit en petit, au-dessus de la ligne : 1<sup>er</sup>."],
+            ["Surlignage", "Colore le fond derrière le texte, comme un surligneur."],
+            ["Effets de texte", "Ajoute une ombre, un reflet, une lumière ou un contour."],
+            ["Petites majuscules", "Dans la boîte de dialogue Police : des majuscules de petite taille."],
+            ["Espacement", "Dans la boîte de dialogue Police, onglet Paramètres avancés : écarte les lettres, par exemple de 5 points."],
+            ["Effacer la mise en forme", "Remet le texte à son style par défaut, sans le supprimer."]
+          ] },
+          { astuce: "La petite flèche en bas à droite du groupe Police ouvre la boîte de dialogue complète. Raccourci : {Ctrl+D}." },
+          { activite: { fichier: "jeu-police", titre: "Le quiz de la police", texte: "Quinze questions sur toutes ces options.", icone: "🔤" } }
+        ] },
+        { t: "À vous : la mise en forme", b: [
+          { activite: { fichier: "exercices-word", etape: "La police", titre: "Faire les exercices dans la rubrique Exercices", texte: "La bureautique · La vie du chien · Police et alignements", icone: "📝" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Alignements, retraits, interligne",
+      icone: "📐",
+      resume: "Donner de l'air à un document.",
+      ecrans: [
+        { t: "Les alignements", b: [
+          { p: "L'alignement détermine la position du texte par rapport aux marges." },
+          { cartes: [
+            ["À gauche", "Par défaut dans Word. Le texte suit la marge de gauche et reste irrégulier à droite."],
+            ["Centré", "Le texte est centré entre les marges. Souvent utilisé pour les titres."],
+            ["À droite", "Le texte suit la marge de droite. Souvent utilisé pour les dates et les signatures."],
+            ["Justifié", "Le texte suit les deux marges. Une apparence nette, fréquente dans les documents professionnels."]
+          ] },
+          { h: "Les retraits" },
+          { p: "Le retrait détermine l'espace entre le texte et les marges. Il se règle dans <strong>Accueil > Paragraphe</strong> ou <strong>Disposition > Paragraphe</strong>." },
+          { cartes: [
+            ["Retrait de première ligne", "Un espace au début de la première ligne de chaque paragraphe. Courant dans les rapports."],
+            ["Retrait négatif", "La première ligne est moins avancée que les autres. Utilisé dans les bibliographies."],
+            ["Retrait gauche ou droit", "Tout le paragraphe est décalé, sans changer l'alignement."]
+          ] },
+          { fiche: { titre: "Alignements et retraits", fichier: "word/fiches/alignement-et-retrait.docx", gros: "word/fiches/alignement-et-retrait-gros.docx" } }
+        ] },
+        { t: "L'interligne et les espacements", b: [
+          { p: "L'<strong>interligne</strong> est l'espace vertical entre les lignes d'un paragraphe. Bien réglé, il rend le texte plus lisible et plus professionnel. L'<strong>espacement de paragraphe</strong> ajoute de l'espace avant ou après un paragraphe, sans ligne blanche." },
+          { activite: { fichier: "quiz-word", etape: "Alignements, retraits, interligne", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] },
+        { t: "À vous : la mise en page", b: [
+          { activite: { fichier: "exercices-word", etape: "La mise en page", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Voyages", icone: "📝" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Puces et numéros",
+      icone: "🔢",
+      resume: "Des listes claires.",
+      ecrans: [
+        { t: "Puces, numéros, listes à niveaux", b: [
+          { cartes: [
+            ["Les puces", "Une liste sans ordre : chaque élément est précédé d'un symbole. « Définir une puce » permet d'en créer une personnalisée."],
+            ["Les numéros", "Une liste ordonnée : chiffres arabes (1, 2, 3), romains (I, II, III) ou lettres (a, b, c)."],
+            ["Les listes à niveaux", "Une liste hiérarchisée, avec des retraits, pour structurer les documents complexes."]
+          ] },
+          { fiche: { titre: "Puces et numéros", fichier: "word/fiches/puces-et-numeros.docx", gros: "word/fiches/puces-et-numeros-gros.docx" } },
+          { trier: {
+            titre: "Puces ou numéros ?",
+            v: "puces",
+            bacs: ["• Puces", "1. Numéros", "1.1 Plusieurs niveaux"],
+            items: [["Une liste de courses", 0], ["Les avantages d'un produit", 0], ["Les étapes d'une recette", 1], ["Un classement du 1er au 5e", 1], ["Le plan détaillé d'un rapport", 2], ["Un sommaire avec chapitres et sous-chapitres", 2]]
+          } }
+        ] },
+        { t: "À vous : de longs documents", b: [
+          { activite: { fichier: "exercices-word", etape: "Paragraphes, puces et numéros", titre: "Faire les exercices dans la rubrique Exercices", texte: "Le Canada · Les conifères et leurs belles variétés", icone: "📝" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Bordures, trames et lettrine",
+      icone: "🖼️",
+      resume: "Mettre un texte en valeur.",
+      ecrans: [
+        { t: "Mettre un paragraphe en valeur", b: [
+          { p: "Sélectionnez le texte, puis onglet <strong>Accueil</strong>, groupe Paragraphe, bouton <strong>Bordures</strong> > <strong>Bordure et trame</strong>. La fenêtre compte trois onglets : Bordures, Bordure de page et Trame de fond." },
+          { associer: [
+            ["Encadrement", "Une bordure tout autour du texte"],
+            ["Ombre", "Une bordure avec un effet de relief, à droite et en bas"],
+            ["3D", "Une bordure qui donne une impression de profondeur"],
+            ["Personnalisé", "Un style différent pour chaque côté"],
+            ["Trame de fond", "Une couleur derrière le paragraphe"]
+          ], titre: "Les types de bordures" },
+          { fiche: { titre: "Bordures et trames", fichier: "word/fiches/bordures-et-trames.docx", gros: "word/fiches/bordures-et-trames-gros.docx" } }
+        ] },
+        { t: "La lettrine", b: [
+          { p: "La lettrine met le premier caractère d'un paragraphe en grande taille." },
+          { pas: [
+            "Sélectionnez le paragraphe.",
+            "Onglet <strong>Insertion</strong>, icône <strong>Lettrine</strong>.",
+            "Choisissez <strong>Dans le texte</strong> : le paragraphe continue sous la lettrine. Ou <strong>Dans la marge</strong> : il n'y a jamais de texte dessous."
+          ] },
+          { fiche: { titre: "La lettrine", fichier: "word/fiches/lettrine.docx" } },
+          { activite: { fichier: "exercices-word", etape: "La mise en page", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Les effets spéciaux au cinéma", icone: "📝" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Les tabulations",
+      icone: "↔️",
+      resume: "Aligner sans tableau.",
+      ecrans: [
+        { t: "Une tabulation, à quoi ça sert ?", b: [
+          { p: "La tabulation aligne du texte ou des chiffres : pratique pour les listes de prix, les formulaires ou les sommaires." },
+          { associer: [
+            ["Gauche", "Aligne le texte à gauche de la position"],
+            ["Centre", "Centre le texte à la position"],
+            ["Droite", "Aligne le texte à droite : idéal pour les prix"],
+            ["Décimale", "Aligne les nombres sur la virgule"],
+            ["Barre", "Insère une barre verticale"]
+          ], titre: "Les 5 types de tabulations" },
+          { fiche: { titre: "Les tabulations", fichier: "word/fiches/tabulations.docx" } }
+        ] },
+        { t: "Poser une tabulation", b: [
+          { pas: [
+            "Affichez la règle : onglet Affichage, case <strong>Règle</strong>.",
+            "Cliquez sur l'icône à gauche de la règle pour choisir le type de tabulation.",
+            "Cliquez sur la règle à l'endroit voulu.",
+            "Tapez votre texte, puis la touche {Tab} pour aller à la position.",
+            "Pour déplacer une tabulation, faites-la glisser. Pour la supprimer, faites-la glisser hors de la règle."
+          ] },
+          { astuce: "Les <strong>points de suite</strong> (les petits points d'un sommaire) se règlent dans la boîte de dialogue : double-cliquez sur un taquet de tabulation." },
+          { activite: { fichier: "quiz-word", etape: "Les tabulations", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] },
+        { t: "À vous : reproduire avec des tabulations", b: [
+          { activite: { fichier: "exercices-word", etape: "Les tabulations", titre: "Faire les exercices dans la rubrique Exercices", texte: "Le bruit · Casque et gravité des accidents · La réservation", icone: "📝" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Images, formes et WordArt",
+      icone: "🎨",
+      resume: "Illustrer un document.",
+      ecrans: [
+        { t: "Insérer et habiller", b: [
+          { p: "Tout se trouve dans l'onglet <strong>Insertion</strong> : Images, Formes et WordArt. Une fois l'image insérée, l'<strong>habillage</strong> décide comment le texte se place autour d'elle." },
+          { cartes: [
+            ["Aligné sur le texte", "L'image se comporte comme une lettre dans la ligne."],
+            ["Carré", "Le texte contourne l'image en suivant un rectangle."],
+            ["Rapproché", "Le texte suit au plus près la forme de l'image."],
+            ["Devant ou derrière le texte", "L'image se pose par-dessus le texte, ou passe dessous."]
+          ] },
+          { activite: { fichier: "quiz-word", etape: "Images, formes et WordArt", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] },
+        { t: "À vous : illustrer un document", b: [
+          { activite: { fichier: "exercices-word", etape: "Images, formes et WordArt", titre: "Faire les exercices dans la rubrique Exercices", texte: "Les métiers du laboratoire · L'entrepreneuriat · Les formations qualifiantes", icone: "📝" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Imprimer en recto-verso",
+      icone: "🖨️",
+      resume: "Économiser le papier.",
+      ecrans: [
+        { t: "Le recto-verso depuis Word", b: [
+          { p: "Par défaut, les impressions se font en recto seul. Le recto-verso se demande depuis l'ordinateur, et cela fonctionne aussi avec les autres logiciels." },
+          { ordre: ["Menu Fichier", "Imprimer", "Propriétés de l'imprimante", "Onglet Mise en page", "Impression recto verso : choisir « Imprimer recto verso »"], titre: "Remettez le chemin dans l'ordre" },
+          { fiche: { titre: "Le recto-verso", fichier: "word/fiches/recto-verso.docx" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Les modes d'affichage",
+      icone: "👁️",
+      resume: "Le bon mode pour chaque tâche.",
+      ecrans: [
+        { t: "Quatre modes, quatre usages", b: [
+          { cartes: [
+            ["Mode Page", "Le mode par défaut : le document tel qu'il sera imprimé. Idéal pour la mise en page et l'insertion d'images ou de tableaux."],
+            ["Mode Lecture", "Lecture confortable en plein écran. Les outils de modification sont désactivés pour éviter toute erreur : parfait pour relire."],
+            ["Mode Plan", "Structure le document selon ses titres. Très utile pour réorganiser les sections d'un rapport ou d'un livre."],
+            ["Mode Brouillon", "Simplifié, sans marges ni graphiques. Rapide, idéal pour éditer du texte brut dans un document très volumineux."]
+          ] },
+          { img: "p032_0", alt: "Le groupe Affichages du ruban : mode Lecture, Page, Web, Plan et Brouillon.", leg: "Onglet Affichage" }
+        ] },
+        { t: "Le zoom et la navigation", b: [
+          { liste: [
+            "Le <strong>curseur de zoom</strong> se trouve en bas à droite de l'écran.",
+            "<strong>Affichage > Zoom</strong> propose des options plus avancées.",
+            "{Ctrl} + molette de la souris : le zoom le plus rapide ({Cmd} + molette sur Mac).",
+            "<strong>Affichage côte à côte</strong> (onglet Affichage) : parfait pour comparer deux documents."
+          ] },
+          { img: "p032_1", alt: "Le groupe Zoom du ruban : Zoom, 100 %, Une page, Plusieurs pages et Largeur de la page.", leg: "Le groupe Zoom" },
+          { astuce: "Essayez chaque mode pour trouver celui qui convient à votre tâche du moment." }
+        ] },
+        { t: "Quiz : saisie, sélection et affichage", b: [
+          { activite: { fichier: "quiz-word", etape: "Les modes d'affichage", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] },
+        { t: "Bilan et premier document", b: [
+          { qqc: {
+            quoi: "L'interface se compose du Ruban, de la barre d'accès rapide, de la zone de document et de la barre d'état. L'onglet Accueil est le plus important.",
+            pourquoi: "Maîtriser l'interface permet de travailler plus vite. Savoir créer, enregistrer et mettre en forme est la base de tout travail bureautique professionnel.",
+            comment: "Créer : Fichier > Nouveau. Enregistrer : {Ctrl+S}. Sélectionner via la marge. Mettre en forme depuis l'onglet Accueil.",
+            retenir: "La sélection via la marge est plus précise que le cliqué-glissé. {Ctrl+S} pour enregistrer, {Ctrl+Z} pour annuler."
+          } },
+          { activite: { fichier: "exercices-word", etape: "Styles, tables et publipostage", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Mon premier document Word", icone: "📝" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Les styles",
+      icone: "🎨",
+      resume: "Mettre en forme en un clic.",
+      ecrans: [
+        { t: "Un style, qu'est-ce que c'est ?", b: [
+          { p: "Un style est un <strong>ensemble de formats</strong> (police, taille, couleur, espacement…) à appliquer en un seul clic à un texte, un paragraphe ou un tableau. Il garantit la cohérence et le professionnalisme de vos écrits, et les rend plus faciles à modifier." },
+          { img: "p034_0", alt: "La galerie des styles dans l'onglet Accueil : Normal, Sans interligne, Titre 1, Titre 2, Titre et d'autres.", leg: "La galerie des styles, onglet Accueil" },
+          { cartes: [
+            ["Appliquer", "Utilisez les styles prédéfinis de l'onglet Accueil pour une mise en forme rapide."],
+            ["Modifier et créer", "Personnalisez les styles existants ou créez les vôtres, selon vos besoins et votre charte graphique."],
+            ["Gérer via le volet", "Le volet des styles donne une vue d'ensemble de tous les styles du document."]
+          ] },
+          { astuce: "Pour ouvrir le volet des styles, cliquez sur la petite flèche en bas à droite du groupe « Styles », dans l'onglet Accueil." },
+          { img: "p034_1", alt: "Le bas de la galerie des styles avec Créer un style, Effacer la mise en forme et Appliquer les styles.", leg: "Créer un style, effacer la mise en forme" }
+        ] },
+        { t: "Essayez : les styles font le travail", b: [
+          { sim: "word-styles" }
+        ] },
+        { t: "L'exercice pratique", b: [
+          { p: "Transformez un document brut en rapport professionnel, avec le fichier « Rapport de gestion 2024 – Société Alpha Services » de votre réseau P:." },
+          { activite: { fichier: "exercices-word", etape: "Styles, tables et publipostage", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Appliquer les styles à un document", icone: "📝" } }
+        ] }
+      ]
+    },
+    {
+      titre: "La table des matières",
+      icone: "📑",
+      resume: "Automatique, à condition d'avoir des styles.",
+      ecrans: [
+        { t: "Insérer une table automatique", b: [
+          { attention: "<strong>Le prérequis :</strong> votre document doit être structuré avec les styles de titre intégrés (Titre 1, Titre 2, Titre 3…). C'est la clé d'une table fonctionnelle." },
+          { pas: [
+            "Placez le curseur à l'endroit voulu, en général au début du document ou après la page de garde.",
+            "Allez dans l'onglet <strong>Références</strong>.",
+            "Cliquez sur <strong>Table des matières</strong>.",
+            "Choisissez un modèle automatique (« Table automatique 1 » ou « 2 »).",
+            "Ou bien : « Table des matières personnalisée… » pour plus d'options."
+          ] },
+          { img: "p036_0", alt: "Le groupe Table des matières de l'onglet Références avec Ajouter le texte et Mettre à jour la table.", leg: "Onglet Références" },
+          { img: "p037_0", alt: "Le menu Table des matières avec les modèles Table automatique 1, Table automatique 2 et Table manuelle.", leg: "Les modèles proposés" },
+          { astuce: "Pour une table plus détaillée, appliquez aussi les styles de niveau inférieur (Titre 3, Titre 4…) : Word les inclut automatiquement." }
+        ] },
+        { t: "Mettre à jour, personnaliser, supprimer", b: [
+          { onglets: [
+            ["Mettre à jour", { pas: [
+              "Cliquez n'importe où sur la table.",
+              "Cliquez sur « Mettre à jour la table », ou clic droit > « Mettre à jour les champs ».",
+              "Choisissez <strong>Uniquement les numéros de page</strong> si seul le contenu a bougé, ou <strong>Toute la table</strong> si vous avez ajouté, supprimé ou modifié des titres.",
+              "Validez : Word actualise la table."
+            ], progressif: false }],
+            ["Personnaliser", { pas: [
+              "Onglet Références > Table des matières > « Table des matières personnalisée… ».",
+              "Modifiez les options (« Afficher les niveaux », « Format », « Caractère de suite »), puis OK."
+            ], progressif: false }],
+            ["Supprimer", { pas: [
+              "Onglet Références.",
+              "Cliquez sur Table des matières.",
+              "Choisissez « Supprimer la table des matières », en bas du menu."
+            ], progressif: false }]
+          ] },
+          { astuce: "Une mise en forme manuelle de la table est perdue à chaque mise à jour complète. Passez plutôt par « Table des matières personnalisée » pour un style qui dure." }
+        ] },
+        { t: "Quiz : styles et table des matières", b: [
+          { activite: { fichier: "quiz-word", etape: "La table des matières", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Tableaux et liens",
+      icone: "🔗",
+      resume: "Structurer et relier.",
+      ecrans: [
+        { t: "Trois façons d'insérer un tableau", b: [
+          { onglets: [
+            ["Grille visuelle", { pas: ["Onglet Insertion.", "Cliquez sur Tableau.", "Déplacez le curseur pour choisir le nombre de colonnes et de lignes.", "Cliquez pour insérer. Idéal pour des tableaux simples et rapides."], progressif: false }],
+            ["Personnalisé", { pas: ["Insertion > Tableau > Insérer un tableau.", "Définissez le nombre précis de colonnes et de lignes.", "Activez « Ajuster automatiquement » pour adapter la taille au contenu ou à la fenêtre."], progressif: false }],
+            ["Dessiner", { pas: ["Insertion > Tableau > Dessiner un tableau.", "Le curseur devient un crayon : tracez les bordures à la souris. Parfait pour les mises en page complexes, avec des cellules fusionnées ou des colonnes inégales."], progressif: false }]
+          ] },
+          { img: "p039_0", alt: "Le menu Insérer un tableau avec la grille et les options Insérer un tableau, Dessiner un tableau et Tableaux rapides.", leg: "Le menu Tableau" }
+        ] },
+        { t: "Les deux onglets contextuels", b: [
+          { p: "Quand vous cliquez dans un tableau, deux onglets apparaissent sous « Outils de tableau » :" },
+          { img: "p040_0", alt: "Les onglets Création et Disposition sous Outils de tableau.", leg: "Outils de tableau" },
+          { trier: {
+            titre: "Quel onglet pour quelle action ?",
+            bacs: ["🧱 Disposition (la structure)", "🎨 Création (l'apparence)"],
+            items: [["Ajouter une ligne", 0], ["Supprimer une colonne", 0], ["Fusionner des cellules", 0], ["Fractionner des cellules", 0], ["Ajuster la taille", 0], ["Modifier les bordures", 1], ["Changer la trame de fond", 1], ["Choisir un style de tableau", 1], ["Utiliser la gomme et le crayon", 1]]
+          } }
+        ] },
+        { t: "Créer un lien hypertexte", b: [
+          { p: "Les liens fluidifient la navigation vers des informations internes ou externes au document." },
+          { onglets: [
+            ["Page web", { pas: ["Sélectionnez le texte ou l'image.", "Clic droit > Lien, ou {Ctrl+K}.", "Choisissez « Fichier ou page web existant ».", "Tapez ou copiez l'URL.", "Cliquez sur OK."], progressif: false }],
+            ["Fichier", { pas: ["Mêmes premières étapes que pour un lien web.", "Choisissez « Fichier ou page web existant ».", "Parcourez et choisissez le fichier sur votre ordinateur.", "Validez. Très utile pour lier des annexes."], progressif: false }],
+            ["Dans le document", { pas: ["Sélectionnez le texte.", "Insertion > Lien.", "Cliquez sur « Emplacement dans ce document ».", "Sélectionnez un titre ou un signet.", "Cliquez sur OK. Pratique pour des renvois rapides."], progressif: false }],
+            ["E-mail", { pas: ["Sélectionnez le texte (ex : « Contactez-nous »).", "Clic droit > Lien.", "Choisissez « Adresse e-mail ».", "Entrez l'adresse.", "Cliquez sur OK. Word ajoute « mailto: » tout seul."], progressif: false }]
+          ] },
+          { img: "p040_1", alt: "Les options de la fenêtre Lien : fichier ou page web existant, emplacement dans ce document, créer un document et adresse de messagerie.", leg: "La fenêtre Insérer un lien" },
+          { h: "Gérer un lien existant" },
+          { liste: ["<strong>Modifier :</strong> clic droit sur le lien > « Modifier le lien ».", "<strong>Supprimer :</strong> clic droit sur le lien > « Supprimer le lien hypertexte »."] },
+          { astuce: "Pour désactiver tous les liens d'un coup : {Ctrl+A}, puis {Ctrl+Maj+F9}. Ils redeviennent du texte normal." }
+        ] },
+        { t: "Quiz : tableaux et liens", b: [
+          { activite: { fichier: "quiz-word", etape: "Tableaux et liens", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Le publipostage",
+      icone: "✉️",
+      resume: "Une lettre, des dizaines de destinataires.",
+      ecrans: [
+        { t: "Le principe", b: [
+          { p: "Le publipostage (mailing) crée des documents personnalisés en masse (lettres, e-mails, étiquettes) à partir d'un <strong>modèle Word</strong> et d'une <strong>source de données Excel</strong>." },
+          { sim: "publipostage" }
+        ] },
+        { t: "Les 4 étapes dans Word", b: [
+          { pas: [
+            "<strong>Préparer la source :</strong> un tableau Excel avec une colonne par champ (Nom, Prénom, Adresse…) et une ligne par destinataire. Les titres de colonnes deviennent les champs de fusion.",
+            "<strong>Créer le document principal :</strong> onglet Publipostage > « Démarrer la fusion et le publipostage » > choisissez le type (Lettres, E-mails…), puis « Sélectionner les destinataires » pour lier le fichier Excel.",
+            "<strong>Insérer les champs :</strong> placez le curseur, puis « Insérer un champ de fusion » (« Prénom », « Nom », « Adresse »…).",
+            "<strong>Aperçu et finalisation :</strong> « Aperçu des résultats » pour vérifier chaque destinataire, puis « Terminer &amp; fusionner » pour imprimer, modifier les documents ou envoyer par e-mail."
+          ] },
+          { retenir: [
+            "1 document type + 1 source de données → des dizaines de courriers personnalisés.",
+            "La source peut être un tableau Excel, un carnet d'adresses Outlook ou une liste Word.",
+            "Toujours prévisualiser avant de fusionner.",
+            "Formats possibles : lettres, étiquettes, enveloppes, e-mails."
+          ] }
+        ] },
+        { t: "Quiz : le publipostage", b: [
+          { activite: { fichier: "quiz-word", etape: "Le publipostage", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Bilan : Microsoft Word",
+      icone: "🏁",
+      resume: "Résumé et grand défi.",
+      ecrans: [
+        { t: "L'essentiel sur Word", b: [
+          { qqc: {
+            quoi: "Le logiciel de traitement de texte de Microsoft pour créer, mettre en forme et partager des documents professionnels.",
+            pourquoi: "Produire des documents clairs, structurés et professionnels : rapports, courriers, tableaux, publipostage.",
+            comment: "Appliquer des styles, générer une table des matières (Références), insérer tableaux et liens, réaliser un publipostage. Enregistrer en .docx ou .pdf ({Ctrl+S}).",
+            retenir: "Les styles sont la base de tout document bien structuré dans Word."
+          } }
+        ] },
+        { t: "Les notions avancées en résumé", b: [
+          { qqc: {
+            quoi: "Les styles (mise en forme cohérente), la table des matières (générée depuis les titres), les tableaux, les liens et le publipostage.",
+            pourquoi: "Produire des documents longs et professionnels. Le publipostage fait gagner un temps considérable pour les envois en série.",
+            comment: "Styles : Accueil. Table : Références. Tableaux : Insertion. Publipostage : onglet Publipostage > Démarrer la fusion.",
+            retenir: "Toujours appliquer les styles AVANT d'insérer la table. La mettre à jour après chaque modification (clic droit > Mettre à jour). Le publipostage nécessite une source de données."
+          } }
+        ] },
+        { t: "Le grand défi Word", b: [
+          { activite: { fichier: "exercices-word", etape: "Styles, tables et publipostage", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Rapport de gestion et publipostage", icone: "📝" } }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

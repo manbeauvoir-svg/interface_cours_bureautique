@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La chasse aux fautes</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "jeu-chasse-fautes",
+  etiquette: "JEU",
+  titre: "La chasse aux fautes",
+  icone: "🔎",
+  couleur: "#a21caf",
+  pale: "#f8e8fb",
+  accroche: "Des textes truffés de fautes : cliquez sur chaque mot mal écrit. Un bon entraînement avant de relire vos documents Word !",
+  etapes: [
+    {
+      titre: "Les textes",
+      icone: "🔎",
+      resume: "Trois textes et un mail.",
+      ecrans: [
+        { t: "Trouvez toutes les fautes", b: [
+          { sim: "fautes", textes: [
+            { titre: "La vie du chien", texte: "Après une gestation d'environ 63 jours, les chiots naissent aveugles, sourds et [[dépendents|dépendants]] de leur mère. Les [[premiéres|premières]] semaines, ils passent la majeure partie de leur temps à dormir et à téter. Leur [[mer|mère]] les nourrit et les [[nettoient|nettoie]] régulièrement. À ce stade, les chiots ne peuvent pas marcher correctement, car leurs [[mucles|muscles]] et leurs [[senz|sens]] ne sont pas encore totalement [[développer|développés]]." },
+            { titre: "L'électricité", texte: "L'électricité est une richesse inestimable dont on ne peut plus se [[passé|passer]] aujourd'hui. C'est la découverte de l'électricité, il y a plus d'un siècle, qui a [[permise|permis]] au progrès de faire des [[bond|bonds]] prodigieux. Autrefois, les hommes [[s'éclairait|s'éclairaient]] à la lampe ou à la chandelle, les déplacements se [[fesaient|faisaient]] en voiture [[tiré|tirée]] par des [[animau|animaux]]." },
+            { titre: "Voyages", texte: "[[Malgrès|Malgré]] tout, voyager comporte quelques défis. Il faut souvent faire [[fasse|face]] à des différences culturelles. Certains voyageurs se heurtent à des conditions de [[transpaurt|transport]] difficiles, ou à un hôtel qui ne [[correspend|correspond]] pas aux attentes. Il existe également des [[inconvéniants|inconvénients]] liés au tourisme de masse, ce qui nuit à l'environnement [[locale|local]]." }
+          ] }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

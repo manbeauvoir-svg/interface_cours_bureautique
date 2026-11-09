@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz : Microsoft Word</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "quiz-word",
+  etiquette: "QUIZ",
+  titre: "Quiz : Microsoft Word",
+  icone: "📄",
+  couleur: "#a21caf",
+  pale: "#f8e8fb",
+  accroche: "Commencez par le quiz de positionnement pour connaître vos priorités. Entraînez-vous thème par thème, puis validez le module avec le quiz final.",
+  cours: "livret-word",
+  notions: {
+    "enreg": {
+      "titre": "enregistrer un document",
+      "va": "Trois façons d'enregistrer",
+      "jeu": {
+        "fichier": "quiz-raccourcis",
+        "titre": "le quiz des raccourcis"
+      }
+    },
+    "ruban": {
+      "titre": "le Ruban",
+      "va": "Le Ruban, votre boîte à outils",
+      "jeu": {
+        "fichier": "jeu-quel-onglet",
+        "titre": "le jeu « Quel onglet ? »"
+      }
+    },
+    "saisie": {
+      "titre": "les règles de la frappe",
+      "va": "Les règles de la frappe",
+      "jeu": {
+        "fichier": "jeu-chasse-fautes",
+        "titre": "la chasse aux fautes"
+      }
+    },
+    "marge": {
+      "titre": "sélectionner avec la marge",
+      "va": "Sélectionner avec la marge"
+    },
+    "annuler": {
+      "titre": "annuler et rétablir",
+      "va": "Bilan et premier document",
+      "jeu": {
+        "fichier": "quiz-raccourcis",
+        "titre": "le quiz des raccourcis"
+      }
+    },
+    "ccc": {
+      "titre": "couper, copier, coller",
+      "va": "Couper, copier, coller : la différence",
+      "jeu": {
+        "fichier": "quiz-raccourcis",
+        "titre": "le quiz des raccourcis"
+      }
+    },
+    "police": {
+      "titre": "la police de caractères",
+      "va": "Les options de la police",
+      "jeu": {
+        "fichier": "jeu-police",
+        "titre": "le quiz de la police"
+      }
+    },
+    "align": {
+      "titre": "alignements et retraits",
+      "va": "Les alignements"
+    },
+    "interligne": {
+      "titre": "l'interligne et les espacements",
+      "va": "L'interligne et les espacements"
+    },
+    "puces": {
+      "titre": "les puces et les numéros",
+      "va": "Puces, numéros, listes à niveaux"
+    },
+    "bordures": {
+      "titre": "bordures et trames",
+      "va": "Mettre un paragraphe en valeur"
+    },
+    "tab": {
+      "titre": "les tabulations",
+      "va": "Une tabulation, à quoi ça sert ?"
+    },
+    "ins": {
+      "titre": "images, formes et WordArt",
+      "va": "Insérer et habiller"
+    },
+    "affichage": {
+      "titre": "les modes d'affichage",
+      "va": "Quatre modes, quatre usages"
+    },
+    "styles": {
+      "titre": "les styles",
+      "va": "Un style, qu'est-ce que c'est ?"
+    },
+    "tdm": {
+      "titre": "insérer une table des matières",
+      "va": "Insérer une table automatique"
+    },
+    "tdmmaj": {
+      "titre": "mettre à jour la table",
+      "va": "Mettre à jour, personnaliser, supprimer"
+    },
+    "tableau": {
+      "titre": "insérer un tableau",
+      "va": "Trois façons d'insérer un tableau"
+    },
+    "tabonglets": {
+      "titre": "les onglets du tableau",
+      "va": "Les deux onglets contextuels",
+      "jeu": {
+        "fichier": "jeu-quel-onglet",
+        "titre": "le jeu « Quel onglet ? »"
+      }
+    },
+    "lien": {
+      "titre": "les liens hypertextes",
+      "va": "Créer un lien hypertexte",
+      "jeu": {
+        "fichier": "quiz-raccourcis",
+        "titre": "le quiz des raccourcis"
+      }
+    },
+    "publi": {
+      "titre": "le principe du publipostage",
+      "va": "Le principe"
+    },
+    "publi4": {
+      "titre": "les 4 étapes du publipostage",
+      "va": "Les 4 étapes dans Word"
+    }
+  },
+  etapes: [
+    {
+      titre: "Quiz de positionnement",
+      icone: "🧭",
+      resume: "Pour savoir par où commencer.",
+      ecrans: [
+        { t: "Quiz de positionnement", b: [
+          { depart: true, titre: "Quiz de positionnement", quiz: [
+            {"v":"enreg","q":"Quel raccourci enregistre un document ?","r":["{Ctrl+S}","{Ctrl+P}","{Ctrl+E}"]},
+            {"v":"saisie","q":"Quelle phrase est bien écrite ?","r":["Il fait beau : sortons !","Il fait beau: sortons!","Il fait beau :sortons !"]},
+            {"v":"marge","q":"Comment sélectionner une ligne entière ?","r":["1 clic dans la marge","Double-clic sur un mot","{Ctrl+A}"]},
+            {"v":"ccc","q":"Quel raccourci colle le texte ?","r":["{Ctrl+V}","{Ctrl+C}","{Ctrl+X}"]},
+            {"v":"police","q":"Quel raccourci met en gras dans Word en français ?","r":["{Ctrl+G}","{Ctrl+B}","{Ctrl+I}"]},
+            {"v":"align","q":"Quel alignement aligne le texte sur les deux marges ?","r":["Justifié","Centré","À droite"]},
+            {"v":"puces","q":"Quelle liste convient aux étapes d'une recette ?","r":["Une liste numérotée","Une liste à puces","Un tableau"]},
+            {"v":"tab","q":"Quelle touche passe à la tabulation suivante ?","r":["{Tab}","{Entrée}","{Échap}"]},
+            {"v":"ins","q":"Où insérer une image ?","r":["Onglet Insertion","Onglet Révision","Onglet Affichage"]},
+            {"v":"styles","q":"À quoi sert un style ?","r":["À appliquer plusieurs formats en un clic","À changer de langue","À imprimer"]},
+            {"v":"tableau","q":"Où insérer un tableau ?","r":["Onglet Insertion > Tableau","Onglet Accueil > Styles","Onglet Affichage"]},
+            {"v":"publi","q":"À quoi sert le publipostage ?","r":["À créer des courriers personnalisés en série","À corriger les fautes","À protéger un document"]}
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "Créer et enregistrer",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Créer et enregistrer", b: [
+          { quiz: [
+            {"v":"enreg","q":"Quel format choisir pour un document modifiable dans Word ?","r":[".docx",".pdf",".jpg"]},
+            {"v":"enreg","q":"Quand l'enregistrement automatique est-il disponible ?","r":["Quand le fichier est sur OneDrive","Quand on imprime","Toujours, sur tous les fichiers"]},
+            {"v":"enreg","q":"Par où passer pour créer un nouveau document ?","r":["Fichier > Nouveau","Accueil > Police","Affichage > Zoom"]},
+            {"v":"ruban","q":"Où se trouve par défaut la barre d'accès rapide ?","r":["En haut à gauche","En bas à droite","Au milieu de la page"]},
+            {"v":"ruban","q":"Que montre la barre d'état ?","r":["Le nombre de mots, la langue et l'affichage","Le nom des destinataires","La liste des polices"]},
+            { v: "enreg", q: "Quel raccourci clavier permet d'enregistrer rapidement un document Word ?", r: ["{Ctrl+S}", "{Ctrl+P}", "{Ctrl+E}"] },
+            { v: "enreg", q: "Quelle option permet de choisir l'emplacement et le format d'enregistrement d'un fichier ?", r: ["Enregistrer sous ({F12})", "Enregistrer ({Ctrl+S})", "Imprimer ({Ctrl+P})"] },
+            { v: "ruban", q: "Où se trouve le Ruban dans Word ?", r: ["En haut de la fenêtre, organisé par onglets", "En bas de la fenêtre", "Dans le volet gauche"] },
+            { v: "ruban", q: "Quel onglet du Ruban regroupe les outils de mise en forme du texte (police, taille, gras) ?", r: ["Accueil", "Insertion", "Mise en page"] },
+            { v: "enreg", q: "Quel format est recommandé pour partager un document en lecture seule ?", r: [".pdf", ".docx", ".odt"] }
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "Saisir et vérifier",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Saisir et vérifier", b: [
+          { quiz: [
+            {"v":"saisie","q":"Où Word insère-t-il le texte que vous tapez ?","r":["Là où se trouve le curseur clignotant","Toujours à la fin","Toujours au début"]},
+            {"v":"saisie","q":"Quel bouton affiche les marques invisibles ?","r":["¶","G","Σ"]},
+            {"v":"saisie","q":"Quelle touche crée un nouveau paragraphe ?","r":["{Entrée}","{Tab}","{Échap}"]},
+            {"v":"saisie","q":"Quel raccourci fait un saut de ligne sans nouveau paragraphe ?","r":["{Maj+Entrée}","{Ctrl+P}","{Alt+Tab}"]},
+            {"v":"saisie","q":"Comment corriger un mot souligné par Word ?","r":["Clic droit sur le mot, puis choisir une proposition","Double-clic sur la marge","{Ctrl+S}"]},
+            {"v":"saisie","q":"Où placer l'espace avec une virgule ?","r":["Après la virgule seulement","Avant la virgule seulement","Avant et après"]},
+            { v: "saisie", q: "Quelle phrase est bien écrite ?", r: ["Fait-il beau ? Si oui, sortons.", "Fait-il beau? Si oui, sortons.", "Fait-il beau ?Si oui, sortons."], e: "Un espace avant et après le point d'interrogation." },
+            { v: "saisie", q: "Quelle écriture est correcte ?", r: ["50 % de réussite", "50% de réussite", "50 %de réussite"] },
+            { v: "saisie", q: "Et ici ?", r: ["Il fait beau, nous sortons.", "Il fait beau , nous sortons.", "Il fait beau ,nous sortons."] },
+            { v: "saisie", q: "Comment écrire les guillemets français ?", r: ["Il fait « beau ».", "Il fait «beau».", "Il fait «beau »."] }
+          ], titre: "La bonne ponctuation" }
+        ] }
+      ]
+    },
+    {
+      titre: "Couper, copier, coller",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Couper, copier, coller", b: [
+          { quiz: [
+            {"v":"ccc","q":"Quel raccourci copie le texte sélectionné ?","r":["{Ctrl+C}","{Ctrl+V}","{Ctrl+X}"]},
+            {"v":"ccc","q":"Quel raccourci coupe le texte sélectionné ?","r":["{Ctrl+X}","{Ctrl+C}","{Ctrl+Z}"]},
+            {"v":"ccc","q":"Que faut-il faire avant de couper ou de copier ?","r":["Sélectionner le texte","Enregistrer en PDF","Fermer le document"]},
+            {"v":"ccc","q":"Où apparaît le texte collé ?","r":["Là où se trouve le curseur","Toujours en fin de document","Dans l'en-tête"]},
+            {"v":"ccc","q":"Dans quel groupe de l'onglet Accueil se trouvent ces commandes ?","r":["Presse-papiers","Styles","Paragraphe"]},
+            {"v":"ccc","q":"Peut-on coller plusieurs fois le même texte copié ?","r":["Oui, plusieurs fois de suite","Non, une seule fois","Seulement après avoir enregistré"]},
+            {"v":"annuler","q":"Quel raccourci rétablit ce que vous venez d'annuler ?","r":["{Ctrl+Y}","{Ctrl+Z}","{Ctrl+S}"]},
+            { v: "ccc", q: "Pour déplacer un paragraphe ailleurs dans le document, quel raccourci utiliser d'abord ?", r: ["{Ctrl+X}", "{Ctrl+C}", "{Ctrl+P}"] },
+            { v: "ccc", q: "Après un {Ctrl+C}, où se trouve le texte d'origine ?", r: ["Toujours à sa place", "Dans la Corbeille", "Il a disparu"] },
+            { v: "ccc", q: "Vous vous êtes trompé en collant. Que faire ?", r: ["{Ctrl+Z} pour annuler", "Fermer Word sans enregistrer", "Tout retaper"] }
+          ], titre: "Vérifiez vos réflexes" }
+        ] }
+      ]
+    },
+    {
+      titre: "Alignements, retraits, interligne",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Alignements, retraits, interligne", b: [
+          { quiz: [
+            {"v":"align","q":"Quel est l'alignement par défaut dans Word ?","r":["À gauche","Centré","Justifié"]},
+            {"v":"align","q":"Quel alignement utilise-t-on souvent pour un titre ?","r":["Centré","Justifié","À droite"]},
+            {"v":"align","q":"Quel retrait décale seulement le début de la première ligne ?","r":["Le retrait de première ligne","Le retrait droit","Le retrait négatif"]},
+            {"v":"align","q":"Dans quel retrait la première ligne dépasse-t-elle des autres ?","r":["Le retrait négatif","Le retrait droit","Le retrait de première ligne"]},
+            {"v":"interligne","q":"Où régler l'interligne ?","r":["Dans le groupe Paragraphe","Dans le groupe Police","Dans l'onglet Révision"]},
+            { v: "align", q: "Quel alignement choisir pour une date en haut à droite d'une lettre ?", r: ["À droite", "Justifié", "Centré"] },
+            { v: "align", q: "Quel alignement donne des bords nets des deux côtés ?", r: ["Justifié", "À gauche", "Centré"] },
+            { v: "align", q: "Vous voulez décaler tout un paragraphe de 2 cm. Que faire ?", r: ["Appliquer un retrait à gauche de 2 cm", "Appuyer plusieurs fois sur la barre d'espace", "Changer la police"] },
+            { v: "interligne", q: "À quoi sert l'interligne ?", r: ["À régler l'espace entre les lignes d'un paragraphe", "À souligner une ligne", "À numéroter les lignes"] },
+            { v: "interligne", q: "Pour espacer deux paragraphes de 12 points, quelle est la bonne méthode ?", r: ["Un espacement après de 12 pt", "Plusieurs lignes vides", "Une taille de police de 12"] }
+          ], titre: "Vérifiez vos connaissances" }
+        ] }
+      ]
+    },
+    {
+      titre: "Les tabulations",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Les tabulations", b: [
+          { quiz: [
+            {"v":"tab","q":"À quoi sert une tabulation ?","r":["À aligner du texte ou des chiffres","À corriger les fautes","À insérer une image"]},
+            {"v":"tab","q":"Quelle tabulation aligne les nombres sur la virgule ?","r":["Décimale","Barre","Centre"]},
+            {"v":"tab","q":"Quelle tabulation insère un trait vertical ?","r":["Barre","Gauche","Décimale"]},
+            {"v":"tab","q":"Comment afficher la règle ?","r":["Onglet Affichage, case Règle","Onglet Insertion, Image","Touche {F2}"]},
+            {"v":"tab","q":"Comment poser une tabulation sur la règle ?","r":["Cliquer sur la règle à l'endroit voulu","Appuyer sur {Ctrl+S}","Double-cliquer sur un mot"]},
+            {"v":"tab","q":"Comment déplacer une tabulation ?","r":["La faire glisser le long de la règle","La supprimer du document","Changer de police"]},
+            {"v":"tab","q":"Comment ouvrir la boîte de dialogue Tabulations ?","r":["Double-cliquer sur un taquet de tabulation","Clic droit sur une image","{Alt+F4}"]},
+            { v: "tab", q: "Quelle tabulation choisir pour aligner des prix ?", r: ["Droite ou décimale", "Centre", "Barre"] },
+            { v: "tab", q: "Comment supprimer une tabulation de la règle ?", r: ["La faire glisser hors de la règle", "Appuyer sur {F2}", "Double-cliquer sur le texte"] },
+            { v: "tab", q: "Où régler les points de suite ?", r: ["Dans la boîte de dialogue Tabulations", "Dans l'onglet Insertion", "Dans la barre d'état"] }
+          ], titre: "Vérifiez vos connaissances" }
+        ] }
+      ]
+    },
+    {
+      titre: "Images, formes et WordArt",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Images, formes et WordArt", b: [
+          { quiz: [
+            {"v":"ins","q":"Avec l'habillage « Aligné sur le texte », comment se comporte l'image ?","r":["Comme une lettre dans la ligne","Elle passe derrière le texte","Elle se place sur une autre page"]},
+            {"v":"ins","q":"Quel habillage laisse le texte suivre au plus près la forme de l'image ?","r":["Rapproché","Carré","Aligné sur le texte"]},
+            {"v":"ins","q":"Quel habillage place l'image sous le texte ?","r":["Derrière le texte","Devant le texte","Carré"]},
+            {"v":"ins","q":"À quoi sert le WordArt ?","r":["À créer un titre décoratif","À calculer une somme","À numéroter les pages"]},
+            {"v":"ins","q":"Où trouve-t-on la lettrine ?","r":["Dans l'onglet Insertion","Dans l'onglet Révision","Dans l'onglet Publipostage"]},
+            {"v":"ins","q":"Où insérer un en-tête ?","r":["Dans l'onglet Insertion","Dans l'onglet Accueil","Dans l'onglet Affichage"]},
+            {"v":"ins","q":"Comment changer l'habillage d'une image ?","r":["Sélectionner l'image, puis choisir l'habillage","Enregistrer le document","Changer la police du texte"]},
+            {"v":"bordures","q":"Quel onglet de la fenêtre « Bordure et trame » ajoute un cadre à toute la page ?","r":["Bordure de page","Trame de fond","Bordures"]},
+            { v: "ins", q: "Vous voulez que le texte passe tout autour d'une image. Quel habillage choisir ?", r: ["Carré", "Aligné sur le texte", "Derrière le texte"] },
+            { v: "ins", q: "Où trouve-t-on les formes et le WordArt ?", r: ["Dans l'onglet Insertion", "Dans l'onglet Accueil", "Dans l'onglet Révision"] }
+          ], titre: "Vérifiez vos connaissances" }
+        ] }
+      ]
+    },
+    {
+      titre: "Les modes d'affichage",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Les modes d'affichage", b: [
+          { quiz: [
+            {"v":"affichage","q":"Quel mode désactive les outils de modification pour relire ?","r":["Mode Lecture","Mode Page","Mode Plan"]},
+            {"v":"affichage","q":"Quel mode aide à réorganiser les sections selon les titres ?","r":["Mode Plan","Mode Lecture","Mode Brouillon"]},
+            {"v":"affichage","q":"Quel mode simplifié retire les marges et les graphiques ?","r":["Mode Brouillon","Mode Page","Mode Lecture"]},
+            {"v":"affichage","q":"Où se trouve le curseur de zoom ?","r":["En bas à droite de l'écran","En haut à gauche","Dans l'en-tête"]},
+            {"v":"affichage","q":"Comment zoomer rapidement à la souris ?","r":["{Ctrl} + molette","{Alt} + clic","Double-clic sur le texte"]},
+            { v: "marge", q: "Quelle méthode est recommandée pour sélectionner une ligne entière dans Word ?", r: ["1 clic dans la marge à gauche de la ligne", "Cliquer-glisser sur la ligne", "{Ctrl+A}"] },
+            { v: "marge", q: "Comment sélectionner un paragraphe entier via la marge ?", r: ["Double-clic dans la marge", "1 clic dans la marge", "Triple-clic dans la marge"] },
+            { v: "marge", q: "Quel raccourci permet de sélectionner tout le document ?", r: ["{Ctrl+A}", "{Ctrl+S}", "{Ctrl+C}"] },
+            { v: "affichage", q: "Quel mode d'affichage est le plus adapté pour rédiger et mettre en forme un document ?", r: ["Mode Page (Mise en page)", "Mode Lecture", "Mode Plan"] },
+            { v: "annuler", q: "Quel raccourci clavier permet d'annuler la dernière action ?", r: ["{Ctrl+Z}", "{Ctrl+S}", "{Ctrl+Y}"] }
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "La table des matières",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "La table des matières", b: [
+          { quiz: [
+            {"v":"tdm","q":"À quoi sert une table des matières ?","r":["À donner un aperçu de la structure d'un document long","À calculer des totaux","À envoyer des courriers"]},
+            {"v":"tdm","q":"Où la place-t-on en général ?","r":["Au début du document ou après la page de garde","Dans le pied de page","Dans une pièce jointe"]},
+            {"v":"tdmmaj","q":"Seul le contenu a bougé, pas les titres. Quelle mise à jour choisir ?","r":["Uniquement les numéros de page","Toute la table","Supprimer la table"]},
+            {"v":"tdmmaj","q":"Où supprimer la table des matières ?","r":["Références > Table des matières > Supprimer","Accueil > Effacer","Fichier > Fermer"]},
+            {"v":"tdm","q":"Comment inclure plus de niveaux dans la table ?","r":["Appliquer aussi Titre 3, Titre 4…","Agrandir la police","Ajouter des lignes vides"]},
+            { v: "styles", q: "À quoi sert un style dans Word ?", r: ["À appliquer un ensemble de formats prédéfinis (police, taille, couleur) en un clic", "À changer la couleur de la page", "À insérer une image"] },
+            { v: "styles", q: "Où trouve-t-on les styles dans Word ?", r: ["Onglet Accueil > groupe Styles", "Onglet Insertion > Styles", "Onglet Références > Styles"] },
+            { v: "tdm", q: "Quelle condition est nécessaire pour générer une table des matières automatique ?", r: ["Avoir appliqué les styles Titre 1, Titre 2, etc. aux titres du document", "Avoir numéroté les pages manuellement", "Avoir inséré des signets sur chaque titre"] },
+            { v: "tdm", q: "Où insère-t-on une table des matières dans Word ?", r: ["Onglet Références > Table des matières", "Onglet Accueil > Table des matières", "Onglet Insertion > Table des matières"] },
+            { v: "tdmmaj", q: "Comment mettre à jour une table des matières après modification du document ?", r: ["Clic droit sur la table > Mettre à jour les champs", "La supprimer et la recréer", "Appuyer sur {Ctrl+S}"] }
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "Tableaux et liens",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Tableaux et liens", b: [
+          { quiz: [
+            {"v":"tableau","q":"Quelle méthode permet de tracer le tableau à la souris ?","r":["Dessiner un tableau","Grille visuelle","Insérer un tableau"]},
+            {"v":"tabonglets","q":"Quel onglet sert à ajouter une ligne ?","r":["Disposition","Création","Révision"]},
+            {"v":"tabonglets","q":"Quel onglet sert à changer le style du tableau ?","r":["Création","Disposition","Publipostage"]},
+            {"v":"lien","q":"Où un lien « mailto: » mène-t-il ?","r":["Au logiciel de messagerie","Au navigateur","À l'imprimante"]},
+            {"v":"lien","q":"Comment retirer un lien sans effacer le texte ?","r":["Clic droit > Supprimer le lien hypertexte","Touche {Suppr}","{Ctrl+P}"]},
+            { v: "tableau", q: "Comment insérer un tableau dans Word ?", r: ["Onglet Insertion > Tableau > choisir le nombre de lignes et colonnes", "Onglet Accueil > Tableau", "Onglet Mise en page > Tableau"] },
+            { v: "tabonglets", q: "Quel onglet contextuel apparaît lorsqu'on clique dans un tableau Word ?", r: ["Onglets Création et Disposition (Outils de tableau)", "Onglet Formules", "Onglet Révision"] },
+            { v: "tabonglets", q: "Comment fusionner deux cellules d'un tableau dans Word ?", r: ["Sélectionner les cellules > onglet Disposition > Fusionner les cellules", "Clic droit > Insérer des cellules", "Onglet Création > Fusionner"] },
+            { v: "lien", q: "Comment insérer un lien hypertexte vers une page web dans Word ?", r: ["Sélectionner le texte > Onglet Insertion > Lien > Adresse URL", "Onglet Accueil > Lien", "Clic droit > Copier le lien"] },
+            { v: "lien", q: "Quel raccourci clavier permet d'insérer rapidement un lien hypertexte ?", r: ["{Ctrl+K}", "{Ctrl+L}", "{Ctrl+H}"] }
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "Le publipostage",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Le publipostage", b: [
+          { quiz: [
+            {"v":"publi","q":"Que faut-il pour un publipostage ?","r":["Un document type et une source de données","Deux documents Word identiques","Une imprimante couleur"]},
+            {"v":"publi","q":"Que représente une ligne du tableau Excel source ?","r":["Un destinataire","Un champ de fusion","Une page"]},
+            {"v":"publi","q":"Que deviennent les titres de colonnes ?","r":["Les noms des champs de fusion","Les titres du document","Les noms des feuilles"]},
+            {"v":"publi4","q":"Quel bouton montre le résultat destinataire par destinataire ?","r":["Aperçu des résultats","Enregistrer sous","Zoom"]},
+            {"v":"publi","q":"Quels documents peut-on produire ?","r":["Lettres, étiquettes, enveloppes, e-mails","Seulement des lettres","Seulement des tableaux"]},
+            { v: "publi", q: "À quoi sert le publipostage dans Word ?", r: ["À créer des documents personnalisés en masse à partir d'un modèle et d'une source de données", "À envoyer un e-mail depuis Word", "À fusionner deux documents Word en un seul"] },
+            { v: "publi4", q: "Quel onglet contient les outils de publipostage dans Word ?", r: ["Onglet Publipostage", "Onglet Insertion", "Onglet Révision"] },
+            { v: "publi4", q: "Quel type de fichier est généralement utilisé comme source de données pour un publipostage ?", r: ["Un fichier Excel (.xlsx) contenant la liste des destinataires", "Un fichier PowerPoint (.pptx)", "Un fichier PDF"] },
+            { v: "publi4", q: "Que sont les « champs de fusion » dans un document de publipostage ?", r: ["Des balises (ex : «Prénom») qui seront remplacées par les données de chaque destinataire", "Des zones de texte fixes identiques pour tous les destinataires", "Des images insérées automatiquement"] },
+            { v: "publi4", q: "Quelle est la dernière étape d'un publipostage ?", r: ["Terminer et fusionner > Imprimer ou Modifier les documents individuels", "Enregistrer le modèle Word", "Ouvrir le fichier Excel source"] }
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "Quiz final",
+      icone: "🏁",
+      resume: "20 questions pour valider le module.",
+      ecrans: [
+        { t: "Quiz final", b: [
+          { final: true, titre: "Quiz final", quiz: [
+            {"v":"enreg","q":"Quelle touche ouvre « Enregistrer sous » ?","r":["{F12}","{F2}","{F5}"]},
+            {"v":"ruban","q":"Quel onglet regroupe Presse-papiers, Police et Paragraphe ?","r":["Accueil","Insertion","Références"]},
+            {"v":"saisie","q":"Comment écrire un pourcentage ?","r":["20 %","20%","% 20"]},
+            {"v":"saisie","q":"Que signifie la marque ¶ ?","r":["La fin d'un paragraphe","Un espace","Une tabulation"]},
+            {"v":"marge","q":"Comment sélectionner un paragraphe avec la marge ?","r":["Double-clic dans la marge","1 clic dans la marge","{Ctrl+P}"]},
+            {"v":"ccc","q":"Quelle est la différence entre couper et copier ?","r":["Couper retire le texte de sa place, copier le laisse","Couper crée un double, copier retire le texte","Il n'y a aucune différence"]},
+            {"v":"police","q":"Pour écrire le 2 de H<sub>2</sub>O, quelle option utiliser ?","r":["Indice","Exposant","Barré"]},
+            {"v":"align","q":"Comment décaler tout un paragraphe de 2 cm ?","r":["Appliquer un retrait","Ajouter des espaces","Agrandir la police"]},
+            {"v":"interligne","q":"Que règle l'interligne ?","r":["L'espace entre les lignes","L'espace entre les mots","La largeur de la page"]},
+            {"v":"puces","q":"Quel format de numérotation donne I, II, III ?","r":["Les chiffres romains","Les chiffres arabes","Les lettres"]},
+            {"v":"bordures","q":"Où ajouter une couleur derrière un paragraphe ?","r":["Bordure et trame > Trame de fond","Insertion > Image","Fichier > Imprimer"]},
+            {"v":"tab","q":"À quoi servent les points de suite ?","r":["À relier le texte à une valeur alignée","À corriger l'orthographe","À numéroter les pages"]},
+            {"v":"ins","q":"Quel habillage laisse le texte contourner une image en rectangle ?","r":["Carré","Aligné sur le texte","Derrière le texte"]},
+            {"v":"affichage","q":"Quel mode montre le document tel qu'il sera imprimé ?","r":["Mode Page","Mode Brouillon","Mode Plan"]},
+            {"v":"styles","q":"Que se passe-t-il si on modifie le style Titre 1 ?","r":["Tous les textes en Titre 1 changent","Seul le premier titre change","Le document se ferme"]},
+            {"v":"tdm","q":"Dans quel onglet insère-t-on une table des matières ?","r":["Références","Accueil","Publipostage"]},
+            {"v":"tdmmaj","q":"On a ajouté des titres. Quelle mise à jour choisir ?","r":["Mettre à jour toute la table","Uniquement les numéros de page","Aucune : c'est automatique"]},
+            {"v":"tableau","q":"Quel onglet permet de fusionner des cellules ?","r":["Disposition","Accueil","Révision"]},
+            {"v":"lien","q":"Quel raccourci insère un lien hypertexte ?","r":["{Ctrl+K}","{Ctrl+L}","{Ctrl+H}"]},
+            {"v":"publi4","q":"Que faire avant de fusionner ?","r":["Vérifier l'aperçu des résultats","Fermer le fichier Excel source","Enregistrer en PDF"]}
+          ] }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

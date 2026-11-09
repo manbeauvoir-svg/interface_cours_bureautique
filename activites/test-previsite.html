@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test de prévisite plateforme</title>
+  <style>
+    :root {
+      --navy:#173b57; --blue:#1976b9; --teal:#008b95; --orange:#e87722;
+      --bg:#f3f6f8; --paper:#fff; --ink:#17232d; --muted:#60717f;
+      --line:#d8e0e6; --soft:#eaf3f7; --ok:#287a43; --warn:#9b6500; --bad:#a53b3b;
+      --n1:#f2c94c; --n2:#5fb8e8; --n3:#58b979; --radius:16px; --font:18px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--ink);font:var(--font)/1.55 Arial,Helvetica,sans-serif}
+    body.contrast{--bg:#000;--paper:#090909;--ink:#fff;--muted:#e6e6e6;--line:#fff;--soft:#111;--navy:#fff;--blue:#8ad5ff;--teal:#6affef}
+    button,input,textarea,select{font:inherit}
+    button{cursor:pointer}
+    .topbar{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;box-shadow:0 3px 14px #0002}
+    .topbar-inner{max-width:1180px;margin:auto;padding:12px 20px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .brand{font-weight:800;letter-spacing:.01em}
+    .tools{display:flex;gap:8px;flex-wrap:wrap}
+    .tool,.tab,.primary,.secondary,.danger{border:0;border-radius:10px;padding:10px 14px;font-weight:700}
+    .tool{background:#fff;color:#173b57}
+    .shell{max-width:1180px;margin:24px auto;padding:0 20px 60px}
+    .hero,.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 8px 24px #173b5710}
+    .hero{padding:28px;margin-bottom:18px}
+    h1{font-size:clamp(1.65rem,3vw,2.4rem);line-height:1.15;margin:0 0 8px;color:var(--ink)}
+    h2{font-size:1.45rem;line-height:1.25;margin:0 0 14px;color:var(--ink)}
+    h3{font-size:1.12rem;margin:22px 0 8px;color:var(--ink)}
+    p{margin:8px 0 14px}
+    .muted{color:var(--muted)}
+    .intro{max-width:880px}
+    .notice{border-left:6px solid var(--teal);padding:12px 16px;background:var(--soft);border-radius:8px;margin:16px 0}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+    label{display:block;font-weight:700;margin:4px 0 6px}
+    input[type=text],input[type=date],input[type=number],textarea,select{width:100%;border:2px solid #aebdc8;border-radius:10px;background:var(--paper);color:var(--ink);padding:11px 12px}
+    textarea{min-height:104px;resize:vertical}
+    input:focus,textarea:focus,select:focus,button:focus{outline:4px solid #e8b51b66;outline-offset:2px}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
+    .tab{background:#dce7ed;color:#173b57}
+    .tab.active{background:var(--navy);color:#fff}
+    .panel{display:none}
+    .panel.active{display:block}
+    .card{padding:24px;margin:16px 0}
+    .stephead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+    .step{display:inline-flex;align-items:center;justify-content:center;min-width:88px;padding:5px 12px;border-radius:999px;font-size:.9rem;font-weight:800;color:#15232c}
+    .step.one{background:var(--n1)} .step.two{background:var(--n2)} .step.three{background:var(--n3)}
+    .question{padding:18px 0;border-top:1px solid var(--line)}
+    .question:first-of-type{border-top:0}
+    .qtitle{font-weight:800;margin-bottom:9px}
+    .options{display:grid;gap:8px;margin-top:9px}
+    .option{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--paper);font-weight:400}
+    .option input{width:22px;height:22px;flex:0 0 auto;margin-top:2px}
+    .inline{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .short{max-width:210px}
+    .answer-grid{display:grid;grid-template-columns:minmax(190px,1.4fr) repeat(2,minmax(150px,1fr));gap:8px;align-items:center}
+    .answer-grid>div{padding:8px}
+    .answer-grid .head{font-weight:800;background:var(--soft)}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+    .primary{background:var(--teal);color:#fff}.secondary{background:#e3ebef;color:#173b57}.danger{background:#9c3131;color:#fff}
+    .progress{height:14px;background:#dce4e8;border-radius:999px;overflow:hidden;margin-top:14px}
+    .progress>span{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--blue));width:0;transition:width .25s}
+    details{border:1px solid var(--line);border-radius:12px;margin:12px 0;background:var(--paper)}
+    summary{font-weight:800;padding:14px 16px;cursor:pointer}
+    details>div{padding:0 16px 16px}
+    table{width:100%;border-collapse:separate;border-spacing:0;margin:12px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+    th,td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+    th{background:var(--navy);color:#fff}
+    tr:last-child td{border-bottom:0}
+    .score{display:grid;grid-template-columns:1.2fr .75fr .75fr .75fr;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+    .score.head{font-weight:800;background:var(--soft);padding:9px}
+    .result-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:16px 0}
+    .result{border:2px solid var(--line);border-radius:14px;padding:16px;text-align:center;background:var(--paper)}
+    .result strong{display:block;font-size:2rem;line-height:1.1;margin-top:8px}
+    .route{padding:20px;border-radius:14px;background:var(--soft);border-left:8px solid var(--teal);margin:16px 0}
+    .route strong{font-size:1.55rem}
+    .small{font-size:.87rem}
+    .screen-only{}
+    .print-only{display:none}
+    .status{font-weight:700;color:var(--ok)}
+    .timer{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:16px 0 4px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--paper)}
+    .timer strong{font-variant-numeric:tabular-nums;font-size:1.2rem}
+    .archive{display:grid;grid-template-columns:minmax(220px,1fr) auto auto;gap:10px;align-items:end}
+    .answer-section{margin:16px 0 22px}
+    .answer-section h3{padding-bottom:6px;border-bottom:2px solid var(--line)}
+    .answer-item{padding:12px 0;border-bottom:1px solid var(--line)}
+    .answer-item:last-child{border-bottom:0}
+    .answer-question{font-weight:800;margin-bottom:7px}
+    .answer-compare{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+    .answer-box{padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;white-space:pre-wrap}
+    .answer-box.expected{background:#f3f8f4;border-color:#b7d6bd}
+    .answer-box small{display:block;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:5px}
+    .answer-status{display:inline-block;margin-top:7px;padding:3px 8px;border-radius:999px;font-size:.82rem;font-weight:800}
+    .answer-status.correct{background:#dff4e3;color:#1d6331}
+    .answer-status.wrong{background:#ffe5e3;color:#922b24}
+    .answer-status.review{background:#fff2cc;color:#715600}
+    .autocorrect{padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--soft);margin:12px 0}
+    .check,.verify,.wrong{display:inline-block;border-radius:999px;padding:2px 8px;font-size:.82rem;font-weight:800;margin-right:6px}
+    .check{background:#dcefe2;color:#185b2d}.verify{background:#fff0c4;color:#725000}.wrong{background:#f8dddd;color:#7f2727}
+    .scratch{margin:18px 0;padding:16px;border:2px dashed #9eb2bf;border-radius:12px;background:#fbfcfd}
+    .scratch textarea{min-height:220px;line-height:32px;font-family:Consolas,"Courier New",monospace;background:repeating-linear-gradient(to bottom,var(--paper) 0,var(--paper) 30px,#cbd8e0 31px,#cbd8e0 32px);resize:vertical}
+    .test-page[hidden]{display:none!important}
+    .page-nav{position:sticky;bottom:10px;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:var(--paper);border:2px solid var(--teal);border-radius:14px;box-shadow:0 6px 22px #173b5730}
+    .page-nav strong{font-variant-numeric:tabular-nums;text-align:center}
+    .lock{padding:18px;background:#fff5d9;border:1px solid #e4c66f;border-radius:12px;color:#3a2c00}
+    .pill{display:inline-block;padding:3px 9px;border-radius:999px;background:#dce7ed;color:#173b57;font-weight:700;font-size:.84rem}
+    @media(max-width:760px){.grid,.grid3,.result-grid,.archive,.answer-compare{grid-template-columns:1fr}.answer-grid{grid-template-columns:1fr}.answer-grid .head{display:none}.score{grid-template-columns:1fr}.topbar{position:static}.shell{padding:0 12px 40px}.hero,.card{padding:18px}}
+    @media print{
+      body{background:#fff;font-size:11pt}.topbar,.tabs,.screen-only,#candidatePanel,#guidePanel{display:none!important}.shell{max-width:none;margin:0;padding:0}.hero{display:none}.panel{display:none!important}#evaluatorPanel{display:block!important}.card{box-shadow:none;border:0;padding:0;margin:0}.print-only{display:block}.result-grid{grid-template-columns:repeat(3,1fr)}details{display:block}details>div{display:block!important}summary{display:none}.actions{display:none}.route{border:2px solid #222;background:#fff}textarea,input,select{border:1px solid #777}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">ESRP Beauvoir · Test de prévisite</div>
+      <div class="tools" aria-label="Réglages d'accessibilité">
+        <button class="tool" type="button" id="fontMinus" aria-label="Réduire la taille du texte">A−</button>
+        <button class="tool" type="button" id="fontPlus" aria-label="Augmenter la taille du texte">A+</button>
+        <button class="tool" type="button" id="contrast">Contraste</button>
+        <button class="tool" type="button" id="saveNow">Enregistrer</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <h1>Test de prévisite plateforme</h1>
+      <p class="intro">Ce test permet d’observer vos acquis en français, en mathématiques et en bureautique afin de proposer une première durée de parcours. Ce n’est pas un examen. Vous pouvez faire une pause et reprendre sur le même ordinateur.</p>
+      <div class="notice"><strong>Durée indicative :</strong> environ 1 h 30, fractionnable en plusieurs séquences et adaptable selon les besoins. Les aides et compensations habituelles peuvent être utilisées et seront simplement notées.</div>
+      <div class="grid">
+        <div><label for="identity">Nom et prénom</label><input id="identity" data-save type="text" autocomplete="name"></div>
+        <div><label for="date">Date</label><input id="date" data-save type="date"></div>
+        <div><label for="project">Projet professionnel envisagé</label><input id="project" data-save type="text"></div>
+        <div><label for="aids">Aménagements ou aides utilisés</label><input id="aids" data-save type="text"></div>
+      </div>
+      <div class="progress" aria-label="Progression"><span id="progressBar"></span></div>
+      <p class="small muted" id="progressText">Progression enregistrée automatiquement sur cet ordinateur.</p>
+      <div class="timer screen-only" aria-live="polite">
+        <span>Temps actif de passation</span><strong id="timerDisplay">00:00:00</strong>
+        <button class="primary" type="button" id="startTimer">Démarrer la passation</button>
+        <button class="secondary" type="button" id="pauseTimer" disabled>Mettre en pause</button>
+        <span class="small muted" id="timerStatus">Le chronomètre n’est pas démarré.</span>
+      </div>
+    </section>
+
+    <nav class="tabs screen-only" aria-label="Sections du test">
+      <button class="tab active" data-panel="candidatePanel" type="button">Passation</button>
+      <button class="tab" data-panel="evaluatorPanel" type="button">Évaluation</button>
+      <button class="tab" data-panel="guidePanel" type="button">Règles de positionnement</button>
+    </nav>
+
+    <section id="candidatePanel" class="panel active">
+      <div class="card">
+        <h2>Avant de commencer</h2>
+        <ul>
+          <li>Travaillez à votre rythme et passez une question si elle vous bloque.</li>
+          <li>Une consigne peut être relue ou reformulée sans donner la réponse.</li>
+          <li>Le dictionnaire, la calculatrice et le téléphone ne sont pas utilisés.</li>
+          <li>Les intitulés Étape 1, 2 et 3 correspondent à une progression interne, pas à un niveau scolaire.</li>
+        </ul>
+      </div>
+
+      <div class="card" id="francais">
+        <h2>Français</h2>
+        <div class="stephead"><span class="step one">Étape 1</span><strong>Comprendre et produire des écrits simples</strong></div>
+        <div class="question">
+          <div class="qtitle">1. Réécrivez chaque phrase au temps demandé.</div>
+          <div class="answer-grid">
+            <div class="head">Phrase de départ</div><div class="head">Hier</div><div class="head">Demain</div>
+            <div>Les fillettes mangent des pommes.</div><input aria-label="Phrase 1 hier" data-save id="f1a"><input aria-label="Phrase 1 demain" data-save id="f1b">
+            <div>Anaïs et Hugo finissent l’école à 15 h.</div><input aria-label="Phrase 2 hier" data-save id="f1c"><input aria-label="Phrase 2 demain" data-save id="f1d">
+            <div>Je pars en Italie aujourd’hui.</div><input aria-label="Phrase 3 hier" data-save id="f1e"><input aria-label="Phrase 3 demain" data-save id="f1f">
+          </div>
+        </div>
+        <div class="question"><div class="qtitle">2. Réécrivez les phrases en ajoutant les accents ou les majuscules nécessaires.</div>
+          <label for="f2a">Cette piece est etroite.</label><input id="f2a" data-save>
+          <label for="f2b">L’universite est a cote de l’epicerie.</label><input id="f2b" data-save>
+          <label for="f2c">aimez-vous flâner à paris le long de la seine ?</label><input id="f2c" data-save>
+        </div>
+        <div class="question"><div class="qtitle">3. Corrigez puis mettez au pluriel.</div>
+          <label for="f3a">Le garcon va à le farmacie le matain.</label><input id="f3a" data-save>
+          <label for="f3b">Il ait pationné par la patinaje arthistique.</label><input id="f3b" data-save>
+        </div>
+        <div class="question"><label for="f4" class="qtitle">4. En 4 à 6 phrases, expliquez pourquoi vous participez à cette prévisite et ce que vous souhaitez apprendre.</label><textarea id="f4" data-save></textarea></div>
+
+        <div class="stephead"><span class="step two">Étape 2</span><strong>Comprendre et répondre dans une situation professionnelle connue</strong></div>
+        <div class="notice"><strong>Objet : Modification de rendez-vous</strong><br>Bonjour,<br>Votre rendez-vous prévu le mardi 6 octobre à 10 h est déplacé au mercredi 7 octobre à 14 h, bureau 204. Merci d’apporter votre dossier et de confirmer votre présence avant lundi midi. Si cet horaire ne vous convient pas, proposez deux autres disponibilités.<br>Cordialement, Mme Laurent</div>
+        <div class="question"><div class="qtitle">5. Répondez aux questions.</div>
+          <label for="f5a">Quel était le premier rendez-vous ?</label><input id="f5a" data-save>
+          <label for="f5b">Quel est le nouveau rendez-vous ?</label><input id="f5b" data-save>
+          <label for="f5c">Où aura-t-il lieu ?</label><input id="f5c" data-save>
+          <label for="f5d">Que faut-il apporter ?</label><input id="f5d" data-save>
+          <label for="f5e">Que devez-vous faire avant lundi midi ?</label><input id="f5e" data-save>
+        </div>
+        <div class="question"><label for="f6" class="qtitle">6. Rédigez une réponse courte pour confirmer votre présence ou proposer deux autres horaires.</label><textarea id="f6" data-save></textarea></div>
+        <div class="question"><label for="f7" class="qtitle">7. Corrigez le message suivant.</label><p>Bonjour, je vous confirme que jai bien reçu votre message. Je serais présent mercredi a 14 heure. Pouvez-vous me dire si je doit apporter mon dossier papier ? Cordialement</p><textarea id="f7" data-save></textarea></div>
+
+        <div class="stephead"><span class="step three">Étape 3</span><strong>Organiser une réponse et s’adapter à un changement</strong></div>
+        <div class="notice"><strong>Situation professionnelle</strong><br>Vous travaillez comme agent administratif à l’accueil du Centre Horizon, le mardi 16 juin. À 8 h 30, votre responsable, Madame Legrand, vous informe que Madame Claire Martin, représentante de l’entreprise Nova Services, arrivera à 9 h 30 au lieu de 10 h 30. Madame Martin vient pour une réunion de 45 minutes concernant l’accueil de deux stagiaires. Elle doit rencontrer Madame Legrand et deux membres de l’équipe pédagogique.</div>
+        <details open><summary>Éléments logistiques disponibles</summary><div><ul>
+          <li>La salle A est occupée de 9 h à 11 h.</li><li>La salle B est disponible de 9 h 15 à 10 h 30, mais doit être réservée avant 9 h.</li><li>La salle C ne sera disponible qu’à 10 h 15.</li><li>Le bureau de Madame Legrand sera libre à partir de 9 h 15 avec son accord. Elle peut lire un message urgent.</li><li>L’imprimante de l’accueil est en panne ; celle du premier étage fonctionne.</li><li>Le document se trouve dans le dossier partagé Réunions partenaires.</li><li>Nadia arrive à 9 h et prendra votre relais. Vous ne devez pas quitter l’accueil avant son arrivée.</li><li>Vous disposez d’un téléphone, d’une messagerie et d’un calendrier partagé.</li>
+        </ul></div></details>
+        <div class="question"><label for="f8" class="qtitle">8. Identifiez les actions nécessaires et classez-les dans l’ordre qui vous semble le plus logique.</label><textarea id="f8" data-save></textarea></div>
+        <div class="question"><label for="f9" class="qtitle">9. Quelle action devez-vous faire en premier ? Expliquez votre choix.</label><textarea id="f9" data-save></textarea></div>
+        <div class="notice"><strong>Changement de situation :</strong> à 8 h 55, vous apprenez que la salle B n’est finalement plus disponible.</div>
+        <div class="question"><label for="f11" class="qtitle">10. Que faites-vous maintenant ? Proposez une solution réaliste.</label><textarea id="f11" data-save></textarea></div>
+        <div class="question"><label for="f12" class="qtitle">11. Rédigez un message court à votre responsable pour expliquer le problème et proposer votre solution.</label><textarea id="f12" data-save></textarea></div>
+        <div class="question"><label for="f13" class="qtitle">12. Résumez toute la situation en trois phrases pour transmettre le dossier à une autre personne.</label><textarea id="f13" data-save></textarea></div>
+      </div>
+
+      <div class="card" id="maths">
+        <h2>Mathématiques et raisonnement logique</h2>
+        <div class="stephead"><span class="step one">Étape 1</span><strong>Comprendre et appliquer</strong></div>
+        <div class="question"><div class="qtitle">1. Effectuez les calculs.</div><div class="grid3">
+          <label>247 + 158 <input data-save data-answer="405" data-math="m1" id="m1a" inputmode="decimal"></label>
+          <label>630 − 275 <input data-save data-answer="355" data-math="m1" id="m1b" inputmode="decimal"></label>
+          <label>24 × 6 <input data-save data-answer="144" data-math="m1" id="m1c" inputmode="decimal"></label>
+          <label>14 × 12 <input data-save data-answer="168" data-math="m1" id="m1d" inputmode="decimal"></label>
+        </div></div>
+        <div class="question"><div class="qtitle">2. Complétez.</div><div class="grid3">
+          <label>Moitié de 86 <input data-save data-answer="43" data-math="m1" id="m1e"></label><label>Double de 37 <input data-save data-answer="74" data-math="m1" id="m1f"></label><label>Quart de 100 <input data-save data-answer="25" data-math="m1" id="m1g"></label>
+        </div></div>
+        <div class="question"><label for="m1h" class="qtitle">3. 24 objets sont répartis également dans 6 sachets. Combien y en a-t-il dans chaque sachet ?</label><input class="short" data-save data-answer="4" data-math="m1" id="m1h"></div>
+        <div class="question"><div class="qtitle">4. Complétez les suites.</div><div class="grid3">
+          <label>2 – 4 – 6 – 8 – ? – ? <input data-save data-answer="10,12" data-math="m1" id="m1i" placeholder="Deux réponses"></label><label>20 – 18 – 16 – 14 – ? – ? <input data-save data-answer="12,10" data-math="m1" id="m1j" placeholder="Deux réponses"></label><label>5 – 10 – 15 – 20 – ? – ? <input data-save data-answer="25,30" data-math="m1" id="m1k" placeholder="Deux réponses"></label>
+        </div></div>
+        <div class="question"><label for="m1l" class="qtitle">5. Classez du plus petit au plus grand : 18 – 7 – 25 – 12 – 3</label><input data-save data-answer="3,7,12,18,25" data-math="m1" id="m1l"></div>
+        <div class="scratch"><label for="draftM1">Brouillon de l’étape 1</label><p class="small muted">Vous pouvez poser vos opérations et noter vos essais ici. Ce brouillon est enregistré mais n’est pas noté.</p><textarea id="draftM1" data-save aria-label="Brouillon mathématiques étape 1"></textarea></div>
+
+        <div class="stephead"><span class="step two">Étape 2</span><strong>Analyser et résoudre dans une situation connue</strong></div>
+        <div class="question"><div class="qtitle">6. Effectuez les calculs.</div><div class="grid3">
+          <label>Trois quarts de 80 <input data-save data-answer="60" data-math="m2" id="m2a"></label><label>20 % de 150 <input data-save data-answer="30" data-math="m2" id="m2b"></label><label>1,5 × 12 <input data-save data-answer="18" data-math="m2" id="m2c"></label><label>225 ÷ 15 <input data-save data-answer="15" data-math="m2" id="m2d"></label>
+        </div></div>
+        <div class="question"><div class="qtitle">7. Convertissez.</div><div class="grid">
+          <label>2,5 h = combien de minutes ? <input data-save data-answer="150" data-math="m2" id="m2e"></label><label>1,75 kg = combien de grammes ? <input data-save data-answer="1750" data-math="m2" id="m2f"></label><label>3,5 m = combien de centimètres ? <input data-save data-answer="350" data-math="m2" id="m2g"></label><label>2 L 25 cL = combien de litres ? <input data-save data-answer="2.25" data-math="m2" id="m2h"></label>
+        </div></div>
+        <div class="question"><div class="qtitle">8. Une personne dispose de 150 €. Elle achète des articles à 39 €, 27 € et 46 €.</div><div class="grid"><label>Total des achats <input data-save data-answer="112" data-math="m2" id="m2i"></label><label>Somme restante <input data-save data-answer="38" data-math="m2" id="m2j"></label></div></div>
+        <div class="question"><label for="m2k" class="qtitle">9. Trouvez l’intrus : 12 – 18 – 24 – 31 – 36</label><input data-save data-answer="31" data-math="m2" id="m2k"><label for="m2l">Expliquez votre choix.</label><textarea data-save id="m2l"></textarea></div>
+        <div class="question"><label for="m2m" class="qtitle">10. Classez du plus petit au plus grand : 3,5 – 3,05 – 3,15 – 3,51 – 3,005</label><input data-save data-answer="3.005,3.05,3.15,3.5,3.51" data-math="m2" id="m2m"></div>
+        <div class="scratch"><label for="draftM2">Brouillon de l’étape 2</label><p class="small muted">Utilisez cet espace pour les conversions, les calculs et le raisonnement. Il n’entre pas dans le score automatique.</p><textarea id="draftM2" data-save aria-label="Brouillon mathématiques étape 2"></textarea></div>
+
+        <div class="stephead"><span class="step three">Étape 3</span><strong>Résoudre en autonomie et adapter son raisonnement</strong></div>
+        <div class="question"><div class="qtitle">11. Un trajet mesure 180 km. Une personne en a parcouru les deux tiers.</div><div class="grid"><label>Kilomètres parcourus <input data-save data-answer="120" data-math="m3" id="m3a"></label><label>Kilomètres restants <input data-save data-answer="60" data-math="m3" id="m3b"></label></div></div>
+        <div class="question"><div class="qtitle">12. Un article coûte 80 €. Son prix augmente de 10 %, puis baisse de 10 %.</div><div class="grid"><label>Prix après l’augmentation <input data-save data-answer="88" data-math="m3" id="m3c"></label><label>Prix final <input data-save data-answer="79.2" data-math="m3" id="m3d"></label></div>
+          <fieldset><legend>Le prix final est-il égal au prix de départ ?</legend><label class="option"><input type="radio" name="m3equal" value="oui" data-save>Oui</label><label class="option"><input type="radio" name="m3equal" value="non" data-answer="non" data-math="m3" data-save>Non</label></fieldset><label for="m3e">Expliquez votre réponse.</label><textarea data-save id="m3e"></textarea>
+        </div>
+        <div class="question"><label for="m3f" class="qtitle">13. Léa est plus âgée que Sami. Sami est plus âgé que Nora. Hugo est plus jeune que Nora. Classez-les de la plus âgée à la plus jeune.</label><input data-save data-answer="léa,sami,nora,hugo" data-math="m3" id="m3f"></div>
+        <div class="question"><label for="m3g" class="qtitle">14. La boîte verte est à droite de la bleue. La rouge est à droite de la verte. Donnez l’ordre de gauche à droite.</label><input data-save data-answer="bleue,verte,rouge" data-math="m3" id="m3g"></div>
+        <div class="question"><label for="m3h" class="qtitle">15. 3 donne 8 ; 5 donne 12 ; 7 donne 16. Quel résultat obtient-on avec 10 ?</label><input class="short" data-save data-answer="22" data-math="m3" id="m3h"><label for="m3i">Expliquez la règle.</label><textarea data-save id="m3i"></textarea></div>
+        <div class="scratch"><label for="draftM3">Brouillon de l’étape 3</label><p class="small muted">Vous pouvez tester une méthode, faire un schéma ou reprendre vos calculs. Le brouillon n’est pas évalué.</p><textarea id="draftM3" data-save aria-label="Brouillon mathématiques étape 3"></textarea></div>
+      </div>
+
+      <div class="card" id="bureautique">
+        <h2>Bureautique</h2>
+        <div class="question"><div class="qtitle">1. Comment retirer une clé USB sans risquer d’endommager les fichiers ?</div><div class="options">
+          <label class="option"><input type="radio" name="b1" value="a" data-save>La retirer directement</label><label class="option"><input type="radio" name="b1" value="b" data-correct data-save>Utiliser la commande Éjecter</label><label class="option"><input type="radio" name="b1" value="c" data-save>Éteindre l’écran</label><label class="option"><input type="radio" name="b1" value="d" data-save>Fermer seulement Word</label>
+        </div></div>
+        <div class="question"><label for="b2" class="qtitle">2. Quelle différence y a-t-il entre copier-coller et couper-coller ?</label><p class="small muted">Répondez par une phrase complète en expliquant ce qui arrive à l’élément d’origine.</p><textarea id="b2" data-save></textarea></div>
+        <div class="question"><div class="qtitle">3. Où se trouve généralement la barre des tâches ?</div><div class="options"><label class="option"><input type="radio" name="b3" value="a" data-save>En haut</label><label class="option"><input type="radio" name="b3" value="b" data-save>Au centre</label><label class="option"><input type="radio" name="b3" value="c" data-correct data-save>En bas</label><label class="option"><input type="radio" name="b3" value="d" data-save>Dans le menu du clic droit</label></div></div>
+        <div class="question"><div class="qtitle">4. Quel raccourci annule la dernière action ?</div><div class="options"><label class="option"><input type="radio" name="b4" value="a" data-correct data-save>Ctrl + Z</label><label class="option"><input type="radio" name="b4" value="b" data-save>Ctrl + P</label><label class="option"><input type="radio" name="b4" value="c" data-save>Ctrl + S</label><label class="option"><input type="radio" name="b4" value="d" data-save>Ctrl + A</label></div></div>
+        <div class="question"><div class="qtitle">5. Comment appelle-t-on l’espace entre le bord de la feuille et le texte ?</div><div class="options"><label class="option"><input type="radio" name="b5" value="a" data-correct data-save>La marge</label><label class="option"><input type="radio" name="b5" value="b" data-save>La bordure</label><label class="option"><input type="radio" name="b5" value="c" data-save>Le retrait</label><label class="option"><input type="radio" name="b5" value="d" data-save>L’interligne</label></div></div>
+        <div class="question"><label for="b6" class="qtitle">6. À quoi sert le clic gauche ?</label><p class="small muted">Répondez par une phrase complète en donnant au moins une utilisation.</p><textarea id="b6" data-save></textarea></div>
+        <div class="question"><label for="b7" class="qtitle">7. À quoi sert le clic droit ?</label><p class="small muted">Répondez par une phrase complète en donnant au moins une utilisation.</p><textarea id="b7" data-save></textarea></div>
+        <div class="question"><div class="qtitle">8. Comment appelle-t-on la partie supérieure de Word contenant les onglets ?</div><div class="options"><label class="option"><input type="radio" name="b8" value="a" data-save>La barre d’état</label><label class="option"><input type="radio" name="b8" value="b" data-save>Le panneau de configuration</label><label class="option"><input type="radio" name="b8" value="c" data-correct data-save>Le ruban</label><label class="option"><input type="radio" name="b8" value="d" data-save>Le menu Démarrer</label></div></div>
+        <div class="question"><div class="qtitle">9. Word est :</div><div class="options"><label class="option"><input type="radio" name="b9" value="a" data-save>Un tableur</label><label class="option"><input type="radio" name="b9" value="b" data-correct data-save>Un traitement de texte</label><label class="option"><input type="radio" name="b9" value="c" data-save>Un logiciel de présentation</label><label class="option"><input type="radio" name="b9" value="d" data-save>Je ne sais pas</label></div></div>
+        <div class="question"><div class="qtitle">10. Excel est :</div><div class="options"><label class="option"><input type="radio" name="b10" value="a" data-correct data-save>Un tableur</label><label class="option"><input type="radio" name="b10" value="b" data-save>Un traitement de texte</label><label class="option"><input type="radio" name="b10" value="c" data-save>Un logiciel de présentation</label><label class="option"><input type="radio" name="b10" value="d" data-save>Je ne sais pas</label></div></div>
+        <h3>Mise en pratique sur ordinateur</h3>
+        <ol>
+          <li>Créer un dossier nommé PREVISITE suivi de votre nom et prénom.</li><li>Ouvrir Word et créer un document vierge.</li><li>Saisir le titre Mon projet professionnel.</li><li>Écrire trois phrases sur votre projet ou le métier qui vous intéresse.</li><li>Mettre le titre en gras, taille 16 et centré.</li><li>Ajouter une liste à puces avec trois compétences à développer.</li><li>Enregistrer sous Nom_Prénom_Projet.docx dans votre dossier.</li><li>Fermer, retrouver et rouvrir le document.</li>
+        </ol>
+        <div class="notice"><strong>Changement demandé :</strong> remplacez le titre par « Mon objectif professionnel », ajoutez la date du jour sous le titre, puis enregistrez une nouvelle version sous le nom Nom_Prénom_Projet_V2.docx.</div>
+        <p class="small muted">L’évaluateur renseignera les conditions de réalisation dans l’espace Évaluation.</p>
+      </div>
+      <div class="page-nav screen-only" id="candidateNav"><button class="secondary" type="button" id="prevPage">← Page précédente</button><strong id="pageIndicator">Page 1 sur 8</strong><button class="primary" type="button" id="nextPage">Page suivante →</button></div>
+      <div class="actions screen-only" id="candidateActions"><button class="primary" type="button" id="finishCandidate">Terminer la passation</button><button class="secondary" type="button" id="exportAnswers">Exporter les réponses</button><label class="secondary" style="cursor:pointer">Importer une sauvegarde<input type="file" id="importAnswers" accept="application/json" hidden></label></div>
+    </section>
+
+    <section id="evaluatorPanel" class="panel">
+      <div class="print-only"><h1>Synthèse du positionnement de prévisite</h1><p id="printIdentity"></p></div>
+      <div class="card screen-only" id="trainerLockCard">
+        <h2>Espace formateur</h2>
+        <p>Cette rubrique est réservée au formateur. Saisissez le code d’accès pour afficher les dossiers, les réponses, les résultats et les règles de positionnement.</p>
+        <div class="lock"><label for="evaluatorCode">Code d’accès formateur</label><div class="inline"><input class="short" id="evaluatorCode" type="password" inputmode="numeric" autocomplete="off"><button type="button" class="primary" id="unlock">Ouvrir l’espace formateur</button></div><p class="small muted" id="lockMessage">Aucune donnée d’évaluation n’est visible avant le déverrouillage.</p></div>
+      </div>
+      <div id="evaluationContent" hidden>
+        <div class="card">
+          <h2>Espace évaluateur</h2>
+          <p>Les réponses objectives sont pré-corrigées. L’évaluateur attribue les scores définitifs après lecture des productions et observation de la mise en pratique.</p>
+        </div>
+        <div class="card screen-only">
+          <h2>Dossiers enregistrés</h2>
+          <p class="small muted">Chaque passation terminée reste disponible sur cet ordinateur. Pour un archivage durable ou un transfert vers un autre poste, exportez le dossier au format JSON.</p>
+          <div class="archive"><div><label for="dossierList">Choisir un dossier</label><select id="dossierList"><option value="">Dossier en cours</option></select></div><button class="secondary" type="button" id="loadDossier">Ouvrir</button><button class="danger" type="button" id="deleteDossier">Supprimer de l’historique</button></div>
+        </div>
+        <div class="card">
+          <h2>Temps de passation enregistré</h2>
+          <div class="grid3"><p><strong>Début</strong><br><span id="evalStart">Non démarré</span></p><p><strong>Fin</strong><br><span id="evalEnd">Non terminée</span></p><p><strong>Temps actif</strong><br><span id="evalDuration">00:00:00</span></p></div>
+          <p class="small muted">Le temps est une information d’observation. Il ne détermine pas à lui seul le niveau ni la durée du parcours et doit être interprété avec les aménagements, les pauses et la fatigabilité.</p>
+        </div>
+        <div class="card">
+          <h2>Scores par étape</h2>
+          <p>Une pré-correction est réalisée automatiquement à la fin de la passation. Les calculs et les QCM sont corrigés directement. Les productions rédigées reçoivent un score proposé selon des critères repérables, puis doivent être relues.</p>
+          <div class="autocorrect"><strong id="autoSummary">Pré-correction non encore lancée.</strong><div id="autoDetails" class="small"></div></div>
+          <div class="score head"><div>Domaine</div><div>Étape 1</div><div>Étape 2</div><div>Étape 3</div></div>
+          <div class="score"><strong>Français</strong><input data-eval data-save id="sf1" type="number" min="0" max="20" step="0.5" value="0"><input data-eval data-save id="sf2" type="number" min="0" max="20" step="0.5" value="0"><input data-eval data-save id="sf3" type="number" min="0" max="20" step="0.5" value="0"></div>
+          <div class="score"><strong>Mathématiques</strong><input data-eval data-save id="sm1" type="number" min="0" max="20" step="0.5" value="0"><input data-eval data-save id="sm2" type="number" min="0" max="20" step="0.5" value="0"><input data-eval data-save id="sm3" type="number" min="0" max="20" step="0.5" value="0"></div>
+          <div class="score"><strong>Bureautique</strong><div><span id="autoOffice">0/7 QCM</span></div><div>Mise en pratique</div><div>Adaptation</div></div>
+          <div class="actions"><button class="primary" type="button" id="autoCorrect">Relancer la pré-correction automatique</button></div>
+          <p class="small muted">Les scores proposés peuvent être modifiés par l’évaluateur. La correction automatique ne remplace pas l’analyse d’une formulation inhabituelle, d’un trouble identifié ou d’une compensation.</p>
+        </div>
+
+        <div class="card">
+          <h2>Observation de la mise en pratique bureautique</h2>
+          <table><thead><tr><th>Action observée</th><th>Condition de réalisation</th></tr></thead><tbody id="practiceRows"></tbody></table>
+          <label for="adaptation">Adaptation au changement demandé</label><select id="adaptation" data-save data-eval><option value="0">Non réalisée</option><option value="1">Réalisée avec accompagnement</option><option value="2">Réalisée dans une situation connue avec relance</option><option value="3">Réalisée en autonomie avec adaptation</option></select>
+          <label for="evalNotes">Aides, compensations et observations</label><textarea id="evalNotes" data-save></textarea>
+        </div>
+
+        <div class="card" id="answerReview"><h2>Réponses du stagiaire et correction</h2><p class="small muted">Chaque réponse est présentée en face de la réponse attendue. Pour les questions ouvertes, les éléments affichés sont des repères de correction : une autre formulation pertinente peut être acceptée.</p><div id="answerDump"></div></div>
+
+        <div class="card">
+          <h2>Résultats et proposition de parcours</h2>
+          <div class="result-grid">
+            <div class="result"><span>Français</span><strong id="levelFrench">N1</strong><small id="detailFrench"></small></div>
+            <div class="result"><span>Mathématiques</span><strong id="levelMath">N1</strong><small id="detailMath"></small></div>
+            <div class="result"><span>Bureautique</span><strong id="levelOffice">N1</strong><small id="detailOffice"></small></div>
+          </div>
+          <div class="route"><span>Première proposition</span><br><strong id="routeResult">Parcours de 9 mois</strong><p id="routeReason"></p></div>
+          <p><strong>Décision de l’équipe :</strong></p>
+          <div class="options"><label class="option"><input type="radio" name="teamDecision" value="3 mois" data-save>3 mois</label><label class="option"><input type="radio" name="teamDecision" value="6 mois" data-save>6 mois</label><label class="option"><input type="radio" name="teamDecision" value="9 mois" data-save>9 mois</label><label class="option"><input type="radio" name="teamDecision" value="évaluation complémentaire" data-save>Évaluation complémentaire</label></div>
+          <label for="decisionReason">Motif de confirmation ou d’ajustement</label><textarea id="decisionReason" data-save></textarea>
+          <div class="actions screen-only"><button class="primary" type="button" id="compute">Actualiser les résultats</button><button class="secondary" type="button" onclick="window.print()">Imprimer la synthèse</button><button class="secondary" type="button" id="exportFull">Exporter le dossier</button><button class="danger" type="button" id="resetAll">Nouvelle passation / Nouveau stagiaire</button></div>
+        </div>
+        <div class="card">
+          <h2>Règles de positionnement à appliquer</h2>
+          <p>Les niveaux sont attribués séparément en français, mathématiques et bureautique. Aucune moyenne générale ne doit masquer une difficulté dans un domaine.</p>
+          <table><thead><tr><th>Niveau</th><th>Règle français et mathématiques</th><th>Condition de maîtrise</th></tr></thead><tbody>
+            <tr><td><span class="step one">N1</span></td><td>Les conditions du niveau 2 ne sont pas réunies.</td><td>Avec accompagnement</td></tr>
+            <tr><td><span class="step two">N2</span></td><td>Étape 1 ≥ 10/20 et étape 2 ≥ 12/20.</td><td>Dans une situation connue</td></tr>
+            <tr><td><span class="step three">N3</span></td><td>Étape 1 ≥ 10/20, étape 2 ≥ 12/20 et étape 3 ≥ 14/20.</td><td>En autonomie avec adaptation</td></tr>
+          </tbody></table>
+          <table><thead><tr><th>Profil des trois domaines</th><th>Première proposition</th></tr></thead><tbody>
+            <tr><td>N3 / N3 / N3 ou N3 / N3 / N2</td><td>3 mois</td></tr>
+            <tr><td>Un seul N1 ou majorité de N2</td><td>6 mois</td></tr>
+            <tr><td>Deux ou trois N1</td><td>9 mois</td></tr>
+          </tbody></table>
+          <p><strong>Garde-fous :</strong> aucun parcours de 3 mois avec un N1. Deux N1 conduisent à 9 mois. Un score inférieur à 8/20 à l’étape 1 en français ou en mathématiques conduit à envisager 9 mois ou une évaluation complémentaire. La décision finale reste pluridisciplinaire.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="guidePanel" class="panel">
+      <div class="card">
+        <h2>Règles de positionnement</h2>
+        <p>Le résultat est établi domaine par domaine. Une moyenne générale n’est pas utilisée : elle pourrait masquer une difficulté importante derrière un très bon résultat dans un autre domaine.</p>
+        <table><thead><tr><th>Niveau du domaine</th><th>Règle</th><th>Condition observée</th></tr></thead><tbody>
+          <tr><td><span class="step one">N1</span></td><td>Les conditions du niveau 2 ne sont pas réunies, ou la réalisation nécessite un accompagnement régulier.</td><td>Avec accompagnement</td></tr>
+          <tr><td><span class="step two">N2</span></td><td>Étape 1 ≥ 10/20 et étape 2 ≥ 12/20, sans validation suffisante de l’étape 3.</td><td>Situation connue</td></tr>
+          <tr><td><span class="step three">N3</span></td><td>Étape 1 ≥ 10/20, étape 2 ≥ 12/20 et étape 3 ≥ 14/20.</td><td>Autonomie et adaptation</td></tr>
+        </tbody></table>
+        <h3>Confrontation des trois domaines</h3>
+        <table><thead><tr><th>Profils obtenus</th><th>Proposition</th></tr></thead><tbody>
+          <tr><td>N3 / N3 / N3 ou N3 / N3 / N2</td><td>3 mois</td></tr>
+          <tr><td>Toute combinaison avec un seul N1, ou majorité de N2</td><td>6 mois</td></tr>
+          <tr><td>Deux ou trois domaines N1</td><td>9 mois</td></tr>
+        </tbody></table>
+        <p><strong>Garde-fous :</strong> aucun parcours de 3 mois n’est proposé en présence d’un N1. Un score inférieur à 8/20 à l’étape 1 en français ou en mathématiques conduit à envisager 9 mois ou une évaluation complémentaire. La décision finale tient compte de la fatigabilité, des limitations fonctionnelles, des compensations, du projet professionnel et du rythme de réalisation.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const KEY='previsite-plateforme-v2';
+    const OLD_KEY='previsite-plateforme-v1';
+    const ARCHIVE_KEY='previsite-plateforme-dossiers-v1';
+    const PAGE_KEY='previsite-plateforme-page-v1';
+    const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+    const actions=['Créer et retrouver un dossier','Ouvrir Word et saisir un texte','Mettre en forme le titre','Créer une liste à puces','Enregistrer avec le bon nom','Fermer, retrouver et rouvrir le fichier'];
+    let timerState={startedAt:null,completedAt:null,accumulatedMs:0,runningSince:null};
+    let currentDossierId=null;
+    let resetting=false;
+    let trainerUnlocked=false;
+    let candidatePages=[],currentPage=0;
+    $('#practiceRows').innerHTML=actions.map((a,i)=>`<tr><td>${a}</td><td><select id="p${i+1}" data-save data-eval><option value="0">Non réalisé</option><option value="1">Avec accompagnement</option><option value="2">Dans une situation connue</option><option value="3">En autonomie</option></select></td></tr>`).join('');
+
+    function buildCandidatePages(){
+      const panel=$('#candidatePanel'),intro=panel.querySelector(':scope > .card:first-child');intro.classList.add('test-page');intro.dataset.pageTitle='Informations et consignes';
+      ['francais','maths','bureautique'].forEach(domain=>$$(`#${domain} [data-save]`).forEach(el=>el.dataset.domain=domain));
+      function splitSteps(id,title){const card=$('#'+id),nodes=[...card.children],starts=nodes.map((n,i)=>n.classList?.contains('stephead')?i:-1).filter(i=>i>=0),pages=[];starts.forEach((start,k)=>{const page=document.createElement('div');page.className='card test-page';page.dataset.pageTitle=`${title} · étape ${k+1}`;const h=document.createElement('h2');h.textContent=page.dataset.pageTitle;page.append(h);const end=starts[k+1]??nodes.length;for(let i=start;i<end;i++)page.append(nodes[i]);card.before(page);pages.push(page)});card.remove();return pages}
+      splitSteps('francais','Français');splitSteps('maths','Mathématiques et raisonnement logique');$('#bureautique').classList.add('test-page');$('#bureautique').dataset.pageTitle='Bureautique';candidatePages=$$('#candidatePanel .test-page');const stored=Number(localStorage.getItem(PAGE_KEY));currentPage=Number.isInteger(stored)?Math.min(Math.max(stored,0),candidatePages.length-1):0;showCandidatePage(currentPage,currentPage>0)
+    }
+    function showCandidatePage(index,scroll=true){if(!candidatePages.length)return;currentPage=Math.min(Math.max(index,0),candidatePages.length-1);candidatePages.forEach((p,i)=>p.hidden=i!==currentPage);$('#prevPage').disabled=currentPage===0;$('#nextPage').hidden=currentPage===candidatePages.length-1;$('#candidateActions').hidden=currentPage!==candidatePages.length-1;$('#pageIndicator').textContent=`Page ${currentPage+1} sur ${candidatePages.length} · ${candidatePages[currentPage].dataset.pageTitle}`;localStorage.setItem(PAGE_KEY,String(currentPage));if(scroll)setTimeout(()=>candidatePages[currentPage].scrollIntoView({behavior:'smooth',block:'start'}),0)}
+    $('#prevPage').onclick=()=>showCandidatePage(currentPage-1);
+    $('#nextPage').onclick=()=>showCandidatePage(currentPage+1);
+
+    function clean(v){return String(v??'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/€/g,'').replace(/[^a-z0-9.,-]/g,'').replace(/,/g,'.')}
+    function values(){const o={};$$('[data-save]').forEach(el=>{if(el.type==='radio'||el.type==='checkbox'){if(el.checked)o[el.name||el.id]=el.value||true}else o[el.id]=el.value});return o}
+    function draft(){return{version:3,data:values(),timer:{...timerState},currentDossierId,savedAt:new Date().toISOString()}}
+    function save(updateArchive=true){const payload=draft();localStorage.setItem(KEY,JSON.stringify(payload));updateProgress();renderAnswers();updateTimerUI();if(updateArchive&&timerState.completedAt&&currentDossierId)archiveDossier(false);$('#progressText').textContent='Enregistré sur cet ordinateur à '+new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}
+    function load(data){$$('[data-save]').forEach(el=>{if(el.type==='radio'||el.type==='checkbox'){el.checked=data[el.name||el.id]===el.value||data[el.name||el.id]===true}else if(data[el.id]!==undefined)el.value=data[el.id]});compute();updateProgress();renderAnswers()}
+    function updateProgress(){const els=$$('#candidatePanel [data-save]');let done=0;const seen=new Set();els.forEach(el=>{const k=el.name||el.id;if(seen.has(k))return;seen.add(k);if(el.type==='radio'){if(document.querySelector(`input[name="${el.name}"]:checked`))done++}else if(String(el.value).trim())done++});const pct=Math.round(done/seen.size*100)||0;$('#progressBar').style.width=pct+'%';$('#progressText').textContent=`${pct} % des champs de passation renseignés · sauvegarde automatique locale.`}
+    document.addEventListener('input',e=>{if(e.target.matches('[data-save]'))save()});document.addEventListener('change',e=>{if(e.target.matches('[data-save]')){save();compute()}});
+    $('#saveNow').onclick=save;
+    $('#fontPlus').onclick=()=>{let n=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--font'))||18;n=Math.min(24,n+2);document.documentElement.style.setProperty('--font',n+'px')};
+    $('#fontMinus').onclick=()=>{let n=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--font'))||18;n=Math.max(14,n-2);document.documentElement.style.setProperty('--font',n+'px')};
+    $('#contrast').onclick=()=>document.body.classList.toggle('contrast');
+    $$('.tab').forEach(b=>b.onclick=()=>{
+      let target=b.dataset.panel;
+      if(!trainerUnlocked&&(target==='evaluatorPanel'||target==='guidePanel'))target='evaluatorPanel';
+      $$('.tab').forEach(x=>x.classList.remove('active'));
+      $$('.panel').forEach(x=>x.classList.remove('active'));
+      const activeTab=$(`.tab[data-panel="${target}"]`);
+      if(activeTab)activeTab.classList.add('active');
+      $('#'+target).classList.add('active');
+      if(target==='candidatePanel')showCandidatePage(currentPage,true);else window.scrollTo(0,0);
+      if(!trainerUnlocked&&target==='evaluatorPanel')setTimeout(()=>$('#evaluatorCode').focus(),0);
+    });
+    function elapsedMs(){return Math.max(0,(timerState.accumulatedMs||0)+(timerState.runningSince?Date.now()-new Date(timerState.runningSince).getTime():0))}
+    function formatDuration(ms){const s=Math.floor(Math.max(0,ms)/1000),h=Math.floor(s/3600),m=Math.floor((s%3600)/60),r=s%60;return [h,m,r].map(x=>String(x).padStart(2,'0')).join(':')}
+    function formatDate(iso){return iso?new Date(iso).toLocaleString('fr-FR',{dateStyle:'short',timeStyle:'medium'}):'Non renseigné'}
+    function updateTimerUI(){const running=!!timerState.runningSince&&!timerState.completedAt;$('#timerDisplay').textContent=formatDuration(elapsedMs());$('#evalDuration').textContent=formatDuration(elapsedMs());$('#evalStart').textContent=timerState.startedAt?formatDate(timerState.startedAt):'Non démarré';$('#evalEnd').textContent=timerState.completedAt?formatDate(timerState.completedAt):'Non terminée';$('#startTimer').disabled=running||!!timerState.completedAt;$('#pauseTimer').disabled=!running;$('#startTimer').textContent=timerState.startedAt?'Reprendre':'Démarrer la passation';$('#timerStatus').textContent=timerState.completedAt?'Passation terminée et enregistrée.':running?'Chronomètre en cours.':'Chronomètre en pause.'}
+    function startTimer(){if(timerState.completedAt)return;if(!timerState.startedAt)timerState.startedAt=new Date().toISOString();timerState.runningSince=new Date().toISOString();save(false)}
+    function pauseTimer(saveNow=true){if(timerState.runningSince){timerState.accumulatedMs=elapsedMs();timerState.runningSince=null}if(saveNow)save(false);else updateTimerUI()}
+    $('#startTimer').onclick=startTimer;
+    $('#pauseTimer').onclick=()=>pauseTimer(true);
+    $('#finishCandidate').onclick=()=>{
+      if(!timerState.startedAt)timerState.startedAt=new Date().toISOString();
+      pauseTimer(false);
+      timerState.completedAt=new Date().toISOString();
+      autoCorrectAll(true);
+      archiveDossier(false);
+      resetting=true;
+      localStorage.removeItem(KEY);
+      localStorage.removeItem(OLD_KEY);
+      localStorage.removeItem(PAGE_KEY);
+      currentDossierId=null;
+      alert('La passation est terminée. Le dossier, les réponses, le temps actif et les résultats sont enregistrés dans l’espace évaluateur. Le formulaire va maintenant être remis à zéro pour la personne suivante.');
+      location.reload();
+    };
+    function unlockTrainer(){
+      if($('#evaluatorCode').value!=='91102026'){
+        $('#evaluatorCode').value='';
+        $('#lockMessage').textContent='Code incorrect. L’espace formateur reste verrouillé.';
+        $('#evaluatorCode').focus();
+        return;
+      }
+      trainerUnlocked=true;
+      $('#trainerLockCard').hidden=true;
+      $('#evaluationContent').hidden=false;
+      compute();renderAutoCorrection();renderAnswers();renderDossierList();updateTimerUI();
+    }
+    $('#unlock').onclick=unlockTrainer;
+    $('#evaluatorCode').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();unlockTrainer()}});
+
+    function answerMatch(value,expected){const v=String(value||'').trim(),e=String(expected||'').trim();if(!v)return false;if(e.includes(',')){const wanted=e.split(',').map(x=>x.trim());if(wanted.every(x=>/^-?\d+(?:\.\d+)?$/.test(x))){const allPositive=wanted.every(x=>Number(x)>=0);const pattern=allPositive?/\d+(?:[.,]\d+)?/g:/-?\d+(?:[.,]\d+)?/g;const got=(v.match(pattern)||[]).map(x=>Number(x.replace(',','.')));return got.length===wanted.length&&got.every((x,i)=>Math.abs(x-Number(wanted[i]))<0.0001)}const pv=plain(v);let pos=-1;return wanted.every(x=>{const next=pv.indexOf(plain(x),pos+1);if(next<0)return false;pos=next;return true})}if(/^-?\d+(?:\.\d+)?$/.test(e)){const got=Number(v.replace(',','.').replace(/[^0-9.-]/g,''));return Number.isFinite(got)&&Math.abs(got-Number(e))<0.0001}return plain(v)===plain(e)}
+    function objective(group){const els=$$(`[data-math="${group}"]`);let ok=0;els.forEach(el=>{const v=el.type==='radio'?(el.checked?el.value:''):el.value;if(answerMatch(v,el.dataset.answer))ok++});return {ok,total:els.length,pct:els.length?ok/els.length:0}}
+    function text(id){return String($('#'+id)?.value||'').trim()}
+    function plain(v){return String(v||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[’']/g,"'").replace(/[^a-z0-9' ]/g,' ').replace(/\s+/g,' ').trim()}
+    function surface(v){return String(v||'').normalize('NFC').replace(/’/g,"'").replace(/\s+([?.!,;:])/g,'$1').replace(/\s+/g,' ').trim()}
+    function contains(id,patterns){const v=plain(text(id));return patterns.some(p=>p instanceof RegExp?p.test(v):v.includes(plain(p)))}
+    function sentenceCount(v){const s=String(v||'').trim();if(!s)return 0;const marked=s.split(/[.!?]+/).filter(x=>x.trim()).length;return Math.max(marked,s.split(/\n+/).filter(x=>x.trim()).length)}
+    function frenchSuggestion(){
+      let s1=0,s2=0,s3=0;const notes=[];
+      const verbs=[['f1a',[/mangeaient/,/ont mange/],'Phrase 1 hier : « mangeaient » ou « ont mangé »'],['f1b',[/mangeront/],'Phrase 1 demain : « mangeront »'],['f1c',[/finissaient/,/ont fini/],'Phrase 2 hier : « finissaient » ou « ont fini »'],['f1d',[/finiront/],'Phrase 2 demain : « finiront »'],['f1e',[/suis parti/,/suis partie/,/partais/],'Phrase 3 hier : « suis parti(e) » ou « partais »'],['f1f',[/partirai/],'Phrase 3 demain : « partirai »']];
+      const verbOk=verbs.filter(([id,p])=>contains(id,p)).length;const verbErrors=verbs.filter(([id,p])=>text(id)&&!contains(id,p)).map(x=>x[2]);s1+=verbOk;
+      const exact=[['f2a','Cette pièce est étroite.'],['f2b',"L'université est à côté de l'épicerie."],['f2c','Aimez-vous flâner à Paris le long de la Seine ?']];
+      const accentOk=exact.filter(([id,a])=>surface(text(id))===surface(a)).length;s1+=accentOk;
+      const plural1=['garcons','vont','pharmacie','matin'].filter(x=>plain(text('f3a')).includes(x)).length;
+      const plural2=['ils','sont','passionnes','patinage','artistique'].filter(x=>plain(text('f3b')).includes(x)).length;
+      s1+=(plural1/4*2.5)+(plural2/5*2.5);
+      const f4=text('f4'),pc=sentenceCount(f4),wc=plain(f4).split(' ').filter(Boolean).length;
+      s1+=pc>=4&&pc<=6?3:pc>=2?2:wc>=10?1:0;
+      s1+=/(previsite|test|evaluation|niveau|formation)/.test(plain(f4))?1.5:0;
+      s1+=/(apprendre|progresser|ameliorer|developper|acquerir)/.test(plain(f4))?1.5:0;
+      notes.push(`${verbOk}/6 transformations verbales repérées`,verbErrors.length?`Réponses renseignées mais non reconnues : ${verbErrors.join(' ; ')}`:'',`${accentOk}/3 phrases avec accents et majuscules exacts`,'Production personnelle de l’étape 1 à relire.');
+
+      const info=[['f5a',['mardi 6','10 h','10h']],['f5b',['mercredi 7','14 h','14h']],['f5c',['bureau 204']],['f5d',['dossier']],['f5e',['confirmer','presence']]];
+      const infoOk=info.filter(([id,p])=>p.every(x=>plain(text(id)).includes(plain(x)))||p.some(x=>plain(text(id)).includes(plain(x)))).length;s2+=infoOk;
+      const f6=plain(text('f6'));let f6s=0;f6s+=/(bonjour|madame)/.test(f6)?1:0;f6s+=/(confirme|presence|disponible)/.test(f6)?2:0;f6s+=/(mercredi|7 octobre|14 h|14h)/.test(f6)?2:0;f6s+=/(cordialement|merci|salutations)/.test(f6)?2:0;s2+=f6s;
+      const f7=surface(text('f7')),f7p=plain(f7);const corr=[/j'ai/,/je serai/,/mercredi/,/14/,/heures?/,/je dois/,/dossier papier/,/cordialement/];const corrOk=corr.filter(r=>r.test(f7p)).length;s2+=corrOk;
+      notes.push(`${infoOk}/5 informations du rendez-vous repérées`,`Réponse professionnelle : ${f6s}/7 critères automatiques`,`Correction du message : ${corrOk}/8 éléments repérés.`);
+
+      const f8=plain(text('f8'));const actionClusters=[/(reserv|salle b)/,/(preven|informe|nadia|colleg|equipe)/,/(imprim|six|exemplair)/,/(document|dossier partage)/,/(calendrier|planning|prepar|accueil|reunion)/];const actionsOk=actionClusters.filter(r=>r.test(f8)).length;s3+=(actionsOk/5)*4;
+      const f9=plain(text('f9'));const priority=/(reserv|salle b)/.test(f9)&&/(avant 9|9 h|urgence|priorit|delai)/.test(f9);s3+=priority?3:0;
+      const f11=plain(text('f11'));s3+=[/(bureau|madame legrand|salle c|autre salle)/,/(accord|demande|contact|message)/,/(9 h 30|9h30)/,/(salle b|indisponible)/,/(accueil|relais|nadia|ne pas quitter)/].filter(r=>r.test(f11)).length;
+      const f12=plain(text('f12'));s3+=[/(bonjour|madame|responsable)/,/(salle b|indisponible)/,/(bureau|salle c|solution|propose)/,/(cordialement|merci|possible|accord)/].filter(r=>r.test(f12)).length;
+      const f13=text('f13'),f13p=plain(f13);s3+=sentenceCount(f13)===3?1:0;s3+=/(9 h 30|9h30|claire martin|nova services)/.test(f13p)?1:0;s3+=/(salle b|bureau|salle c|solution)/.test(f13p)?1:0;s3+=/(nadia|imprim|document|responsable)/.test(f13p)?1:0;
+      notes.push(`${actionsOk}/5 familles d’actions repérées dans l’organisation proposée`,'Le nombre d’actions n’est pas imposé : leur pertinence, leur ordre et la prise en compte des contraintes doivent être vérifiés par l’évaluateur.');
+      return{scores:[Math.min(20,Math.round(s1*2)/2),Math.min(20,Math.round(s2*2)/2),Math.min(20,Math.round(s3*2)/2)],notes};
+    }
+    function autoData(){const f=frenchSuggestion(),m=['m1','m2','m3'].map(objective);return{french:f,math:m,office:officeKnowledge()}}
+    function mathScore(s){return Math.round(s.pct*40)/2}
+    function renderAutoCorrection(){const a=autoData();$('#autoSummary').textContent=`Pré-correction proposée : français ${a.french.scores.join(' / ')} sur 20 · mathématiques ${a.math.map(mathScore).join(' / ')} sur 20 · bureautique ${a.office.ok}/${a.office.total} connaissances reconnues.`;$('#autoDetails').innerHTML=`<p><span class="check">Automatique</span>Calculs mathématiques, QCM bureautique et repérage de mots-clés dans les trois réponses rédigées.</p><p><span class="verify">À vérifier</span>${a.french.notes.filter(Boolean).map(esc).join(' · ')}</p><p><span class="verify">À vérifier</span>Une formulation pertinente peut être acceptée même si les mots-clés ne sont pas reconnus. Les explications de raisonnement mathématique et la mise en pratique bureautique restent soumises à l’observation humaine.</p>`;return a}
+    function autoCorrectAll(silent=false){const a=renderAutoCorrection();a.french.scores.forEach((v,i)=>$('#sf'+(i+1)).value=v);a.math.forEach((s,i)=>$('#sm'+(i+1)).value=mathScore(s));compute();save(false);if(!silent)alert('Les scores proposés ont été recalculés. Relisez les productions signalées avant de valider le positionnement.')}
+    $('#autoCorrect').onclick=()=>{if(confirm('Relancer la pré-correction et remplacer les scores français et mathématiques actuellement affichés ?'))autoCorrectAll(false)};
+    function officeWrittenValid(id,value){const v=plain(value),words=v.split(' ').filter(Boolean).length;if(words<4)return false;if(id==='b2'){const copy=/(copi|dupli)/.test(v)&&/(conserv|garde|reste|original|double|deux)/.test(v);const cut=/(coup)/.test(v)&&/(deplac|retir|enlev|supprim|change.*emplacement)/.test(v);return copy&&cut}if(id==='b6')return/(selection|choisi|cliqu|curseur|ouvrir|lancer|activer|bouton|lien)/.test(v);if(id==='b7')return/(menu|contextuel|option|action|propriet|renomm|supprim|copi|coll)/.test(v);return false}
+    function officeKnowledge(){let qcmOk=0,qcmTotal=0;['b1','b3','b4','b5','b8','b9','b10'].forEach(n=>{qcmTotal++;const c=document.querySelector(`input[name="${n}"][data-correct]`);if(c&&c.checked)qcmOk++});const writtenIds=['b2','b6','b7'],writtenOk=writtenIds.filter(id=>officeWrittenValid(id,text(id))).length;return{ok:qcmOk+writtenOk,total:qcmTotal+writtenIds.length,qcmOk,qcmTotal,writtenOk,writtenTotal:writtenIds.length}}
+    function domainLevel(a,b,c){a=+a||0;b=+b||0;c=+c||0;if(a>=10&&b>=12&&c>=14)return 3;if(a>=10&&b>=12)return 2;return 1}
+    function officeLevel(){const q=officeKnowledge();const ps=actions.map((_,i)=>+$('#p'+(i+1)).value||0);const avg=ps.reduce((x,y)=>x+y,0)/ps.length;const ad=+$('#adaptation').value||0;if(q.ok>=8&&avg>=2.5&&ad===3)return 3;if(q.ok>=6&&avg>=1.75)return 2;return 1}
+    function route(levels,scores){const count=n=>levels.filter(x=>x===n).length;if((count(3)===3)||(count(3)===2&&count(2)===1))return{m:3,r:'Les trois domaines sont au moins au niveau 2 et deux domaines atteignent le niveau 3.'};if(count(1)>=2)return{m:9,r:'Au moins deux domaines nécessitent un accompagnement régulier.'};if(scores.f1<8||scores.m1<8)return{m:9,r:'Une fragilité importante apparaît dans les fondamentaux de français ou de mathématiques.'};return{m:6,r:'Le profil est intermédiaire ou hétérogène et nécessite une consolidation ciblée.'}}
+    function compute(){
+      const f=[+$('#sf1').value||0,+$('#sf2').value||0,+$('#sf3').value||0],m=[+$('#sm1').value||0,+$('#sm2').value||0,+$('#sm3').value||0];
+      const lf=domainLevel(...f),lm=domainLevel(...m),lo=officeLevel();const q=officeKnowledge();
+      $('#autoOffice').textContent=`${q.ok}/${q.total} connaissances reconnues · QCM ${q.qcmOk}/${q.qcmTotal} · réponses ${q.writtenOk}/${q.writtenTotal}`;$('#levelFrench').textContent='N'+lf;$('#levelMath').textContent='N'+lm;$('#levelOffice').textContent='N'+lo;
+      $('#detailFrench').textContent=`Scores ${f.join(' / ')}`;$('#detailMath').textContent=`Scores ${m.join(' / ')}`;const p=actions.map((_,i)=>+$('#p'+(i+1)).value||0);$('#detailOffice').textContent=`Connaissances ${q.ok}/${q.total} · pratique ${(p.reduce((a,b)=>a+b,0)/p.length).toFixed(1)}/3`;
+      const rr=route([lf,lm,lo],{f1:f[0],m1:m[0]});$('#routeResult').textContent=`Parcours de ${rr.m} mois`;$('#routeReason').textContent=rr.r+' Cette proposition doit être confirmée par l’équipe.';
+      $('#printIdentity').textContent=[$('#identity').value,$('#date').value,$('#project').value].filter(Boolean).join(' · ');
+      updateTimerUI();renderAnswers();
+    }
+    $('#compute').onclick=compute;
+    function esc(v){return String(v??'').replace(/[&<>]/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[x]))}
+    const EXPECTED_ANSWERS={
+      f1a:'Les fillettes mangeaient des pommes. / Les fillettes ont mangé des pommes.',
+      f1b:'Les fillettes mangeront des pommes.',
+      f1c:'Anaïs et Hugo finissaient l’école à 15 h. / Anaïs et Hugo ont fini l’école à 15 h.',
+      f1d:'Anaïs et Hugo finiront l’école à 15 h.',
+      f1e:'Je suis parti(e) en Italie aujourd’hui. / Je partais en Italie aujourd’hui.',
+      f1f:'Je partirai en Italie aujourd’hui.',
+      f2a:'Cette pièce est étroite.',
+      f2b:'L’université est à côté de l’épicerie.',
+      f2c:'Aimez-vous flâner à Paris le long de la Seine ?',
+      f3a:'Les garçons vont à la pharmacie le matin.',
+      f3b:'Ils sont passionnés par le patinage artistique.',
+      f4:'Attendus : 4 à 6 phrases compréhensibles indiquant la raison de la prévisite et au moins un apprentissage ou progrès souhaité.',
+      f5a:'Mardi 6 octobre à 10 h.',
+      f5b:'Mercredi 7 octobre à 14 h.',
+      f5c:'Bureau 204.',
+      f5d:'Le dossier.',
+      f5e:'Confirmer sa présence ou, si l’horaire ne convient pas, proposer deux autres disponibilités.',
+      f6:'Exemple : Bonjour Madame Laurent, je vous confirme ma présence le mercredi 7 octobre à 14 h. Cordialement. Une proposition de deux horaires cohérents est également acceptable.',
+      f7:'Bonjour, je vous confirme que j’ai bien reçu votre message. Je serai présent mercredi à 14 heures. Pouvez-vous me dire si je dois apporter mon dossier papier ? Cordialement.',
+      f8:'Ordre possible : 1) réserver immédiatement la salle B avant 9 h ; 2) actualiser le calendrier et informer les personnes concernées du nouvel horaire ; 3) retrouver le document dans le dossier partagé ; 4) attendre l’arrivée de Nadia à 9 h avant de quitter l’accueil ; 5) imprimer les six exemplaires au premier étage et préparer l’accueil. Un autre ordre est recevable s’il respecte les contraintes et les priorités.',
+      f9:'Réserver la salle B en premier, car elle doit être réservée avant 9 h. Il faut rester à l’accueil jusqu’à l’arrivée de Nadia.',
+      f11:'Prévenir rapidement Madame Legrand et demander son accord pour utiliser son bureau, disponible dès 9 h 15. Mettre ensuite à jour le calendrier et informer l’équipe. Ne quitter l’accueil qu’après l’arrivée de Nadia.',
+      f12:'Exemple : Bonjour Madame Legrand, la salle B n’est finalement plus disponible. Pouvons-nous utiliser votre bureau à partir de 9 h 15 pour accueillir Madame Martin à 9 h 30 ? Merci de me confirmer votre accord.',
+      f13:'Exemple en trois phrases : Madame Martin arrivera à 9 h 30 pour une réunion de 45 minutes avec Madame Legrand et deux membres de l’équipe. La salle B n’est plus disponible et l’accord de Madame Legrand est demandé pour utiliser son bureau. Le document doit être imprimé en six exemplaires après l’arrivée de Nadia à l’accueil.',
+      draftM1:'Brouillon libre : il n’est pas noté.',
+      m2l:'31 est l’intrus : les autres nombres sont des multiples de 6.',
+      draftM2:'Brouillon libre : il n’est pas noté.',
+      m3e:'Non. Après la hausse, le prix est de 88 €, puis 10 % de 88 € valent 8,80 € : le prix final est donc de 79,20 €. Les deux pourcentages ne s’appliquent pas à la même base.',
+      m3i:'La règle est : multiplier le nombre par 2 puis ajouter 2.',
+      draftM3:'Brouillon libre : il n’est pas noté.',
+      b2:'Copier-coller duplique l’élément et conserve l’original. Couper-coller déplace l’élément.',
+      b6:'Le clic gauche sert notamment à sélectionner un élément, placer le curseur ou activer un bouton. Le double-clic permet souvent d’ouvrir un fichier ou un dossier.',
+      b7:'Le clic droit ouvre un menu contextuel proposant des actions liées à l’élément choisi.'
+    };
+    function fieldValue(el){if(el.type==='radio'){const chosen=document.querySelector(`input[name="${el.name}"]:checked`);return chosen?chosen.closest('label')?.textContent.trim()||chosen.value:''}if(el.type==='checkbox')return el.checked?el.closest('label')?.textContent.trim()||el.value:'';return el.value}
+    function fieldLabel(el){const lab=el.id&&document.querySelector(`label[for="${el.id}"]`);if(lab)return lab.textContent.trim();if(el.getAttribute('aria-label'))return el.getAttribute('aria-label');const q=el.closest('.question')?.querySelector('.qtitle');return q?q.textContent.trim():el.id||el.name||'Réponse'}
+    function formatExpected(v){const s=String(v||'');if(!s)return'';return s.split(',').map(x=>x.replace(/\./g,',')).join(' – ')}
+    function expectedAnswer(el){
+      if(el.type==='radio'){
+        const correct=document.querySelector(`input[name="${el.name}"][data-correct],input[name="${el.name}"][data-answer]`);
+        return correct?correct.closest('label')?.textContent.trim()||correct.value:'Relecture par l’évaluateur.';
+      }
+      if(el.dataset.answer!==undefined)return formatExpected(el.dataset.answer);
+      return EXPECTED_ANSWERS[el.id]||'Réponse à apprécier par l’évaluateur selon la consigne.';
+    }
+    function answerStatus(el,value){
+      if(!String(value).trim())return{label:'Non renseignée',className:'wrong'};
+      if(el.type==='radio'){
+        const chosen=document.querySelector(`input[name="${el.name}"]:checked`),correct=document.querySelector(`input[name="${el.name}"][data-correct],input[name="${el.name}"][data-answer]`);
+        if(correct)return chosen===correct?{label:'Correcte',className:'correct'}:{label:'À revoir',className:'wrong'};
+      }
+      if(el.dataset.answer!==undefined)return answerMatch(value,el.dataset.answer)?{label:'Correcte',className:'correct'}:{label:'À revoir',className:'wrong'};
+      if(['b2','b6','b7'].includes(el.id))return officeWrittenValid(el.id,value)?{label:'Mots-clés reconnus',className:'correct'}:{label:'À relire',className:'review'};
+      if(/^draftM/.test(el.id))return{label:'Brouillon non noté',className:'review'};
+      return{label:'Relecture nécessaire',className:'review'};
+    }
+    function renderAnswers(){const sections=[['francais','Français'],['maths','Mathématiques et raisonnement logique'],['bureautique','Bureautique']];let html='';sections.forEach(([id,title])=>{const seen=new Set(),items=[];$$(`[data-domain="${id}"]`).forEach(el=>{const k=el.name||el.id;if(seen.has(k))return;if(el.type==='radio'||el.type==='checkbox')seen.add(k);const v=fieldValue(el),expected=expectedAnswer(el),status=answerStatus(el,v);items.push(`<div class="answer-item"><div class="answer-question">${esc(fieldLabel(el))}</div><div class="answer-compare"><div class="answer-box"><small>Réponse du stagiaire</small>${esc(String(v).trim()||'Non renseignée')}</div><div class="answer-box expected"><small>Réponse attendue / repères</small>${esc(expected)}</div></div><span class="answer-status ${status.className}">${status.label}</span></div>`)});html+=`<section class="answer-section"><h3>${title}</h3>${items.length?items.join(''):'<p class="muted">Aucune réponse trouvée dans ce domaine.</p>'}</section>`});$('#answerDump').innerHTML=html}
+    function resultSnapshot(){const a=autoData();return{francais:$('#levelFrench').textContent,mathematiques:$('#levelMath').textContent,bureautique:$('#levelOffice').textContent,parcours:$('#routeResult').textContent,motif:$('#routeReason').textContent,precorrection:{francais:a.french.scores,mathematiques:a.math.map(mathScore),bureautiqueConnaissances:`${a.office.ok}/${a.office.total}`,pointsAVerifier:a.french.notes}}}
+    function archives(){try{return JSON.parse(localStorage.getItem(ARCHIVE_KEY)||'[]')}catch{return[]}}
+    function makeId(){return(globalThis.crypto&&crypto.randomUUID)?crypto.randomUUID():'dossier-'+Date.now()+'-'+Math.random().toString(16).slice(2)}
+    function archiveDossier(showMessage=false){compute();if(!currentDossierId)currentDossierId=makeId();const list=archives();const record={id:currentDossierId,name:$('#identity').value.trim()||'Stagiaire sans nom',date:$('#date').value||new Date().toISOString().slice(0,10),project:$('#project').value.trim(),data:values(),timer:{...timerState,accumulatedMs:elapsedMs(),runningSince:null},result:resultSnapshot(),updatedAt:new Date().toISOString()};const i=list.findIndex(x=>x.id===record.id);if(i>=0)list[i]=record;else list.unshift(record);localStorage.setItem(ARCHIVE_KEY,JSON.stringify(list));renderDossierList();if(showMessage)$('#progressText').textContent='Passation archivée dans l’espace évaluateur.'}
+    function renderDossierList(){const list=archives(),sel=$('#dossierList');if(!sel)return;const keep=sel.value;sel.innerHTML='<option value="">Dossier en cours</option>'+list.map(x=>`<option value="${esc(x.id)}">${esc(x.name)} · ${esc(x.date)} · ${formatDuration(x.timer?.accumulatedMs||0)}</option>`).join('');if([...sel.options].some(o=>o.value===keep))sel.value=keep}
+    $('#loadDossier').onclick=()=>{const id=$('#dossierList').value;if(!id)return;const r=archives().find(x=>x.id===id);if(!r)return;currentDossierId=r.id;timerState={startedAt:null,completedAt:null,accumulatedMs:0,runningSince:null,...r.timer,runningSince:null};load(r.data||{});save(false);compute()};
+    $('#deleteDossier').onclick=()=>{const id=$('#dossierList').value;if(!id)return alert('Choisissez un dossier enregistré.');const r=archives().find(x=>x.id===id);if(confirm(`Supprimer de l’historique le dossier de ${r?.name||'ce stagiaire'} ?`)){localStorage.setItem(ARCHIVE_KEY,JSON.stringify(archives().filter(x=>x.id!==id)));if(currentDossierId===id)currentDossierId=null;renderDossierList()}};
+    function download(name,obj){const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
+    $('#exportAnswers').onclick=()=>download('reponses_previsite.json',{version:3,type:'reponses',data:values(),timer:{...timerState,accumulatedMs:elapsedMs(),runningSince:null}});
+    $('#exportFull').onclick=()=>{compute();download('dossier_previsite_complet.json',{version:3,type:'dossier',id:currentDossierId,data:values(),timer:{...timerState,accumulatedMs:elapsedMs(),runningSince:null},result:resultSnapshot(),rules:{francaisEtMaths:{N1:'conditions N2 non réunies',N2:'étape 1 ≥ 10/20 et étape 2 ≥ 12/20',N3:'étape 1 ≥ 10/20, étape 2 ≥ 12/20 et étape 3 ≥ 14/20'},orientation:{troisMois:'N3/N3/N3 ou N3/N3/N2',sixMois:'un N1 ou majorité de N2',neufMois:'deux ou trois N1'}}})};
+    $('#importAnswers').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);load(x.data||x);timerState={startedAt:null,completedAt:null,accumulatedMs:0,runningSince:null,...(x.timer||{}),runningSince:null};currentDossierId=x.id||null;save(false);updateTimerUI()}catch{alert('Le fichier ne peut pas être lu.')}};r.readAsText(f)};
+    $('#resetAll').onclick=()=>{if(confirm('Commencer une nouvelle passation ? Le brouillon actuellement affiché sera effacé. Les dossiers terminés et archivés resteront disponibles.')){resetting=true;localStorage.removeItem(KEY);localStorage.removeItem(OLD_KEY);localStorage.removeItem(PAGE_KEY);currentDossierId=null;location.reload()}};
+    const raw=localStorage.getItem(KEY)||localStorage.getItem(OLD_KEY);if(raw){try{const x=JSON.parse(raw);if(x.data){load(x.data);timerState={startedAt:null,completedAt:null,accumulatedMs:0,runningSince:null,...(x.timer||{})};currentDossierId=x.currentDossierId||null;if(timerState.runningSince){const until=x.savedAt?new Date(x.savedAt).getTime():Date.now();timerState.accumulatedMs=(timerState.accumulatedMs||0)+Math.max(0,until-new Date(timerState.runningSince).getTime());timerState.runningSince=null}}else load(x)}catch{}}else{if(!$('#date').value)$('#date').value=new Date().toISOString().slice(0,10);save(false)}
+    window.addEventListener('beforeunload',()=>{if(resetting)return;if(timerState.runningSince){timerState.accumulatedMs=elapsedMs();timerState.runningSince=null}localStorage.setItem(KEY,JSON.stringify(draft()))});
+    setInterval(()=>{updateTimerUI();if(timerState.runningSince&&Date.now()%15000<1000)save(false)},1000);
+    buildCandidatePages();renderDossierList();compute();updateTimerUI();renderAnswers();
+  </script>
+</body>
+</html>

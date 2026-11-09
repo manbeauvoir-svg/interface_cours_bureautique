@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz : Microsoft Excel</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "quiz-excel",
+  etiquette: "QUIZ",
+  titre: "Quiz : Microsoft Excel",
+  icone: "📊",
+  couleur: "#a21caf",
+  pale: "#f8e8fb",
+  accroche: "Commencez par le quiz de positionnement pour connaître vos priorités. Entraînez-vous thème par thème, puis validez le module avec le quiz final.",
+  cours: "livret-excel",
+  notions: {
+    "formule": {
+      "titre": "écrire une formule",
+      "va": "Votre première formule"
+    },
+    "cellule": {
+      "titre": "classeur, feuille et cellule",
+      "va": "Classeur, feuille, cellule"
+    },
+    "iface": {
+      "titre": "la fenêtre d'Excel",
+      "va": "Se repérer dans la fenêtre",
+      "jeu": {
+        "fichier": "jeu-quel-onglet",
+        "titre": "le jeu « Quel onglet ? »"
+      }
+    },
+    "calculs": {
+      "titre": "les quatre opérations et le pourcentage",
+      "va": "Calculer dans Excel"
+    },
+    "somme": {
+      "titre": "formule ou fonction",
+      "va": "Formule ou fonction ?"
+    },
+    "recopie": {
+      "titre": "la recopie incrémentée",
+      "va": "La poignée de recopie"
+    },
+    "fonctions": {
+      "titre": "MIN, MAX, MOYENNE et NB",
+      "va": "Le relevé de notes"
+    },
+    "trifiltre": {
+      "titre": "trier et filtrer",
+      "va": "Essayez : tri et filtre",
+      "jeu": {
+        "fichier": "jeu-quel-onglet",
+        "titre": "le jeu « Quel onglet ? »"
+      }
+    },
+    "graph": {
+      "titre": "créer un graphique",
+      "va": "Créer un graphique en 5 étapes"
+    },
+    "refs": {
+      "titre": "les références de cellules",
+      "va": "Le problème du taux de TVA"
+    },
+    "noms": {
+      "titre": "nommer les plages",
+      "va": "Donner un nom à ses données"
+    },
+    "mfc": {
+      "titre": "la mise en forme conditionnelle",
+      "va": "L'appliquer dans Excel"
+    },
+    "gerer": {
+      "titre": "gérer les règles",
+      "va": "Gérer les règles"
+    },
+    "tcd": {
+      "titre": "les tableaux croisés dynamiques",
+      "va": "Un TCD, à quoi ça sert ?"
+    }
+  },
+  etapes: [
+    {
+      titre: "Quiz de positionnement",
+      icone: "🧭",
+      resume: "Pour savoir par où commencer.",
+      ecrans: [
+        { t: "Quiz de positionnement", b: [
+          { depart: true, titre: "Quiz de positionnement", quiz: [
+            {"v":"formule","q":"Par quel signe commence une formule ?","r":["=","+","#"]},
+            {"v":"cellule","q":"Que désigne B3 ?","r":["La cellule de la colonne B, ligne 3","La ligne B, colonne 3","La feuille 3"]},
+            {"v":"somme","q":"Quelle fonction additionne une plage ?","r":["`=SOMME(A1:A5)`","`=TOTAL(A1:A5)`","`=PLUS(A1:A5)`"]},
+            {"v":"recopie","q":"Comment recopier une formule sur plusieurs lignes ?","r":["Tirer la poignée de recopie","La retaper à chaque ligne","Appuyer sur {F5}"]},
+            {"v":"trifiltre","q":"Que fait un filtre ?","r":["Il masque les lignes sans les supprimer","Il supprime les lignes","Il additionne les lignes"]},
+            {"v":"graph","q":"Dans quel onglet insère-t-on un graphique ?","r":["Insertion","Données","Révision"]},
+            {"v":"refs","q":"Quelle écriture garde une cellule fixe quand on recopie ?","r":["`$A$1`","`A1`","`A:1`"]},
+            {"v":"fonctions","q":"Quelle fonction donne la valeur la plus basse ?","r":["`=MIN()`","`=MAX()`","`=NB()`"]},
+            {"v":"mfc","q":"À quoi sert la mise en forme conditionnelle ?","r":["À colorer les cellules selon leur valeur","À protéger le fichier","À trier les données"]},
+            {"v":"tcd","q":"À quoi sert un tableau croisé dynamique ?","r":["À synthétiser beaucoup de données","À écrire une lettre","À corriger les fautes"]}
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "Les bases",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Les bases", b: [
+          { quiz: [
+            {"v":"cellule","q":"Que contient un classeur ?","r":["Une ou plusieurs feuilles","Un seul tableau","Des diapositives"]},
+            {"v":"cellule","q":"Comment sont repérées les colonnes ?","r":["Par des lettres","Par des chiffres","Par des couleurs"]},
+            {"v":"cellule","q":"Comment modifier le contenu d'une cellule ?","r":["Double-clic dessus","Clic droit sur le ruban","{Alt+F4}"]},
+            {"v":"formule","q":"Quelle touche valide et descend à la cellule suivante ?","r":["{Entrée}","{Échap}","{F2}"]},
+            {"v":"iface","q":"Où changer de feuille dans le classeur ?","r":["Avec les onglets en bas de la fenêtre","Dans le ruban Révision","Dans la barre de formule"]},
+            { v: "formule", q: "Par quel caractère commence obligatoirement toute formule dans Excel ?", r: ["=", "+", "#"] },
+            { v: "cellule", q: "Comment s'appelle l'intersection d'une ligne et d'une colonne dans Excel ?", r: ["Une cellule", "Un champ", "Une case"] },
+            { v: "cellule", q: "Quelle est la référence de la cellule située à la 3ᵉ colonne et 2ᵉ ligne ?", r: ["C2", "B3", "2C"] },
+            { v: "iface", q: "Où s'affiche le contenu ou la formule de la cellule active ?", r: ["Dans la barre de formule (sous le Ruban)", "Dans la barre d'état en bas", "Dans le volet droit"] },
+            { v: "somme", q: "Quelle fonction calcule la somme d'une plage de cellules ?", r: ["`=SOMME(A1:A10)`", "`=TOTAL(A1:A10)`", "`=ADDITION(A1:A10)`"] }
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "La recopie incrémentée",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "La recopie incrémentée", b: [
+          { quiz: [
+            {"v":"recopie","q":"Où se trouve la poignée de recopie ?","r":["En bas à droite de la cellule","En haut à gauche de la cellule","Dans le ruban"]},
+            {"v":"recopie","q":"Vous tirez la poignée sur « Mars ». Quelle est la suite ?","r":["Avril, Mai, Juin…","Mars, Mars, Mars…","Une erreur"]},
+            {"v":"recopie","q":"Vous saisissez 10 et 20, vous sélectionnez les deux et vous tirez. Quelle est la suite ?","r":["30, 40, 50…","10, 10, 10…","21, 22, 23…"]},
+            {"v":"recopie","q":"Un nombre seul, tiré sans autre touche, donne…","r":["le même nombre recopié","le nombre suivant","une erreur"]},
+            {"v":"recopie","q":"Un nombre seul, tiré avec {Ctrl} enfoncée, donne…","r":["1, 2, 3…","toujours le même nombre","une erreur"]},
+            {"v":"recopie","q":"« Lundi » tiré avec {Ctrl} enfoncée donne…","r":["Lundi à chaque ligne","Mardi, Mercredi…","une erreur"]},
+            {"v":"recopie","q":"Pourquoi utiliser la recopie ?","r":["Pour éviter de tout ressaisir","Pour protéger la feuille","Pour imprimer plus vite"]},
+            { v: "recopie", q: "Vous saisissez 5 puis 10 dans deux cellules, vous les sélectionnez et vous tirez la poignée. Qu'obtenez-vous ?", r: ["15, 20, 25…", "5, 10, 5, 10…", "10, 10, 10…"] },
+            { v: "recopie", q: "Que devient `=A1*B1` recopié une ligne plus bas ?", r: ["`=A2*B2`", "`=A1*B1`", "`=A1*B2`"] },
+            { v: "recopie", q: "Vous tirez la poignée sur le mot « Total ». Que se passe-t-il ?", r: ["« Total » est recopié à l'identique", "Excel affiche une erreur", "Excel calcule un total"] }
+          ], titre: "Vérifiez vos réflexes" }
+        ] }
+      ]
+    },
+    {
+      titre: "Les calculs",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Les calculs", b: [
+          { quiz: [
+            {"v":"calculs","q":"Quel signe sert à diviser dans Excel ?","r":["/",":","÷"]},
+            {"v":"calculs","q":"Quelle formule soustrait B1 de A1 ?","r":["`=A1-B1`","`=B1-A1`","`A1-B1`"]},
+            {"v":"calculs","q":"Quelle formule additionne A1 et B1 ?","r":["`=A1+B1`","`=A1*B1`","`=A1/B1`"]},
+            {"v":"calculs","q":"Quelle formule donne la part de B2 dans le total B1 ?","r":["`=B2/B1`","`=B1/B2`","`=B2+B1`"]},
+            {"v":"calculs","q":"Comment afficher 0,25 sous la forme 25 % ?","r":["Mettre la cellule au format pourcentage","Écrire 25 à la main","Mettre en gras"]},
+            {"v":"calculs","q":"Un prix passe de 200 € à 250 €. Quelle est l'évolution ?","r":["+25 %","+50 %","+20 %"]},
+            {"v":"calculs","q":"Une vente passe de 400 à 300. Quelle est l'évolution ?","r":["-25 %","-100 %","+25 %"]},
+            {"v":"calculs","q":"Que se passe-t-il si un chiffre utilisé dans une formule change ?","r":["Le résultat se met à jour tout seul","Il faut retaper la formule","La formule disparaît"]},
+            { v: "calculs", q: "Quel signe utilise-t-on pour multiplier dans Excel ?", r: ["*", "x", ":"] },
+            { v: "calculs", q: "Un article passe de 100 € à 120 €. Quelle formule donne l'évolution si 100 est en B2 et 120 en C2 ?", r: ["`=(C2-B2)/B2`", "`=C2-B2`", "`=B2/C2`"] }
+          ], titre: "Vérifiez vos connaissances" }
+        ] }
+      ]
+    },
+    {
+      titre: "Les fonctions de calcul",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Les fonctions de calcul", b: [
+          { quiz: [
+            {"v":"fonctions","q":"Quelle fonction donne la valeur la plus basse d'une plage ?","r":["`=MIN()`","`=MAX()`","`=NB()`"]},
+            {"v":"fonctions","q":"Quelle fonction compte aussi les cellules contenant du texte ?","r":["`=NBVAL()`","`=NB()`","`=MIN()`"]},
+            {"v":"somme","q":"Que veut dire A1:A5 dans une formule ?","r":["De A1 à A5","A1 et A5 seulement","A1 divisé par A5"]},
+            {"v":"somme","q":"Où trouver la bibliothèque des fonctions ?","r":["Dans l'onglet Formules","Dans l'onglet Révision","Dans l'onglet Affichage"]},
+            {"v":"fonctions","q":"Le texte « abs » est dans la plage. Que fait `=MOYENNE()` ?","r":["Elle l'ignore","Elle affiche une erreur","Elle le compte pour zéro"]},
+            { v: "recopie", q: "Comment activer la recopie incrémentée dans Excel ?", r: ["Saisir les premières valeurs, sélectionner, puis tirer la poignée de recopie (coin bas-droit)", "Copier-coller la cellule ({Ctrl+C} / {Ctrl+V})", "Onglet Données > Recopier"] },
+            { v: "fonctions", q: "Quelle fonction renvoie la valeur la plus élevée d'une plage ?", r: ["`=MAX()`", "`=SOMME()`", "`=MOYENNE()`"] },
+            { v: "fonctions", q: "Quelle fonction compte le nombre de cellules contenant des valeurs numériques ?", r: ["`=NB()`", "`=NBVAL()`", "`=COMPTE()`"] },
+            { v: "fonctions", q: "Quelle formule calcule la moyenne des cellules B1 à B10 ?", r: ["`=MOYENNE(B1:B10)`", "`=SOMME(B1:B10)/100`", "`=MOY(B1:B10)`"] },
+            { v: "recopie", q: "Que se passe-t-il si on tire la poignée de recopie sur une cellule contenant « Lundi » ?", r: ["Excel complète automatiquement la série : Mardi, Mercredi, Jeudi…", "La cellule se copie identique sur toutes les cellules", "Excel affiche une erreur"] }
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "Les graphiques",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Les graphiques", b: [
+          { quiz: [
+            {"v":"graph","q":"Que sélectionner avant d'insérer un graphique ?","r":["Les données, avec leurs en-têtes","Une seule cellule vide","Tout le ruban"]},
+            {"v":"graph","q":"Quel graphique montre des parts d'un total ?","r":["Un camembert","Une courbe","Un histogramme"]},
+            {"v":"graph","q":"Quels onglets apparaissent quand on clique sur un graphique ?","r":["Création de graphique et Format","Fichier et Accueil","Révision et Affichage"]},
+            {"v":"graph","q":"Comment faire un graphique qu'on peut filtrer en direct ?","r":["Un graphique croisé dynamique","Une capture d'écran","Un graphique copié dans Word"]},
+            {"v":"graph","q":"Quel conseil suivre pour un graphique ?","r":["Rester clair et concis","Mettre le plus de couleurs possible","Afficher toutes les données de la feuille"]},
+            { v: "trifiltre", q: "Où se trouvent les outils de tri et de filtrage dans Excel ?", r: ["Onglet Données > Trier et filtrer", "Onglet Accueil > Tri", "Onglet Insertion > Filtrer"] },
+            { v: "trifiltre", q: "Que fait le filtre automatique dans Excel ?", r: ["Il masque temporairement les lignes ne correspondant pas aux critères sélectionnés", "Il supprime les lignes non souhaitées", "Il trie les données par ordre alphabétique"] },
+            { v: "graph", q: "Comment insérer un graphique dans Excel ?", r: ["Sélectionner les données > Onglet Insertion > Graphiques > choisir le type", "Onglet Accueil > Graphique", "Clic droit > Insérer un graphique"] },
+            { v: "graph", q: "Quel type de graphique est le plus adapté pour comparer des valeurs entre plusieurs catégories ?", r: ["Graphique en barres ou en colonnes", "Graphique en courbes", "Graphique en secteurs (camembert)"] },
+            { v: "graph", q: "Après avoir modifié les données source, que faut-il faire pour mettre à jour un graphique ?", r: ["Rien : il se met à jour automatiquement dès que les données source sont modifiées", "Supprimer et recréer le graphique", "Appuyer sur {F5}"] }
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "Nommer les plages",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Nommer les plages", b: [
+          { quiz: [
+            {"v":"noms","q":"Lequel de ces noms est valable ?","r":["TVA_Taux","TVA Taux","A1"]},
+            {"v":"noms","q":"Par quoi un nom doit-il commencer ?","r":["Une lettre ou un trait de soulignement","Un chiffre","Un espace"]},
+            {"v":"noms","q":"Où modifier ou supprimer un nom ?","r":["Formules > Gestionnaire de noms","Accueil > Police","Données > Trier"]},
+            {"v":"noms","q":"Comment aller vite à une plage nommée ?","r":["En la choisissant dans la Zone Nom","En imprimant la feuille","En fermant le classeur"]},
+            {"v":"refs","q":"Dans une référence, que fige le signe $ placé devant la lettre ?","r":["La colonne","La ligne","Toute la feuille"]},
+            { v: "refs", q: "Quelle est la différence entre une référence relative (A1) et une référence absolue ($A$1) ?", r: ["La référence relative s'adapte lors de la recopie, la référence absolue reste fixe", "Il n'y a aucune différence", "La référence absolue ne fonctionne que dans les graphiques"] },
+            { v: "refs", q: "Quel raccourci clavier permet de basculer entre les types de références ?", r: ["{F4}", "{Ctrl+$}", "{Ctrl+F4}"] },
+            { v: "refs", q: "Qu'est-ce qu'une référence mixte dans Excel ?", r: ["Une référence où seule la ligne ou la colonne est figée (ex : $A1 ou A$1)", "Une référence qui pointe vers une autre feuille", "Une référence qui combine deux cellules"] },
+            { v: "noms", q: "Comment nommer une plage de cellules dans Excel ?", r: ["Sélectionner la plage > cliquer dans la Zone Nom > taper le nom", "Onglet Accueil > Nommer", "Clic droit > Formater les cellules > Nom"] },
+            { v: "noms", q: "Quel avantage offre l'utilisation d'une plage nommée dans une formule ?", r: ["Elle rend la formule plus lisible (ex : =SOMME(Ventes) au lieu de =SOMME(B2:B50))", "Elle accélère le calcul d'Excel", "Elle empêche la modification des cellules"] }
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "La mise en forme conditionnelle",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "La mise en forme conditionnelle", b: [
+          { quiz: [
+            {"v":"mfc","q":"Quelle option ajoute une barre dans chaque cellule ?","r":["Barres de données","Jeux d'icônes","Nuances de couleurs"]},
+            {"v":"mfc","q":"Quelle option applique un dégradé selon la valeur ?","r":["Nuances de couleurs","Barres de données","Trier"]},
+            {"v":"mfc","q":"Quelle option ajoute des flèches ou des feux ?","r":["Jeux d'icônes","Barres de données","Fusionner"]},
+            {"v":"mfc","q":"Pour repérer les ventes sous 100 €, quelle règle choisir ?","r":["Inférieur à…","Supérieur à…","Entre…"]},
+            {"v":"gerer","q":"Où modifier l'ordre des règles ?","r":["Mise en forme conditionnelle > Gérer les règles","Fichier > Imprimer","Données > Filtrer"]},
+            { v: "mfc", q: "À quoi sert la mise en forme conditionnelle dans Excel ?", r: ["À colorer automatiquement les cellules selon leur valeur ou un critère défini", "À changer la police de tout le tableau", "À protéger les cellules contre la modification"] },
+            { v: "mfc", q: "Où se trouve la mise en forme conditionnelle dans Excel ?", r: ["Onglet Accueil > Mise en forme conditionnelle", "Onglet Données > Mise en forme conditionnelle", "Onglet Insertion > Mise en forme conditionnelle"] },
+            { v: "mfc", q: "Quelle règle prédéfinie permet de mettre en rouge les 10 valeurs les plus basses ?", r: ["Règles des valeurs plus/moins élevées > 10 valeurs inférieures", "Règles de mise en surbrillance des cellules", "Barres de données"] },
+            { v: "mfc", q: "Que se passe-t-il si la valeur d'une cellule change et ne respecte plus la règle ?", r: ["La mise en forme se met à jour automatiquement", "La mise en forme reste figée", "Excel affiche un message d'erreur"] },
+            { v: "gerer", q: "Comment supprimer une règle de mise en forme conditionnelle ?", r: ["Onglet Accueil > Mise en forme conditionnelle > Effacer les règles", "Supprimer le contenu de la cellule", "Clic droit > Supprimer la cellule"] }
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "Quiz final",
+      icone: "🏁",
+      resume: "20 questions pour valider le module.",
+      ecrans: [
+        { t: "Quiz final", b: [
+          { final: true, titre: "Quiz final", quiz: [
+            {"v":"iface","q":"Où s'affiche la référence de la cellule active ?","r":["Dans la Zone Nom","Dans la barre d'état","Dans le ruban"]},
+            {"v":"cellule","q":"Comment s'appelle un fichier Excel ?","r":["Un classeur","Une feuille","Un tableau"]},
+            {"v":"formule","q":"Quelle formule multiplie A1 par B1 ?","r":["`=A1*B1`","`=A1xB1`","`A1*B1`"]},
+            {"v":"calculs","q":"Quelle formule donne l'évolution entre B2 (avant) et C2 (après) ?","r":["`=(C2-B2)/B2`","`=(B2-C2)/C2`","`=C2+B2`"]},
+            {"v":"somme","q":"Quelle est la différence entre une formule et une fonction ?","r":["Une fonction est une formule prédéfinie par Excel","Une fonction ne calcule rien","Il n'y a aucune différence"]},
+            {"v":"fonctions","q":"Quelle fonction compte toutes les cellules non vides ?","r":["`=NBVAL()`","`=NB()`","`=SOMME()`"]},
+            {"v":"fonctions","q":"Quelle formule donne la moyenne de B1 à B5 ?","r":["`=MOYENNE(B1:B5)`","`=MOY(B1:B5)`","`=SOMME(B1:B5)`"]},
+            {"v":"recopie","q":"Vous tirez la poignée sur « Janvier ». Qu'obtenez-vous ?","r":["Février, Mars, Avril…","Janvier partout","Une erreur"]},
+            {"v":"recopie","q":"Vous saisissez 2 puis 4, vous sélectionnez les deux et vous tirez. Qu'obtenez-vous ?","r":["6, 8, 10…","2, 2, 2…","4, 4, 4…"]},
+            {"v":"trifiltre","q":"Dans quel onglet trouve-t-on Trier et Filtrer ?","r":["Données","Accueil > Styles","Révision"]},
+            {"v":"graph","q":"Quel graphique montre le mieux une évolution dans le temps ?","r":["Une courbe","Un camembert","Aucun"]},
+            {"v":"refs","q":"Que fait la touche {F4} sur une référence ?","r":["Elle change son type : relative, absolue, mixte","Elle calcule la somme","Elle enregistre le fichier"]},
+            {"v":"refs","q":"Dans `=A2*$B$1` recopié une ligne plus bas, que devient la formule ?","r":["`=A3*$B$1`","`=A3*$B$2`","`=A2*$B$1`"]},
+            {"v":"noms","q":"Où nommer rapidement une plage de cellules ?","r":["Dans la Zone Nom","Dans la barre d'état","Dans l'onglet Révision"]},
+            {"v":"fonctions","q":"Que renvoie `=SI(A1>=10;\"Reçu\";\"Échoué\")` si A1 vaut 8 ?","r":["Échoué","Reçu","8"]},
+            {"v":"fonctions","q":"Quelle fonction compte les cellules qui répondent à un critère ?","r":["`=NB.SI()`","`=SOMME()`","`=SI()`"]},
+            {"v":"mfc","q":"Où trouve-t-on la mise en forme conditionnelle ?","r":["Onglet Accueil","Onglet Données","Onglet Formules"]},
+            {"v":"gerer","q":"Si plusieurs règles visent une même cellule, laquelle s'applique ?","r":["La première règle vraie de la liste","La dernière créée","Aucune"]},
+            {"v":"tcd","q":"Quelles sont les 4 zones d'un TCD ?","r":["Filtres, Colonnes, Lignes, Valeurs","Titre, Texte, Image, Pied de page","Haut, Bas, Gauche, Droite"]},
+            {"v":"tcd","q":"Les données source ont changé. Que faire dans le TCD ?","r":["Clic droit > Actualiser","Rien : il se met à jour seul","Le supprimer et le refaire"]}
+          ] }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

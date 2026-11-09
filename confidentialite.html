@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vos données personnelles</title>
+<link rel="stylesheet" href="bilan.css">
+</head>
+<body>
+<header class="tete">
+  <div class="tete-in">
+    <a class="retour" href="index.html">← Retour au cours</a>
+    <h1>🔒 Vos données personnelles</h1>
+    <p><strong>L'essentiel :</strong> vos résultats restent sur ce poste, rien n'est envoyé sur Internet, et ils ne sont conservés que pendant votre formation.</p>
+  </div>
+</header>
+<main class="page texte-legal">
+  <section>
+    <h2>Quelles informations sont enregistrées ?</h2>
+    <ul>
+      <li>votre progression dans les cours, vos étoiles et vos badges ;</li>
+      <li>vos résultats aux quiz, jeux et exercices, et vos réponses à la dernière tentative ;</li>
+      <li>le temps passé et le nombre d'essais ;</li>
+      <li>le code stagiaire, si vous le saisissez pour enregistrer votre bilan ;</li>
+      <li>le prénom et le nom, uniquement si vous les saisissez dans le « Quiz du retour de vacances » ou dans l'« Évaluation : fichiers et matériel ».</li>
+    </ul>
+    <p>Ne saisissez aucune autre information personnelle dans le site, et aucun vrai mot de passe dans les exercices.</p>
+  </section>
+  <section>
+    <h2>Pourquoi ?</h2>
+    <p>Ces informations servent uniquement au suivi de votre formation : vous permettre de voir où vous en êtes, de reprendre là où vous vous êtes arrêté et de savoir quoi retravailler, et permettre à votre formateur de vous accompagner.</p>
+    <p>Aucune décision automatique n'est prise à partir de ces résultats. Le quiz de positionnement sert seulement à vous orienter.</p>
+  </section>
+  <section>
+    <h2>Où sont-elles, et qui peut les voir ?</h2>
+    <ul>
+      <li>Elles sont enregistrées <strong>dans le navigateur de ce poste</strong>. Le site ne les envoie à aucun serveur, et ne les transmet à aucune entreprise extérieure.</li>
+      <li>Vous pouvez les consulter à tout moment dans <a href="bilan.html">Mon bilan</a>.</li>
+      <li>Votre formateur peut les consulter sur ce poste, ou dans le fichier de bilan que vous lui remettez.</li>
+      <li>Toute personne qui utilise la même session et le même navigateur sur ce poste peut aussi les voir : pensez à fermer votre session en partant.</li>
+    </ul>
+  </section>
+  <section>
+    <h2>Combien de temps ?</h2>
+    <p>Vos informations de notation et de suivi sont conservées <strong>pendant la période de votre formation</strong>, puis effacées.</p>
+    <p>Le site les efface aussi automatiquement après <strong><span id="duree"></span> mois</strong> sans utilisation sur ce poste. Vous pouvez les effacer vous-même à tout moment avec le bouton en bas de cette page.</p>
+  </section>
+  <section>
+    <h2>Cookies et mesure d'audience</h2>
+    <p>Le site n'utilise ni cookie, ni publicité, ni mesure d'audience. Seule la mémoire du navigateur est utilisée, pour garder votre progression. Les polices d'écriture et les images sont dans le site : leur affichage ne contacte aucun service extérieur.</p>
+    <p>Quand le site est ouvert en ligne, il est hébergé par GitHub Pages (GitHub, Inc.). Comme pour tout site web, l'hébergeur reçoit l'adresse technique (adresse IP) de la connexion pour afficher les pages. Il ne reçoit ni vos résultats, ni vos réponses, ni votre code stagiaire : ils restent dans le navigateur.</p>
+    <p>Certains exercices proposent des liens vers d'autres sites, comme les vidéos ou les recherches sur Internet. Ils ne s'ouvrent que si vous cliquez dessus. Ces sites ont leurs propres règles.</p>
+  </section>
+  <section>
+    <h2>Vos droits</h2>
+    <p>Conformément au Règlement général sur la protection des données (RGPD) et à la loi Informatique et Libertés, vous pouvez accéder à vos données, les faire corriger ou effacer, demander à en limiter l'utilisation ou vous y opposer, et récupérer vos données. Le fichier de <a href="bilan.html">Mon bilan</a> vous permet de les récupérer vous-même.</p>
+    <p>Pour toute question ou demande, adressez-vous à votre formateur ou au délégué à la protection des données de l'établissement. Si vous estimez que vos droits ne sont pas respectés, vous pouvez saisir la CNIL (www.cnil.fr).</p>
+  </section>
+  <section class="remise">
+    <h2>🗑️ Effacer mes données de ce poste</h2>
+    <p>Progression, résultats, réponses, temps et bilans enregistrés sur ce navigateur seront supprimés définitivement. Enregistrez d'abord votre bilan si vous souhaitez le garder.</p>
+    <button id="effacer" class="btn" type="button">Effacer toutes mes données</button>
+    <p id="message" class="message" role="status"></p>
+  </section>
+</main>
+<script src="catalogue.js"></script>
+<script src="bilan-commun.js"></script>
+<script>
+  document.getElementById("duree").textContent = CONSERVATION_MOIS;
+  document.getElementById("effacer").addEventListener("click", () => {
+    if (!confirm("Effacer définitivement votre progression et vos résultats sur ce poste ?")) return;
+    Bilan.toutEffacer();
+    document.getElementById("message").textContent = "Vos données ont été effacées de ce poste.";
+  });
+</script>
+</body>
+</html>

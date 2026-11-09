@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le quiz de positionnement</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "quiz-positionnement",
+  etiquette: "PAR OÙ COMMENCER",
+  titre: "Le quiz de positionnement",
+  icone: "🧭",
+  couleur: "#a21caf",
+  pale: "#f8e8fb",
+  accroche: "Cinq questions par module, sans piège ni note. Répondez « Je ne sais pas » si besoin : à la fin, vous saurez quoi travailler en priorité. Vos réponses sont reprises dans le quiz de positionnement de chaque module.",
+  etapes: [
+    {
+      titre: "Le quiz de positionnement",
+      icone: "🧭",
+      resume: "45 questions, environ 15 minutes.",
+      ecrans: [
+        { t: "Le quiz de positionnement", b: [
+          { sim: "positionnement", modules: [{"cle":"ordinateur","cours":"livret-ordinateur","titre":"L'ordinateur","icone":"🖥️","questions":[{"q":"Le scanner est un périphérique…","r":["d'entrée","de sortie","de stockage"]},{"q":"Quelle mémoire garde les données des programmes en cours d'exécution ?","r":["La RAM","La clé USB","L'écran"]},{"q":"Quel format permet de partager un document sans l'imprimer ?","r":["PDF","A3","Paysage"]},{"q":"Comment une imprimante se connecte-t-elle le plus souvent ?","r":["En USB ou en Wi-Fi","Par le clavier","Par la prise du casque"]},{"q":"Le disque dur externe est un périphérique…","r":["de stockage","d'entrée","de sortie"]}]},{"cle":"windows","cours":"livret-windows","titre":"Windows 11","icone":"🪟","questions":[{"q":"Quel raccourci affiche le bureau ?","r":["{Windows+D}","{Windows+P}","{Ctrl+D}"]},{"q":"Quel mode choisir pour avoir un seul grand bureau sur deux écrans ?","r":["Étendre","Dupliquer","Écran du PC uniquement"]},{"q":"Où glisser une fenêtre pour qu'elle prenne un quart de l'écran ?","r":["Dans un coin","Sur la barre des tâches","Sur le fond d'écran"]},{"q":"Quel type de capture prend tout l'écran ?","r":["Plein écran","Rectangle","Forme libre"]},{"q":"Quel raccourci ferme une fenêtre ?","r":["{Alt+F4}","{Alt+Tab}","{Ctrl+Z}"]}]},{"cle":"fichiers","cours":"livret-fichiers","titre":"Les fichiers et dossiers","icone":"📁","questions":[{"q":"À quoi servent les dossiers ?","r":["À organiser les fichiers et les sous-dossiers","À lancer les logiciels","À imprimer"]},{"q":"Quel mode affiche la date et la taille des fichiers ?","r":["Détails","Grandes icônes","Liste"]},{"q":"Dans un chemin d'accès, quel élément vient en premier ?","r":["Le disque, par exemple C:","Le fichier","L'extension"]},{"q":"Quelle extension correspond à un tableau Excel ?","r":[".xlsx",".docx",".jpg"]},{"q":"Quel raccourci déplace un fichier, avant de le coller ?","r":["{Ctrl+X}","{Ctrl+C}","{Ctrl+Z}"]}]},{"cle":"office-commun","cours":"livret-office-commun","titre":"Les fonctions communes d'Office","icone":"🧰","questions":[{"q":"Quelle est l'extension d'un modèle PowerPoint ?","r":[".potx",".pptx",".xltx"]},{"q":"Dans quel onglet insérer un en-tête ?","r":["Insertion","Révision","Affichage"]},{"q":"Dans PowerPoint, que cocher pour numéroter ?","r":["Numéro de diapositive","Date et heure","Pied de page"]},{"q":"À quoi sert un modèle ?","r":["À réutiliser une structure déjà prête","À protéger un fichier par mot de passe","À envoyer un mail"]},{"q":"Qu'affiche-t-on en général dans un pied de page ?","r":["La date ou le numéro de page","Tout le texte du document","Le ruban"]}]},{"cle":"word","cours":"livret-word","titre":"Microsoft Word","icone":"📄","questions":[{"q":"Quel raccourci enregistre un document ?","r":["{Ctrl+S}","{Ctrl+P}","{Ctrl+E}"]},{"q":"Quelle phrase est bien écrite ?","r":["Il fait beau : sortons !","Il fait beau: sortons!","Il fait beau :sortons !"]},{"q":"Comment sélectionner une ligne entière ?","r":["1 clic dans la marge","Double-clic sur un mot","{Ctrl+A}"]},{"q":"Quel raccourci colle le texte ?","r":["{Ctrl+V}","{Ctrl+C}","{Ctrl+X}"]},{"q":"Quel raccourci met en gras dans Word en français ?","r":["{Ctrl+G}","{Ctrl+B}","{Ctrl+I}"]}]},{"cle":"excel","cours":"livret-excel","titre":"Microsoft Excel","icone":"📊","questions":[{"q":"Par quel signe commence une formule ?","r":["=","+","#"]},{"q":"Que désigne B3 ?","r":["La cellule de la colonne B, ligne 3","La ligne B, colonne 3","La feuille 3"]},{"q":"Quelle fonction additionne une plage ?","r":["`=SOMME(A1:A5)`","`=TOTAL(A1:A5)`","`=PLUS(A1:A5)`"]},{"q":"Comment recopier une formule sur plusieurs lignes ?","r":["Tirer la poignée de recopie","La retaper à chaque ligne","Appuyer sur {F5}"]},{"q":"Que fait un filtre ?","r":["Il masque les lignes sans les supprimer","Il supprime les lignes","Il additionne les lignes"]}]},{"cle":"powerpoint","cours":"livret-powerpoint","titre":"Microsoft PowerPoint","icone":"🎞️","questions":[{"q":"Où voit-on les miniatures des diapositives ?","r":["Dans le volet de gauche","Dans la barre d'état","Dans le ruban"]},{"q":"Quel outil permet de créer des schémas ?","r":["SmartArt","Zoom","Trier"]},{"q":"Qui voit les notes en mode Présentateur ?","r":["Seulement le présentateur","Tout le public","Personne"]},{"q":"Quelle extension correspond à un modèle PowerPoint ?","r":[".potx",".pptx",".docx"]},{"q":"Quel raccourci ajoute une nouvelle diapositive ?","r":["{Ctrl+M}","{Ctrl+S}","{Ctrl+P}"]}]},{"cle":"internet","cours":"livret-internet","titre":"Internet et communication","icone":"🌐","questions":[{"q":"Que veut dire Cc ?","r":["Copie carbone","Courrier certifié","Code client"]},{"q":"Quel objet de mail est le plus clair ?","r":["Demande de congé du 12 au 16 mars","Urgent","Salut"]},{"q":"Une recherche donne trop de résultats. Que faire ?","r":["Ajouter des mots-clés précis","Changer d'ordinateur","Tout lire"]},{"q":"Quel outil sert aux réunions en ligne ?","r":["Teams","Excel","OneDrive"]},{"q":"Que vérifier en premier dans un mail inattendu ?","r":["L'adresse de l'expéditeur","La taille du texte","La couleur du message"]}]},{"cle":"bonnes-pratiques","cours":"livret-bonnes-pratiques","titre":"Les bonnes pratiques","icone":"🛡️","questions":[{"q":"Que demande la double authentification en plus du mot de passe ?","r":["Un code temporaire","Votre prénom","Votre adresse"]},{"q":"Peut-on utiliser le même mot de passe sur plusieurs sites ?","r":["Non, jamais","Oui, c'est plus simple","Oui, si le site est français"]},{"q":"Que faire d'un lien douteux dans un mail ?","r":["Ne pas cliquer","Cliquer pour vérifier","Le partager"]},{"q":"Avant de remplacer un appareil, que faire ?","r":["Chercher à le réparer","Le jeter tout de suite","En acheter deux"]},{"q":"Que signifie la règle de sauvegarde 3-2-1 ?","r":["3 copies, 2 supports, 1 copie hors ligne","3 ordinateurs, 2 écrans, 1 clé","3 mots de passe, 2 comptes, 1 mail"]}]}] }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

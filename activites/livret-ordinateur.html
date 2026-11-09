@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L'ordinateur</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "ordinateur",
+  numero: 1,
+  titre: "L'ordinateur",
+  icone: "🖥️",
+  couleur: "#0b7285",
+  pale: "#e3f3f6",
+  accroche: "Reconnaître le matériel et comprendre le rôle de chaque périphérique : les bases pour tout le reste de la formation.",
+  suite: { fichier: "clavier-azerty", titre: "Le clavier AZERTY" },
+  notions: {
+    "familles": {
+      "titre": "les trois familles de périphériques",
+      "va": "Trois familles de périphériques",
+      "jeu": {
+        "fichier": "pendu",
+        "titre": "le pendu"
+      }
+    },
+    "ordi": {
+      "titre": "ce qu'est un ordinateur",
+      "va": "Qu'est-ce qu'un ordinateur ?",
+      "jeu": {
+        "fichier": "mots-croises",
+        "titre": "les mots croisés"
+      }
+    },
+    "panne": {
+      "titre": "reconnaître un périphérique",
+      "va": "Bilan : matériel et imprimante",
+      "jeu": {
+        "fichier": "mission-equipement",
+        "titre": "Mission Équipement"
+      }
+    },
+    "impr": {
+      "titre": "les réglages de l'imprimante",
+      "va": "Les réglages à connaître"
+    }
+  },
+  plus: {"fichier": "mission-equipement", "titre": "Mission Équipement"},
+  quizPage: "quiz-ordinateur",
+  etapes: [
+    {
+      titre: "Bienvenue dans le livret",
+      icone: "👋",
+      resume: "Pour qui, pourquoi, comment.",
+      ecrans: [
+        { t: "Un livret pour apprendre à votre rythme", b: [
+          { qqc: {
+            quoi: "<strong>Pour qui ?</strong> Les stagiaires en formation et les formateurs qui souhaitent un support structuré et prêt à l'emploi.",
+            pourquoi: "<strong>Quel objectif ?</strong> Maîtriser de façon autonome et professionnelle les outils du quotidien : Word, Excel, PowerPoint et les bonnes pratiques en ligne.",
+            comment: "<strong>Comment l'utiliser ?</strong> Dans l'ordre, ou comme référence selon vos besoins. Il reste consultable à tout moment."
+          } },
+          { p: "Chaque module avance écran par écran. Les quiz et les défis vous font gagner des étoiles ⭐ : elles restent enregistrées sur ce navigateur." },
+          { cartes: [
+            ["Environnement numérique", "Maîtriser Windows, l'explorateur de fichiers et la gestion des données."],
+            ["Notions de base et avancées", "Explorer les notions des logiciels Microsoft Word, Excel et PowerPoint."],
+            ["Bonnes pratiques et sécurité", "Navigation sécurisée, vérification des sources, nétiquette et écologie numérique."]
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "Le matériel informatique",
+      icone: "🖨️",
+      resume: "Le hardware et les périphériques.",
+      ecrans: [
+        { t: "Qu'est-ce qu'un ordinateur ?", b: [
+          { p: "Un ordinateur est une machine électronique capable de <strong>traiter, stocker et restituer</strong> des informations numériques. Il fonctionne grâce à l'interaction entre ses composants matériels (<strong>hardware</strong>) et ses logiciels (<strong>software</strong>)." },
+          { img: "p004_1", alt: "Un poste de travail complet : unité centrale, écran, clavier, souris, webcam, imprimante, scanner, casque, haut-parleurs, clé USB, disque externe et carte SD.", leg: "Le poste de travail et ses périphériques" },
+          { retenir: "Le hardware, c'est tout ce qu'on peut toucher sur un ordinateur." }
+        ] },
+        { t: "Trois familles de périphériques", b: [
+          { p: "Les périphériques sont les équipements externes qui permettent d'interagir avec la machine." },
+          { cartes: [
+            ["📥 Périphériques d'entrée", "Ils envoient des données vers l'ordinateur : clavier, souris, webcam, micro, scanner."],
+            ["📤 Périphériques de sortie", "Ils restituent les informations : écran, imprimante, haut-parleurs, casque."],
+            ["💾 Périphériques de stockage", "Ils conservent les données : clé USB, disque dur externe, carte SD."]
+          ] },
+          { trier: {
+            titre: "Le tri des périphériques",
+            consigne: "Rangez chaque équipement dans sa famille.",
+            bacs: ["📥 Entrée", "📤 Sortie", "💾 Stockage"],
+            items: [["Clavier", 0], ["Souris", 0], ["Webcam", 0], ["Micro", 0], ["Scanner", 0], ["Écran", 1], ["Imprimante", 1], ["Haut-parleurs", 1], ["Casque", 1], ["Clé USB", 2], ["Disque dur externe", 2], ["Carte SD", 2]]
+          } }
+        ] },
+        { t: "Le clavier et la souris en détail", b: [
+          { p: "Deux guides interactifs vous attendent pour découvrir leur fonctionnement." },
+          { activite: { fichier: "clavier-azerty", titre: "Le clavier AZERTY", texte: "Se repérer touche par touche.", icone: "⌨️" } },
+          { activite: { fichier: "souris-pave-tactile", titre: "La souris et le pavé tactile", texte: "Bien les utiliser.", icone: "🖱️" } }
+        ] },
+        { t: "Vérifiez vos connaissances", b: [
+          { activite: { fichier: "quiz-ordinateur", etape: "Le matériel informatique", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] }
+      ]
+    },
+    {
+      titre: "L'imprimante",
+      icone: "🖨️",
+      resume: "Un périphérique particulier.",
+      ecrans: [
+        { t: "Du document numérique au papier", b: [
+          { p: "L'imprimante est un <strong>périphérique de sortie</strong> qui convertit un document numérique en version papier. Elle se connecte en <strong>USB ou en Wi-Fi</strong> et nécessite l'installation de <strong>pilotes</strong> pour fonctionner." },
+          { img: "p005_0", alt: "Fiche d'une imprimante multifonction Canon imageRUNNER avec ses différents modules et son écran de commande.", leg: "Exemple : une imprimante multifonction" },
+          { note: "L'exemple porte sur une imprimante Canon, mais le fonctionnement est globalement identique sur les multifonctions professionnelles (HP, Epson, Brother, Xerox…). Les menus peuvent légèrement varier selon les modèles." }
+        ] },
+        { t: "Les réglages à connaître", b: [
+          { onglets: [
+            ["Options d'impression", ["Nombre de copies", "Orientation : portrait ou paysage", "Impression recto-verso", "Noir et blanc ou couleur", "Mise à l'échelle (ajuster à la page)"]],
+            ["Formats courants", ["<strong>A4</strong> : standard bureau", "<strong>A3</strong> : grand format", "<strong>PDF</strong> : impression virtuelle, pour partager sans imprimer"]],
+            ["Bonnes pratiques", ["Toujours prévisualiser avant d'imprimer ({Ctrl+P})", "N'imprimer que les pages nécessaires", "Préférer le PDF pour partager un document"]]
+          ] },
+          { activite: { fichier: "quiz-ordinateur", etape: "L'imprimante", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] },
+        { t: "Bilan : matériel et imprimante", b: [
+          { qqc: {
+            quoi: "Le hardware, c'est tout ce qu'on peut toucher. Les périphériques sont les équipements externes qui permettent d'interagir avec la machine.",
+            pourquoi: "Savoir reconnaître un périphérique aide à comprendre son rôle, à le brancher correctement et à résoudre un problème simple.",
+            comment: "On branche en USB ou en Wi-Fi, on vérifie que Windows le reconnaît, puis on installe un pilote si besoin. Pour l'imprimante : {Ctrl+P}, réglages, puis gestion de la file d'attente.",
+            retenir: "Connaître le matériel permet de mieux utiliser l'ordinateur et de régler les petits soucis du quotidien."
+          } },
+          { activite: { fichier: "mission-equipement", titre: "Mission Équipement", texte: "En individuel ou en binôme, 20 à 30 minutes : équipez un poste administratif en respectant un budget. Indispensable, confort ou superflu ?", icone: "🛒" } }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

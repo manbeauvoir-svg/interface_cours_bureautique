@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le mémo</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+const RACCOURCIS = [
+  ["{Ctrl+C}", "Copier", "Windows"], ["{Ctrl+X}", "Couper", "Windows"], ["{Ctrl+V}", "Coller", "Windows"], ["{Ctrl+Z}", "Annuler", "Windows"], ["{Ctrl+Y}", "Rétablir", "Windows"],
+  ["{Windows+E}", "Ouvrir l'Explorateur de fichiers", "Windows"], ["{F2}", "Renommer un fichier ou un dossier", "Windows"], ["{Suppr}", "Supprimer (vers la Corbeille)", "Windows"], ["{Maj+Suppr}", "Supprimer définitivement", "Windows"],
+  ["{Alt+F4}", "Fermer une fenêtre", "Windows"], ["{Windows+D}", "Afficher le bureau", "Windows"], ["{Windows+P}", "Choisir le mode d'affichage des écrans", "Windows"], ["{Alt+Tab}", "Passer d'une fenêtre à l'autre", "Windows"], ["{Ctrl+Maj+N}", "Créer un nouveau dossier", "Windows"],
+  ["{Ctrl+S}", "Enregistrer", "Word"], ["{Ctrl+P}", "Imprimer", "Word"], ["{Ctrl+A}", "Tout sélectionner", "Word"], ["{Ctrl+G}", "Gras", "Word"], ["{Ctrl+I}", "Italique", "Word"], ["{Ctrl+U}", "Souligné", "Word"],
+  ["{Ctrl+F}", "Rechercher", "Word"], ["{Ctrl+H}", "Remplacer", "Word"], ["{Ctrl+Entrée}", "Saut de page", "Word"], ["{Ctrl+Alt+1} / {2} / {3}", "Appliquer Titre 1, 2 ou 3", "Word"], ["{Ctrl+K}", "Insérer un lien hypertexte", "Word"], ["{F12}", "Enregistrer sous", "Word"],
+  ["{Ctrl+Début}", "Aller à la cellule A1", "Excel"], ["{Ctrl+Fin}", "Aller à la dernière cellule utilisée", "Excel"], ["{Ctrl+Flèche}", "Se déplacer jusqu'au bord des données", "Excel"], ["{F4}", "Figer une référence de cellule ($)", "Excel"],
+  ["{Alt+=}", "Somme automatique", "Excel"], ["{Ctrl+Maj+L}", "Activer ou désactiver les filtres", "Excel"], ["{F5}", "Atteindre une cellule", "Excel"], ["{Ctrl+1}", "Ouvrir Format de cellule", "Excel"],
+  ["{F5}", "Lancer le diaporama depuis le début", "PowerPoint"], ["{Maj+F5}", "Lancer depuis la diapositive actuelle", "PowerPoint"], ["{Échap}", "Quitter le diaporama", "PowerPoint"], ["{Ctrl+M}", "Nouvelle diapositive", "PowerPoint"], ["{Ctrl+D}", "Dupliquer une diapositive", "PowerPoint"], ["{B}", "Écran noir pendant le diaporama", "PowerPoint"],
+  ["{Ctrl+Alt+C}", "Copier la mise en forme", "Google"], ["{Ctrl+Alt+V}", "Coller la mise en forme", "Google"], ["{Ctrl+Alt+M}", "Insérer un commentaire", "Google"], ["{Ctrl+K}", "Insérer un lien hypertexte", "Google"], ["{Ctrl+Maj+F}", "Mode compact : masquer les menus", "Google"]
+];
+const LEXIQUE = [
+  ["Arborescence", "Structure hiérarchique des dossiers et sous-dossiers sur un support de stockage, représentant l'organisation de vos fichiers."],
+  ["Bureau (Windows)", "L'écran principal de Windows après le démarrage, affichant les icônes de programmes, de dossiers et la barre des tâches."],
+  ["Carte mère", "Circuit imprimé principal d'un ordinateur, sur lequel tous les autres composants (processeur, mémoire, cartes d'extension) sont connectés et communiquent."],
+  ["Cellule (Excel)", "Intersection d'une ligne et d'une colonne dans une feuille de calcul, où l'on entre les données."],
+  ["Classeur (Excel)", "Fichier Excel complet, pouvant contenir une ou plusieurs feuilles de calcul."],
+  ["Cloud", "Stockage et accès à des données et des applications via Internet plutôt que sur un disque dur local. Les données sont sur des serveurs distants."],
+  ["Désinformation", "Diffusion intentionnelle de fausses informations dans le but de tromper, de manipuler ou de nuire."],
+  ["Diapositive (PowerPoint)", "Page individuelle d'une présentation, contenant du texte, des images, des graphiques ou d'autres éléments visuels."],
+  ["Disque dur (HDD/SSD)", "Composant de stockage permanent des données d'un ordinateur. Les SSD sont plus rapides que les HDD traditionnels."],
+  ["Dossier", "Un conteneur numérique utilisé pour regrouper et organiser des fichiers et d'autres sous-dossiers."],
+  ["E-mail", "Courrier électronique, système d'échange de messages numériques via Internet entre plusieurs utilisateurs."],
+  ["Empreinte numérique", "Ensemble des traces que nous laissons en ligne, consciemment ou non. Aussi utilisée pour parler de l'impact environnemental du numérique."],
+  ["Explorateur de fichiers", "Application qui permet de visualiser, organiser, copier, déplacer et supprimer les fichiers et dossiers de votre ordinateur."],
+  ["Extension de fichier", "Suffixe de quelques lettres après le point dans le nom d'un fichier (.docx, .pdf, .jpg) qui indique son type et le programme pour l'ouvrir."],
+  ["Feuille de calcul (Excel)", "Tableau composé de lignes et de colonnes dans un classeur, utilisé pour organiser et analyser des données."],
+  ["Formule (Excel)", "Expression mathématique ou logique entrée dans une cellule pour effectuer des calculs (commence par « = »)."],
+  ["Hardware", "Ensemble des composants physiques et tangibles d'un ordinateur ou d'un appareil numérique (écran, clavier, processeur)."],
+  ["Masque des diapositives (PowerPoint)", "Modèle qui définit la mise en page, les thèmes, les arrière-plans, les couleurs et les polices de toutes les diapositives."],
+  ["Navigateur web", "Logiciel qui permet d'accéder à des sites web sur Internet (Google Chrome, Mozilla Firefox, Microsoft Edge)."],
+  ["Nétiquette", "Ensemble des règles de bonne conduite à respecter lors des échanges sur Internet, pour une communication respectueuse et efficace."],
+  ["Périphérique", "Tout appareil externe connecté à un ordinateur ou à un appareil mobile (imprimante, souris, clavier, clé USB)."],
+  ["Phishing", "Technique frauduleuse par laquelle un cybercriminel se fait passer pour une entité de confiance afin de voler des informations personnelles (mots de passe, données bancaires)."],
+  ["Pièce jointe", "Fichier (document, image, vidéo) envoyé avec un e-mail."],
+  ["Processeur (CPU)", "Le « cerveau » de l'ordinateur : il exécute les instructions des programmes et effectue les calculs."],
+  ["Publipostage (Word)", "Fonctionnalité qui crée des documents personnalisés en combinant un modèle avec une source de données (liste de contacts)."],
+  ["RAM", "Mémoire vive de l'ordinateur, qui stocke temporairement les données des programmes en cours d'exécution pour un accès rapide."],
+  ["Raccourci clavier", "Combinaison de touches qui déclenche une action dans un logiciel (ex : {Ctrl+C} pour copier)."],
+  ["Résolution", "Nombre de pixels affichés sur un écran ou une image, en largeur x hauteur. Plus elle est élevée, plus l'image est nette."],
+  ["Ruban", "Interface des logiciels Microsoft Office, qui organise les fonctionnalités par onglets et groupes d'outils."],
+  ["Software", "Ensemble des programmes, applications et systèmes d'exploitation qui font fonctionner le hardware (Windows, Word, Chrome)."],
+  ["Style (Word)", "Ensemble de formats prédéfinis et nommés (police, taille, couleur, espacement), appliqués rapidement à du texte."],
+  ["Système d'exploitation (OS)", "Logiciel fondamental qui gère les ressources matérielles et permet aux autres programmes de fonctionner (Windows, macOS)."],
+  ["Table des matières (Word)", "Liste structurée des titres et sous-titres d'un document, avec leurs numéros de page, générée automatiquement."],
+  ["TCD (tableau croisé dynamique)", "Outil Excel pour synthétiser, analyser et présenter des données volumineuses de manière interactive, en les regroupant selon différents critères."],
+  ["URL", "Adresse unique qui identifie un document ou une ressource sur Internet (ex : https://www.exemple.com)."],
+  ["Wi-Fi", "Technologie de réseau sans fil qui connecte des appareils à Internet ou à un réseau local sans câbles."]
+];
+
+Livret.demarrer({
+  id: "memo",
+  titre: "Le mémo",
+  icone: "📌",
+  couleur: "#24507a",
+  pale: "#e7f0fb",
+  accroche: "À garder sous la main : tous les raccourcis clavier et le lexique du numérique. On y cherche ce qu'on veut, quand on veut.",
+  etapes: [
+    {
+      titre: "Les raccourcis clavier",
+      icone: "⌨️",
+      resume: "À chercher et à mémoriser.",
+      ecrans: [
+        { t: "Tous les raccourcis", b: [
+          { sim: "memo", libre: true, placeholder: "Chercher : copier, F5, diaporama…", groupes: ["Windows", "Word", "Excel", "PowerPoint", "Google"], lignes: RACCOURCIS }
+        ] },
+        { t: "Le jeu des paires", b: [
+          { associer: [["{Ctrl+C}", "Copier"], ["{Ctrl+X}", "Couper"], ["{Ctrl+V}", "Coller"], ["{Ctrl+Z}", "Annuler"], ["{Ctrl+S}", "Enregistrer"], ["{F2}", "Renommer"]], titre: "Les indispensables" },
+          { activite: { fichier: "quiz-raccourcis", titre: "Quiz des raccourcis", texte: "Dix questions au hasard pour vous entraîner.", icone: "⌨️" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Le lexique",
+      icone: "📖",
+      resume: "Tous les mots du numérique.",
+      ecrans: [
+        { t: "Le glossaire", b: [
+          { sim: "memo", libre: true, placeholder: "Chercher un mot : RAM, cloud, phishing…", lignes: LEXIQUE },
+          { note: "Ce lexique n'est pas exhaustif, mais il couvre les principaux concepts de votre usage quotidien." }
+        ] },
+        { t: "Testez votre vocabulaire", b: [
+          { associer: [["RAM", "La mémoire vive"], ["Processeur", "Le « cerveau » de l'ordinateur"], ["Hardware", "Ce qu'on peut toucher"], ["Software", "Les programmes"], ["URL", "L'adresse d'une page web"], ["Cloud", "Des données sur des serveurs distants"]], titre: "Mot et définition" },
+          { activite: { fichier: "mots-croises", titre: "Les mots croisés", texte: "Cinq grilles pour réviser le vocabulaire.", icone: "🧩" } }
+        ] }
+      ]
+    },
+    {
+      titre: "À propos du livret",
+      icone: "ℹ️",
+      resume: "Version et mises à jour.",
+      ecrans: [
+        { t: "Merci et bonne formation !", b: [
+          { p: "Ce livret vous accompagne pas à pas dans la maîtrise des outils numériques essentiels, comme support de formation et comme référence au quotidien. N'hésitez pas à y revenir en cas de besoin." },
+          { table: { tete: ["Informations", ""], lignes: [
+            ["Réalisé sous", "Microsoft Office 2016 (Word, Excel, PowerPoint)"],
+            ["Système d'exploitation", "Windows 11"],
+            ["Version du livret", "v1.0, créée en mai 2025"],
+            ["Prochaine mise à jour", "Selon les évolutions des logiciels et les retours des stagiaires"]
+          ] } },
+          { p: "C'est un document vivant : il sera régulièrement mis à jour pour intégrer les nouvelles fonctionnalités et vos retours d'expérience." }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Les bonnes pratiques</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "bonnes-pratiques",
+  numero: 9,
+  titre: "Les bonnes pratiques",
+  icone: "🛡️",
+  couleur: "#1a7f4b",
+  pale: "#e2f6ea",
+  accroche: "Sécurité, vérification des sources, nétiquette et écologie numérique : des réflexes simples pour réduire son impact tout en étant plus efficace.",
+  suite: { fichier: "livret-memo", titre: "Le mémo" },
+  notions: {
+    "piliers": {
+      "titre": "les 6 piliers",
+      "va": "Les 6 piliers de l'action"
+    },
+    "mdp": {
+      "titre": "les mots de passe",
+      "va": "La règle de l'art"
+    },
+    "2fa": {
+      "titre": "la double authentification",
+      "va": "L'authentification à deux facteurs"
+    },
+    "phish": {
+      "titre": "les signes d'alerte",
+      "va": "Les signes d'alerte"
+    },
+    "sauv": {
+      "titre": "la règle 3-2-1",
+      "va": "La règle 3-2-1"
+    },
+    "co2": {
+      "titre": "l'empreinte de nos usages",
+      "va": "Combien pèsent nos usages ?"
+    }
+  },
+  plus: {"fichier": "devinettes", "titre": "les devinettes du numérique"},
+  quizPage: "quiz-bonnes-pratiques",
+  etapes: [
+    {
+      titre: "Les 6 piliers",
+      icone: "🏛️",
+      resume: "Une vue d'ensemble.",
+      ecrans: [
+        { t: "Les 6 piliers de l'action", b: [
+          { cartes: [
+            ["🗃️ Gestion des données", "Trier régulièrement : supprimer les fichiers inutiles, les newsletters jamais lues et les vieux messages."],
+            ["📶 Utilisation mesurée", "Préférer le Wi-Fi à la 4G/5G et baisser la qualité du streaming pour économiser l'énergie."],
+            ["🔧 Durée de vie des appareils", "Avant de remplacer un équipement, chercher d'abord à le réparer ou à le mettre à niveau."],
+            ["🔍 Vérification des sources", "Ne pas croire tout ce qu'on lit : croiser les infos, vérifier les dates, les auteurs et utiliser le fact-checking."],
+            ["🤝 Nétiquette", "La courtoisie, la relecture systématique de ses messages et le respect des avis d'autrui."],
+            ["🌱 Écologie numérique", "Supprimer le superflu et limiter les usages inutiles pour réduire son empreinte sur le long terme."]
+          ] },
+          { trier: {
+            titre: "Quel pilier ?",
+            v: "piliers",
+            bacs: ["🗃️ Données", "🔧 Appareils", "🔍 Sources"],
+            items: [["Supprimer les newsletters jamais lues", 0], ["Trier ses vieux messages", 0], ["Réparer son ordinateur avant de le remplacer", 1], ["Ajouter de la mémoire à un vieil ordinateur", 1], ["Croiser une information avec d'autres sites", 2], ["Vérifier la date et l'auteur d'un article", 2]]
+          } }
+        ] }
+      ]
+    },
+    {
+      titre: "Les mots de passe",
+      icone: "🔐",
+      resume: "Verrouiller ses accès.",
+      ecrans: [
+        { t: "La règle de l'art", b: [
+          { p: "Un mot de passe « facile » est une porte ouverte. Pour qu'il soit solide :" },
+          { liste: [
+            "<strong>La formule :</strong> au minimum 12 caractères.",
+            "<strong>Le mélange :</strong> majuscules + minuscules + chiffres + caractères spéciaux (@, #, !).",
+            "<strong>L'interdiction :</strong> jamais d'informations personnelles (prénom, date de naissance), et jamais le même mot de passe sur plusieurs sites.",
+            "<strong>L'outil :</strong> un gestionnaire reconnu (Bitwarden, KeePass, 1Password) génère des accès complexes et les stocke en sécurité."
+          ] },
+          { sim: "motdepasse" }
+        ] },
+        { t: "L'authentification à deux facteurs", b: [
+          { p: "La 2FA est votre « garde du corps » numérique : une couche de sécurité en plus après le mot de passe." },
+          { cartes: [
+            ["Le fonctionnement", "Elle demande un code temporaire, généré par une application (Google Authenticator, Authy) ou envoyé par SMS."],
+            ["Où l'activer ?", "Partout où la sécurité est sensible : messagerie principale, banque, réseaux sociaux, plateformes de travail."],
+            ["Le bénéfice", "Si votre mot de passe est volé, la 2FA empêche l'accès. Notez vos codes de récupération dans un endroit sûr et déconnecté."]
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "Le phishing",
+      icone: "🎣",
+      resume: "Démasquer les arnaques.",
+      ecrans: [
+        { t: "Repérez les pièges", b: [
+          { p: "Le phishing (hameçonnage) est une technique où des cybercriminels usurpent l'identité d'organismes de confiance (banque, administration, service en ligne) pour vous soutirer des informations ou vous faire installer un logiciel malveillant." },
+          { sim: "phishing" }
+        ] },
+        { t: "Les signes d'alerte", b: [
+          { cartes: [
+            ["Expéditeur suspect", "Une adresse inconnue ou légèrement modifiée (ex : « amaz0n.fr » au lieu de « amazon.fr »)."],
+            ["Ton urgent ou menaçant", "« Votre compte sera suspendu », « Agissez immédiatement »."],
+            ["Fautes d'orthographe", "Des erreurs flagrantes dans le texte."],
+            ["Lien incohérent", "Le lien affiché ne correspond pas à l'adresse réelle : passez la souris sans cliquer pour vérifier."]
+          ] },
+          { retenir: "Le réflexe d'or : ne cliquez jamais sur un lien suspect. En cas de doute, tapez vous-même l'adresse du site officiel dans le navigateur." }
+        ] }
+      ]
+    },
+    {
+      titre: "Sauvegardes et mises à jour",
+      icone: "💾",
+      resume: "Les fondations de votre sécurité.",
+      ecrans: [
+        { t: "La règle 3-2-1", b: [
+          { p: "La sécurité ne s'arrête pas à la prévention : elle inclut aussi la maintenance et la protection de vos données." },
+          { pas: [
+            "<strong>3 copies</strong> de vos données importantes.",
+            "Sur <strong>2 supports différents</strong> : disque interne + disque externe ou service cloud.",
+            "Dont <strong>1 copie hors ligne</strong>, non connectée en permanence à Internet, contre les rançongiciels ou la perte des deux autres supports."
+          ] },
+          { cartes: [
+            ["🔄 Les mises à jour", "Vitales : elles corrigent les failles découvertes. Activez-les automatiquement pour Windows, les navigateurs et les applications."],
+            ["🛡️ L'antivirus", "Une solution reconnue (Windows Defender, Malwarebytes, Bitdefender), avec des analyses régulières."]
+          ] }
+        ] },
+        { t: "Quiz : sécurité en ligne", b: [
+          { activite: { fichier: "quiz-bonnes-pratiques", etape: "Sauvegardes et mises à jour", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Vrai ou faux sur Internet ?",
+      icone: "🔍",
+      resume: "5 étapes contre la désinformation.",
+      ecrans: [
+        { t: "La méthode en 5 étapes", b: [
+          { p: "La désinformation circule vite. Savoir distinguer le vrai du faux est une compétence essentielle." },
+          { pas: [
+            "<strong>S'interroger :</strong> qui publie ? L'autorité et la réputation de l'éditeur comptent. Regardez la date et le contexte : une information ancienne peut être obsolète. Un auteur inconnu ou une source absente doit vous inciter à la prudence.",
+            "<strong>Croiser les sources, la règle de trois :</strong> jamais un seul article. Comparez au moins 3 sources indépendantes. Si plusieurs médias sérieux confirment, la fiabilité est renforcée.",
+            "<strong>Utiliser le fact-checking :</strong> AFP Factuel pour les nouvelles internationales, Les Décodeurs (Le Monde) pour le contexte français, Snopes ou Hoaxbuster pour les rumeurs et les canulars.",
+            "<strong>Vérifier les images :</strong> elles peuvent être sorties de leur contexte. La recherche inversée (Google Images, TinEye) retrouve l'origine réelle d'une photo.",
+            "<strong>Réfléchir avant de partager :</strong> est-ce vérifié ? Utile ? Respectueux ?"
+          ] },
+          { note: "Partager avec prudence est le meilleur moyen de limiter la désinformation et de garder un espace numérique plus fiable." }
+        ] },
+        { t: "À vous de jouer les fact-checkers", b: [
+          { trier: {
+            titre: "Je fais confiance ou je vérifie ?",
+            consigne: "Pour chaque situation, que faites-vous ?",
+            bacs: ["🚨 Je vérifie avant tout", "✅ C'est plutôt fiable"],
+            items: [
+              ["Un article sans auteur ni date, partagé des milliers de fois", 0, "Sans auteur ni date, impossible de juger la source : il faut vérifier."],
+              ["« Les médias vous le cachent ! » sur un site inconnu", 0, "Un site inconnu et un ton alarmiste : il faut vérifier."],
+              ["Une photo choc, sans indication d'origine", 0, "Une image peut être sortie de son contexte : faites une recherche inversée."],
+              ["Une info vue sur une seule page", 0, "La règle de trois : jamais une seule source."],
+              ["Une info de 2015 présentée comme toute récente", 0, "Regardez la date : l'information peut être obsolète."],
+              ["Une info confirmée par 3 médias sérieux et indépendants", 1, "Plusieurs sources indépendantes : la fiabilité est renforcée."],
+              ["Une rumeur démentie par AFP Factuel, avec ses preuves", 1, "Un démenti documenté par un service de fact-checking est une source sérieuse."]
+            ]
+          } }
+        ] }
+      ]
+    },
+    {
+      titre: "La nétiquette",
+      icone: "🤝",
+      resume: "Le savoir-vivre numérique.",
+      ecrans: [
+        { t: "Le code de bonne conduite", b: [
+          { p: "Des règles simples pour échanger avec respect, clarté et professionnalisme. Les maîtriser, c'est protéger sa réputation et éviter bien des malentendus." },
+          { onglets: [
+            ["E-mails pro", [
+              "<strong>Objet clair :</strong> court et précis (« Demande de devis - Projet Alpha »).",
+              "<strong>Politesse :</strong> « Madame, Monsieur », « Bonjour [Prénom] ».",
+              "<strong>Structure :</strong> contexte → demande → conclusion.",
+              "<strong>Style :</strong> évitez les MAJUSCULES, les abréviations familières et les emojis.",
+              "<strong>Signature :</strong> nom, prénom, poste et coordonnées.",
+              "<strong>Délai :</strong> répondez sous 24 à 48 heures."
+            ]],
+            ["Forums et réseaux", [
+              "<strong>Respect :</strong> restez courtois, même en cas de désaccord. Pas d'attaques personnelles.",
+              "<strong>Rigueur :</strong> vérifiez vos sources avant de partager.",
+              "<strong>Sobriété :</strong> évitez le spam et les partages répétitifs.",
+              "<strong>Confidentialité :</strong> en cas de conflit, passez en message privé."
+            ]],
+            ["Visioconférences", [
+              "<strong>Ponctualité :</strong> connectez-vous en avance pour tester votre matériel.",
+              "<strong>Discrétion :</strong> coupez votre micro quand vous ne parlez pas.",
+              "<strong>Environnement :</strong> choisissez un arrière-plan neutre.",
+              "<strong>Présence :</strong> restez concentré, évitez le multi-tâches.",
+              "<strong>Prise de parole :</strong> main levée virtuelle ou chat."
+            ]],
+            ["Droit à l'image", [
+              "L'article 9 du Code civil protège la vie privée et le droit à l'image.",
+              "<strong>Consentement :</strong> ne publiez jamais la photo ou la vidéo d'une personne sans son accord.",
+              "<strong>Confidentialité :</strong> ne transférez pas un message privé sans autorisation.",
+              "<strong>Prudence :</strong> un contenu en ligne est très difficile à supprimer définitivement."
+            ]]
+          ] },
+          { retenir: "Réfléchissez toujours avant de publier : le contenu est-il approprié, respectueux, et ne porte-t-il pas atteinte à autrui ou à votre image professionnelle ?" }
+        ] },
+        { t: "Bonne ou mauvaise pratique ?", b: [
+          { trier: {
+            titre: "Le classement de la nétiquette",
+            bacs: ["👍 Bonne pratique", "👎 Mauvaise pratique"],
+            items: [
+              ["Écrire un objet court et précis", 0],
+              ["Répondre sous 24 à 48 heures", 0],
+              ["Couper son micro quand on ne parle pas", 0],
+              ["Passer en message privé en cas de conflit", 0],
+              ["Demander l'accord avant de publier une photo", 0],
+              ["ÉCRIRE TOUT SON MESSAGE EN MAJUSCULES", 1],
+              ["Attaquer personnellement quelqu'un qui n'est pas d'accord", 1],
+              ["Transférer un message privé sans autorisation", 1],
+              ["Partager la même publication dix fois", 1],
+              ["Faire autre chose pendant la visioconférence", 1]
+            ]
+          } }
+        ] }
+      ]
+    },
+    {
+      titre: "L'écologie numérique",
+      icone: "🌱",
+      resume: "Mesurer et réduire son empreinte.",
+      ecrans: [
+        { t: "Combien pèsent nos usages ?", b: [
+          { table: { tete: ["Usage", "Émission (ordre de grandeur)"], lignes: [
+            ["E-mail sans pièce jointe", "≈ 0,3 g de CO₂"],
+            ["E-mail avec pièce jointe (1 Mo)", "≈ 19 g de CO₂"],
+            ["Visioconférence, 1 h (Zoom, Teams)", "≈ 150 à 1 000 g de CO₂"],
+            ["Streaming vidéo HD, 1 h", "≈ 36 g de CO₂"],
+            ["Chat texte, 1 h (Teams, Slack)", "≈ 0,02 g de CO₂"],
+            ["Requête à une IA générative", "≈ 4 à 10 g de CO₂"],
+            ["Navigation web, 1 h", "≈ 20 g de CO₂"],
+            ["Stockage cloud, 1 Go par an", "≈ 3 g de CO₂"],
+            ["Supprimer 1 000 e-mails", "≈ 10 g de CO₂ économisés"]
+          ] } },
+          { note: "<strong>Le saviez-vous ?</strong> Le numérique représente environ 4 % des émissions mondiales de gaz à effet de serre, soit plus que l'aviation civile. Une heure de visioconférence avec caméra peut émettre jusqu'à 1 kg de CO₂. Entraîner un grand modèle d'IA peut émettre autant qu'un vol transatlantique aller-retour." }
+        ] },
+        { t: "Calculez votre semaine", b: [
+          { p: "Déplacez les curseurs selon vos habitudes :" },
+          { sim: "co2", libre: true }
+        ] },
+        { t: "Les gestes qui comptent", b: [
+          { cartes: [
+            ["📷 Couper la caméra", "En visioconférence, cela réduit l'empreinte de 96 %."],
+            ["💬 Préférer le chat", "Le chat texte plutôt que la vidéo pour les échanges rapides."],
+            ["🤖 Limiter l'IA", "Réserver les requêtes aux besoins réels."],
+            ["🧹 Faire le ménage", "Vider régulièrement sa boîte mail et ses téléchargements."],
+            ["🌳 Changer de moteur", "Utiliser Ecosia comme moteur de recherche."],
+            ["♻️ Reconditionné", "Choisir des appareils reconditionnés."]
+          ] },
+          { retenir: "« L'usage responsable du numérique commence par des gestes simples et conscients : chaque action compte pour un internet plus sûr, plus respectueux et plus durable. »" },
+          { p: "<strong>Félicitations !</strong> Vous avez maintenant toutes les clés pour naviguer efficacement, en toute sécurité et de manière responsable." },
+          { activite: { fichier: "quiz-bonnes-pratiques", etape: "L'écologie numérique", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

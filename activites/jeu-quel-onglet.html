@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quel onglet ?</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "jeu-quel-onglet",
+  etiquette: "JEU",
+  titre: "Quel onglet ?",
+  icone: "🎀",
+  couleur: "#a21caf",
+  pale: "#f8e8fb",
+  accroche: "Vous cherchez une commande : dans quel onglet du ruban se trouve-t-elle ? Trois manches, une par logiciel.",
+  etapes: [
+    {
+      titre: "Dans Word",
+      icone: "📄",
+      resume: "Accueil, Insertion, Références, Publipostage.",
+      ecrans: [
+        { t: "Le ruban de Word", b: [
+          { trier: { titre: "Où se trouve cette commande ?", bacs: ["Accueil", "Insertion", "Références", "Publipostage"], items: [
+            ["Mettre en gras", 0], ["Changer la police", 0], ["Appliquer un style", 0], ["Justifier un paragraphe", 0],
+            ["Insérer un tableau", 1], ["Insérer une image", 1], ["Ajouter un numéro de page", 1], ["Créer une lettrine", 1],
+            ["Insérer une table des matières", 2],
+            ["Sélectionner les destinataires", 3], ["Insérer un champ de fusion", 3]
+          ] } },
+          { activite: { fichier: "ruban-word", titre: "Revoir le ruban de Word", icone: "🎀" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Dans Excel",
+      icone: "📊",
+      resume: "Accueil, Insertion, Formules, Données.",
+      ecrans: [
+        { t: "Le ruban d'Excel", b: [
+          { trier: { titre: "Où se trouve cette commande ?", bacs: ["Accueil", "Insertion", "Formules", "Données"], items: [
+            ["Mise en forme conditionnelle", 0], ["Fusionner et centrer", 0], ["Changer le format en monétaire", 0],
+            ["Insérer un graphique", 1], ["Créer un tableau croisé dynamique", 1], ["Ajouter un en-tête et un pied de page", 1],
+            ["Définir un nom", 2], ["Ouvrir le gestionnaire de noms", 2],
+            ["Trier", 3], ["Filtrer", 3]
+          ] } },
+          { activite: { fichier: "ruban-excel", titre: "Revoir le ruban d'Excel", icone: "🎀" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Dans PowerPoint",
+      icone: "🎞️",
+      resume: "Accueil, Insertion, Création, Transitions, Affichage.",
+      ecrans: [
+        { t: "Le ruban de PowerPoint", b: [
+          { trier: { titre: "Où se trouve cette commande ?", bacs: ["Accueil", "Insertion", "Création", "Transitions", "Affichage"], items: [
+            ["Ajouter une nouvelle diapositive", 0],
+            ["Insérer une vidéo", 1], ["Insérer une image", 1], ["Insérer le numéro de diapositive", 1],
+            ["Appliquer un thème", 2], ["Changer de variante", 2],
+            ["Appliquer un effet entre deux diapositives", 3], ["Appliquer à toutes", 3],
+            ["Ouvrir le masque des diapositives", 4]
+          ] } },
+          { activite: { fichier: "ruban-powerpoint", titre: "Revoir le ruban de PowerPoint", icone: "🎀" } }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

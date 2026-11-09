@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz : Les fonctions communes d'Office</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "quiz-office-commun",
+  etiquette: "QUIZ",
+  titre: "Quiz : Les fonctions communes d'Office",
+  icone: "🧰",
+  couleur: "#a21caf",
+  pale: "#f8e8fb",
+  accroche: "Commencez par le quiz de positionnement pour connaître vos priorités. Entraînez-vous thème par thème, puis validez le module avec le quiz final.",
+  cours: "livret-office-commun",
+  notions: {
+    "modele": {
+      "titre": "les modèles",
+      "va": "Préparer un modèle"
+    },
+    "entete": {
+      "titre": "les en-têtes et pieds de page",
+      "va": "Y accéder dans chaque logiciel"
+    },
+    "numero": {
+      "titre": "la numérotation",
+      "va": "Numéroter dans chaque logiciel"
+    }
+  },
+  etapes: [
+    {
+      titre: "Quiz de positionnement",
+      icone: "🧭",
+      resume: "Pour savoir par où commencer.",
+      ecrans: [
+        { t: "Quiz de positionnement", b: [
+          { depart: true, titre: "Quiz de positionnement", quiz: [
+            {"v":"modele","q":"Quelle est l'extension d'un modèle PowerPoint ?","r":[".potx",".pptx",".xltx"]},
+            {"v":"modele","q":"À quoi sert un modèle ?","r":["À réutiliser une structure déjà prête","À protéger un fichier par mot de passe","À envoyer un mail"]},
+            {"v":"entete","q":"Dans quel onglet insérer un en-tête ?","r":["Insertion","Révision","Affichage"]},
+            {"v":"entete","q":"Qu'affiche-t-on en général dans un pied de page ?","r":["La date ou le numéro de page","Tout le texte du document","Le ruban"]},
+            {"v":"entete","q":"Comment ressortir de l'en-tête dans Word ?","r":["Double-clic sur le corps du document","{Alt+F4}","{Ctrl+P}"]},
+            {"v":"numero","q":"Dans PowerPoint, que cocher pour numéroter ?","r":["Numéro de diapositive","Date et heure","Pied de page"]},
+            {"v":"numero","q":"Dans Excel, quel code affiche le numéro de page ?","r":["&[Page]","&[Date]","&[Fichier]"]},
+            {"v":"modele","q":"Quelle est l'extension d'un modèle Word ?","r":[".dotx",".docx",".xltx"]},
+            {"v":"entete","q":"Dans Word, comment ouvrir l'en-tête rapidement ?","r":["Double-clic en haut de la page","{Ctrl+P}","Clic droit sur le texte"]},
+            {"v":"numero","q":"Pourquoi préférer les numéros de page automatiques ?","r":["Ils se mettent à jour seuls","Ils sont plus jolis","Ils protègent le fichier"]}
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "La numérotation",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "La numérotation", b: [
+          { quiz: [
+            {"v":"numero","q":"Où trouve-t-on la position du numéro de page dans Word ?","r":["Insertion > Numéro de page","Accueil > Styles","Révision > Langue"]},
+            {"v":"numero","q":"Quel format affiche I, II, III ?","r":["Les chiffres romains","Les chiffres arabes","Les lettres"]},
+            {"v":"numero","q":"Comment retirer tous les numéros de page dans Word ?","r":["Numéro de page > Supprimer les numéros de page","Touche {Suppr} sur chaque page","Fermer le document"]},
+            {"v":"numero","q":"Dans Excel, que donne « Page &[Page] / &[Pages] » ?","r":["Page 2 / 10, par exemple","Le nom du fichier","La date du jour"]},
+            {"v":"numero","q":"Pourquoi commencer à un autre numéro de page ?","r":["Pour une suite de documents","Pour imprimer plus vite","Pour changer la police"]},
+            {"v":"numero","q":"Dans PowerPoint, que se passe-t-il si on supprime une diapositive ?","r":["Les numéros se mettent à jour","Il faut tout renuméroter","Le numéro disparaît"]},
+            {"v":"numero","q":"Où changer le style du numéro de diapositive ?","r":["Dans le masque des diapositives","Dans la barre d'état","Dans l'Explorateur"]},
+            { v: "numero", q: "Pourquoi préférer les numéros de page automatiques ?", r: ["Ils se mettent à jour seuls si on ajoute ou supprime des pages", "Ils sont plus jolis", "Ils empêchent d'imprimer"] },
+            { v: "entete", q: "Dans Excel, où voit-on le pied de page ?", r: ["En mode « Mise en page » ou à l'impression", "En vue normale, en bas de la grille", "Dans la barre de formule"] },
+            { v: "numero", q: "Comment garder une page de garde sans numéro dans Word ?", r: ["Activer « Première page différente »", "Effacer le numéro à la gomme", "Enregistrer en PDF"] }
+          ], titre: "Vérifiez vos connaissances" }
+        ] }
+      ]
+    },
+    {
+      titre: "Quiz final",
+      icone: "🏁",
+      resume: "10 questions pour valider le module.",
+      ecrans: [
+        { t: "Quiz final", b: [
+          { final: true, titre: "Quiz final", quiz: [
+            {"v":"modele","q":"Quelle est l'extension d'un modèle Excel ?","r":[".xltx",".xlsx",".potx"]},
+            {"v":"modele","q":"Quelle est l'extension d'un modèle PowerPoint ?","r":[".potx",".pptx",".dotx"]},
+            {"v":"modele","q":"Que se passe-t-il quand on double-clique sur un modèle ?","r":["Un nouveau document se crée à partir du modèle","Le modèle est supprimé","Le modèle s'imprime"]},
+            {"v":"modele","q":"Quel avantage apporte un modèle à une équipe ?","r":["Tous les documents respectent la même présentation","Les fichiers ne peuvent plus être modifiés","Les documents s'envoient tout seuls"]},
+            {"v":"entete","q":"Comment éviter l'en-tête sur la page de garde dans Word ?","r":["Cocher « Première page différente »","Effacer le texte de la page","Changer de police"]},
+            {"v":"entete","q":"Dans Excel, en quel mode voit-on le pied de page ?","r":["Mise en page","Normal","Plein écran"]},
+            {"v":"entete","q":"Dans Excel, que donne le code &[Date] ?","r":["La date du jour","Le nom du fichier","Le numéro de page"]},
+            {"v":"numero","q":"Où insérer le numéro de page dans Word ?","r":["Onglet Insertion > Numéro de page","Onglet Révision","Onglet Affichage > Zoom"]},
+            {"v":"numero","q":"Quelle option retire le numéro de la première diapositive ?","r":["Ne pas afficher sur la diapositive de titre","Appliquer à toutes","Numéroter à partir de 2"]},
+            {"v":"numero","q":"Par défaut, où recommence la numérotation dans Excel ?","r":["À 1 sur chaque feuille","À 0 sur la première feuille","Elle ne recommence jamais"]}
+          ] }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

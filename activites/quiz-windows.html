@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz : Windows 11</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "quiz-windows",
+  etiquette: "QUIZ",
+  titre: "Quiz : Windows 11",
+  icone: "🪟",
+  couleur: "#a21caf",
+  pale: "#f8e8fb",
+  accroche: "Commencez par le quiz de positionnement pour connaître vos priorités. Entraînez-vous thème par thème, puis validez le module avec le quiz final.",
+  cours: "livret-windows",
+  notions: {
+    "demarrer": {
+      "titre": "le menu Démarrer",
+      "va": "Le menu Démarrer et les paramètres",
+      "jeu": {
+        "fichier": "quiz-windows-11",
+        "titre": "le quiz Windows 11"
+      }
+    },
+    "ecrans": {
+      "titre": "les 4 modes d'affichage",
+      "va": "Les 4 modes de {Windows+P}"
+    },
+    "snap": {
+      "titre": "ancrer ses fenêtres",
+      "va": "Les méthodes d'ancrage"
+    },
+    "capture": {
+      "titre": "la capture d'écran",
+      "va": "Capturer son écran",
+      "jeu": {
+        "fichier": "quiz-raccourcis",
+        "titre": "le quiz des raccourcis"
+      }
+    }
+  },
+  etapes: [
+    {
+      titre: "Quiz de positionnement",
+      icone: "🧭",
+      resume: "Pour savoir par où commencer.",
+      ecrans: [
+        { t: "Quiz de positionnement", b: [
+          { depart: true, titre: "Quiz de positionnement", quiz: [
+            {"v":"demarrer","q":"Quel raccourci affiche le bureau ?","r":["{Windows+D}","{Windows+P}","{Ctrl+D}"]},
+            {"v":"demarrer","q":"Quel raccourci ferme une fenêtre ?","r":["{Alt+F4}","{Alt+Tab}","{Ctrl+Z}"]},
+            {"v":"ecrans","q":"Quel mode choisir pour avoir un seul grand bureau sur deux écrans ?","r":["Étendre","Dupliquer","Écran du PC uniquement"]},
+            {"v":"snap","q":"Où glisser une fenêtre pour qu'elle prenne un quart de l'écran ?","r":["Dans un coin","Sur la barre des tâches","Sur le fond d'écran"]},
+            {"v":"capture","q":"Quel type de capture prend tout l'écran ?","r":["Plein écran","Rectangle","Forme libre"]},
+            {"v":"demarrer","q":"À quoi sert le menu Démarrer ?","r":["À lancer les applications et à rechercher","À imprimer un document","À fermer une fenêtre"]},
+            {"v":"demarrer","q":"Comment passer d'une fenêtre à l'autre au clavier ?","r":["{Alt+Tab}","{Ctrl+S}","{F5}"]},
+            {"v":"ecrans","q":"Quel raccourci choisit le mode d'affichage des écrans ?","r":["{Windows+P}","{Windows+E}","{Ctrl+P}"]},
+            {"v":"snap","q":"Vous glissez une fenêtre contre le bord droit de l'écran. Que se passe-t-il ?","r":["Elle occupe la moitié droite","Elle se ferme","Elle passe en plein écran"]},
+            {"v":"capture","q":"Quel raccourci lance une capture d'écran ?","r":["{Windows+Maj+S}","{Windows+D}","{Alt+F4}"]}
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "Le bureau de Windows 11",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Le bureau de Windows 11", b: [
+          { quiz: [
+            {"v":"demarrer","q":"Qu'est-ce que le Bureau de Windows ?","r":["L'espace principal de travail","Un logiciel de calcul","Une imprimante"]},
+            {"v":"demarrer","q":"Que permet la barre des tâches ?","r":["Épingler des applications et passer d'une fenêtre à l'autre","Modifier un texte","Imprimer une photo"]},
+            {"v":"demarrer","q":"Que regroupe le centre de notifications ?","r":["L'historique et les paramètres rapides","Tous vos fichiers","Vos mots de passe"]},
+            {"v":"demarrer","q":"Quels réglages rapides y trouve-t-on ?","r":["Wi-Fi, Bluetooth et volume","Police et taille","Marges et colonnes"]},
+            {"v":"demarrer","q":"Que donne le menu Démarrer en plus des applications ?","r":["L'accès aux options d'alimentation","L'accès à la Corbeille uniquement","Une calculatrice obligatoire"]},
+            {"v":"demarrer","q":"Comment personnaliser le fond d'écran ?","r":["Clic droit sur le Bureau","Double-clic sur une fenêtre","{Ctrl+P}"]},
+            {"v":"demarrer","q":"Quel raccourci permet de passer d'une application à l'autre ?","r":["{Alt+Tab}","{Alt+F4}","{Windows+P}"]},
+            {"v":"demarrer","q":"Que montre la zone de notification ?","r":["Les icônes en arrière-plan et les alertes système","Les pages d'un document","La liste des dossiers"]},
+            {"v":"demarrer","q":"Où se trouve la zone de notification ?","r":["À droite de la barre des tâches","En haut à gauche de l'écran","Dans l'Explorateur"]},
+            { v: "demarrer", q: "Dans Windows 11, où se trouve le bouton Menu Démarrer ?", r: ["Au centre de la barre des tâches", "En haut à gauche", "En bas à droite", "En haut au centre"] }
+          ], titre: "Une dernière question" }
+        ] }
+      ]
+    },
+    {
+      titre: "Le double écran",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Le double écran", b: [
+          { quiz: [
+            {"v":"ecrans","q":"Quel câble peut servir à brancher un second écran ?","r":["HDMI","Un câble d'imprimante uniquement","Un câble de casque"]},
+            {"v":"ecrans","q":"Où trouver le bouton « Détecter » si l'écran n'apparaît pas ?","r":["Paramètres > Système > Affichage","Menu Fichier","Corbeille"]},
+            {"v":"ecrans","q":"Quel mode n'utilise que l'écran externe ?","r":["Second écran uniquement","Dupliquer","Étendre"]},
+            {"v":"ecrans","q":"Quel mode n'utilise que l'écran de l'ordinateur ?","r":["Écran du PC uniquement","Étendre","Dupliquer"]},
+            {"v":"ecrans","q":"Quel raccourci envoie une fenêtre sur l'autre écran ?","r":["{Windows+Maj+Flèche}","{Ctrl+Flèche}","{Alt+F4}"]},
+            {"v":"ecrans","q":"À quoi sert la mise à l'échelle ?","r":["À adapter la taille des éléments à chaque écran","À imprimer plus grand","À changer de bureau"]},
+            {"v":"ecrans","q":"Que règle-t-on dans « Disposition » ?","r":["La position des écrans l'un par rapport à l'autre","La couleur de la souris","La langue du clavier"]},
+            {"v":"ecrans","q":"Que désigne l'écran principal ?","r":["L'écran qui affiche le bureau par défaut","Le plus grand des écrans","L'écran le plus récent"]},
+            { v: "ecrans", q: "Vous présentez un diaporama : le public doit voir la même image que vous. Quel mode choisir ?", r: ["Dupliquer", "Étendre", "Écran du PC uniquement"] },
+            { v: "ecrans", q: "Vous voulez Word sur un écran et Excel sur l'autre. Quel mode choisir ?", r: ["Étendre", "Dupliquer", "Second écran uniquement"] }
+          ], titre: "Quel mode choisir ?" }
+        ] }
+      ]
+    },
+    {
+      titre: "Ancrer ses fenêtres",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Ancrer ses fenêtres", b: [
+          { quiz: [
+            {"v":"snap","q":"À quoi sert le Snap Assist ?","r":["À organiser rapidement ses fenêtres à l'écran","À protéger ses fichiers","À capturer l'écran"]},
+            {"v":"snap","q":"Vous glissez une fenêtre contre un bord de l'écran. Quelle place prend-elle ?","r":["La moitié","Un quart","Tout l'écran"]},
+            {"v":"snap","q":"Que se passe-t-il quand on fait glisser une fenêtre vers le haut de l'écran ?","r":["Une barre de dispositions apparaît","La fenêtre se ferme","L'ordinateur s'éteint"]},
+            {"v":"snap","q":"Quel bouton survoler pour voir les dispositions ?","r":["Agrandir","Fermer","Réduire"]},
+            {"v":"snap","q":"Que se passe-t-il après avoir placé la première fenêtre d'une disposition ?","r":["Windows propose de remplir les autres emplacements","Les autres fenêtres se ferment","L'écran passe en noir"]},
+            {"v":"snap","q":"Où retrouver un groupe de fenêtres ancrées ?","r":["Dans la barre des tâches","Dans la Corbeille","Dans le Bloc-notes"]},
+            {"v":"snap","q":"Comment travailler avec Word et Excel côte à côte ?","r":["Ancrer l'un à gauche et l'autre à droite","Les ouvrir l'un après l'autre","Réduire les deux"]},
+            {"v":"snap","q":"Sur deux écrans, que peut-on faire avec les groupes ?","r":["Créer un groupe différent sur chaque écran","Rien : ils ne marchent que sur un écran","Les imprimer"]},
+            { v: "snap", q: "Vous glissez une fenêtre dans un coin de l'écran. Quelle place prend-elle ?", r: ["Un quart de l'écran", "La moitié de l'écran", "Tout l'écran"] },
+            { v: "snap", q: "Où trouve-t-on les dispositions d'ancrage ?", r: ["En survolant le bouton Agrandir de la fenêtre", "Dans le menu Démarrer", "Dans la Corbeille"] }
+          ], titre: "Vérifiez vos connaissances" }
+        ] }
+      ]
+    },
+    {
+      titre: "La capture d'écran",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "La capture d'écran", b: [
+          { quiz: [
+            {"v":"capture","q":"Que permet la capture d'écran ?","r":["D'enregistrer une image de tout ou partie de l'écran","De nettoyer l'écran","De changer le fond d'écran"]},
+            {"v":"capture","q":"Quel raccourci lance une capture vidéo ?","r":["{Windows+Maj+R}","{Windows+R}","{Ctrl+R}"]},
+            {"v":"capture","q":"Quel type de capture permet de dessiner autour d'un objet ?","r":["Forme libre","Plein écran","Fenêtre"]},
+            {"v":"capture","q":"Quel type de capture sélectionne une zone en tirant un cadre ?","r":["Rectangle","Fenêtre","Plein écran"]},
+            {"v":"capture","q":"Quel type de capture convient à une seule boîte de dialogue ?","r":["Fenêtre","Forme libre","Plein écran"]},
+            {"v":"capture","q":"Quel dessin représente l'outil dans la recherche ?","r":["Des ciseaux","Une loupe","Un crayon"]},
+            {"v":"capture","q":"Comment trouver l'outil sans raccourci ?","r":["Taper « outil capture d'écran » dans le menu Démarrer","Ouvrir la Corbeille","Ouvrir Word"]},
+            {"v":"capture","q":"Que faire pour garder la capture ?","r":["L'enregistrer dans son dossier avec un nom clair","Éteindre l'ordinateur","Rien : elle se range toute seule dans le bon dossier"]},
+            {"v":"capture","q":"Quel type de capture prend tout ce qui est affiché ?","r":["Plein écran","Rectangle","Forme libre"]},
+            { v: "capture", q: "Quel raccourci lance une capture d'image ?", r: ["{Windows+Maj+S}", "{Ctrl+S}", "{Alt+F4}"] }
+          ], titre: "Une question" }
+        ] }
+      ]
+    },
+    {
+      titre: "Quiz final",
+      icone: "🏁",
+      resume: "10 questions pour valider le module.",
+      ecrans: [
+        { t: "Quiz final", b: [
+          { final: true, titre: "Quiz final", quiz: [
+            {"v":"demarrer","q":"Où épingler une application pour l'avoir toujours sous la main ?","r":["Sur la barre des tâches","Dans la Corbeille","Dans le Bloc-notes"]},
+            {"v":"demarrer","q":"Où voir l'état du Wi-Fi et du volume ?","r":["Dans la zone de notification","Dans le menu Fichier","Sur le fond d'écran"]},
+            {"v":"demarrer","q":"Comment personnaliser le fond d'écran ?","r":["Clic droit sur le Bureau","Double-clic sur la barre des tâches","{Ctrl+Z}"]},
+            {"v":"ecrans","q":"Dans quel mode les deux écrans forment-ils un seul grand bureau ?","r":["Étendre","Dupliquer","Écran du PC uniquement"]},
+            {"v":"ecrans","q":"Dans quel mode les deux écrans affichent-ils la même image ?","r":["Dupliquer","Étendre","Second écran uniquement"]},
+            {"v":"ecrans","q":"Windows ne voit pas le second écran. Où cliquer sur « Détecter » ?","r":["Paramètres > Système > Affichage","Menu Démarrer > Word","Explorateur > Documents"]},
+            {"v":"snap","q":"Où glisser une fenêtre pour qu'elle occupe un quart de l'écran ?","r":["Dans un coin","Au centre","Sur la barre des tâches"]},
+            {"v":"snap","q":"Que permet de restaurer la barre des tâches ?","r":["Un groupe de fenêtres ancrées","Un fichier supprimé","Une impression"]},
+            {"v":"capture","q":"Quel raccourci lance une capture vidéo ?","r":["{Windows+Maj+R}","{Windows+Maj+S}","{Ctrl+V}"]},
+            {"v":"capture","q":"Quel type de capture choisir pour une seule boîte de dialogue ?","r":["Fenêtre","Plein écran","Forme libre"]}
+          ] }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

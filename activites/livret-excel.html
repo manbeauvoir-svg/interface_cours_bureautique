@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Microsoft Excel</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "excel",
+  numero: 6,
+  titre: "Microsoft Excel",
+  icone: "📊",
+  couleur: "#107c41",
+  pale: "#e2f6ea",
+  accroche: "Le tableur de calcul et d'analyse de données : organiser en lignes et colonnes, calculer automatiquement et créer des graphiques. Ici, vous tapez de vraies formules !",
+  suite: { fichier: "ruban-powerpoint", titre: "Le ruban de PowerPoint" },
+  notions: {
+    "formule": {
+      "titre": "écrire une formule",
+      "va": "Votre première formule"
+    },
+    "cellule": {
+      "titre": "classeur, feuille et cellule",
+      "va": "Classeur, feuille, cellule"
+    },
+    "iface": {
+      "titre": "la fenêtre d'Excel",
+      "va": "Se repérer dans la fenêtre",
+      "jeu": {
+        "fichier": "jeu-quel-onglet",
+        "titre": "le jeu « Quel onglet ? »"
+      }
+    },
+    "calculs": {
+      "titre": "les quatre opérations et le pourcentage",
+      "va": "Calculer dans Excel"
+    },
+    "somme": {
+      "titre": "formule ou fonction",
+      "va": "Formule ou fonction ?"
+    },
+    "recopie": {
+      "titre": "la recopie incrémentée",
+      "va": "La poignée de recopie"
+    },
+    "fonctions": {
+      "titre": "MIN, MAX, MOYENNE et NB",
+      "va": "Le relevé de notes"
+    },
+    "trifiltre": {
+      "titre": "trier et filtrer",
+      "va": "Essayez : tri et filtre",
+      "jeu": {
+        "fichier": "jeu-quel-onglet",
+        "titre": "le jeu « Quel onglet ? »"
+      }
+    },
+    "graph": {
+      "titre": "créer un graphique",
+      "va": "Créer un graphique en 5 étapes"
+    },
+    "refs": {
+      "titre": "les références de cellules",
+      "va": "Le problème du taux de TVA"
+    },
+    "noms": {
+      "titre": "nommer les plages",
+      "va": "Donner un nom à ses données"
+    },
+    "mfc": {
+      "titre": "la mise en forme conditionnelle",
+      "va": "L'appliquer dans Excel"
+    },
+    "gerer": {
+      "titre": "gérer les règles",
+      "va": "Gérer les règles"
+    },
+    "tcd": {
+      "titre": "les tableaux croisés dynamiques",
+      "va": "Un TCD, à quoi ça sert ?"
+    }
+  },
+  plus: {"fichier": "exercices-fichiers-excel-powerpoint", "titre": "les exercices Fichiers, Excel et PowerPoint"},
+  quizPage: "quiz-excel",
+  parties: [
+    { titre: "Les bases et les calculs", icone: "🔢", intro: "L'interface, la saisie, la recopie, les calculs et les fonctions.", etapes: 5 },
+    { titre: "Trier et illustrer", icone: "📈", intro: "Trier, filtrer et faire parler les chiffres avec des graphiques.", etapes: 2 },
+    { titre: "Les formules avancées", icone: "📌", intro: "Les références, les plages nommées, les fonctions conditionnelles.", etapes: 3 },
+    { titre: "Analyser", icone: "🧊", intro: "La mise en forme conditionnelle, les tableaux croisés, puis le bilan du module.", etapes: 3 }
+  ],
+  etapes: [
+    {
+      titre: "L'interface d'Excel",
+      icone: "🧭",
+      resume: "6 zones à connaître.",
+      ecrans: [
+        { t: "Se repérer dans la fenêtre", b: [
+          { sim: "maquette",
+            colonnes: "1fr 4fr",
+            lignes: "54px 40px minmax(120px, 1fr) 36px 34px",
+            zones: [
+              { nom: "Le Ruban", aire: "1 / 1 / 2 / 3", texte: "organisé par onglets (Accueil, Insertion, Mise en page, Formules, Données, Révision, Affichage), il regroupe les fonctions essentielles." },
+              { nom: "La Zone Nom", aire: "2 / 1 / 3 / 2", texte: "à gauche de la barre de formule, elle affiche la référence de la cellule active (ex : A1)." },
+              { nom: "La Barre de formule", aire: "2 / 2 / 3 / 3", texte: "sous le ruban, elle affiche le contenu ou la formule de la cellule active. Elle est précédée du bouton fx." },
+              { nom: "La Grille de cellules", aire: "3 / 1 / 4 / 3", texte: "l'espace de travail principal, en lignes (numéros) et colonnes (lettres)." },
+              { nom: "Les Onglets de feuilles", aire: "4 / 1 / 5 / 3", texte: "en bas de la fenêtre, pour naviguer entre les feuilles du classeur." },
+              { nom: "La Barre d'état", aire: "5 / 1 / 6 / 3", texte: "tout en bas : la somme, la moyenne, le nombre de cellules sélectionnées et le zoom." }
+            ] },
+          { img: "p048_0", alt: "La fenêtre d'Excel avec ses zones signalées : ruban, barre d'accès rapide, zone de document et barre d'état.", leg: "La vraie fenêtre d'Excel" }
+        ] },
+        { t: "Les onglets d'Excel", b: [
+          { p: "Chaque onglet du ruban regroupe les outils liés à une tâche précise. Explorez-les dans le guide interactif :" },
+          { activite: { fichier: "ruban-excel", titre: "Le ruban d'Excel interactif", texte: "Découvrir les onglets et les commandes.", icone: "🎀" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Les bases",
+      icone: "🔢",
+      resume: "Classeur, cellule, première formule.",
+      ecrans: [
+        { t: "Classeur, feuille, cellule", b: [
+          { p: "Un fichier Excel est un <strong>classeur</strong>. Chaque classeur contient des <strong>feuilles</strong>. Chaque feuille est une grille de <strong>cellules</strong> identifiées par une lettre (colonne) et un chiffre (ligne) : A1, B3…" },
+          { cartes: [
+            ["Saisir et modifier", "Cliquez sur une cellule et tapez. Validez avec {Entrée} (ligne suivante) ou {Tab} (colonne suivante). Double-cliquez pour modifier."],
+            ["Les formules", "Toute formule commence par <code>=</code>. Exemples : <code>=A1+B1</code>, <code>=SOMME(A1:A10)</code>, <code>=MOYENNE(B1:B5)</code>. Le calcul est automatique."],
+            ["La mise en forme", "Sélectionnez les cellules, puis onglet Accueil : police, couleur, bordures, format (nombre, date, monnaie). « Fusionner et centrer » pour fusionner."]
+          ] },
+          { astuce: "{Ctrl+Flèche} va jusqu'au bord de vos données, et {F4} fige une référence de cellule dans une formule." }
+        ] },
+        { t: "Votre première formule", b: [
+          { p: "Ce mini-tableur calcule pour de vrai. Tapez dans la barre de formule, puis appuyez sur {Entrée}." },
+          { sim: "excel",
+            donnees: [["Produit", "Quantité", "Prix", "Total"], ["Stylo", 10, 2, ""], ["Cahier", 5, 4, ""], ["Agenda", 2, 15, ""], ["Total", "", "", ""]],
+            missions: [
+              { t: "en D2, multipliez la quantité par le prix du stylo.", cellule: "D2", attendu: 20, aide: "Écrivez <code>=B2*C2</code>. Le signe * veut dire « multiplié par »." },
+              { t: "faites la même chose en D3, pour le cahier.", cellule: "D3", attendu: 20, aide: "Écrivez <code>=B3*C3</code>." },
+              { t: "et en D4, pour l'agenda.", cellule: "D4", attendu: 30, aide: "Écrivez <code>=B4*C4</code>." },
+              { t: "en D5, additionnez les totaux avec la fonction SOMME.", cellule: "D5", attendu: 70, contient: "SOMME", aide: "Écrivez <code>=SOMME(D2:D4)</code>. Les deux-points veulent dire « de D2 à D4 »." }
+            ] }
+        ] },
+        { t: "Quiz : les bases d'Excel", b: [
+          { activite: { fichier: "quiz-excel", etape: "Les bases", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] }
+      ]
+    },
+    {
+      titre: "La recopie incrémentée",
+      icone: "⬇️",
+      resume: "Ne plus jamais tout retaper.",
+      ecrans: [
+        { t: "La poignée de recopie", b: [
+          { p: "Le petit carré noir en bas à droite d'une cellule étend une formule ou une série sur plusieurs lignes ou colonnes. Excel adapte automatiquement les références." },
+          { pas: [
+            "<strong>Saisissez la valeur de départ :</strong> par exemple 1, Lundi ou =A1*2.",
+            "<strong>Sélectionnez la cellule :</strong> le petit carré noir apparaît en bas à droite, c'est la poignée.",
+            "<strong>Faites glisser la poignée</strong> vers le bas ou la droite.",
+            "<strong>Résultat :</strong> Excel complète la série : nombres, dates, jours, mois ou formules adaptées."
+          ] },
+          { img: "p052_0", alt: "Une colonne de 1 recopiés, avec le menu des options : Copier les cellules, Incrémenter une série, Ne recopier que la mise en forme, Recopier les valeurs sans la mise en forme, Remplissage instantané.", leg: "Le bouton d'options qui apparaît après la recopie" }
+        ] },
+        { t: "Essayez chaque type de recopie", b: [
+          { sim: "recopie", libre: true },
+          { astuce: "La touche {Ctrl} inverse le comportement : <strong>Lundi</strong> est recopié à l'identique au lieu de se suivre, et un <strong>nombre seul</strong> se met à compter (1, 2, 3…) au lieu de se répéter." },
+          { activite: { fichier: "quiz-excel", etape: "La recopie incrémentée", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Les calculs",
+      icone: "➗",
+      resume: "Opérations, pourcentages, évolution.",
+      ecrans: [
+        { t: "Calculer dans Excel", b: [
+          { p: "Une fois la formule posée, tout se met à jour automatiquement : les résultats sont fiables et le temps gagné est réel." },
+          { table: { tete: ["Calcul", "Formule", "Ce qu'elle donne"], lignes: [
+            ["Addition, soustraction", "`=A1+B1` `=A1-B1`", "Les opérations de base entre deux cellules."],
+            ["Multiplication, division", "`=A1*B1` `=A1/B1`", "Attention : on écrit * et / sur le clavier."],
+            ["Pourcentage", "`=B2/B1`", "La part d'une valeur dans un total. Mettez la cellule au format %."],
+            ["Évolution", "`=(C2-B2)/B2`", "(valeur finale - valeur initiale) / valeur initiale."]
+          ] } },
+          { fiche: { titre: "Les calculs dans Excel", fichier: "excel/les-calculs.docx" } }
+        ] },
+        { t: "Essayez : les ventes du magasin", b: [
+          { sim: "excel",
+            donnees: [["Rayon", "Janvier", "Février", "Écart", "Évolution"], ["Livres", 200, 250, "", ""], ["Jeux", 400, 300, "", ""]],
+            missions: [
+              { t: "en D2, calculez l'écart entre février et janvier pour les livres.", cellule: "D2", attendu: 50, aide: "<code>=C2-B2</code>" },
+              { t: "en E2, calculez l'évolution des livres.", cellule: "E2", attendu: 0.25, aide: "<code>=(C2-B2)/B2</code>. 0,25 veut dire +25 %." },
+              { t: "en D3, calculez l'écart pour les jeux.", cellule: "D3", attendu: -100, aide: "<code>=C3-B3</code>" },
+              { t: "en E3, calculez l'évolution des jeux.", cellule: "E3", attendu: -0.25, aide: "<code>=(C3-B3)/B3</code>" }
+            ] },
+          { activite: { fichier: "quiz-excel", etape: "Les calculs", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] },
+        { t: "À vous : le budget fournitures", b: [
+          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Excel", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Le budget fournitures", icone: "📝" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Les fonctions de calcul",
+      icone: "🧮",
+      resume: "SOMME, MOYENNE, MIN, MAX, NB.",
+      ecrans: [
+        { t: "Formule ou fonction ?", b: [
+          { p: "Chaque formule commence par <code>=</code>. Une <strong>formule</strong> est une expression que vous construisez. Une <strong>fonction</strong> est une formule prédéfinie par Excel pour simplifier les calculs courants. Appuyez sur {Entrée} pour afficher le résultat." },
+          { table: { tete: ["Fonction", "Exemple", "Ce qu'elle fait"], lignes: [
+            ["SOMME", "`=SOMME(A1:A5)`", "Additionne les valeurs de A1 à A5."],
+            ["MOYENNE", "`=MOYENNE(A1:A5)`", "Calcule la moyenne des valeurs de A1 à A5."],
+            ["MIN / MAX", "`=MIN(A1:A5)` `=MAX(A1:A5)`", "Renvoie la plus petite / la plus grande valeur."],
+            ["NB / NBVAL", "`=NB(A1:A10)` `=NBVAL(A1:A10)`", "Compte les cellules numériques / toutes les cellules non vides."]
+          ] } },
+          { img: "p053_0", alt: "Le menu de la somme automatique : Somme, Moyenne, NB, Max, Min et Autres fonctions.", leg: "Accessible aussi par l'onglet Formules" }
+        ] },
+        { t: "Le relevé de notes", b: [
+          { sim: "excel",
+            donnees: [["Stagiaire", "Note"], ["Léa", 12], ["Omar", 15], ["Inès", 9], ["Tom", 14], ["Absent", "abs"], ["", ""], ["Moyenne", ""], ["Meilleure", ""], ["Plus basse", ""], ["Nb de notes", ""]],
+            missions: [
+              { t: "en B8, calculez la moyenne des notes (B2 à B6).", cellule: "B8", attendu: 12.5, contient: "MOYENNE", aide: "<code>=MOYENNE(B2:B6)</code>. Le texte « abs » est ignoré." },
+              { t: "en B9, trouvez la meilleure note.", cellule: "B9", attendu: 15, contient: "MAX", aide: "<code>=MAX(B2:B6)</code>" },
+              { t: "en B10, trouvez la plus basse.", cellule: "B10", attendu: 9, contient: "MIN", aide: "<code>=MIN(B2:B6)</code>" },
+              { t: "en B11, comptez les cellules qui contiennent un nombre.", cellule: "B11", attendu: 4, contient: "NB", aide: "<code>=NB(B2:B6)</code>. NBVAL, lui, compterait aussi « abs »." }
+            ] }
+        ] },
+        { t: "Quiz : recopie et fonctions", b: [
+          { activite: { fichier: "quiz-excel", etape: "Les fonctions de calcul", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Trier et filtrer",
+      icone: "🔽",
+      resume: "Faire parler un tableau brut.",
+      ecrans: [
+        { t: "Essayez : tri et filtre", b: [
+          { p: "Le <strong>tri</strong> ordonne les données. Le <strong>filtre</strong> n'affiche que ce qui correspond à vos critères, en masquant le reste sans le supprimer." },
+          { sim: "trifiltre" },
+          { img: "p055_0", alt: "Le groupe Trier et filtrer de l'onglet Données : Trier, Filtrer, Effacer, Réappliquer et Avancé.", leg: "Onglet Données, groupe Trier et filtrer" }
+        ] },
+        { t: "Trier, pas à pas", b: [
+          { onglets: [
+            ["Tri simple", { pas: [
+              "Sélectionnez les données à trier.",
+              "Onglet Données > Trier.",
+              "Choisissez la colonne et l'ordre : « De A à Z », « De Z à A », « Du plus petit au plus grand » ou « Du plus grand au plus petit ».",
+              "Confirmez avec OK."
+            ], progressif: false }],
+            ["Tri personnalisé", { pas: [
+              "Ouvrez la boîte de dialogue Trier.",
+              "« Ajouter un niveau » pour plusieurs critères (ex : par département, puis par nom).",
+              "Options possibles : couleur de cellule, couleur de police, icône.",
+              "Validez avec OK."
+            ], progressif: false }]
+          ] }
+        ] },
+        { t: "Filtrer, pas à pas", b: [
+          { onglets: [
+            ["Filtre simple", { pas: [
+              "Sélectionnez une cellule de la plage.",
+              "Onglet Données > Filtrer.",
+              "Une flèche apparaît dans chaque en-tête : cliquez dessus.",
+              "Décochez « (Tout sélectionner) », puis cochez les valeurs à afficher.",
+              "Validez avec OK."
+            ], progressif: false }],
+            ["Filtre personnalisé", { pas: [
+              "Ouvrez le menu de filtrage d'une colonne.",
+              "Choisissez « Filtres textuels » ou « Filtres numériques ».",
+              "Définissez vos critères : « Contient… », « Ne contient pas… », « Supérieur à… », « Inférieur à… ».",
+              "Validez avec OK."
+            ], progressif: false }]
+          ] },
+          { astuce: "Pour un aperçu rapide, utilisez la fonction « Sous-total » après un tri : vous obtenez des totaux par groupe." }
+        ] }
+      ]
+    },
+    {
+      titre: "Les graphiques",
+      icone: "📈",
+      resume: "Voir d'un coup d'œil.",
+      ecrans: [
+        { t: "Essayez : un graphique vivant", b: [
+          { p: "Les graphiques transforment des données brutes en informations claires : tendances, comparaisons, répartitions." },
+          { sim: "graphique", libre: true }
+        ] },
+        { t: "Créer un graphique en 5 étapes", b: [
+          { pas: [
+            "<strong>Préparer :</strong> des données organisées en colonnes et lignes, avec des en-têtes clairs. Sélectionnez tout, en-têtes compris.",
+            "<strong>Insérer :</strong> onglet Insertion, puis cliquez sur le type voulu : histogramme (colonnes), courbe (ligne) ou camembert (partages).",
+            "<strong>Personnaliser :</strong> cliquez sur le graphique pour faire apparaître les onglets Création de graphique et Format. Changez les couleurs, ajoutez un titre explicite, gérez légendes, étiquettes et axes.",
+            "<strong>Modifier :</strong> l'onglet Création de graphique permet d'ajouter des éléments, de changer de type et d'appliquer des dispositions rapides.",
+            "<strong>Rendre dynamique :</strong> créez un tableau croisé dynamique, puis onglet Analyse > Graphique croisé dynamique, et choisissez un type adapté."
+          ] },
+          { img: "p057_0", alt: "Un petit tableau Mois et Ventes sélectionné : janvier 1200, février 1350, mars 1000.", leg: "Étape 1 : sélectionner les données" },
+          { img: "p057_1", alt: "L'onglet Insertion d'Excel avec le groupe Graphiques.", leg: "Étape 2 : l'onglet Insertion" },
+          { img: "p057_2", alt: "L'histogramme obtenu, avec une colonne par mois.", leg: "Le résultat" },
+          { img: "p065_0", alt: "Les onglets Création et Format sous Outils de graphique.", leg: "Étape 3 : les onglets du graphique" },
+          { img: "p065_2", alt: "Le groupe Graphiques avec Graphiques recommandés et Graphique croisé dynamique.", leg: "Étape 5 : Graphique croisé dynamique" },
+          { astuce: "Le graphique croisé dynamique se filtre en direct. Et n'oubliez pas : pour un graphique, moins c'est plus. Restez clair, concis et pertinent." }
+        ] },
+        { t: "Quiz : tri, filtre et graphiques", b: [
+          { activite: { fichier: "quiz-excel", etape: "Les graphiques", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Les références de cellules",
+      icone: "📌",
+      resume: "Relative, absolue, mixte : le $ qui change tout.",
+      ecrans: [
+        { t: "Le problème du taux de TVA", b: [
+          { p: "Quand on recopie une formule, ses références bougent. Parfois c'est utile, parfois c'est une erreur. Appuyez sur {F4} pour changer d'écriture, puis recopiez :" },
+          { sim: "references" }
+        ] },
+        { t: "Les trois types", b: [
+          { cartes: [
+            ["Relative : `A1`", "S'adapte automatiquement quand on copie la formule. À utiliser par défaut."],
+            ["Absolue : `$A$1`", "Reste fixe quoi qu'il arrive. Indispensable pour les taux, les totaux fixes, la TVA."],
+            ["Mixte : `$A1` ou `A$1`", "Seule la colonne ou seule la ligne est figée, l'autre s'adapte."]
+          ] },
+          { p: "<strong>Exemple :</strong> dans <code>=A1*$B$1</code>, si B1 contient le taux de TVA, ce montant reste fixe lors de la copie : toutes les ventes sont multipliées par le même taux." },
+          { astuce: "Appuyez sur {F4} après avoir cliqué sur une cellule pour basculer entre les types de références." }
+        ] }
+      ]
+    },
+    {
+      titre: "Nommer les plages",
+      icone: "🏷️",
+      resume: "=SOMME(Ventes), c'est plus clair.",
+      ecrans: [
+        { t: "Donner un nom à ses données", b: [
+          { p: "Un nom transforme une référence (A1:B10) en identifiant clair (VentesAnnuelles) : c'est plus lisible, et les formules sont plus simples à écrire." },
+          { onglets: [
+            ["Par la Zone Nom", { pas: ["Sélectionnez la cellule ou la plage.", "Cliquez sur la Zone Nom, à gauche de la barre de formule.", "Tapez le nom (ex : TotalVentes, TVA_Taux) et appuyez sur {Entrée}."], progressif: false }],
+            ["Par le Gestionnaire", { pas: ["Sélectionnez la cellule ou la plage.", "Onglet Formules > Définir un nom.", "Entrez le nom, choisissez la portée (« Classeur » ou une feuille), vérifiez « Fait référence à ».", "Cliquez sur OK."], progressif: false }]
+          ] },
+          { attention: "Un nom ne contient pas d'espace, commence par une lettre ou un trait de soulignement, et ne ressemble pas à une référence de cellule (A1, R2C2)." },
+          { cartes: [
+            ["Des formules claires", "`=SOMME(VentesAnnuelles)` se comprend mieux que `=SOMME(Feuil1!$A$1:$A$100)`."],
+            ["Une navigation facile", "La Zone Nom vous emmène instantanément vers une plage nommée."],
+            ["Des références qui tiennent", "Les noms gardent leur référence même si vous déplacez les données."]
+          ] },
+          { note: "Pour modifier ou supprimer un nom : bouton « Gestionnaire de noms », onglet Formules." }
+        ] },
+        { t: "Essayez avec une plage nommée", b: [
+          { p: "Ici, les cellules B2 à B5 s'appellent déjà <strong>Ventes</strong>." },
+          { sim: "excel",
+            donnees: [["Mois", "Ventes"], ["Janvier", 1200], ["Février", 1350], ["Mars", 1000], ["Avril", 1450], ["Total", ""]],
+            noms: { Ventes: "B2:B5" },
+            missions: [{ t: "en B6, additionnez les ventes en utilisant le nom de la plage.", cellule: "B6", attendu: 5000, contient: "Ventes", aide: "<code>=SOMME(Ventes)</code>" }] }
+        ] },
+        { t: "Quiz : références et plages nommées", b: [
+          { activite: { fichier: "quiz-excel", etape: "Nommer les plages", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Les fonctions conditionnelles",
+      icone: "🔀",
+      resume: "SI, NB.SI, SOMME.SI.",
+      ecrans: [
+        { t: "La fonction SI", b: [
+          { p: "Elle renvoie une valeur si une condition est vraie, et une autre si elle est fausse." },
+          { p: "<code>=SI(test_logique ; valeur_si_vrai ; valeur_si_faux)</code>" },
+          { liste: [
+            "<strong>test_logique :</strong> ce qui peut être VRAI ou FAUX (ex : A1>=10).",
+            "<strong>valeur_si_vrai :</strong> ce qu'on renvoie si c'est vrai (nombre, texte, fonction, cellule).",
+            "<strong>valeur_si_faux :</strong> ce qu'on renvoie sinon."
+          ] },
+          { sim: "excel",
+            donnees: [["Nom", "Note", "Résultat"], ["Léa", 12, ""], ["Omar", 8, ""]],
+            missions: [
+              { t: "en C2, affichez « Reçu » si la note de B2 est d'au moins 10, sinon « Échoué ».", cellule: "C2", attendu: "Reçu", contient: "SI", aide: "<code>=SI(B2>=10;\"Reçu\";\"Échoué\")</code>. Le texte se met entre guillemets." },
+              { t: "faites de même en C3, pour Omar.", cellule: "C3", attendu: "Échoué", contient: "SI", aide: "<code>=SI(B3>=10;\"Reçu\";\"Échoué\")</code>" }
+            ] }
+        ] },
+        { t: "NB.SI et SOMME.SI", b: [
+          { p: "Ces fonctions comptent ou additionnent uniquement ce qui répond à un critère." },
+          { onglets: [
+            ["NB.SI", "<code>=NB.SI(plage ; critère)</code><br>Compte les cellules qui satisfont le critère (ex : \">50\", \"Paris\", A1).<br>Exemple : <code>=NB.SI(C:C;\"En cours\")</code> compte les commandes « En cours »."],
+            ["SOMME.SI", "<code>=SOMME.SI(plage ; critère ; [somme_plage])</code><br>Additionne ce qui répond au critère. Si somme_plage est omise, la plage elle-même est additionnée.<br>Exemple : <code>=SOMME.SI(B:B;\"Électronique\";C:C)</code>, où B contient les catégories et C les montants."]
+          ] },
+          { sim: "excel",
+            donnees: [["Produit", "Catégorie", "Montant"], ["Écran", "Électronique", 200], ["Bureau", "Mobilier", 350], ["Souris", "Électronique", 30], ["Chaise", "Mobilier", 120], ["", "", ""], ["Nb Électronique", "", ""], ["Total Électronique", "", ""]],
+            missions: [
+              { t: "en C7, comptez les produits de la catégorie « Électronique ».", cellule: "C7", attendu: 2, contient: "NB\\.SI", aide: "<code>=NB.SI(B2:B5;\"Électronique\")</code>" },
+              { t: "en C8, additionnez leurs montants.", cellule: "C8", attendu: 230, contient: "SOMME\\.SI", aide: "<code>=SOMME.SI(B2:B5;\"Électronique\";C2:C5)</code>" }
+            ] },
+          { astuce: "Les caractères génériques rendent les critères plus souples. <code>*</code> remplace n'importe quelle suite de caractères : \"*text*\" trouve toute cellule contenant « text ». <code>?</code> remplace un seul caractère : \"c?ur\" trouve « cœur » ou « cour »." }
+        ] }
+      ]
+    },
+    {
+      titre: "La mise en forme conditionnelle",
+      icone: "🚦",
+      resume: "Les cellules se colorent toutes seules.",
+      ecrans: [
+        { t: "Colorer selon les valeurs", b: [
+          { p: "Elle colore automatiquement les cellules selon leur valeur, pour repérer d'un coup d'œil les tendances, les anomalies et les objectifs atteints." },
+          { sim: "mfc" }
+        ] },
+        { t: "L'appliquer dans Excel", b: [
+          { p: "Onglet <strong>Accueil</strong>, groupe <strong>Styles</strong> > <strong>Mise en forme conditionnelle</strong>." },
+          { cartes: [
+            ["Règles de surbrillance", "Mettre en évidence selon un critère : Supérieur à, Inférieur à, Entre, Égal à, Texte qui contient."],
+            ["Valeurs les plus/moins élevées", "Repérer les N premiers ou derniers éléments, ou un pourcentage de la plage."],
+            ["Barres de données", "Une barre dans chaque cellule, dont la longueur suit la valeur."],
+            ["Nuances de couleurs", "Un dégradé selon la valeur. Utile pour les densités (performances régionales, risques)."],
+            ["Jeux d'icônes", "Flèches, feux, indicateurs : vert pour « bon », jaune pour « moyen », rouge pour « mauvais »."]
+          ] },
+          { h: "Exemple : les ventes à alerter" },
+          { pas: [
+            "Sélectionnez la plage D2:D50.",
+            "Accueil > Mise en forme conditionnelle > Règles de mise en surbrillance des cellules > Inférieur à…",
+            "Entrez 100 et choisissez « Remplissage rouge clair avec texte rouge foncé ».",
+            "Toutes les ventes sous 100 € sont mises en évidence."
+          ] }
+        ] },
+        { t: "Gérer les règles", b: [
+          { p: "<strong>Accueil > Mise en forme conditionnelle > Gérer les règles</strong> est votre centre de contrôle :" },
+          { liste: [
+            "<strong>Modifier</strong> une règle : sa condition, son format ou sa plage.",
+            "<strong>Supprimer</strong> les règles devenues inutiles.",
+            "<strong>Changer l'ordre</strong> : si plusieurs règles visent une cellule, la première règle VRAIE de la liste s'applique.",
+            "<strong>Créer</strong> de nouvelles règles avec des formules personnalisées."
+          ] }
+        ] },
+        { t: "Quiz : la mise en forme conditionnelle", b: [
+          { activite: { fichier: "quiz-excel", etape: "La mise en forme conditionnelle", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Les tableaux croisés dynamiques",
+      icone: "🧊",
+      resume: "Synthétiser des milliers de lignes.",
+      ecrans: [
+        { t: "Un TCD, à quoi ça sert ?", b: [
+          { p: "Le TCD analyse et synthétise de grandes quantités de données en quelques clics. Il sert à :" },
+          { liste: [
+            "résumer rapidement de vastes bases de données ;",
+            "regrouper les informations par catégories ;",
+            "calculer automatiquement (sommes, moyennes, comptages…) ;",
+            "filtrer et trier de façon dynamique pour explorer différentes perspectives."
+          ] },
+          { sim: "tcd" }
+        ] },
+        { t: "Créer un TCD", b: [
+          { pas: [
+            "<strong>Sélectionnez la plage :</strong> cliquez dans vos données. Elles doivent avoir des en-têtes clairs, sans ligne ni colonne vide.",
+            "<strong>Insérez :</strong> onglet Insertion > Tableau croisé dynamique. Confirmez la plage et choisissez une nouvelle feuille ou une feuille existante.",
+            "<strong>Organisez les champs :</strong> dans le panneau à droite, faites glisser les champs dans les zones."
+          ] },
+          { img: "p066_0", alt: "Le groupe Tableaux de l'onglet Insertion : Tableau croisé dynamique, Tableaux croisés dynamiques recommandés et Tableau.", leg: "Onglet Insertion" },
+          { associer: [
+            ["Lignes", "Les catégories principales (Clients, Produits)"],
+            ["Colonnes", "Les subdivisions (Mois, Années)"],
+            ["Valeurs", "Ce qu'on mesure et calcule (Ventes, Quantités)"],
+            ["Filtres", "Les critères de sélection globaux"]
+          ], titre: "Les 4 zones à maîtriser" },
+          { img: "p067_0", alt: "Le panneau Champs de tableau croisé dynamique avec la liste des champs et les quatre zones.", leg: "Le panneau de champs" }
+        ] },
+        { t: "Affiner et mettre à jour", b: [
+          { onglets: [
+            ["Valeurs", ["<strong>Changer le calcul :</strong> cliquez sur une valeur > Analyser > Paramètres des champs de valeurs (Somme, Moyenne, Nombre, Max, Min…).", "<strong>En pourcentage :</strong> Affichage des valeurs > Pourcentage du total général, ou Différence par rapport à."]],
+            ["Filtrer", ["<strong>Par un champ :</strong> ajoutez-le à la zone Filtres, puis utilisez la liste en haut du TCD.", "<strong>Segment :</strong> Insertion > Insérer un segment (Région, Catégorie…), pour un filtrage visuel.", "<strong>Chronologie :</strong> Insertion > Insérer une chronologie, pour naviguer dans les périodes."]],
+            ["Mettre à jour", { pas: ["Cliquez dans le TCD.", "Outils de tableau croisé dynamique > Analyser.", "Cliquez sur Actualiser."], progressif: false }],
+            ["Apparence", ["<strong>Style :</strong> onglet Création, nombreux styles prédéfinis.", "<strong>Totaux :</strong> onglet Création, options Sous-totaux et Totaux généraux.", "<strong>Structure :</strong> glissez-déposez les champs dans le panneau."]]
+          ] },
+          { img: "p068_1", alt: "L'onglet Analyse du tableau croisé dynamique et son bouton Actualiser.", leg: "Onglet Analyse" },
+          { img: "p068_2", alt: "L'onglet Création du tableau croisé dynamique et sa galerie de styles.", leg: "Onglet Création" },
+          { retenir: [
+            "Un TCD ne modifie jamais les données source : il les analyse sans les toucher.",
+            "Il ne se met pas à jour tout seul : clic droit > Actualiser après chaque modification.",
+            "Double-cliquer sur une valeur affiche le détail des données qui la composent."
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "Bilan : Microsoft Excel",
+      icone: "🏁",
+      resume: "Résumés, quiz et grands défis.",
+      ecrans: [
+        { t: "Les bases en résumé", b: [
+          { qqc: {
+            quoi: "Le Ruban, la barre de formule, la grille, les onglets de feuilles et la barre d'état. La saisie, les formules simples, la recopie et la mise en forme.",
+            pourquoi: "Excel est l'outil de référence pour organiser, calculer et analyser. Ses bases automatisent les calculs répétitifs et font gagner un temps précieux.",
+            comment: "Formule : cliquer, taper =, écrire la fonction, {Entrée}. Recopie : sélectionner, tirer la poignée. Mise en forme : onglet Accueil, groupes Nombre ou Police.",
+            retenir: "Toute formule commence par =. Les références s'adaptent lors de la recopie. {Ctrl+S} pour enregistrer, {Ctrl+Z} pour annuler."
+          } }
+        ] },
+        { t: "Les notions avancées en résumé", b: [
+          { qqc: {
+            quoi: "Les références absolues et relatives, le nommage, =SI, =NB.SI, =SOMME.SI, la mise en forme conditionnelle, le tri, le filtre et les TCD.",
+            pourquoi: "Excel devient un véritable moteur d'analyse. Les TCD croisent des milliers de lignes en quelques clics. Les fonctions conditionnelles automatisent des décisions.",
+            comment: "Absolue : $ ou {F4}. TCD : Insertion > Tableau croisé dynamique. Mise en forme conditionnelle : Accueil > Nouvelle règle.",
+            retenir: "$ fige la référence. Un TCD s'actualise à la main. =SI(condition ; valeur_si_vrai ; valeur_si_faux)."
+          } },
+          { activite: { fichier: "quiz-excel", etape: "Quiz final", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] },
+        { t: "Défi 1 : le tableau de produits", b: [
+          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Excel", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Tableau_Produits.xlsx", icone: "📝" } }
+        ] },
+        { t: "Défi 2 : analyser comme un pro", b: [
+          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Excel", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Références, conditions et TCD", icone: "📝" } }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

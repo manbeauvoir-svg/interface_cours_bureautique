@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Windows 11</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "windows",
+  numero: 2,
+  titre: "Windows 11",
+  icone: "🪟",
+  couleur: "#0369a1",
+  pale: "#e0f2fe",
+  accroche: "Se repérer sur le bureau, utiliser deux écrans et organiser ses fenêtres pour travailler plus confortablement.",
+  suite: { fichier: "livret-fichiers", titre: "Les fichiers et dossiers" },
+  notions: {
+    "demarrer": {
+      "titre": "le menu Démarrer",
+      "va": "Le menu Démarrer et les paramètres",
+      "jeu": {
+        "fichier": "quiz-windows-11",
+        "titre": "le quiz Windows 11"
+      }
+    },
+    "ecrans": {
+      "titre": "les 4 modes d'affichage",
+      "va": "Les 4 modes de {Windows+P}"
+    },
+    "snap": {
+      "titre": "ancrer ses fenêtres",
+      "va": "Les méthodes d'ancrage"
+    },
+    "capture": {
+      "titre": "la capture d'écran",
+      "va": "Capturer son écran",
+      "jeu": {
+        "fichier": "quiz-raccourcis",
+        "titre": "le quiz des raccourcis"
+      }
+    }
+  },
+  plus: {"fichier": "quiz-windows-11", "titre": "le quiz Windows 11"},
+  quizPage: "quiz-windows",
+  etapes: [
+    {
+      titre: "Le bureau de Windows 11",
+      icone: "🪟",
+      resume: "Bureau, barre des tâches, menu Démarrer.",
+      ecrans: [
+        { t: "Le Bureau et la barre des tâches", b: [
+          { p: "Le <strong>Bureau</strong> est l'espace principal de travail. La <strong>barre des tâches</strong> permet d'épingler des applications, de passer d'une fenêtre à l'autre et de voir les notifications." },
+          { img: "p007_0", alt: "Le Bureau de Windows : les icônes à gauche, le fond d'écran au centre et la barre des tâches en bas.", leg: "Les icônes, le fond d'écran et la barre des tâches" }
+        ] },
+        { t: "La zone de notification", b: [
+          { p: "La barre des tâches donne un accès rapide aux applications. La <strong>zone de notification</strong> affiche les icônes en arrière-plan et les alertes système." },
+          { p: "Le <strong>centre de notifications</strong> regroupe l'historique et les paramètres rapides : Wi-Fi, Bluetooth et volume." },
+          { img: "p007_1", alt: "La barre des tâches avec le bouton Démarrer, la barre de recherche, l'affichage des tâches, la zone de notifications et le bouton d'aperçu du bureau.", leg: "Les éléments de la barre des tâches" }
+        ] },
+        { t: "Le menu Démarrer et les paramètres", b: [
+          { p: "Le <strong>menu Démarrer</strong> sert à lancer les applications et à rechercher fichiers ou programmes. Il donne aussi accès aux options d'alimentation." },
+          { img: "p007_2", alt: "Le menu Démarrer : une zone de logiciels et applications, une zone de derniers fichiers consultés et une barre pour la session.", leg: "Le menu Démarrer" },
+          { p: "Les <strong>paramètres du Bureau</strong> permettent de personnaliser le fond d'écran, les thèmes et les couleurs." },
+          { img: "p007_3", alt: "Le menu du clic droit sur le Bureau, qui donne accès à l'affichage et à la personnalisation.", leg: "Clic droit sur le Bureau" }
+        ] },
+        { t: "À vous de retrouver chaque zone", b: [
+          { sim: "maquette",
+            colonnes: "1fr 2fr 1fr",
+            lignes: "minmax(150px, 1fr) 46px",
+            zones: [
+              { nom: "Bureau", aire: "1 / 1 / 2 / 4", texte: "l'espace principal de travail, avec les icônes et le fond d'écran." },
+              { nom: "Barre de recherche", aire: "2 / 1 / 3 / 2", texte: "pour retrouver rapidement un fichier ou un programme." },
+              { nom: "Bouton Démarrer", aire: "2 / 2 / 3 / 3", texte: "au centre de la barre des tâches : il ouvre le menu Démarrer." },
+              { nom: "Zone de notification", aire: "2 / 3 / 3 / 4", texte: "à l'extrême droite : icônes en arrière-plan, alertes, Wi-Fi, volume." }
+            ] },
+          { activite: { fichier: "quiz-windows", etape: "Le bureau de Windows 11", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Le double écran",
+      icone: "🖥️",
+      resume: "Travailler sur plusieurs moniteurs.",
+      ecrans: [
+        { t: "Plus d'espace pour travailler", b: [
+          { p: "Le double écran augmente l'espace de travail et aide à mieux organiser ses tâches. Windows 11 facilite la connexion et le réglage de plusieurs moniteurs." },
+          { h: "Connecter un second écran" },
+          { pas: [
+            "Branchez le câble adapté : HDMI, DisplayPort, VGA ou USB-C.",
+            "Windows détecte souvent l'écran automatiquement.",
+            "Sinon, allez dans <strong>Paramètres > Système > Affichage</strong> puis cliquez sur « Détecter »."
+          ] }
+        ] },
+        { t: "Les 4 modes de {Windows+P}", b: [
+          { p: "Ce raccourci ouvre le menu de projection. Essayez chaque mode :" },
+          { sim: "projection", libre: true },
+          { activite: { fichier: "quiz-windows", etape: "Le double écran", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] },
+        { t: "Les réglages avancés", b: [
+          { img: "p008_0", alt: "Paramètres d'affichage de Windows : deux écrans numérotés 1 et 2 et le menu des modes d'affichage.", leg: "Paramètres > Système > Affichage" },
+          { cartes: [
+            ["Disposition", "Glissez les écrans pour les placer correctement."],
+            ["Résolution et fréquence", "Ajustez chaque moniteur séparément."],
+            ["Écran principal", "Choisissez l'écran qui affiche le bureau par défaut."],
+            ["Mise à l'échelle", "Adaptez la taille des éléments à chaque écran."]
+          ] },
+          { astuce: "En mode « Étendre », faites glisser les fenêtres ou utilisez {Windows+Maj+Flèche} gauche ou droite." }
+        ] }
+      ]
+    },
+    {
+      titre: "Ancrer ses fenêtres",
+      icone: "🧲",
+      resume: "Snap Assist, pour tout voir d'un coup.",
+      ecrans: [
+        { t: "Organiser ses fenêtres en un geste", b: [
+          { p: "Le <strong>Snap Assist</strong> permet d'organiser rapidement vos applications à l'écran pour gagner en productivité." },
+          { sim: "snap" }
+        ] },
+        { t: "Les méthodes d'ancrage", b: [
+          { onglets: [
+            ["Glisser-déposer", "Glissez la fenêtre vers un <strong>bord</strong> de l'écran pour l'ancrer à la moitié, ou vers un <strong>coin</strong> pour un quart."],
+            ["Barre de positionnement", "Faites glisser la fenêtre vers le haut de l'écran : une barre de dispositions apparaît. Déposez la fenêtre sur la zone souhaitée."],
+            ["Groupes d'ancrage", "Survolez le bouton <strong>Agrandir</strong> en haut à droite d'une fenêtre, choisissez une disposition, puis sélectionnez les autres applications pour remplir les emplacements. Le groupe peut ensuite être restauré depuis la barre des tâches."]
+          ] },
+          { img: "p009_0", alt: "Une fenêtre de l'Explorateur avec le menu des dispositions affiché sous le bouton Agrandir.", leg: "Les dispositions du bouton Agrandir" },
+          { astuce: "Idéal en multi-moniteur : créez un groupe différent sur chaque écran." },
+          { activite: { fichier: "quiz-windows", etape: "Ancrer ses fenêtres", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] }
+      ]
+    },
+    {
+      titre: "La capture d'écran",
+      icone: "📸",
+      resume: "Garder une image de ce qu'on voit.",
+      ecrans: [
+        { t: "Capturer son écran", b: [
+          { p: "La capture d'écran enregistre tout ou partie de l'écran. L'outil est représenté par des ciseaux dans la barre de recherche." },
+          { associer: [
+            ["{Windows+Maj+S}", "Une capture d'image"],
+            ["{Windows+Maj+R}", "Une capture vidéo"],
+            ["Forme libre", "Dessiner autour d'un objet"],
+            ["Rectangle", "Tracer un rectangle autour d'un objet"],
+            ["Fenêtre", "Capturer une seule fenêtre"],
+            ["Plein écran", "Capturer tout l'écran"]
+          ], titre: "Les façons de capturer" },
+          { fiche: { titre: "L'outil capture d'écran", fichier: "windows/capture-ecran.docx", gros: "windows/capture-ecran-gros.docx" } },
+          { fiche: { titre: "Les raccourcis clavier de base", fichier: "windows/raccourcis-clavier.docx" } },
+          { activite: { fichier: "quiz-windows", etape: "La capture d'écran", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] },
+        { t: "À vous : une capture d'écran", b: [
+          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Windows", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Ma première capture d'écran", icone: "📝" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Bilan : Windows 11",
+      icone: "🏁",
+      resume: "Résumé, quiz et défi pratique.",
+      ecrans: [
+        { t: "L'essentiel sur Windows 11", b: [
+          { qqc: {
+            quoi: "L'interface graphique qui permet d'interagir avec l'ordinateur : le Bureau, la barre des tâches, le menu Démarrer et les fenêtres.",
+            pourquoi: "Naviguer rapidement, lancer des applications, gérer les notifications et personnaliser son espace de travail.",
+            comment: "Clic droit sur le Bureau pour personnaliser. {Windows+P} pour les écrans. {Alt+Tab} pour naviguer entre les fenêtres. Épingler les applications à la barre des tâches.",
+            retenir: "Un environnement bien configuré permet un travail plus rapide et plus confortable au quotidien."
+          } },
+          { activite: { fichier: "quiz-windows-11", titre: "Le quiz Windows 11", texte: "Vérifiez tous vos repères dans l'environnement.", icone: "🪟" } }
+        ] },
+        { t: "Le défi : personnaliser son environnement", b: [
+          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Windows", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Personnaliser et maîtriser Windows 11", icone: "📝" } }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

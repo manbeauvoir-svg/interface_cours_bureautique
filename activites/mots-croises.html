@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mots croisés de la bureautique</title>
+<style>
+  :root {
+    --encre: #1b2a33; --doux: #4b5c66; --fond: #fff8ec; --teinte: #a21caf; --teinte-claire: #f8e6fb;
+    --actif: #ffe08a; --mot: #fff3c9; --bon: #d3f4dc; --bon-texte: #14652f; --faux: #fbd5d5; --faux-texte: #a11616;
+    --titres: "Fredoka", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fond); color: var(--encre); font: 500 17px/1.45 "Nunito", "Segoe UI", system-ui, sans-serif; }
+  :focus-visible { outline: 3px solid #e8590c; outline-offset: 2px; }
+  [hidden] { display: none !important; }
+  main { max-width: 1120px; margin: 0 auto; padding: 24px 20px 56px; }
+  h1 { margin: 0; font: 700 clamp(1.8rem, 5vw, 2.6rem)/1.1 var(--titres); color: var(--teinte); }
+  .aide { margin: 6px 0 18px; color: var(--doux); }
+
+  .grilles { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .grilles button, .actions button {
+    min-height: 46px; padding: 6px 16px; border-radius: 99px; font: 800 1rem "Nunito", sans-serif; cursor: pointer;
+    background: #fff; color: var(--teinte); border: 2px solid var(--teinte);
+  }
+  .grilles button[aria-pressed="true"] { background: var(--teinte); color: #fff; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 10px; }
+  .actions .principal { background: var(--teinte); color: #fff; }
+
+  .jeu { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(280px, 1fr); gap: 28px; align-items: start; }
+  .grille-boite { overflow-x: auto; padding: 3px; }
+  .grille {
+    display: grid; grid-template-columns: repeat(var(--colonnes), minmax(27px, 1fr)); gap: 2px;
+    width: 100%; max-width: calc(var(--colonnes) * 42px);
+  }
+  .jeu > section { min-width: 0; }
+  .case { position: relative; aspect-ratio: 1; }
+  .case input {
+    width: 100%; height: 100%; padding: 0; text-align: center; text-transform: uppercase; caret-color: transparent;
+    font: 700 clamp(.95rem, 2.4vw, 1.3rem) var(--titres); color: var(--encre);
+    background: #fff; border: 2px solid #33424c; border-radius: 5px; cursor: pointer;
+  }
+  .case input.dans-mot { background: var(--mot); }
+  .case input:focus { background: var(--actif); outline: 3px solid #e8590c; outline-offset: 0; position: relative; z-index: 1; }
+  .case input.juste { background: var(--bon); color: var(--bon-texte); border-color: var(--bon-texte); }
+  .case input.fausse { background: var(--faux); color: var(--faux-texte); border-color: var(--faux-texte); }
+  .numero { position: absolute; top: 1px; left: 3px; z-index: 2; font-size: .62rem; font-weight: 800; pointer-events: none; color: #33424c; }
+
+  .definitions h2 { margin: 0 0 6px; font: 600 1.25rem var(--titres); color: var(--teinte); }
+  .definitions ol { list-style: none; margin: 0 0 18px; padding: 0; }
+  .definitions button {
+    display: block; width: 100%; padding: 7px 10px; text-align: left; font: inherit; color: inherit;
+    background: none; border: 0; border-radius: 8px; cursor: pointer;
+  }
+  .definitions button:hover { background: var(--teinte-claire); }
+  .definitions button.en-cours { background: var(--mot); font-weight: 800; }
+  .definitions button.trouve { color: var(--bon-texte); text-decoration: line-through; }
+  .definitions b { color: var(--teinte); }
+  #message { min-height: 1.6em; font-weight: 800; }
+  #message.bravo { font: 600 1.35rem var(--titres); color: var(--bon-texte); }
+
+  @media (max-width: 800px) { .jeu { grid-template-columns: minmax(0, 1fr); } }
+</style>
+<link rel="stylesheet" href="livret/polices/polices.css">
+</head>
+<body>
+<main>
+  <h1>🧩 Mots croisés de la bureautique</h1>
+  <p class="aide">Choisissez une grille, cliquez sur une case ou une définition, puis écrivez. Inutile de mettre les accents. Pour changer de sens, cliquez de nouveau sur la case.</p>
+  <div id="grilles" class="grilles" role="group" aria-label="Choisir une grille"></div>
+  <p id="pages" class="aide"></p>
+  <div class="jeu">
+    <section aria-label="Grille">
+      <div class="grille-boite"><div id="grille" class="grille"></div></div>
+      <div class="actions">
+        <button id="verifier" class="principal" type="button">Vérifier</button>
+        <button id="indice" type="button">Une lettre d'aide</button>
+        <button id="effacer" type="button">Tout effacer</button>
+        <button id="solution" type="button">Voir la solution</button>
+      </div>
+      <p id="message" role="status"></p>
+    </section>
+    <section class="definitions" aria-label="Définitions">
+      <h2>Horizontalement</h2>
+      <ol id="horizontal"></ol>
+      <h2>Verticalement</h2>
+      <ol id="vertical"></ol>
+    </section>
+  </div>
+</main>
+
+<script src="livret/resultat-activite.js"></script>
+<script>
+  /*
+    POUR AJOUTER UNE GRILLE : copiez un bloc et changez les mots.
+    Écrivez les mots en un seul morceau, sans espace ni tiret. Les accents sont retirés automatiquement.
+    La grille se construit toute seule. Prévoyez entre 7 et 12 mots.
+  */
+  const GRILLES = [
+    {
+      titre: "Le matériel",
+      pages: "pages 4 à 6",
+      mots: {
+        "CLAVIER": "Il sert à saisir du texte.",
+        "SOURIS": "Elle permet de déplacer le pointeur à l'écran.",
+        "ECRAN": "Il affiche les informations.",
+        "IMPRIMANTE": "Elle met vos documents sur papier.",
+        "SCANNER": "Il transforme un document papier en fichier.",
+        "WEBCAM": "Elle filme pendant une visioconférence.",
+        "MOLETTE": "Petite roue de la souris, pour faire défiler une page.",
+        "CASQUE": "On le porte sur les oreilles, parfois avec un micro.",
+        "PERIPHERIQUE": "Équipement externe relié à l'ordinateur."
+      }
+    },
+    {
+      titre: "Windows 11",
+      pages: "pages 7 à 9",
+      mots: {
+        "BUREAU": "L'espace de travail affiché après l'ouverture de la session.",
+        "DEMARRER": "Le menu qui donne accès aux applications.",
+        "CORBEILLE": "Les fichiers supprimés y restent en attente.",
+        "FENETRE": "Chaque application s'ouvre dans l'une d'elles.",
+        "EPINGLER": "Fixer une application à la barre des tâches.",
+        "ETENDRE": "Mode qui fait de deux écrans un seul grand bureau.",
+        "DUPLIQUER": "Mode qui affiche la même image sur les deux écrans.",
+        "PARAMETRES": "L'application qui permet de régler Windows.",
+        "NOTIFICATION": "Petit message d'alerte envoyé par une application."
+      }
+    },
+    {
+      titre: "Fichiers et extensions",
+      pages: "pages 10 à 12",
+      mots: {
+        "FICHIER": "Un document enregistré sur l'ordinateur.",
+        "DOSSIER": "Il sert à ranger des fichiers.",
+        "EXTENSION": "Les lettres après le point, à la fin du nom d'un fichier.",
+        "RACCOURCI": "Son icône porte une petite flèche.",
+        "ICONE": "Petite image qui représente un fichier ou une application.",
+        "DOCX": "Extension d'un fichier Word.",
+        "XLSX": "Extension d'un fichier Excel.",
+        "PPTX": "Extension d'un fichier PowerPoint.",
+        "PDF": "Format qui garde la mise en page sur tous les appareils.",
+        "ZIP": "Extension d'un dossier compressé."
+      }
+    },
+    {
+      titre: "L'Explorateur de fichiers",
+      pages: "pages 13 à 21",
+      mots: {
+        "ARBORESCENCE": "L'organisation des dossiers et des sous-dossiers.",
+        "COPIER": "Ctrl + C : le fichier reste à sa place et sera dupliqué.",
+        "COUPER": "Ctrl + X : la première étape pour déplacer un fichier.",
+        "COLLER": "Ctrl + V : la dernière étape pour copier ou déplacer.",
+        "RENOMMER": "Ce que permet la touche F2.",
+        "SUPPRIMER": "Envoyer un fichier à la Corbeille.",
+        "DETAILS": "Mode d'affichage avec des colonnes : nom, date, type, taille.",
+        "PARENT": "Le dossier qui contient directement un autre dossier.",
+        "RESTAURER": "Récupérer un fichier depuis la Corbeille."
+      }
+    },
+    {
+      titre: "Word, Excel et PowerPoint",
+      pages: "à partir de la page 24",
+      mots: {
+        "RUBAN": "La bande d'outils en haut de la fenêtre.",
+        "ONGLET": "On clique dessus pour changer de groupe d'outils.",
+        "ACCUEIL": "Le premier onglet après Fichier, dans les trois logiciels.",
+        "INSERTION": "L'onglet qui permet d'ajouter une image ou un tableau.",
+        "POLICE": "Le style des lettres d'un texte.",
+        "CELLULE": "La case d'un tableau Excel.",
+        "FORMULE": "Dans Excel, elle commence par le signe égal.",
+        "DIAPOSITIVE": "Une page d'une présentation PowerPoint.",
+        "ENREGISTRER": "Ce que fait le raccourci Ctrl + S."
+      }
+    }
+  ];
+
+  const $ = id => document.getElementById(id);
+  const nettoyer = t => t.normalize("NFD").replace(/[̀-ͯ]/g, "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+  const cle = (l, c) => l + "," + c;
+  const DIRS = { h: [0, 1], v: [1, 0] };
+
+  /* ---------- Construction de la grille ---------- */
+  function poser(ordre) {
+    const cases = new Map();
+    const places = [];
+
+    function score(mot, l0, c0, sens) {
+      const [dl, dc] = DIRS[sens];
+      if (cases.has(cle(l0 - dl, c0 - dc)) || cases.has(cle(l0 + dl * mot.length, c0 + dc * mot.length))) return -1;
+      let croisements = 0;
+      for (let i = 0; i < mot.length; i++) {
+        const l = l0 + dl * i, c = c0 + dc * i;
+        const present = cases.get(cle(l, c));
+        if (present) {
+          if (present !== mot[i]) return -1;
+          croisements++;
+        } else if (cases.has(cle(l + dc, c + dl)) || cases.has(cle(l - dc, c - dl))) {
+          return -1;   // toucherait un mot voisin sans le croiser
+        }
+      }
+      return croisements;
+    }
+
+    function ecrire(mot, l0, c0, sens) {
+      const [dl, dc] = DIRS[sens];
+      for (let i = 0; i < mot.length; i++) cases.set(cle(l0 + dl * i, c0 + dc * i), mot[i]);
+      places.push({ mot, l: l0, c: c0, sens });
+    }
+
+    ecrire(ordre[0], 0, 0, "h");
+    const restants = ordre.slice(1);
+    let progres = true;
+    while (restants.length && progres) {
+      progres = false;
+      for (let m = 0; m < restants.length; m++) {
+        const mot = restants[m];
+        let meilleur = null;
+        for (const [k, lettre] of cases) {
+          const [l, c] = k.split(",").map(Number);
+          for (let i = 0; i < mot.length; i++) {
+            if (mot[i] !== lettre) continue;
+            for (const sens of ["h", "v"]) {
+              const [dl, dc] = DIRS[sens];
+              const l0 = l - dl * i, c0 = c - dc * i;
+              const s = score(mot, l0, c0, sens);
+              if (s < 1) continue;
+              const ls = [...cases.keys()].map(x => +x.split(",")[0]).concat(l0, l0 + dl * (mot.length - 1));
+              const cs = [...cases.keys()].map(x => +x.split(",")[1]).concat(c0, c0 + dc * (mot.length - 1));
+              const emprise = Math.max(...ls) - Math.min(...ls) + Math.max(...cs) - Math.min(...cs);
+              const note = s * 100 - emprise * 3 + (sens === "v" ? 1 : 0);
+              if (!meilleur || note > meilleur.note) meilleur = { note, l0, c0, sens };
+            }
+          }
+        }
+        if (meilleur) {
+          ecrire(mot, meilleur.l0, meilleur.c0, meilleur.sens);
+          restants.splice(m, 1);
+          m--;
+          progres = true;
+        }
+      }
+    }
+    return { places, cases, oublies: restants };
+  }
+
+  function construire(motsBruts) {
+    const mots = motsBruts.slice().sort((a, b) => b.length - a.length || a.localeCompare(b));
+    let meilleure = null;
+    for (let d = 0; d < mots.length; d++) {
+      const ordre = mots.slice(d).concat(mots.slice(0, d));
+      const essai = poser(ordre);
+      const ls = [...essai.cases.keys()].map(x => +x.split(",")[0]);
+      const cs = [...essai.cases.keys()].map(x => +x.split(",")[1]);
+      const larg = Math.max(...cs) - Math.min(...cs), haut = Math.max(...ls) - Math.min(...ls);
+      const note = -essai.oublies.length * 1000 - Math.max(larg, haut) * 4 - Math.abs(larg - haut);
+      if (!meilleure || note > meilleure.note) meilleure = { ...essai, note, lmin: Math.min(...ls), cmin: Math.min(...cs), larg, haut };
+    }
+    return meilleure;
+  }
+
+  /* ---------- État du jeu ---------- */
+  let places = [], entrees = new Map(), solution = new Map(), actif = null, sens = "h";
+
+  function ouvrir(index) {
+    const g = GRILLES[index];
+    const definitions = {};
+    Object.entries(g.mots).forEach(([m, d]) => { definitions[nettoyer(m)] = d; });
+    const plan = construire(Object.keys(definitions));
+    if (plan.oublies.length) console.warn("Mots non placés :", plan.oublies);
+
+    places = plan.places.map(p => ({ ...p, l: p.l - plan.lmin, c: p.c - plan.cmin, def: definitions[p.mot] }));
+    // Numérotation dans le sens de lecture ; deux mots partant de la même case partagent leur numéro.
+    const departs = [...new Set(places.map(p => cle(p.l, p.c)))]
+      .map(k => k.split(",").map(Number)).sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+    const numeros = new Map(departs.map(([l, c], i) => [cle(l, c), i + 1]));
+    places.forEach(p => { p.n = numeros.get(cle(p.l, p.c)); });
+
+    solution = new Map();
+    places.forEach(p => {
+      const [dl, dc] = DIRS[p.sens];
+      [...p.mot].forEach((x, i) => solution.set(cle(p.l + dl * i, p.c + dc * i), x));
+    });
+
+    const grille = $("grille");
+    grille.replaceChildren();
+    grille.style.setProperty("--colonnes", plan.larg + 1);
+    entrees = new Map();
+    for (let l = 0; l <= plan.haut; l++) {
+      for (let c = 0; c <= plan.larg; c++) {
+        const boite = document.createElement("div");
+        boite.className = "case";
+        const k = cle(l, c);
+        if (solution.has(k)) {
+          if (numeros.has(k)) {
+            const n = document.createElement("span");
+            n.className = "numero";
+            n.textContent = numeros.get(k);
+            boite.append(n);
+          }
+          const champ = document.createElement("input");
+          Object.assign(champ, { type: "text", autocomplete: "off", spellcheck: false });
+          champ.setAttribute("autocapitalize", "characters");
+          champ.setAttribute("aria-label", `Ligne ${l + 1}, colonne ${c + 1}`);
+          champ.dataset.l = l;
+          champ.dataset.c = c;
+          champ.addEventListener("pointerdown", e => surCase(e, l, c));
+          champ.addEventListener("focus", () => { if (!motActif() || !contient(motActif(), l, c)) choisirMot(l, c); });
+          champ.addEventListener("input", () => surSaisie(champ));
+          champ.addEventListener("keydown", e => surTouche(e, l, c));
+          entrees.set(k, champ);
+          boite.append(champ);
+        }
+        grille.append(boite);
+      }
+    }
+
+    ["h", "v"].forEach(s => {
+      const liste = $(s === "h" ? "horizontal" : "vertical");
+      liste.replaceChildren();
+      places.filter(p => p.sens === s).sort((a, b) => a.n - b.n).forEach(p => {
+        const li = document.createElement("li");
+        const b = document.createElement("button");
+        b.type = "button";
+        const num = document.createElement("b");
+        num.textContent = p.n + ". ";
+        b.append(num, document.createTextNode(p.def));
+        b.addEventListener("click", () => {
+          sens = p.sens;
+          const vide = caseDe(p).find(k => !entrees.get(k).value) || caseDe(p)[0];
+          actif = p;
+          entrees.get(vide).focus();
+          surligner();
+        });
+        p.bouton = b;
+        li.append(b);
+        liste.append(li);
+      });
+    });
+
+    actif = null;
+    sens = "h";
+    $("pages").textContent = g.pages ? `Pour réviser le livret, ${g.pages}.` : "";
+    $("message").textContent = "";
+    $("message").className = "";
+    document.querySelectorAll("#grilles button").forEach((b, i) => b.setAttribute("aria-pressed", i === index));
+  }
+
+  const caseDe = p => [...p.mot].map((_, i) => cle(p.l + DIRS[p.sens][0] * i, p.c + DIRS[p.sens][1] * i));
+  const contient = (p, l, c) => caseDe(p).includes(cle(l, c));
+  const motActif = () => actif;
+
+  function choisirMot(l, c, prefere) {
+    const ici = places.filter(p => contient(p, l, c));
+    actif = ici.find(p => p.sens === (prefere || sens)) || ici[0];
+    sens = actif.sens;
+    surligner();
+  }
+
+  function surligner() {
+    entrees.forEach(e => e.classList.remove("dans-mot"));
+    places.forEach(p => p.bouton.classList.remove("en-cours"));
+    if (!actif) return;
+    caseDe(actif).forEach(k => entrees.get(k).classList.add("dans-mot"));
+    actif.bouton.classList.add("en-cours");
+  }
+
+  function surCase(e, l, c) {
+    const champ = e.currentTarget;
+    if (document.activeElement === champ && places.filter(p => contient(p, l, c)).length > 1) {
+      e.preventDefault();
+      choisirMot(l, c, sens === "h" ? "v" : "h");
+    }
+  }
+
+  function retirerCouleurs(champ) { champ.classList.remove("juste", "fausse"); }
+
+  function avancer(champ, pas) {
+    if (!actif) return;
+    const k = caseDe(actif);
+    const i = k.indexOf(cle(+champ.dataset.l, +champ.dataset.c));
+    const suite = k[i + pas];
+    if (suite) entrees.get(suite).focus();
+  }
+
+  function surSaisie(champ) {
+    const lettres = nettoyer(champ.value);
+    champ.value = lettres.slice(-1);
+    retirerCouleurs(champ);
+    majDefinitions();
+    if (champ.value) avancer(champ, 1);
+    controlerFin();
+  }
+
+  function surTouche(e, l, c) {
+    const fleches = { ArrowLeft: [0, -1], ArrowRight: [0, 1], ArrowUp: [-1, 0], ArrowDown: [1, 0] };
+    if (fleches[e.key]) {
+      e.preventDefault();
+      const [dl, dc] = fleches[e.key];
+      const voisin = entrees.get(cle(l + dl, c + dc));
+      if (voisin) {
+        sens = dl ? "v" : "h";
+        actif = null;
+        voisin.focus();
+      }
+    } else if (e.key === "Backspace" && !e.currentTarget.value) {
+      e.preventDefault();
+      avancer(e.currentTarget, -1);
+    } else if (e.key === " ") {
+      e.preventDefault();
+      choisirMot(l, c, sens === "h" ? "v" : "h");
+    }
+  }
+
+  function majDefinitions() {
+    places.forEach(p => {
+      const ok = caseDe(p).every(k => entrees.get(k).value === solution.get(k));
+      p.bouton.classList.toggle("trouve", ok);
+    });
+  }
+
+  // Le résultat par mot : les réponses restent cachées tant que la grille n'est pas finie ou la solution demandée.
+  function noterGrille(montrer) {
+    const detail = places.map(p => {
+      const ecrit = caseDe(p).map(k => entrees.get(k).value || "·").join("");
+      return { q: p.def || p.mot, donne: ecrit, bonne: p.mot, ok: caseDe(p).every(k => entrees.get(k).value === solution.get(k)) };
+    });
+    const score = detail.filter(x => x.ok).length;
+    ResultatActivite.noter({ titre: "Mots croisés", type: "Jeu", score, total: places.length, detail });
+    if (montrer || score === places.length) ResultatActivite.terminer({ apres: $("message"), titre: "Mots croisés", type: "Jeu", score, total: places.length, detail, unite: "mots justes" });
+  }
+  function controlerFin() {
+    const fini = [...entrees].every(([k, e]) => e.value === solution.get(k));
+    if (fini) {
+      entrees.forEach(e => { e.classList.remove("fausse"); e.classList.add("juste"); });
+      $("message").textContent = "🎉 Bravo, la grille est complète ! 100 % de réussite.";
+      $("message").className = "bravo";
+      noterGrille();
+    }
+    return fini;
+  }
+
+  $("verifier").addEventListener("click", () => {
+    let fausses = 0, vides = 0;
+    entrees.forEach((e, k) => {
+      retirerCouleurs(e);
+      if (!e.value) vides++;
+      else if (e.value === solution.get(k)) e.classList.add("juste");
+      else { e.classList.add("fausse"); fausses++; }
+    });
+    if (controlerFin()) return;
+    $("message").className = "";
+    const s = (n, mot) => n + " " + mot + (n > 1 ? "s" : "");
+    $("message").textContent = fausses
+      ? `${s(fausses, "lettre")} à corriger, ${s(vides, "case")} à remplir.`
+      : `Aucune erreur pour l'instant, encore ${s(vides, "case")} à remplir !`;
+    const justes = entrees.size - fausses - vides;
+    $("message").textContent += ` ${ResultatActivite.pourcent(justes, entrees.size)} % de la grille est juste.`;
+    noterGrille();
+  });
+
+  $("indice").addEventListener("click", () => {
+    const mot = actif && caseDe(actif).some(k => entrees.get(k).value !== solution.get(k))
+      ? actif
+      : places.find(p => caseDe(p).some(k => entrees.get(k).value !== solution.get(k)));
+    if (!mot) return;
+    const k = caseDe(mot).find(x => entrees.get(x).value !== solution.get(x));
+    const champ = entrees.get(k);
+    champ.value = solution.get(k);
+    retirerCouleurs(champ);
+    actif = mot;
+    sens = mot.sens;
+    champ.focus();
+    surligner();
+    majDefinitions();
+    controlerFin();
+  });
+
+  $("effacer").addEventListener("click", () => {
+    entrees.forEach(e => { e.value = ""; retirerCouleurs(e); });
+    majDefinitions();
+    $("message").textContent = "";
+    $("message").className = "";
+  });
+
+  $("solution").addEventListener("click", () => {
+    noterGrille(true);
+    entrees.forEach((e, k) => { e.value = solution.get(k); retirerCouleurs(e); });
+    majDefinitions();
+    $("message").className = "";
+    $("message").textContent = "Voici la solution. Vous pouvez tout effacer pour recommencer.";
+  });
+
+  GRILLES.forEach((g, i) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = g.titre;
+    b.addEventListener("click", () => ouvrir(i));
+    $("grilles").append(b);
+  });
+  ouvrir(0);
+</script>
+</body>
+</html>

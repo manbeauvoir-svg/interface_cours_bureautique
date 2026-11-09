@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le quiz de la police</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "jeu-police",
+  etiquette: "JEU",
+  titre: "Le quiz de la police",
+  icone: "🔤",
+  couleur: "#a21caf",
+  pale: "#f8e8fb",
+  accroche: "Gras, indice, exposant, petites majuscules : connaissez-vous bien le groupe Police de Word ?",
+  notions: { police: { titre: "le module Word", jeu: { fichier: "livret-word", titre: "revoir le module Word" } } },
+  plus: { fichier: "exercices-word", titre: "les exercices Word" },
+  etapes: [
+    {
+      titre: "Le quiz",
+      icone: "🔤",
+      resume: "Quinze questions.",
+      ecrans: [
+        { t: "Quinze questions", b: [
+          { quiz: [
+            { v: "police", q: "Quel raccourci met le texte en gras dans Word en français ?", r: ["{Ctrl+G}", "{Ctrl+B}", "{Ctrl+U}"] },
+            { v: "police", q: "Quel raccourci met le texte en italique ?", r: ["{Ctrl+I}", "{Ctrl+K}", "{Ctrl+U}"] },
+            { v: "police", q: "Quel raccourci souligne le texte ?", r: ["{Ctrl+U}", "{Ctrl+S}", "{Ctrl+I}"] },
+            { v: "police", q: "Que fait l'option « Barré » ?", r: ["Elle barre le texte d'une ligne", "Elle supprime le texte", "Elle souligne le texte"] },
+            { v: "police", q: "Que fait l'option « Indice » ?", r: ["Elle écrit en petit sous la ligne", "Elle écrit en petit au-dessus de la ligne", "Elle grossit le texte"] },
+            { v: "police", q: "Que fait l'option « Exposant » ?", r: ["Elle écrit en petit au-dessus de la ligne", "Elle écrit en petit sous la ligne", "Elle met en italique"] },
+            { v: "police", q: "Pour écrire H<sub>2</sub>O, quelle option utiliser sur le 2 ?", r: ["Indice", "Exposant", "Barré"] },
+            { v: "police", q: "Pour écrire 1<sup>er</sup>, quelle option utiliser sur « er » ?", r: ["Exposant", "Indice", "Italique"] },
+            { v: "police", q: "Quelle option colore le fond derrière le texte ?", r: ["Le surlignage", "La couleur de police", "L'exposant"] },
+            { v: "police", q: "Quelle option change la couleur des lettres ?", r: ["La couleur de police", "Le surlignage", "Le style"] },
+            { v: "police", q: "Que fait « Effacer la mise en forme » ?", r: ["Elle remet le texte à son style par défaut", "Elle supprime tout le texte", "Elle met le texte en noir seulement"] },
+            { v: "police", q: "Que permet « Effet de texte et typographie » ?", r: ["Ajouter une ombre ou un reflet", "Changer de police", "Mettre en italique"] },
+            { v: "police", q: "Comment appliquer les petites majuscules ?", r: ["Dans la boîte de dialogue Police", "Avec le bouton Gras", "Avec la touche {Verr.Maj}"] },
+            { v: "police", q: "Où écarter les lettres d'un mot de 5 points ?", r: ["Boîte de dialogue Police, Paramètres avancés", "Onglet Mise en page, Marges", "Onglet Révision"] },
+            { v: "police", q: "Comment changer de police ?", r: ["Dans la liste déroulante du groupe Police", "Avec le bouton Exposant", "En cliquant sur Gras"] }
+          ], titre: "Le quiz de la police" }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

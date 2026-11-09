@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le pendu de l'informatique</title>
+<style>
+  :root {
+    --encre: #1b2a33; --doux: #4b5c66; --fond: #fff8ec; --teinte: #a21caf;
+    --bon: #14652f; --bon-fond: #d3f4dc; --faux: #a11616; --faux-fond: #fbd5d5;
+    --titres: "Fredoka", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fond); color: var(--encre); font: 500 18px/1.45 "Nunito", "Segoe UI", system-ui, sans-serif; }
+  :focus-visible { outline: 3px solid #e8590c; outline-offset: 2px; }
+  [hidden] { display: none !important; }
+  main { max-width: 900px; margin: 0 auto; padding: 24px 20px 56px; }
+  h1 { margin: 0; font: 700 clamp(1.8rem, 5vw, 2.6rem)/1.1 var(--titres); color: var(--teinte); }
+  .aide { margin: 6px 0 18px; color: var(--doux); }
+  button { font: 800 1rem "Nunito", sans-serif; cursor: pointer; color: inherit; }
+  .themes { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .themes button, .bouton { min-height: 46px; padding: 6px 16px; border-radius: 99px; background: #fff; color: var(--teinte); border: 2px solid var(--teinte); }
+  .themes button[aria-pressed="true"], .bouton { background: var(--teinte); color: #fff; }
+
+  .jeu { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 24px; align-items: start; }
+  .dessin { background: #fff; border: 3px solid var(--teinte); border-radius: 22px; padding: 10px; }
+  .dessin svg { display: block; width: 100%; height: auto; }
+  .dessin .trait { fill: none; stroke: var(--encre); stroke-width: 5; stroke-linecap: round; visibility: hidden; }
+  .dessin .trait.vu { visibility: visible; }
+  .vies { margin: 8px 0 0; text-align: center; font-weight: 800; }
+  .mot { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 8px; }
+  .groupe { display: flex; gap: 5px; }
+  .lettre {
+    display: grid; place-items: center; width: clamp(26px, 6vw, 40px); height: clamp(36px, 7.5vw, 50px);
+    border-bottom: 4px solid var(--encre); font: 700 clamp(1.3rem, 4vw, 1.9rem) var(--titres);
+  }
+  .lettre.ratee { color: var(--faux); }
+  .indice { margin: 0 0 14px; color: var(--doux); font-weight: 700; }
+  .clavier { display: grid; gap: 6px; }
+  .rang { display: flex; justify-content: center; gap: 5px; }
+  .touche {
+    flex: 1 1 0; max-width: 46px; min-width: 0; height: 46px; padding: 0; background: #fff; border: 2px solid #66757e; border-radius: 9px;
+    font: 700 1.1rem var(--titres);
+  }
+  .touche:hover:not([disabled]) { background: #f8e6fb; }
+  .touche[disabled] { cursor: default; }
+  .touche.bonne { background: var(--bon-fond); border-color: var(--bon); color: var(--bon); }
+  .touche.mauvaise { background: var(--faux-fond); border-color: var(--faux); color: var(--faux); }
+  #message { min-height: 1.6em; margin: 14px 0 10px; font: 600 1.25rem var(--titres); }
+  #message.gagne { color: var(--bon); }
+  #message.perdu { color: var(--faux); }
+  .score { font-weight: 800; color: var(--doux); }
+  @media (max-width: 640px) {
+    .jeu { grid-template-columns: minmax(0, 1fr); }
+    .dessin { width: 170px; margin: 0 auto; }
+  }
+</style>
+<link rel="stylesheet" href="livret/polices/polices.css">
+</head>
+<body>
+<main>
+  <h1>🔤 Le pendu de l'informatique</h1>
+  <p class="aide">Retrouvez le mot, lettre par lettre, avec la souris ou le clavier. Vous avez droit à 7 erreurs. <span id="score" class="score"></span></p>
+  <div id="themes" class="themes" role="group" aria-label="Choisir un thème"></div>
+
+  <div class="jeu">
+    <div class="dessin">
+      <svg viewBox="0 0 200 220" role="img" aria-label="Dessin du pendu">
+        <path class="trait" d="M20 208 H130"/>
+        <path class="trait" d="M50 208 V16 H135 M50 56 L90 16"/>
+        <path class="trait" d="M135 16 V48"/>
+        <circle class="trait" cx="135" cy="66" r="18"/>
+        <path class="trait" d="M135 84 V140"/>
+        <path class="trait" d="M135 100 L108 124 M135 100 L162 124"/>
+        <path class="trait" d="M135 140 L112 178 M135 140 L158 178"/>
+      </svg>
+      <p id="vies" class="vies"></p>
+    </div>
+    <div>
+      <div id="mot" class="mot" aria-live="polite"></div>
+      <p id="indice" class="indice"></p>
+      <div id="clavier" class="clavier" role="group" aria-label="Choisir une lettre"></div>
+      <p id="message" role="status"></p>
+      <button id="nouveau" class="bouton" type="button">Nouveau mot →</button>
+    </div>
+  </div>
+</main>
+
+<script src="livret/resultat-activite.js"></script>
+<script>
+  /*
+    POUR AJOUTER UN MOT : copiez une ligne dans le thème voulu.
+    Écrivez le mot en majuscules, sans accent. Les espaces sont acceptés.
+  */
+  const MOTS = {
+    "Le matériel": [
+      { m: "CLAVIER", i: "Il sert à saisir du texte." },
+      { m: "SOURIS", i: "Elle déplace le pointeur à l'écran." },
+      { m: "ECRAN", i: "Il affiche les informations." },
+      { m: "UNITE CENTRALE", i: "Le boîtier qui contient les composants de l'ordinateur." },
+      { m: "PERIPHERIQUE", i: "Équipement externe relié à l'ordinateur." },
+      { m: "CARTE SD", i: "Petit support de stockage, souvent dans un appareil photo." },
+      { m: "DISQUE DUR", i: "Externe, il sert à stocker et à sauvegarder vos fichiers." },
+      { m: "HAUT PARLEURS", i: "Ces périphériques de sortie diffusent le son." },
+      { m: "IMPRIMANTE", i: "Elle met vos documents sur papier." },
+      { m: "SCANNER", i: "Il transforme un document papier en fichier." },
+      { m: "WEBCAM", i: "Elle filme pendant une visioconférence." },
+      { m: "CLE USB", i: "Petit support pour transporter ses fichiers." }
+    ],
+    "L'environnement Windows": [
+      { m: "BUREAU", i: "L'espace de travail affiché à l'ouverture de la session." },
+      { m: "BARRE DES TACHES", i: "La bande en bas de l'écran, avec les applications ouvertes." },
+      { m: "MENU DEMARRER", i: "Il s'ouvre avec la touche Windows." },
+      { m: "CORBEILLE", i: "Les fichiers supprimés y restent en attente." },
+      { m: "EXPLORATEUR", i: "L'outil pour parcourir ses fichiers." },
+      { m: "FENETRE", i: "Chaque application s'ouvre dans l'une d'elles." },
+      { m: "RACCOURCI", i: "Son icône porte une petite flèche." },
+      { m: "PARAMETRES", i: "L'application qui permet de régler Windows." },
+      { m: "THEME", i: "Il change d'un coup le fond d'écran et les couleurs." },
+      { m: "DOSSIER", i: "Il sert à ranger des fichiers." },
+      { m: "ICONE", i: "Petite image qui représente un fichier." },
+      { m: "NOTIFICATION", i: "Petit message d'alerte envoyé par une application." }
+    ]
+  };
+
+  const MAX = 7;
+  const RANGS = ["AZERTYUIOP", "QSDFGHJKLM", "WXCVBN"];
+  const $ = id => document.getElementById(id);
+  const traits = [...document.querySelectorAll(".trait")];
+
+  let theme = Object.keys(MOTS)[0], tirage = [], actuel = null, trouvees, erreurs, fini;
+  let gagnes = 0, joues = 0;
+
+  RANGS.forEach(rang => {
+    const r = document.createElement("div");
+    r.className = "rang";
+    [...rang].forEach(l => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "touche";
+      b.textContent = l;
+      b.dataset.l = l;
+      b.addEventListener("click", () => jouer(l));
+      r.append(b);
+    });
+    $("clavier").append(r);
+  });
+
+  function nouveau() {
+    if (!tirage.length) {
+      tirage = MOTS[theme].slice().sort(() => Math.random() - .5);
+      if (actuel && tirage.length > 1 && tirage[tirage.length - 1] === actuel) tirage.unshift(tirage.pop());
+    }
+    actuel = tirage.pop();
+    trouvees = new Set();
+    erreurs = 0;
+    fini = false;
+    document.querySelectorAll(".touche").forEach(b => {
+      b.disabled = false;
+      b.classList.remove("bonne", "mauvaise");
+    });
+    traits.forEach(t => t.classList.remove("vu"));
+    $("indice").textContent = "💡 " + actuel.i;
+    $("message").textContent = "";
+    $("message").className = "";
+    $("nouveau").textContent = "Passer ce mot →";
+    majVies();
+    afficher();
+  }
+
+  function majVies() {
+    const reste = MAX - erreurs;
+    $("vies").textContent = `${reste} essai${reste > 1 ? "s" : ""} restant${reste > 1 ? "s" : ""}`;
+  }
+
+  function afficher() {
+    const zone = $("mot");
+    zone.replaceChildren();
+    let vide = 0;
+    actuel.m.split(" ").forEach(partie => {
+      const g = document.createElement("span");
+      g.className = "groupe";
+      [...partie].forEach(l => {
+        const c = document.createElement("span");
+        c.className = "lettre";
+        if (trouvees.has(l)) {
+          c.textContent = l;
+        } else if (fini) {
+          c.textContent = l;
+          c.classList.add("ratee");
+        } else {
+          vide++;
+        }
+        g.append(c);
+      });
+      zone.append(g);
+    });
+    zone.setAttribute("aria-label", fini ? actuel.m : `${vide} lettres à trouver`);
+    return vide;
+  }
+
+  function jouer(l) {
+    if (fini || trouvees.has(l)) return;
+    const b = document.querySelector(`.touche[data-l="${l}"]`);
+    if (!b || b.disabled) return;
+    b.disabled = true;
+    if (actuel.m.includes(l)) {
+      b.classList.add("bonne");
+      trouvees.add(l);
+      if (afficher() === 0) terminer(true);
+    } else {
+      b.classList.add("mauvaise");
+      traits[erreurs].classList.add("vu");
+      erreurs++;
+      majVies();
+      if (erreurs >= MAX) terminer(false);
+    }
+  }
+
+  const historique = [];
+  function terminer(gagne) {
+    fini = true;
+    joues++;
+    if (gagne) gagnes++;
+    afficher();
+    document.querySelectorAll(".touche").forEach(b => { b.disabled = true; });
+    $("message").textContent = gagne ? "🎉 Bravo, mot trouvé !" : `Perdu ! Le mot était : ${actuel.m}.`;
+    $("message").className = gagne ? "gagne" : "perdu";
+    $("score").textContent = `Mots trouvés : ${gagnes} sur ${joues}.`;
+    historique.push({ q: actuel.m, ok: gagne, donne: gagne ? "trouvé" : `pas trouvé, ${erreurs} erreurs`, bonne: actuel.m });
+    ResultatActivite.terminer({ apres: $("score"), titre: "Le pendu", type: "Jeu", score: gagnes, total: joues, detail: historique, unite: "mots trouvés" });
+    $("nouveau").textContent = "Nouveau mot →";
+    $("nouveau").focus();
+  }
+
+  $("nouveau").addEventListener("click", nouveau);
+  document.addEventListener("keydown", e => {
+    if (e.ctrlKey || e.altKey || e.metaKey) return;
+    const l = e.key.normalize("NFD").replace(/[̀-ͯ]/g, "").toUpperCase();
+    if (/^[A-Z]$/.test(l)) jouer(l);
+  });
+
+  Object.keys(MOTS).forEach(nom => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = nom;
+    b.setAttribute("aria-pressed", nom === theme);
+    b.addEventListener("click", () => {
+      theme = nom;
+      tirage = [];
+      document.querySelectorAll("#themes button").forEach(x => x.setAttribute("aria-pressed", x === b));
+      nouveau();
+    });
+    $("themes").append(b);
+  });
+  nouveau();
+</script>
+</body>
+</html>

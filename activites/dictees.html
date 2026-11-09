@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dictées de la bureautique</title>
+<style>
+  :root {
+    --encre: #1b2a33; --doux: #4b5c66; --fond: #fff8ec; --teinte: #b45309;
+    --bon: #14652f; --faux: #a11616; --faux-fond: #fbd5d5; --bon-fond: #d3f4dc;
+    --titres: "Fredoka", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fond); color: var(--encre); font: 500 18px/1.5 "Nunito", "Segoe UI", system-ui, sans-serif; }
+  :focus-visible { outline: 3px solid #e8590c; outline-offset: 2px; }
+  [hidden] { display: none !important; }
+  main { max-width: 860px; margin: 0 auto; padding: 24px 20px 56px; }
+  h1 { margin: 0; font: 700 clamp(1.8rem, 5vw, 2.6rem)/1.1 var(--titres); color: var(--teinte); }
+  .aide { margin: 6px 0 18px; color: var(--doux); }
+
+  button { font: 800 1rem "Nunito", sans-serif; cursor: pointer; }
+  button[disabled] { opacity: .5; cursor: default; }
+  .choix { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .choix button, .bouton {
+    min-height: 48px; padding: 6px 18px; border-radius: 99px; background: #fff; color: #8a3f00; border: 2px solid var(--teinte);
+  }
+  .choix button[aria-pressed="true"], .principal { background: var(--teinte); color: #fff; }
+  .choix small { font-weight: 700; }
+
+  .lecteur { background: #fff; border: 3px solid var(--teinte); border-radius: 20px; padding: 16px 18px; }
+  .lecteur-tete { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; margin-bottom: 12px; }
+  .etape { font: 600 1.2rem var(--titres); color: #8a3f00; }
+  .vitesse { display: flex; align-items: center; gap: 8px; font-weight: 700; }
+  .vitesse select { min-height: 42px; padding: 4px 8px; font: inherit; border: 2px solid #66757e; border-radius: 10px; background: #fff; }
+  .boutons { display: flex; flex-wrap: wrap; gap: 8px; }
+  .alerte { margin: 0 0 12px; padding: 10px 14px; border-radius: 12px; background: #fff0c2; font-weight: 700; }
+
+  label[for="copie"] { display: block; margin: 20px 0 6px; font-weight: 800; }
+  textarea {
+    width: 100%; min-height: 210px; padding: 14px 16px; resize: vertical; font: 500 1.15rem/1.6 "Nunito", sans-serif; color: inherit;
+    background: #fff; border: 2px solid #66757e; border-radius: 14px;
+  }
+  .pied { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
+  #correction { margin-top: 24px; background: #fff; border-radius: 20px; padding: 18px 20px; border: 2px solid #d9d5c9; }
+  #correction h2 { margin: 0 0 4px; font: 600 1.5rem var(--titres); }
+  .note { margin: 0 0 12px; font-weight: 700; }
+  .texte { font-size: 1.15rem; line-height: 2; margin: 0; }
+  .texte del { background: var(--faux-fond); color: var(--faux); padding: 1px 4px; border-radius: 4px; }
+  .texte ins { background: var(--bon-fond); color: var(--bon); padding: 1px 4px; border-radius: 4px; font-weight: 800; text-decoration: none; }
+  .legende { margin: 14px 0 0; font-size: .95rem; color: var(--doux); }
+</style>
+<link rel="stylesheet" href="livret/polices/polices.css">
+</head>
+<body>
+<main>
+  <h1>🎧 Dictées de la bureautique</h1>
+  <p class="aide">Écoutez chaque phrase autant de fois que nécessaire, écrivez-la ci-dessous, puis demandez la correction.</p>
+
+  <div id="choix" class="choix" role="group" aria-label="Choisir une dictée"></div>
+
+  <section class="lecteur" aria-label="Écoute de la dictée">
+    <p id="sans-voix" class="alerte" hidden>Ce navigateur ne propose pas de voix française. Demandez au formateur de lire la dictée, ou essayez avec Chrome ou Edge.</p>
+    <div class="lecteur-tete">
+      <span id="etape" class="etape" aria-live="polite"></span>
+      <label class="vitesse">Vitesse
+        <select id="vitesse">
+          <option value="0.85">Normale</option>
+          <option value="0.65" selected>Lente</option>
+          <option value="0.5">Très lente</option>
+        </select>
+      </label>
+    </div>
+    <div class="boutons">
+      <button id="precedente" class="bouton" type="button">← Phrase précédente</button>
+      <button id="ecouter" class="bouton principal" type="button">🔊 Écouter la phrase</button>
+      <button id="suivante" class="bouton" type="button">Phrase suivante →</button>
+      <button id="tout" class="bouton" type="button">Relire tout le texte</button>
+    </div>
+  </section>
+
+  <label for="copie">Votre texte</label>
+  <textarea id="copie" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" data-gramm="false"></textarea>
+  <div class="pied">
+    <button id="corriger" class="bouton principal" type="button">✅ Corriger</button>
+    <button id="recommencer" class="bouton" type="button">Recommencer</button>
+  </div>
+
+  <section id="correction" hidden tabindex="-1" aria-label="Correction">
+    <h2 id="resultat"></h2>
+    <p id="note" class="note"></p>
+    <p id="texte-corrige" class="texte"></p>
+    <p class="legende"><del>En rouge</del> : ce que vous avez écrit. <ins>En vert</ins> : ce qu'il fallait écrire. Les majuscules, les accents et la ponctuation comptent.</p>
+  </section>
+</main>
+
+<script src="livret/resultat-activite.js"></script>
+<script>
+  /*
+    POUR AJOUTER UNE DICTÉE : copiez un bloc et changez le texte.
+    Le texte est découpé automatiquement en phrases. Écrivez les nombres en toutes lettres
+    et évitez les abréviations : la voix de l'ordinateur les lit mal.
+  */
+  const DICTEES = [
+    {
+      titre: "Le poste de travail",
+      niveau: "Facile",
+      texte: "Chaque matin, j'allume mon ordinateur. Je pose la main droite sur la souris et je regarde l'écran. Le clavier me sert à écrire. Quand j'ai fini, j'enregistre mon travail et je ferme les fenêtres."
+    },
+    {
+      titre: "Ranger ses fichiers",
+      niveau: "Moyen",
+      texte: "Un ordinateur bien rangé fait gagner beaucoup de temps. Les fichiers sont classés dans des dossiers, et chaque dossier porte un nom clair. Pour retrouver un document, il suffit d'ouvrir l'Explorateur de fichiers. Les éléments supprimés restent dans la Corbeille tant qu'elle n'a pas été vidée."
+    },
+    {
+      titre: "Un courrier soigné",
+      niveau: "Plus difficile",
+      texte: "Avant d'envoyer une lettre, l'assistante relit attentivement son texte. Elle corrige les fautes qu'elle a repérées, puis elle choisit une police lisible. Les marges et les titres donnent au document une présentation agréable. Enfin, elle enregistre le fichier au format PDF afin que la mise en page reste identique sur tous les ordinateurs."
+    }
+  ];
+
+  const $ = id => document.getElementById(id);
+  const synth = window.speechSynthesis;
+  let voix = null, dictee = null, phrases = [], position = 0;
+
+  function chercherVoix() {
+    if (!synth) { $("sans-voix").hidden = false; return; }
+    const toutes = synth.getVoices().filter(v => /^fr/i.test(v.lang));
+    voix = toutes.find(v => /^fr[-_]FR/i.test(v.lang)) || toutes[0] || null;
+    if (synth.getVoices().length) $("sans-voix").hidden = !!voix;
+  }
+  chercherVoix();
+  if (synth) synth.addEventListener("voiceschanged", chercherVoix);
+
+  function parler(texte) {
+    if (!synth) return;
+    synth.cancel();
+    const u = new SpeechSynthesisUtterance(texte);
+    u.lang = "fr-FR";
+    if (voix) u.voice = voix;
+    u.rate = parseFloat($("vitesse").value);
+    synth.speak(u);
+  }
+  window.addEventListener("pagehide", () => { if (synth) synth.cancel(); });
+
+  function majEtape() {
+    $("etape").textContent = `Phrase ${position + 1} sur ${phrases.length}`;
+    $("precedente").disabled = position === 0;
+    $("suivante").disabled = position === phrases.length - 1;
+  }
+
+  function ouvrir(index) {
+    if (synth) synth.cancel();
+    dictee = DICTEES[index];
+    phrases = dictee.texte.match(/[^.!?]+[.!?]+/g).map(p => p.trim());
+    position = 0;
+    $("copie").value = "";
+    $("copie").readOnly = false;
+    $("correction").hidden = true;
+    $("corriger").disabled = false;
+    document.querySelectorAll("#choix button").forEach((b, i) => b.setAttribute("aria-pressed", i === index));
+    majEtape();
+  }
+
+  $("ecouter").addEventListener("click", () => parler(phrases[position]));
+  $("suivante").addEventListener("click", () => {
+    position++;
+    majEtape();
+    parler(phrases[position]);
+  });
+  $("precedente").addEventListener("click", () => {
+    position--;
+    majEtape();
+    parler(phrases[position]);
+  });
+  $("tout").addEventListener("click", () => parler(dictee.texte));
+  $("recommencer").addEventListener("click", () => ouvrir(DICTEES.indexOf(dictee)));
+
+  /* ---------- Correction ---------- */
+  function decouper(t) {
+    return t
+      .replace(/[’ʼ]/g, "'")
+      .replace(/ | /g, " ")
+      .match(/[^\s.,;:!?]+|[.,;:!?]/g) || [];
+  }
+
+  // Compare les deux textes mot à mot (plus longue suite commune).
+  function comparer(ecrit, attendu) {
+    const n = ecrit.length, m = attendu.length;
+    const t = Array.from({ length: n + 1 }, () => new Array(m + 1).fill(0));
+    for (let i = n - 1; i >= 0; i--) {
+      for (let j = m - 1; j >= 0; j--) {
+        t[i][j] = ecrit[i] === attendu[j] ? t[i + 1][j + 1] + 1 : Math.max(t[i + 1][j], t[i][j + 1]);
+      }
+    }
+    const blocs = [];
+    let i = 0, j = 0;
+    const bloc = () => {
+      let d = blocs[blocs.length - 1];
+      if (!d || d.egal) { d = { faux: [], juste: [] }; blocs.push(d); }
+      return d;
+    };
+    while (i < n || j < m) {
+      if (i < n && j < m && ecrit[i] === attendu[j]) {
+        blocs.push({ egal: attendu[j] });
+        i++; j++;
+      } else if (j < m && (i === n || t[i][j + 1] >= t[i + 1][j])) {
+        bloc().juste.push(attendu[j++]);
+      } else {
+        bloc().faux.push(ecrit[i++]);
+      }
+    }
+    return blocs;
+  }
+
+  function ajouter(parent, texte, balise) {
+    const colle = /^[.,]$/.test(texte);
+    if (parent.childNodes.length && !colle) parent.append(" ");
+    if (balise) {
+      const el = document.createElement(balise);
+      el.textContent = texte;
+      parent.append(el);
+    } else {
+      parent.append(texte);
+    }
+  }
+
+  $("corriger").addEventListener("click", () => {
+    if (synth) synth.cancel();
+    const ecrit = decouper($("copie").value);
+    if (!ecrit.length) {
+      $("copie").focus();
+      return;
+    }
+    const attendu = decouper(dictee.texte);
+    const blocs = comparer(ecrit, attendu);
+    let erreurs = 0;
+    const fautes = [];
+    const zone = $("texte-corrige");
+    zone.replaceChildren();
+    blocs.forEach(b => {
+      if (b.egal) {
+        ajouter(zone, b.egal);
+      } else {
+        erreurs += Math.max(b.faux.length, b.juste.length);
+        fautes.push({ q: b.juste.join(" ") || "(mot en trop)", donne: b.faux.join(" ") || "(oublié)", bonne: b.juste.join(" "), ok: false });
+        if (b.faux.length) ajouter(zone, b.faux.join(" "), "del");
+        if (b.juste.length) ajouter(zone, b.juste.join(" "), "ins");
+      }
+    });
+    $("resultat").textContent = erreurs === 0 ? "🎉 Aucune erreur, bravo !" : erreurs <= 3 ? "👍 Très bien !" : "💪 Continuez !";
+    $("note").textContent = erreurs === 0
+      ? `Les ${attendu.length} mots et signes sont justes.`
+      : `${erreurs} erreur${erreurs > 1 ? "s" : ""} sur ${attendu.length} mots et signes de ponctuation.`;
+    $("correction").hidden = false;
+    ResultatActivite.terminer({ apres: $("note"), titre: "Dictées", type: "Dictée", score: Math.max(0, attendu.length - erreurs), total: attendu.length, detail: fautes, unite: "mots et signes justes" });
+    $("correction").focus({ preventScroll: true });
+    $("correction").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  DICTEES.forEach((d, i) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = d.titre + " ";
+    const petit = document.createElement("small");
+    petit.textContent = "· " + d.niveau;
+    b.append(petit);
+    b.addEventListener("click", () => ouvrir(i));
+    $("choix").append(b);
+  });
+  ouvrir(0);
+</script>
+</body>
+</html>

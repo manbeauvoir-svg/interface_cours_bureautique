@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz : Microsoft PowerPoint</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "quiz-powerpoint",
+  etiquette: "QUIZ",
+  titre: "Quiz : Microsoft PowerPoint",
+  icone: "🎞️",
+  couleur: "#a21caf",
+  pale: "#f8e8fb",
+  accroche: "Commencez par le quiz de positionnement pour connaître vos priorités. Entraînez-vous thème par thème, puis validez le module avec le quiz final.",
+  cours: "livret-powerpoint",
+  notions: {
+    "iface": {
+      "titre": "la fenêtre de PowerPoint",
+      "va": "Se repérer dans la fenêtre",
+      "jeu": {
+        "fichier": "jeu-quel-onglet",
+        "titre": "le jeu « Quel onglet ? »"
+      }
+    },
+    "bases": {
+      "titre": "les notions essentielles",
+      "va": "Les notions essentielles",
+      "jeu": {
+        "fichier": "quiz-raccourcis",
+        "titre": "le quiz des raccourcis"
+      }
+    },
+    "media": {
+      "titre": "les éléments multimédias",
+      "va": "Quatre façons d'enrichir une présentation"
+    },
+    "masque": {
+      "titre": "le masque des diapositives",
+      "va": "Essayez : le pouvoir du masque"
+    },
+    "diapo": {
+      "titre": "les commandes du diaporama",
+      "va": "Prenez les commandes du diaporama"
+    },
+    "presentateur": {
+      "titre": "le mode Présentateur",
+      "va": "Déclencher les animations à la main"
+    },
+    "exercice": {
+      "titre": "une présentation complète",
+      "va": "L'exercice : une présentation complète"
+    }
+  },
+  etapes: [
+    {
+      titre: "Quiz de positionnement",
+      icone: "🧭",
+      resume: "Pour savoir par où commencer.",
+      ecrans: [
+        { t: "Quiz de positionnement", b: [
+          { depart: true, titre: "Quiz de positionnement", quiz: [
+            {"v":"iface","q":"Où voit-on les miniatures des diapositives ?","r":["Dans le volet de gauche","Dans la barre d'état","Dans le ruban"]},
+            {"v":"media","q":"Quel outil permet de créer des schémas ?","r":["SmartArt","Zoom","Trier"]},
+            {"v":"presentateur","q":"Qui voit les notes en mode Présentateur ?","r":["Seulement le présentateur","Tout le public","Personne"]},
+            {"v":"exercice","q":"Quelle extension correspond à un modèle PowerPoint ?","r":[".potx",".pptx",".docx"]},
+            {"v":"bases","q":"Quel raccourci ajoute une nouvelle diapositive ?","r":["{Ctrl+M}","{Ctrl+S}","{Ctrl+P}"]},
+            {"v":"bases","q":"Quelle touche lance le diaporama depuis le début ?","r":["{F5}","{F2}","{F12}"]},
+            {"v":"bases","q":"Quelle est la différence entre une transition et une animation ?","r":["La transition agit entre deux diapositives, l'animation sur un élément","Il n'y a aucune différence","L'animation agit entre deux diapositives"]},
+            {"v":"media","q":"Où insérer une vidéo ?","r":["Onglet Insertion","Onglet Transitions","Onglet Révision"]},
+            {"v":"masque","q":"Quel outil change d'un coup toutes les diapositives ?","r":["Le masque des diapositives","Le zoom","Le mode Lecture"]},
+            {"v":"diapo","q":"Quelle touche quitte le diaporama ?","r":["{Échap}","{Entrée}","{Espace}"]}
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "Les bases",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Les bases", b: [
+          { quiz: [
+            {"v":"bases","q":"Comment réorganiser l'ordre des diapositives ?","r":["Par glisser-déposer dans le volet gauche","En les supprimant","Avec {Ctrl+P}"]},
+            {"v":"bases","q":"Qu'assure un thème ?","r":["Une présentation cohérente sur toutes les diapositives","Un fichier plus léger","Une correction des fautes"]},
+            {"v":"bases","q":"Dans quel onglet trouve-t-on les effets entre deux diapositives ?","r":["Transitions","Insertion","Révision"]},
+            {"v":"bases","q":"Dans quel onglet anime-t-on un élément d'une diapositive ?","r":["Animations","Création","Affichage"]},
+            {"v":"bases","q":"Comment utiliser les animations ?","r":["Avec modération","Sur chaque mot","Jamais sur une liste"]},
+            { v: "bases", q: "Quel raccourci lance le diaporama depuis le début ?", r: ["{F5}", "{Ctrl+D}", "{Ctrl+F5}"] },
+            { v: "bases", q: "Comment ajouter une nouvelle diapositive ?", r: ["Onglet Accueil > Nouvelle diapositive > choisir une disposition", "Onglet Insertion > Diapositive", "Clic droit sur la zone de travail > Nouvelle diapositive"] },
+            { v: "iface", q: "Où se trouvent les miniatures de toutes les diapositives ?", r: ["Dans le volet des diapositives à gauche de l'écran", "En bas de la fenêtre", "Dans l'onglet Affichage"] },
+            { v: "bases", q: "Quel format est utilisé par défaut pour enregistrer une présentation ?", r: [".pptx", ".pptm", ".potx"] },
+            { v: "bases", q: "Quel raccourci lance le diaporama depuis la diapositive actuelle ?", r: ["{Maj+F5}", "{F5}", "{Ctrl+P}"] }
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "Les éléments multimédias",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Les éléments multimédias", b: [
+          { quiz: [
+            {"v":"media","q":"Comment insérer un fichier vidéo de l'ordinateur ?","r":["Insertion > Vidéo > Cet appareil","Accueil > Coller un lien","Affichage > Zoom"]},
+            {"v":"media","q":"Comment enregistrer sa voix sur une diapositive ?","r":["Insertion > Audio > Enregistrer l'audio","Révision > Langue","Création > Thème"]},
+            {"v":"media","q":"Comment insérer un tableau Excel ?","r":["Insertion > Objet","Accueil > Police","Transitions > Fondu"]},
+            {"v":"media","q":"Quelle règle suivre pour les médias ?","r":["Ils complètent le message sans le remplacer","Il en faut sur chaque diapositive","Il faut toujours du son"]},
+            {"v":"media","q":"Que faire avant de présenter avec des médias ?","r":["Les tester","Les supprimer","Les mettre en PDF"]},
+            { v: "media", q: "Comment insérer une image dans une diapositive ?", r: ["Onglet Insertion > Images > choisir la source (ordinateur, en ligne…)", "Onglet Accueil > Image", "Glisser-déposer uniquement depuis le bureau"] },
+            { v: "media", q: "Comment insérer une vidéo dans une présentation ?", r: ["Onglet Insertion > Vidéo > Vidéo sur mon PC ou Vidéo en ligne", "Onglet Création > Vidéo", "Onglet Diaporama > Insérer une vidéo"] },
+            { v: "media", q: "Votre vidéo est insérée avec l'option « Lier au fichier ». Quelle précaution prendre ?", r: ["Conserver le fichier vidéo dans le même dossier que la présentation, pour éviter les liens brisés", "La vidéo doit être au format .mp4 uniquement", "Aucune : une vidéo liée fonctionne partout, même sans son fichier"] },
+            { v: "media", q: "Comment insérer un son qui se lance automatiquement au démarrage du diaporama ?", r: ["Onglet Insertion > Audio > Audio sur mon PC, puis choisir « Automatiquement » dans les options audio", "Onglet Accueil > Son > Automatique", "Onglet Transitions > Ajouter un son"] },
+            { v: "diapo", q: "Quel outil permet d'annoter les diapositives en direct pendant le diaporama ?", r: ["Le stylet ou le surligneur de la barre d'outils du diaporama (clic droit > Options du pointeur)", "L'onglet Révision > Commentaires", "L'onglet Insertion > Annotation"] }
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "Présenter comme un pro",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "Présenter comme un pro", b: [
+          { quiz: [
+            {"v":"diapo","q":"Quelle touche affiche un écran blanc ?","r":["{W}","{B}","{F5}"]},
+            {"v":"diapo","q":"Quelle touche revient à la diapositive précédente ?","r":["{←}","{→}","{Espace}"]},
+            {"v":"presentateur","q":"Que voit le présentateur en plus de la diapositive ?","r":["Ses notes, la diapositive suivante et un minuteur","Le ruban complet","Les mots de passe"]},
+            {"v":"presentateur","q":"Quels déclencheurs d'animation existent ?","r":["Au clic, avec le précédent, après le précédent","Seulement au clic","Seulement au lancement"]},
+            {"v":"exercice","q":"Combien de points principaux conseille-t-on dans le plan ?","r":["3 maximum","10 au minimum","Un par mot"]},
+            { v: "presentateur", q: "Qu'est-ce que le mode Présentateur ?", r: ["Un mode qui affiche les notes, le minuteur et la diapositive suivante sur l'écran du présentateur, invisible pour le public", "Un mode qui affiche la présentation en plein écran pour le public", "Un mode de modification avancé des diapositives"] },
+            { v: "exercice", q: "Comment insérer un pied de page avec numérotation sur toutes les diapositives ?", r: ["Onglet Insertion > En-tête et pied de page > cocher Numéro de diapositive", "Onglet Accueil > Pied de page", "Onglet Affichage > Pied de page"] },
+            { v: "exercice", q: "Quel format permet d'enregistrer une présentation comme modèle réutilisable ?", r: [".potx", ".pptx", ".ppsx"] },
+            { v: "bases", q: "Comment appliquer une transition identique à toutes les diapositives en une seule action ?", r: ["Choisir la transition > cliquer sur « Appliquer à toutes » dans l'onglet Transitions", "Sélectionner toutes les diapositives et double-cliquer sur la transition", "Onglet Diaporama > Appliquer les transitions"] },
+            { v: "diapo", q: "Quelle touche permet de quitter le diaporama en cours de présentation ?", r: ["{Échap}", "{Entrée}", "{Suppr}"] }
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "Quiz final",
+      icone: "🏁",
+      resume: "12 questions pour valider le module.",
+      ecrans: [
+        { t: "Quiz final", b: [
+          { final: true, titre: "Quiz final", quiz: [
+            {"v":"iface","q":"Où se trouvent les notes du présentateur ?","r":["Sous la zone de travail","Dans le ruban","Dans le volet des diapositives"]},
+            {"v":"bases","q":"Quel raccourci duplique une diapositive ?","r":["{Ctrl+D}","{Ctrl+M}","{Ctrl+P}"]},
+            {"v":"bases","q":"Quelle touche lance le diaporama depuis la diapositive actuelle ?","r":["{Maj+F5}","{F5}","{Ctrl+F5}"]},
+            {"v":"bases","q":"Quelle règle suivre pour une diapositive ?","r":["Une idée, peu de texte, un visuel fort","Le plus de texte possible","Une animation par mot"]},
+            {"v":"media","q":"Dans quel onglet règle-t-on la lecture automatique d'une vidéo ?","r":["Lecture","Accueil","Création"]},
+            {"v":"media","q":"Quel outil crée des schémas professionnels ?","r":["SmartArt","Le Bloc-notes","Le zoom"]},
+            {"v":"masque","q":"Dans quel onglet ouvre-t-on le masque des diapositives ?","r":["Affichage","Insertion","Diaporama"]},
+            {"v":"masque","q":"Dans quel onglet choisit-on un thème ?","r":["Création","Révision","Transitions"]},
+            {"v":"diapo","q":"Quelle touche affiche un écran noir pendant le diaporama ?","r":["{B}","{W}","{N}"]},
+            {"v":"diapo","q":"Comment aller directement à la diapositive 7 ?","r":["Taper 7 puis {Entrée}","Appuyer 7 fois sur {Échap}","Appuyer sur {F7}"]},
+            {"v":"presentateur","q":"Que voit le public en mode Présentateur ?","r":["Seulement la présentation","Vos notes et le minuteur","Le ruban de PowerPoint"]},
+            {"v":"exercice","q":"Comment enregistrer une présentation comme modèle ?","r":["Au format .potx","Au format .pptx","Au format .pdf"]}
+          ] }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

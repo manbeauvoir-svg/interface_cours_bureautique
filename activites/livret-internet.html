@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Internet et communication</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "internet",
+  numero: 8,
+  titre: "Internet et communication",
+  icone: "🌐",
+  couleur: "#0f6fae",
+  pale: "#e4f2fb",
+  accroche: "Naviguer, communiquer et collaborer efficacement en ligne : la messagerie, puis les outils pour travailler ensemble à distance.",
+  suite: { fichier: "livret-bonnes-pratiques", titre: "Les bonnes pratiques" },
+  notions: {
+    "cci": {
+      "titre": "À, Cc et Cci",
+      "va": "Qui voit quoi ?"
+    },
+    "onedrive": {
+      "titre": "OneDrive",
+      "va": "OneDrive : stocker et partager dans le cloud"
+    },
+    "securite": {
+      "titre": "la sécurité des e-mails",
+      "va": "Bien écrire et bien s'organiser",
+      "jeu": {
+        "fichier": "livret-bonnes-pratiques",
+        "titre": "le module des bonnes pratiques"
+      }
+    },
+    "mail": {
+      "titre": "la présentation d'un mail",
+      "va": "Les règles d'un mail réussi",
+      "jeu": {
+        "fichier": "jeu-chasse-fautes",
+        "titre": "la chasse aux fautes"
+      }
+    },
+    "recherche": {
+      "titre": "bien chercher sur Internet",
+      "va": "Chercher, c'est une méthode"
+    }
+  },
+  plus: {"fichier": "devinettes", "titre": "les devinettes du numérique"},
+  quizPage: "quiz-internet",
+  etapes: [
+    {
+      titre: "La messagerie électronique",
+      icone: "✉️",
+      resume: "Le pilier des échanges professionnels.",
+      ecrans: [
+        { t: "L'anatomie d'un e-mail", b: [
+          { p: "L'e-mail est la pierre angulaire des échanges professionnels. Maîtriser l'envoi, la réception et la gestion des messages est une compétence fondamentale." },
+          { associer: [
+            ["À", "Le destinataire principal"],
+            ["Cc (copie carbone)", "Les destinataires informés"],
+            ["Cci (copie carbone invisible)", "Les destinataires cachés, pour préserver leur confidentialité"],
+            ["Objet", "Le résumé concis du contenu"],
+            ["Corps du message", "Le contenu principal"],
+            ["Pièce jointe", "Les fichiers additionnels"]
+          ], titre: "Chaque champ a son rôle" }
+        ] },
+        { t: "Qui voit quoi ?", b: [
+          { p: "Vous écrivez à Alice, en copie à Bruno, et en copie cachée à Chloé. Regardez ce que chacun reçoit :" },
+          { sim: "cci", libre: true }
+        ] },
+        { t: "Bien écrire et bien s'organiser", b: [
+          { cartes: [
+            ["✍️ Rédiger", "Une formule de politesse adaptée (« Madame, Monsieur », « Cordialement »), un objet précis, un message structuré et une signature claire (nom, fonction, coordonnées)."],
+            ["🗂️ Gérer sa boîte", "Les dossiers (Boîte de réception, Envoyés, Brouillons, Corbeille), des règles de tri automatiques pour les messages importants, et un archivage régulier."],
+            ["📎 Les pièces jointes", "Attention à la taille maximale recommandée (généralement 10 à 25 Mo). Préférez les formats courants : PDF, Word, Excel, JPEG."]
+          ] },
+          { attention: "<strong>Sécurité :</strong> ne jamais ouvrir les pièces jointes suspectes ni cliquer sur les liens d'expéditeurs inconnus. Vérifiez toujours l'adresse de l'expéditeur et signalez tout message indésirable comme spam." }
+        ] }
+      ]
+    },
+    {
+      titre: "Bien rédiger un mail",
+      icone: "📝",
+      resume: "Un message clair et sans faute.",
+      ecrans: [
+        { t: "Les règles d'un mail réussi", b: [
+          { pas: [
+            "<strong>Un objet clair</strong>, court et précis.",
+            "<strong>Bonjour et le prénom</strong>, séparés par un simple espace. La virgule va à la fin : « Bonjour Natacha, ».",
+            "<strong>Un retour à la ligne</strong> après la formule d'appel.",
+            "<strong>Une ligne sautée</strong> avant la formule de fin.",
+            "<strong>Toujours une signature</strong> à la fin du mail."
+          ], progressif: false },
+          { fiche: { titre: "La rédaction d'un mail", fichier: "internet/redaction-mail.docx" } },
+          { activite: { fichier: "quiz-internet", etape: "Bien rédiger un mail", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] },
+        { t: "Corrigez ce mail", b: [
+          { sim: "fautes", textes: [
+            { titre: "Mail à la DRH", texte: "Bonjour, je voulais [[te demandé|te demander]] si je pouvais prendre une semaine en mars. A [[se moment|ce moment]] là, [[jaimerais|j'aimerais]] [[decompresser|décompresser]] un peu. [[Dit moi|Dis-moi]] ce que tu en [[pense|penses]] et si [[cest|c'est]] possible." }
+          ] }
+        ] },
+        { t: "À vous : de vrais mails", b: [
+          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Internet et mails", titre: "Faire les exercices dans la rubrique Exercices", texte: "Corriger des mails · Répondre à un mail", icone: "📝" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Travailler ensemble à distance",
+      icone: "🤝",
+      resume: "OneDrive, Teams et SharePoint.",
+      ecrans: [
+        { t: "OneDrive : stocker et partager dans le cloud", b: [
+          { cartes: [
+            ["Y accéder", "Par l'Explorateur de fichiers (panneau gauche) ou sur office.com."],
+            ["Enregistrer", "Glissez-déposez un fichier, ou enregistrez-le directement depuis Word, Excel ou PowerPoint."],
+            ["Partager", "Clic droit > Partager > adresse e-mail du destinataire > Peut modifier ou Peut afficher."],
+            ["Synchroniser", "Les fichiers sont accessibles hors ligne et se synchronisent dès la reconnexion."]
+          ] },
+          { attention: "Ne partagez jamais un lien OneDrive en mode « Tout le monde peut modifier » pour un document confidentiel. Préférez un partage nominatif." }
+        ] },
+        { t: "Teams : communiquer et collaborer", b: [
+          { cartes: [
+            ["Les canaux", "Des espaces de discussion par projet ou par équipe, avec l'historique des messages et des fichiers."],
+            ["Les messages directs", "Un message privé à un collègue, un fichier partagé ou un appel vidéo en un clic."],
+            ["Les réunions", "À planifier via Outlook ou Teams. On rejoint avec un lien, on partage son écran et on utilise le chat."],
+            ["La co-édition", "Sur un fichier partagé, plusieurs personnes modifient en même temps et les changements apparaissent en direct."]
+          ] }
+        ] },
+        { t: "SharePoint : l'espace documentaire", b: [
+          { liste: [
+            "Une <strong>bibliothèque de documents partagée</strong> à l'échelle de l'équipe ou de l'entreprise.",
+            "Accès par Teams (onglet Fichiers) ou par navigateur (office.com > SharePoint).",
+            "Droits gérés par l'administrateur : lecture seule ou modification selon le rôle.",
+            "Idéal pour les documents de référence : procédures, modèles, rapports officiels."
+          ] },
+          { astuce: "Nommez clairement vos fichiers partagés et définissez les droits d'accès avant de partager : cela évite les conflits de version et protège les données sensibles." },
+          { trier: {
+            titre: "Quel outil pour quel besoin ?",
+            bacs: ["☁️ OneDrive", "💬 Teams", "📚 SharePoint"],
+            items: [
+              ["Retrouver mes fichiers personnels, même hors ligne", 0],
+              ["Partager mon document à un collègue par e-mail", 0],
+              ["Faire une réunion et partager mon écran", 1],
+              ["Discuter d'un projet dans un canal", 1],
+              ["Consulter les procédures officielles de l'entreprise", 2],
+              ["Mettre un modèle à la disposition de tous", 2]
+            ]
+          } }
+        ] }
+      ]
+    },
+    {
+      titre: "Chercher sur Internet",
+      icone: "🔍",
+      resume: "Trouver vite, et trouver juste.",
+      ecrans: [
+        { t: "Chercher, c'est une méthode", b: [
+          { p: "Un moteur de recherche cherche toutes les pages qui contiennent vos mots. Pour affiner, commencez par vous poser les six questions de base : <strong>Qui ? Quoi ? Quand ? Où ? Comment ? Pourquoi ?</strong>" },
+          { associer: [
+            ["Des mots-clés", "meilleures recettes gâteau chocolat"],
+            ["Des guillemets", "Une expression exacte : \"être ou ne pas être\""],
+            ["Le mot OR", "L'un ou l'autre : tour eiffel OR arc de triomphe"],
+            ["Deux points de suite", "Un intervalle : tour eiffel 1889..1890"]
+          ], titre: "Les techniques de recherche" },
+          { activite: { fichier: "quiz-internet", etape: "Chercher sur Internet", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] },
+        { t: "À vous : la chasse aux infos", b: [
+          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Internet et mails", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Recherches sur Internet", icone: "📝" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Bilan : Internet et communication",
+      icone: "🏁",
+      resume: "Résumé, quiz et défis.",
+      ecrans: [
+        { t: "Les points clés", b: [
+          { cartes: [
+            ["La messagerie", "L'anatomie d'un e-mail, la rédaction professionnelle, et une boîte organisée grâce aux dossiers et aux règles de tri."],
+            ["La sécurité", "Vérifier l'expéditeur, ne pas ouvrir les pièces jointes suspectes et signaler les spams."],
+            ["Le stockage cloud", "OneDrive ou SharePoint pour centraliser, partager et retrouver ses documents depuis n'importe quel appareil."],
+            ["Les outils collaboratifs", "Teams pour la messagerie et les réunions, la co-édition sur Office 365 et les agendas partagés avec Outlook Calendar."]
+          ] },
+          { activite: { fichier: "quiz-internet", etape: "Quiz final", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
+        ] },
+        { t: "Défi 1 : un e-mail professionnel", b: [
+          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Internet et mails", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Rédiger un e-mail professionnel", icone: "📝" } }
+        ] },
+        { t: "Défi 2 : collaborer", b: [
+          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Internet et mails", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Collaborer sur Teams et Outlook Calendar", icone: "📝" } }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

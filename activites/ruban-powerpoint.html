@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Le Ruban de PowerPoint - Interactif</title>
+<style>
+  :root{--orange:#d24726;--orange-dark:#a8371c;--card:#ffffff;--text:#22314a;--muted:#5c6b82;--border:#f0ddd5;}
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:linear-gradient(160deg,#fdf1ec,#fbe8e0);color:var(--text);padding:30px 16px 60px;}
+  .wrap{max-width:1000px;margin:0 auto;}
+  h1{text-align:center;font-size:26px;color:var(--orange-dark);margin-bottom:4px;}
+  .subtitle{text-align:center;color:var(--muted);margin-bottom:26px;font-size:15px;}
+  .word-window{background:var(--card);border-radius:10px;box-shadow:0 12px 30px rgba(160,50,20,0.15);overflow:hidden;border:1px solid var(--border);}
+  .titlebar{background:var(--orange-dark);color:#fff;font-size:13px;padding:8px 14px;display:flex;align-items:center;gap:8px;}
+  .titlebar .dot{width:10px;height:10px;border-radius:50%;}
+  .titlebar .dot.r{background:#ff5f57;} .titlebar .dot.y{background:#febc2e;} .titlebar .dot.g{background:#28c840;}
+  .titlebar span.name{margin-left:8px;opacity:0.9;}
+  .tabs{display:flex;flex-wrap:wrap;background:#fffaf8;border-bottom:1px solid var(--border);padding:0 8px;}
+  .tab{padding:11px 16px;font-size:14px;cursor:pointer;color:var(--muted);border-bottom:3px solid transparent;transition:.15s;user-select:none;white-space:nowrap;}
+  .tab:hover{color:var(--orange-dark);background:#fbeae3;}
+  .tab.active{color:var(--orange-dark);font-weight:600;border-bottom:3px solid var(--orange);background:#fbeae3;}
+  .ribbon{background:#fdf7f5;padding:14px 18px;display:flex;gap:0;flex-wrap:wrap;min-height:120px;}
+  .group{display:flex;flex-direction:column;align-items:center;padding:6px 16px;border-right:1px solid var(--border);min-width:120px;}
+  .group:last-child{border-right:none;}
+  .group-tools{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;flex:1;}
+  .tool{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 8px;border-radius:6px;cursor:pointer;transition:.15s;width:70px;}
+  .tool:hover{background:#fbdccf;}
+  .tool.selected{background:#f8c6b0;box-shadow:inset 0 0 0 1px var(--orange);}
+  .tool-icon{width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+  .tool-label{font-size:10.5px;text-align:center;color:var(--text);line-height:1.15;}
+  .group-name{font-size:11px;color:var(--muted);margin-top:6px;text-align:center;}
+  .explain{margin-top:22px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px 22px;min-height:110px;box-shadow:0 6px 18px rgba(160,50,20,0.08);}
+  .explain-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+  .explain-icon{width:40px;height:40px;border-radius:10px;background:#fdf1ec;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+  .explain h3{margin:0;color:var(--orange-dark);font-size:17px;}
+  .explain .role{margin:0 0 10px;color:var(--text);font-size:14.5px;line-height:1.5;}
+  .explain .howto{margin:0;color:var(--muted);font-size:13.5px;line-height:1.5;background:#fdf1ec;border-left:3px solid var(--orange);padding:8px 12px;border-radius:4px;}
+  .explain .howto b{color:var(--orange-dark);}
+  .explain .placeholder{color:#9aa8bd;font-style:italic;}
+  .tab-tip{margin-top:14px;background:#fff8e1;border-left:4px solid #ffc107;border-radius:8px;padding:10px 14px;font-size:13.5px;color:#5c5240;line-height:1.5;}
+  .tab-tip b{color:#a8781a;}
+  .tab-tip.hidden{display:none;}
+  .hint{text-align:center;margin-top:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Le Ruban de PowerPoint</h1>
+  <p class="subtitle">Cliquez sur un onglet, puis sur un outil, pour voir son rôle et comment l'utiliser.</p>
+  <div class="word-window">
+    <div class="titlebar"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div><span class="name">Présentation1 - PowerPoint</span></div>
+    <div class="tabs" id="tabs"></div>
+    <div class="ribbon" id="ribbon"></div>
+  </div>
+  <div class="explain" id="explain"><p class="placeholder">Sélectionnez un outil dans le ruban ci-dessus pour afficher son explication ici.</p></div>
+  <div class="tab-tip hidden" id="tabTip"></div>
+  <p class="hint">Astuce : chaque onglet regroupe les outils liés à une même tâche.</p>
+</div>
+<script>
+const DATA = {
+  "Fichier": { icon:"📁", tip:"Ctrl+S pour enregistrer rapidement. Pensez à exporter en PDF pour envoyer la présentation sans PowerPoint.", groups:[
+    {name:"Gestion de la présentation", tools:[
+      {icon:"🆕", label:"Nouveau", role:"Crée une présentation vierge ou à partir d'un modèle.", howto:"Fichier → Nouveau → choisissez « Présentation vierge » ou un thème."},
+      {icon:"📂", label:"Ouvrir", role:"Ouvre une présentation déjà existante.", howto:"Fichier → Ouvrir → parcourez vos dossiers ou fichiers récents."},
+      {icon:"💾", label:"Enregistrer", role:"Sauvegarde les modifications de la présentation.", howto:"Cliquez sur Enregistrer ou Ctrl+S."},
+      {icon:"📤", label:"Exporter", role:"Convertit la présentation en PDF ou en vidéo.", howto:"Fichier → Exporter → Créer un document PDF/XPS ou Créer une vidéo."}
+    ]}
+  ]},
+  "Accueil": { icon:"🏠", tip:"Ctrl+M ajoute rapidement une nouvelle diapositive sans passer par la souris.", groups:[
+    {name:"Diapositives", tools:[
+      {icon:"➕", label:"Nouvelle diapositive", role:"Ajoute une diapositive après celle sélectionnée.", howto:"Accueil → Nouvelle diapositive (ou Ctrl+M)."},
+      {icon:"▦", label:"Disposition", role:"Change l'agencement des zones de la diapositive.", howto:"Sélectionnez la diapositive, Accueil → Disposition."},
+      {icon:"🔄", label:"Réinitialiser", role:"Remet les zones de texte et images à leur position et taille d'origine.", howto:"Sélectionnez la diapositive, Accueil → Réinitialiser."}
+    ]},
+    {name:"Police", tools:[
+      {icon:"𝐁", label:"Gras", role:"Met le texte sélectionné en gras.", howto:"Sélectionnez le texte puis Ctrl+G."},
+      {icon:"𝐼", label:"Italique", role:"Met le texte sélectionné en italique.", howto:"Sélectionnez le texte puis Ctrl+I."},
+      {icon:"U̲", label:"Souligné", role:"Souligne le texte sélectionné.", howto:"Sélectionnez le texte puis Ctrl+U."},
+      {icon:"A⇕", label:"Taille de police", role:"Change la taille du texte.", howto:"Sélectionnez le texte, ouvrez la liste des tailles, choisissez une valeur."},
+      {icon:"🎨", label:"Couleur de police", role:"Change la couleur du texte.", howto:"Sélectionnez le texte, flèche à côté du « A » coloré, choisissez une couleur."}
+    ]},
+    {name:"Paragraphe", tools:[
+      {icon:"☰", label:"Alignement", role:"Aligne le texte dans sa zone.", howto:"Sélectionnez le texte puis cliquez sur l'alignement voulu."},
+      {icon:"•≡", label:"Listes à puces", role:"Transforme les lignes en liste à puces.", howto:"Sélectionnez le texte, cliquez sur l'icône de liste."},
+      {icon:"↕️", label:"Interligne", role:"Ajuste l'espacement entre les lignes de texte.", howto:"Sélectionnez le texte, cliquez sur l'icône Interligne, choisissez une valeur."}
+    ]},
+    {name:"Dessin", tools:[
+      {icon:"🔺", label:"Formes", role:"Insère une forme géométrique sur la diapositive.", howto:"Accueil → Formes, choisissez et dessinez avec la souris."},
+      {icon:"🗂️", label:"Organiser", role:"Gère la disposition des objets (avant-plan, arrière-plan, alignement entre eux).", howto:"Sélectionnez l'objet, Accueil → Organiser → choisissez l'action."},
+      {icon:"🎨", label:"Styles rapides", role:"Applique un style visuel prédéfini à une forme.", howto:"Sélectionnez la forme, Accueil → Styles rapides, choisissez un style."}
+    ]},
+    {name:"Modification", tools:[
+      {icon:"🔍", label:"Rechercher", role:"Recherche un mot dans toute la présentation.", howto:"Ctrl+F, tapez le mot recherché."},
+      {icon:"🔁", label:"Remplacer", role:"Remplace automatiquement un mot par un autre.", howto:"Ctrl+H, saisissez le mot à chercher et son remplacement."}
+    ]}
+  ]},
+  "Insertion": { icon:"➕", tip:"Le SmartArt transforme une simple liste de texte en schéma visuel professionnel en un clic.", groups:[
+    {name:"Tableaux", tools:[
+      {icon:"▦", label:"Tableau", role:"Insère un tableau sur la diapositive.", howto:"Insertion → Tableau, choisissez lignes/colonnes."}
+    ]},
+    {name:"Images", tools:[
+      {icon:"🖼️", label:"Images", role:"Insère une image depuis votre ordinateur.", howto:"Insertion → Images → Cet appareil."},
+      {icon:"📸", label:"Capture d'écran", role:"Insère une capture de ce qui est affiché à l'écran.", howto:"Insertion → Capture, choisissez la fenêtre ou dessinez la zone à capturer."}
+    ]},
+    {name:"Illustrations", tools:[
+      {icon:"🔺", label:"Formes", role:"Ajoute des formes géométriques.", howto:"Insertion → Formes, choisissez et dessinez."},
+      {icon:"🧩", label:"SmartArt", role:"Insère un schéma visuel prêt à l'emploi.", howto:"Insertion → SmartArt, choisissez un modèle."},
+      {icon:"🎨", label:"Icônes", role:"Insère une icône vectorielle prête à l'emploi.", howto:"Insertion → Icônes, choisissez-en une, cliquez sur Insérer."},
+      {icon:"📊", label:"Graphique", role:"Insère un graphique basé sur des données.", howto:"Insertion → Graphique, choisissez un type, remplissez le tableau qui s'ouvre."}
+    ]},
+    {name:"Texte", tools:[
+      {icon:"📝", label:"Zone de texte", role:"Ajoute une zone de texte libre.", howto:"Insertion → Zone de texte, cliquez-glissez sur la diapositive."},
+      {icon:"📑", label:"En-tête et pied de page", role:"Ajoute la date, un numéro de diapositive ou un texte fixe en bas des diapositives.", howto:"Insertion → En-tête et pied de page, cochez les options puis Appliquer partout."}
+    ]},
+    {name:"Multimédia", tools:[
+      {icon:"🎬", label:"Vidéo", role:"Insère une vidéo dans la diapositive.", howto:"Insertion → Vidéo → Cet appareil."},
+      {icon:"🔊", label:"Audio", role:"Insère un son ou une musique.", howto:"Insertion → Audio → Audio sur cet appareil."}
+    ]}
+  ]},
+  "Création": { icon:"🎨", tip:"Choisissez le thème avant de commencer à remplir vos diapositives, pour éviter de tout réajuster après.", groups:[
+    {name:"Thèmes", tools:[
+      {icon:"🖌️", label:"Thèmes", role:"Applique un style visuel cohérent à toute la présentation.", howto:"Onglet Création, cliquez sur une vignette de thème."}
+    ]},
+    {name:"Variantes", tools:[
+      {icon:"🎨", label:"Variantes", role:"Propose des variations de couleurs pour le thème.", howto:"Création → Variantes, cliquez sur une variante."}
+    ]},
+    {name:"Personnaliser", tools:[
+      {icon:"📐", label:"Format de la diapositive", role:"Change le format (16:9, 4:3...).", howto:"Création → Format de la diapositive, choisissez le ratio."}
+    ]}
+  ]},
+  "Transitions": { icon:"🔄", tip:"Restez sobre : une seule transition simple (Fondu) sur toute la présentation est souvent plus professionnel.", groups:[
+    {name:"Transition vers cette diapositive", tools:[
+      {icon:"🌫️", label:"Fondu", role:"La diapositive apparaît en fondu.", howto:"Sélectionnez la diapositive, Transitions, cliquez sur « Fondu »."},
+      {icon:"➡️", label:"Poussée", role:"La nouvelle diapositive pousse l'ancienne.", howto:"Sélectionnez la diapositive, Transitions, cliquez sur « Poussée »."}
+    ]},
+    {name:"Minutage", tools:[
+      {icon:"⏱️", label:"Durée", role:"Règle la vitesse de la transition.", howto:"Transitions → champ Durée."},
+      {icon:"🔁", label:"Appliquer partout", role:"Applique la transition à toutes les diapositives.", howto:"Transitions → Appliquer partout."}
+    ]}
+  ]},
+  "Animations": { icon:"✨", tip:"Trop d'animations distraient l'auditoire : réservez-les aux éléments vraiment importants.", groups:[
+    {name:"Animation", tools:[
+      {icon:"➡️", label:"Effet d'entrée", role:"Fait apparaître un élément de façon animée.", howto:"Sélectionnez l'élément, Animations, choisissez un effet d'entrée."},
+      {icon:"🚪", label:"Effet de sortie", role:"Fait disparaître un élément.", howto:"Sélectionnez l'élément, Animations, choisissez un effet de sortie."}
+    ]},
+    {name:"Minutage", tools:[
+      {icon:"▶️", label:"Démarrer", role:"Définit quand l'animation se déclenche.", howto:"Sélectionnez l'animation, menu Démarrer."}
+    ]}
+  ]},
+  "Diaporama": { icon:"🖥️", tip:"Le mode présentateur (activé avec un second écran) affiche vos notes sans que le public les voie.", groups:[
+    {name:"Démarrer le diaporama", tools:[
+      {icon:"▶️", label:"Depuis le début", role:"Lance la présentation en plein écran depuis le début.", howto:"Diaporama → Depuis le début (ou F5)."},
+      {icon:"⏭️", label:"Depuis la diapositive actuelle", role:"Lance depuis la diapositive sélectionnée.", howto:"Diaporama → Depuis la diapositive actuelle (ou Maj+F5)."}
+    ]},
+    {name:"Configuration", tools:[
+      {icon:"⚙️", label:"Configurer le diaporama", role:"Règle les options de lecture.", howto:"Diaporama → Configurer le diaporama."}
+    ]}
+  ]},
+  "Révision": { icon:"✔️", tip:"Les commentaires sont utiles pour recueillir des retours sans modifier directement le contenu.", groups:[
+    {name:"Vérification", tools:[
+      {icon:"🔤", label:"Orthographe", role:"Vérifie l'orthographe du texte.", howto:"Révision → Orthographe (ou F7)."}
+    ]},
+    {name:"Commentaires", tools:[
+      {icon:"💬", label:"Nouveau commentaire", role:"Ajoute une remarque en marge.", howto:"Sélectionnez l'élément, Révision → Nouveau commentaire."}
+    ]},
+    {name:"Comparer", tools:[
+      {icon:"🔄", label:"Comparer", role:"Compare deux versions d'une présentation et affiche les différences.", howto:"Révision → Comparer → sélectionnez la présentation à comparer."}
+    ]}
+  ]},
+  "Affichage": { icon:"👁️", tip:"Modifiez le Masque des diapositives pour changer un élément (logo, police) sur toutes les diapositives d'un coup.", groups:[
+    {name:"Modes d'affichage des présentations", tools:[
+      {icon:"🖼️", label:"Normal", role:"Vue de travail habituelle.", howto:"Affichage → Normal (mode actif par défaut)."},
+      {icon:"▦", label:"Trieuse de diapositives", role:"Affiche toutes les diapositives en miniatures.", howto:"Affichage → Trieuse de diapositives."}
+    ]},
+    {name:"Modes Masque", tools:[
+      {icon:"🎭", label:"Masque des diapositives", role:"Modifie le modèle commun à toutes les diapositives.", howto:"Affichage → Masque des diapositives."}
+    ]},
+    {name:"Zoom", tools:[
+      {icon:"🔍", label:"Zoom", role:"Agrandit ou réduit l'affichage.", howto:"Affichage → Zoom, ou Ctrl + molette de la souris."}
+    ]}
+  ]}
+};
+const tabsEl = document.getElementById('tabs');
+const ribbonEl = document.getElementById('ribbon');
+const explainEl = document.getElementById('explain');
+let activeTab = "Fichier";
+function renderTabs(){
+  tabsEl.innerHTML = '';
+  Object.keys(DATA).forEach(name=>{
+    const t = document.createElement('div');
+    t.className = 'tab' + (name===activeTab ? ' active' : '');
+    t.textContent = DATA[name].icon + '  ' + name;
+    t.onclick = ()=>{ activeTab = name; renderTabs(); renderRibbon(); resetExplain(); showTabTip(); };
+    tabsEl.appendChild(t);
+  });
+}
+function showTabTip(){
+  const tipEl = document.getElementById('tabTip');
+  const tip = DATA[activeTab].tip;
+  if(tip){
+    tipEl.innerHTML = `💡 <b>Astuce :</b> ${tip}`;
+    tipEl.classList.remove('hidden');
+  } else {
+    tipEl.classList.add('hidden');
+  }
+}
+function renderRibbon(){
+  ribbonEl.innerHTML = '';
+  DATA[activeTab].groups.forEach(group=>{
+    const g = document.createElement('div'); g.className = 'group';
+    const toolsWrap = document.createElement('div'); toolsWrap.className = 'group-tools';
+    group.tools.forEach(tool=>{
+      const tEl = document.createElement('div'); tEl.className = 'tool';
+      tEl.innerHTML = `<div class="tool-icon">${tool.icon}</div><div class="tool-label">${tool.label}</div>`;
+      tEl.onclick = ()=>{
+        document.querySelectorAll('.tool').forEach(x=>x.classList.remove('selected'));
+        tEl.classList.add('selected');
+        showExplain(tool.icon, tool.label, tool.role, tool.howto);
+      };
+      toolsWrap.appendChild(tEl);
+    });
+    g.appendChild(toolsWrap);
+    const nameEl = document.createElement('div'); nameEl.className = 'group-name'; nameEl.textContent = group.name;
+    g.appendChild(nameEl);
+    ribbonEl.appendChild(g);
+  });
+}
+function showExplain(icon, label, role, howto){
+  explainEl.innerHTML = `<div class="explain-head"><div class="explain-icon">${icon}</div><h3>${label}</h3></div><p class="role">${role}</p><p class="howto"><b>Comment l'utiliser :</b> ${howto}</p>`;
+}
+function resetExplain(){ explainEl.innerHTML = `<p class="placeholder">Sélectionnez un outil dans le ruban ci-dessus pour afficher son explication ici.</p>`; }
+renderTabs(); renderRibbon();
+showTabTip();
+</script>
+</body>
+</html>

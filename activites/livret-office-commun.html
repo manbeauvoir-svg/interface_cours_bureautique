@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Les fonctions communes d'Office</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "office-commun",
+  numero: 4,
+  titre: "Les fonctions communes d'Office",
+  icone: "🧰",
+  couleur: "#6741d9",
+  pale: "#efe9fc",
+  accroche: "Ce qui marche dans Word, Excel et PowerPoint : les modèles, les en-têtes et pieds de page, la numérotation.",
+  suite: { fichier: "ruban-word", titre: "Le ruban de Word" },
+  notions: {
+    "modele": {
+      "titre": "les modèles",
+      "va": "Préparer un modèle"
+    },
+    "entete": {
+      "titre": "les en-têtes et pieds de page",
+      "va": "Y accéder dans chaque logiciel"
+    },
+    "numero": {
+      "titre": "la numérotation",
+      "va": "Numéroter dans chaque logiciel"
+    }
+  },
+  plus: {"fichier": "exercices-word", "titre": "les exercices Word"},
+  quizPage: "quiz-office-commun",
+  etapes: [
+    {
+      titre: "Concevoir des modèles",
+      icone: "📐",
+      resume: ".dotx, .xltx, .potx.",
+      ecrans: [
+        { t: "Un modèle, c'est quoi ?", b: [
+          { p: "Un modèle n'est pas simplement un fichier enregistré autrement. C'est un document <strong>structuré, pensé et préparé pour être réutilisé à l'identique</strong>. Sa valeur est dans ce qu'il contient : styles, champs automatiques, formules, mises en forme conditionnelles… Autant d'éléments qui évitent les ressaisies, les oublis et les erreurs." },
+          { cartes: [
+            ["⏱️ Gain de temps", "La structure est prête, il ne reste qu'à saisir le contenu. Plus besoin de reconfigurer marges, styles ou formules."],
+            ["🤝 Cohérence en équipe", "Tous les documents respectent la même charte : logo, polices, couleurs."],
+            ["✅ Moins d'erreurs", "Formules, champs et mises en forme sont déjà en place. Les oublis sont considérablement réduits."]
+          ] }
+        ] },
+        { t: "Préparer un modèle", b: [
+          { onglets: [
+            ["Word (.dotx)", [
+              "Définir les styles (Titre 1, Titre 2, Normal, Corps de texte) avec les bonnes polices et tailles.",
+              "Insérer les champs automatiques : [NomAuteur], [Date], [NomFichier], numéro de page.",
+              "Créer les zones à remplir, avec des instructions entre crochets : [Insérer le titre ici], [Nom du client].",
+              "Configurer les marges, l'orientation et le format de page.",
+              "Ajouter le logo et la charte graphique dans l'en-tête et le pied de page.",
+              "<strong>Enregistrer :</strong> Fichier > Enregistrer sous > « Modèle Word (*.dotx) » > dossier partagé du réseau P:."
+            ]],
+            ["Excel (.xltx)", [
+              "Nommer les feuilles de façon explicite (Données, Calculs, Tableau de bord…).",
+              "Saisir les en-têtes de colonnes et les libellés fixes.",
+              "Intégrer les formules récurrentes (SOMME, MOYENNE, NB.SI…).",
+              "Appliquer la mise en forme conditionnelle sur les plages clés.",
+              "Verrouiller les cellules de formules pour éviter les modifications accidentelles.",
+              "Définir les plages nommées pour des formules plus lisibles.",
+              "<strong>Enregistrer :</strong> Fichier > Enregistrer sous > « Modèle Excel (*.xltx) » > dossier partagé du réseau P:."
+            ]],
+            ["PowerPoint (.potx)", [
+              "Configurer le masque des diapositives : logo, couleurs, polices globales.",
+              "Créer les dispositions personnalisées (titre seul, titre + contenu, deux colonnes…).",
+              "Définir les zones de texte avec des instructions : [Titre de la présentation], [Nom du présentateur].",
+              "Paramétrer le pied de page avec la date et la numérotation automatique.",
+              "Préparer une diapositive de titre, une de sommaire et une de conclusion types.",
+              "<strong>Enregistrer :</strong> Fichier > Enregistrer sous > « Modèle PowerPoint (*.potx) » > dossier partagé du réseau P:."
+            ]]
+          ] },
+          { associer: [
+            ["Word", ".dotx"],
+            ["Excel", ".xltx"],
+            ["PowerPoint", ".potx"]
+          ], titre: "Quelle extension pour quel modèle ?" }
+        ] },
+        { t: "Les bonnes pratiques", b: [
+          { liste: [
+            "<strong>Testez</strong> votre modèle sur un cas réel avant de le diffuser.",
+            "<strong>Protégez</strong> les cellules ou zones sensibles.",
+            "<strong>Nommez</strong> vos modèles de façon explicite : <code>Modèle_CR_Réunion_2025.dotx</code>.",
+            "<strong>Stockez-les</strong> dans un dossier partagé (réseau P:) accessible à toute l'équipe.",
+            "<strong>Mettez-les à jour</strong> lors des changements de charte graphique ou d'organisation."
+          ] },
+          { trier: {
+            titre: "Modèle ou document ordinaire ?",
+            v: "modele",
+            consigne: "Qu'est-ce qui fait la valeur d'un modèle ?",
+            bacs: ["✅ Il faut le prévoir", "❌ À éviter"],
+            items: [["Des styles définis à l'avance", 0], ["Des champs automatiques pour la date", 0], ["Des instructions entre crochets", 0], ["Le logo dans l'en-tête", 0], ["Une date saisie à la main", 1], ["Un modèle diffusé sans test", 1], ["Le nom « document1.dotx »", 1]]
+          } }
+        ] }
+      ]
+    },
+    {
+      titre: "En-têtes et pieds de page",
+      icone: "📰",
+      resume: "Des informations sur chaque page.",
+      ecrans: [
+        { t: "Y accéder dans chaque logiciel", b: [
+          { p: "Ils affichent automatiquement des informations récurrentes (titre, date, numéro de page) sur chaque page ou diapositive." },
+          { onglets: [
+            ["Word", [
+              "Insertion > En-tête ou Pied de page. Ou double-clic en haut ou en bas de la page.",
+              "Les outils « Création » insèrent la date, le numéro de page ou un texte.",
+              "« Première page différente » : une page de garde sans en-tête.",
+              "« Pages paires et impaires différentes » : utile en recto-verso.",
+              "Champs automatiques ([Date], [Heure], [NomFichier], [Chemin]) : Insertion > QuickPart > Champ.",
+              "Pour sortir : double-clic sur le corps du document, ou « Fermer l'en-tête et le pied de page »."
+            ]],
+            ["Excel", [
+              "Insertion > En-tête et pied de page : Excel passe en mode « Mise en page », avec 3 zones (gauche, centre, droite).",
+              "Cliquez sur une zone, puis utilisez les boutons : numéro de page, date, nom de fichier.",
+              "Retour à la vue normale : Affichage > Normal.",
+              "Exemple : « Page &[Page] sur &[Pages] » affiche « Page 1 sur 5 ».",
+              "Visible seulement en mode « Mise en page » ou à l'impression, pas en vue normale."
+            ]],
+            ["PowerPoint", [
+              "Insertion > En-tête et pied de page.",
+              "Cochez « Date et heure », « Numéro de diapositive », « Pied de page ».",
+              "« Ne pas afficher sur la diapositive de titre » exclut la 1ʳᵉ diapositive.",
+              "Cliquez sur « Appliquer à toutes ».",
+              "Pour l'emplacement et le style : les zones dédiées du masque des diapositives.",
+              "La date peut être fixe ou se mettre à jour à chaque ouverture."
+            ]]
+          ] }
+        ] },
+        { t: "À vous : un modèle réutilisable", b: [
+          { activite: { fichier: "exercices-word", etape: "Modèles et numérotation", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Un modèle de compte rendu", icone: "📝" } }
+        ] },
+        { t: "Les codes d'Excel", b: [
+          { associer: [
+            ["&[Page]", "Le numéro de page"],
+            ["&[Pages]", "Le nombre total de pages"],
+            ["&[Date]", "La date du jour"],
+            ["&[Fichier]", "Le nom du fichier"],
+            ["&[Onglet]", "Le nom de la feuille"]
+          ], titre: "Que fait chaque code ?" }
+        ] },
+        { t: "Les bonnes pratiques", b: [
+          { cartes: [
+            ["Cohérence", "Les mêmes informations partout : nom de l'entreprise, logo, date. L'image est plus professionnelle et l'archivage plus simple."],
+            ["Des champs automatiques", "Date, numéro de page, nom de fichier : ils se mettent à jour seuls et évitent les erreurs."],
+            ["Tester avant d'imprimer", "Vérifiez l'aperçu : un en-tête mal placé ou une numérotation incorrecte peut passer inaperçu à l'écran."]
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "La numérotation",
+      icone: "🔢",
+      resume: "Des numéros qui se mettent à jour seuls.",
+      ecrans: [
+        { t: "Numéroter dans chaque logiciel", b: [
+          { onglets: [
+            ["Word", [
+              "Insertion > Numéro de page > position (Haut de page, Bas de page, Marges de la page), puis un style.",
+              "Le format se règle dans « Format des numéros de page » : chiffres arabes (1, 2, 3), romains (i, ii, iii ou I, II, III), lettres (a, b, c ou A, B, C), ou un numéro de départ personnalisé.",
+              "Pour exclure la page de titre : « Première page différente », onglet Création de l'en-tête.",
+              "Pour supprimer : Insertion > Numéro de page > Supprimer les numéros de page."
+            ]],
+            ["Excel", [
+              "Insertion > En-tête et pied de page, puis une zone (gauche, centre, droite).",
+              "« Numéro de page » insère &[Page], « Nombre de pages » insère &[Pages]. Exemple : « Page &[Page] / &[Pages] » affiche « Page 2 / 10 ».",
+              "La numérotation recommence à 1 sur chaque feuille par défaut.",
+              "Autre départ : Mise en page (lanceur) > onglet En-tête/Pied de page > Numéro de la première page.",
+              "Visible uniquement en mode « Mise en page » ou à l'impression."
+            ]],
+            ["PowerPoint", [
+              "Insertion > En-tête et pied de page > cochez « Numéro de diapositive ».",
+              "« Ne pas afficher sur la diapositive de titre » pour une présentation plus soignée, puis « Appliquer à toutes ».",
+              "Numéro de départ : Création > Taille des diapositives > Personnaliser la taille des diapositives > « Numéroter les diapositives à partir de ».",
+              "Style et emplacement : la zone dédiée du masque (taille, police, couleur, position).",
+              "Le numéro se met à jour si vous ajoutez ou supprimez des diapositives."
+            ]]
+          ] },
+          { astuce: "Dans tous les logiciels Office, préférez les numéros automatiques aux numéros saisis à la main : ils se mettent à jour seuls, sans aucune intervention." },
+          { activite: { fichier: "quiz-office-commun", etape: "La numérotation", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } },
+          { activite: { fichier: "exercices-word", etape: "Modèles et numérotation", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Numéroter un long document", icone: "📝" } }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

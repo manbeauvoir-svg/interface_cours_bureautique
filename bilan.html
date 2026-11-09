@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mon bilan</title>
+<link rel="stylesheet" href="bilan.css">
+</head>
+<body>
+<header class="tete">
+  <div class="tete-in">
+    <a class="retour" href="index.html">← Retour au cours</a>
+    <h1>📊 Mon bilan</h1>
+    <p>Votre progression, vos résultats, le temps passé et le nombre d'essais. Ces informations restent enregistrées dans ce navigateur, sur ce poste, pendant votre formation. <a class="retour" href="confidentialite.html">Vos données personnelles</a></p>
+    <div id="global" class="chiffres"></div>
+  </div>
+</header>
+<main class="page">
+  <div id="rubriques"></div>
+  <section class="remise">
+    <h2>📤 Remettre mon bilan au formateur</h2>
+    <p>Saisissez le code donné par votre formateur, puis enregistrez le fichier dans le dossier qu'il vous a indiqué.</p>
+    <div class="ligne">
+      <label for="code">Mon code stagiaire</label>
+      <input id="code" type="text" autocomplete="off" maxlength="30" placeholder="Exemple : STG-12">
+      <button id="exporter" class="btn fort" type="button">Enregistrer mon bilan</button>
+      <button id="imprimer" class="btn" type="button">Imprimer</button>
+    </div>
+    <p id="message" class="message" role="status"></p>
+  </section>
+</main>
+<script src="catalogue.js"></script>
+<script src="bilan-commun.js"></script>
+<script src="bilan-vue.js"></script>
+<script>
+  const lignes = Bilan.lignesActivites();
+  const $ = id => document.getElementById(id);
+  BilanVue.chiffres($("global"), Bilan.cumul(lignes));
+  BilanVue.rubriques($("rubriques"), RUBRIQUES, lignes);
+
+  try { $("code").value = localStorage.getItem(Bilan.PREFIXE + "code") || ""; } catch {}
+  $("exporter").addEventListener("click", () => {
+    const code = $("code").value.trim().replace(/[^\p{L}\p{N}_-]+/gu, "-");
+    if (!code) {
+      $("message").textContent = "Saisissez d'abord votre code stagiaire.";
+      $("code").focus();
+      return;
+    }
+    try { localStorage.setItem(Bilan.PREFIXE + "code", code); } catch {}
+    const data = new Blob([JSON.stringify(Bilan.exporter(code), null, 1)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(data);
+    a.download = `bilan_${code}_${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.append(a);
+    a.click();
+    a.remove();
+    $("message").textContent = `Fichier créé : ${a.download}. Rangez-le dans le dossier indiqué par votre formateur.`;
+  });
+  $("imprimer").addEventListener("click", () => {
+    document.querySelectorAll("details").forEach(d => d.open = true);
+    print();
+  });
+</script>
+</body>
+</html>

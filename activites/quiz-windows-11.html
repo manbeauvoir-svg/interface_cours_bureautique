@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — L'Environnement Windows 11</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Nunito,sans-serif;background:#f4f6fb;color:#1a1a2e;line-height:1.6;padding-bottom:3rem;}
+
+/* HEADER */
+.header{background:#0a0a1a;padding:2.5rem 2rem;text-align:center;position:relative;overflow:hidden;}
+.header::before{content:'';position:absolute;top:-60px;left:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(255,153,51,0.15),transparent 70%);}
+.header::after{content:'';position:absolute;bottom:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(0,102,204,0.15),transparent 70%);}
+.header-badge{display:inline-block;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:999px;padding:0.3rem 1.2rem;font-size:0.72rem;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:#c7def1;margin-bottom:1rem;position:relative;z-index:1;}
+.header h1{font-family:Righteous,cursive;font-size:clamp(1.6rem,4vw,2.4rem);background:linear-gradient(135deg,#ff9933,#cc0066);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:0.5rem;position:relative;z-index:1;}
+.header p{color:#c7def1;font-size:0.95rem;font-weight:600;position:relative;z-index:1;}
+
+.main{max-width:760px;margin:0 auto;padding:2rem 1.2rem;}
+
+/* INTRO */
+.intro{background:#fff;border-radius:18px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 4px 18px rgba(0,0,0,0.05);}
+.intro p{font-size:0.92rem;color:#555;font-weight:600;}
+.intro strong{color:#0066cc;}
+
+/* QUESTION CARD */
+.q-card{background:#fff;border-radius:18px;padding:1.5rem;margin-bottom:1.2rem;box-shadow:0 4px 18px rgba(0,0,0,0.05);border:2px solid transparent;transition:border-color 0.2s;}
+.q-num{display:inline-block;background:linear-gradient(135deg,#ff9933,#cc0066);color:#fff;font-weight:900;font-size:0.75rem;border-radius:999px;padding:0.2rem 0.8rem;margin-bottom:0.7rem;}
+.q-text{font-weight:800;font-size:1rem;margin-bottom:1rem;color:#1a1a2e;}
+
+.options{display:flex;flex-direction:column;gap:0.6rem;}
+.option{display:flex;align-items:center;gap:0.7rem;background:#f8f9fc;border:2px solid #e8eaf0;border-radius:12px;padding:0.7rem 1rem;cursor:pointer;font-weight:700;font-size:0.9rem;color:#444;transition:all 0.15s;}
+.option:hover{border-color:#0066cc;background:#eef5fd;}
+.option input{accent-color:#0066cc;width:18px;height:18px;flex-shrink:0;cursor:pointer;}
+
+/* CORRECTION STATES */
+.option.correct{background:#EAF3DE;border-color:#27500A;color:#27500A;}
+.option.incorrect{background:#FBE9E7;border-color:#CC0066;color:#CC0066;}
+.option.disabled{cursor:default;}
+
+.explanation{display:none;margin-top:1rem;background:#f8f9fc;border-left:4px solid #0066cc;border-radius:10px;padding:0.8rem 1rem;font-size:0.85rem;color:#555;font-weight:600;}
+.explanation.show{display:block;}
+.explanation strong{color:#0066cc;}
+
+/* BUTTON */
+.btn-row{text-align:center;margin-top:1.5rem;}
+.btn{background:linear-gradient(135deg,#ff9933,#cc0066);color:#fff;border:none;border-radius:999px;padding:0.9rem 2.5rem;font-weight:900;font-size:0.95rem;letter-spacing:0.05em;cursor:pointer;text-transform:uppercase;box-shadow:0 6px 18px rgba(204,0,102,0.25);transition:transform 0.15s;}
+.btn:hover{transform:translateY(-2px);}
+.btn:disabled{opacity:0.5;cursor:not-allowed;}
+.btn-secondary{background:#fff;color:#0066cc;border:2px solid #0066cc;box-shadow:none;margin-left:0.5rem;}
+
+/* RESULT */
+.result{display:none;background:#0a0a1a;border-radius:18px;padding:2rem;text-align:center;margin-top:1.5rem;color:#fff;}
+.result.show{display:block;}
+.result-score{font-family:Righteous,cursive;font-size:2.8rem;background:linear-gradient(135deg,#ff9933,#cc0066);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:0.3rem;}
+.result-msg{font-size:0.95rem;color:#c7def1;font-weight:700;}
+
+.footer{text-align:center;color:#aaa;font-size:0.75rem;font-weight:700;margin-top:2rem;}
+</style>
+<link rel="stylesheet" href="livret/polices/polices.css">
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">Livret pédagogique — Section B</div>
+  <h1>Quiz : L'Environnement Windows 11</h1>
+  <p>Pages 7 et 8 — Bureau, barre des tâches, menu Démarrer et double écran</p>
+</div>
+
+<div class="main">
+
+  <div class="intro">
+    <p>Ce quiz reprend les notions vues dans les pages <strong>7 et 8</strong> du livret : le Bureau, la barre des tâches, la zone de notification, le menu Démarrer, les paramètres du Bureau et la gestion du double écran. Choisissez une réponse pour chaque question, puis cliquez sur <strong>« Valider mes réponses »</strong> pour voir votre score et les corrections.</p>
+  </div>
+
+  <form id="quiz-form">
+
+    <div class="q-card" data-correct="b">
+      <div class="q-num">Question 1</div>
+      <div class="q-text">1. Quel élément de Windows 11 permet d'épingler des applications, de passer d'une fenêtre à l'autre et de voir les notifications ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="a"> Le menu Démarrer</label>
+        <label class="option"><input type="radio" name="q1" value="b"> La Barre des tâches</label>
+        <label class="option"><input type="radio" name="q1" value="c"> Le Bureau</label>
+        <label class="option"><input type="radio" name="q1" value="d"> L'Explorateur de fichiers</label>
+      </div>
+      <div class="explanation"><strong>Réponse : La Barre des tâches.</strong> Elle donne un accès rapide aux applications, permet de passer d'une fenêtre à l'autre et affiche les notifications.</div>
+    </div>
+
+    <div class="q-card" data-correct="b">
+      <div class="q-num">Question 2</div>
+      <div class="q-text">2. Que regroupe le Centre de notifications dans Windows 11 ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="a"> Uniquement la liste des e-mails reçus</label>
+        <label class="option"><input type="radio" name="q2" value="b"> L'historique des notifications et les paramètres rapides (Wi-Fi, Bluetooth, volume)</label>
+        <label class="option"><input type="radio" name="q2" value="c"> La liste de toutes les applications installées</label>
+        <label class="option"><input type="radio" name="q2" value="d"> Les fichiers récemment supprimés</label>
+      </div>
+      <div class="explanation"><strong>Réponse : L'historique des notifications et les paramètres rapides.</strong> On y retrouve notamment le Wi-Fi, le Bluetooth et le volume.</div>
+    </div>
+
+    <div class="q-card" data-correct="c">
+      <div class="q-num">Question 3</div>
+      <div class="q-text">3. Quelle touche du clavier permet d'ouvrir directement le menu Démarrer ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="a"> Échap</label>
+        <label class="option"><input type="radio" name="q3" value="b"> Tab</label>
+        <label class="option"><input type="radio" name="q3" value="c"> La touche Windows</label>
+        <label class="option"><input type="radio" name="q3" value="d"> Ctrl</label>
+      </div>
+      <div class="explanation"><strong>Réponse : La touche Windows.</strong> Elle donne accès aux applications et logiciels présents sur l'ordinateur, et permet aussi de rechercher des fichiers ou programmes.</div>
+    </div>
+
+    <div class="q-card" data-correct="a">
+      <div class="q-num">Question 4</div>
+      <div class="q-text">4. Que permettent de personnaliser les « Paramètres du Bureau » ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="a"> Le fond d'écran, les thèmes et les couleurs</label>
+        <label class="option"><input type="radio" name="q4" value="b"> Les pilotes de l'imprimante</label>
+        <label class="option"><input type="radio" name="q4" value="c"> Le mot de passe du compte utilisateur</label>
+        <label class="option"><input type="radio" name="q4" value="d"> La langue du clavier uniquement</label>
+      </div>
+      <div class="explanation"><strong>Réponse : Le fond d'écran, les thèmes et les couleurs.</strong> Ces réglages permettent d'adapter visuellement l'environnement de travail.</div>
+    </div>
+
+    <div class="q-card" data-correct="b">
+      <div class="q-num">Question 5</div>
+      <div class="q-text">5. Quel raccourci clavier ouvre le menu de projection pour gérer un second écran ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="a"> Windows + E</label>
+        <label class="option"><input type="radio" name="q5" value="b"> Windows + P</label>
+        <label class="option"><input type="radio" name="q5" value="c"> Windows + D</label>
+        <label class="option"><input type="radio" name="q5" value="d"> Windows + L</label>
+      </div>
+      <div class="explanation"><strong>Réponse : Windows + P.</strong> Ce raccourci ouvre le menu de projection avec 4 modes d'affichage possibles.</div>
+    </div>
+
+    <div class="q-card" data-correct="c">
+      <div class="q-num">Question 6</div>
+      <div class="q-text">6. Combien de modes d'affichage propose le menu Windows + P ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q6" value="a"> 2</label>
+        <label class="option"><input type="radio" name="q6" value="b"> 3</label>
+        <label class="option"><input type="radio" name="q6" value="c"> 4</label>
+        <label class="option"><input type="radio" name="q6" value="d"> 5</label>
+      </div>
+      <div class="explanation"><strong>Réponse : 4.</strong> Écran du PC uniquement, Dupliquer, Étendre, et Second écran uniquement.</div>
+    </div>
+
+    <div class="q-card" data-correct="c">
+      <div class="q-num">Question 7</div>
+      <div class="q-text">7. En mode « Étendre », que se passe-t-il sur les deux écrans ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q7" value="a"> Les deux écrans affichent exactement la même image</label>
+        <label class="option"><input type="radio" name="q7" value="b"> Seul l'écran principal reste actif</label>
+        <label class="option"><input type="radio" name="q7" value="c"> Les écrans forment un seul grand bureau</label>
+        <label class="option"><input type="radio" name="q7" value="d"> Seul l'écran externe est utilisé</label>
+      </div>
+      <div class="explanation"><strong>Réponse : Les écrans forment un seul grand bureau.</strong> On peut alors déplacer les fenêtres de l'un à l'autre pour augmenter son espace de travail.</div>
+    </div>
+
+    <div class="q-card" data-correct="b">
+      <div class="q-num">Question 8</div>
+      <div class="q-text">8. En mode « Étendre », quel raccourci permet de déplacer une fenêtre d'un écran à l'autre ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q8" value="a"> Ctrl + Flèche gauche/droite</label>
+        <label class="option"><input type="radio" name="q8" value="b"> Windows + Maj + Flèche gauche/droite</label>
+        <label class="option"><input type="radio" name="q8" value="c"> Alt + Tab</label>
+        <label class="option"><input type="radio" name="q8" value="d"> Windows + Tab</label>
+      </div>
+      <div class="explanation"><strong>Réponse : Windows + Maj + Flèche gauche/droite.</strong> Ce raccourci envoie directement la fenêtre active vers l'écran voisin.</div>
+    </div>
+
+    <div class="q-card" data-correct="b">
+      <div class="q-num">Question 9</div>
+      <div class="q-text">9. Un second écran n'est pas détecté automatiquement après l'avoir branché. Où faut-il aller pour le détecter manuellement ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q9" value="a"> Panneau de configuration &gt; Imprimantes</label>
+        <label class="option"><input type="radio" name="q9" value="b"> Paramètres &gt; Système &gt; Affichage, puis cliquer sur « Détecter »</label>
+        <label class="option"><input type="radio" name="q9" value="c"> Explorateur de fichiers &gt; Ce PC</label>
+        <label class="option"><input type="radio" name="q9" value="d"> Menu Démarrer &gt; Applications</label>
+      </div>
+      <div class="explanation"><strong>Réponse : Paramètres &gt; Système &gt; Affichage, puis « Détecter ».</strong> Cette option force Windows à rechercher les écrans connectés.</div>
+    </div>
+
+    <div class="q-card" data-correct="c">
+      <div class="q-num">Question 10</div>
+      <div class="q-text">10. Parmi les paramètres d'affichage avancés, lequel permet d'adapter la taille des éléments (icônes, texte) à chaque écran ?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q10" value="a"> La disposition</label>
+        <label class="option"><input type="radio" name="q10" value="b"> La résolution</label>
+        <label class="option"><input type="radio" name="q10" value="c"> La mise à l'échelle</label>
+        <label class="option"><input type="radio" name="q10" value="d"> L'écran principal</label>
+      </div>
+      <div class="explanation"><strong>Réponse : La mise à l'échelle.</strong> Elle ajuste la taille d'affichage des éléments pour chaque moniteur, indépendamment de la résolution.</div>
+    </div>
+
+    <div class="btn-row">
+      <button type="submit" class="btn" id="submit-btn">Valider mes réponses</button>
+      <button type="button" class="btn btn-secondary" id="reset-btn" style="display:none;">Refaire le quiz</button>
+    </div>
+
+  </form>
+
+  <div class="result" id="result">
+    <div class="result-score" id="result-score"></div>
+    <div class="result-msg" id="result-msg"></div>
+  </div>
+
+  <div class="footer">UGECAM Île-de-France — Formation Numérique Complète · Quiz pages 7-8</div>
+
+</div>
+
+<script src="livret/resultat-activite.js"></script>
+<script>
+const form = document.getElementById('quiz-form');
+const result = document.getElementById('result');
+const resultScore = document.getElementById('result-score');
+const resultMsg = document.getElementById('result-msg');
+const submitBtn = document.getElementById('submit-btn');
+const resetBtn = document.getElementById('reset-btn');
+
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+
+  const cards = document.querySelectorAll('.q-card');
+  let score = 0;
+  let unanswered = 0;
+
+  cards.forEach(card => {
+    const correct = card.getAttribute('data-correct');
+    const name = card.querySelector('input').name;
+    const selected = card.querySelector('input:checked');
+    const explanation = card.querySelector('.explanation');
+
+    card.querySelectorAll('.option').forEach(opt => opt.classList.add('disabled'));
+    card.querySelectorAll('input').forEach(inp => inp.disabled = true);
+
+    card.querySelectorAll('.option').forEach(opt => {
+      const val = opt.querySelector('input').value;
+      if(val === correct){
+        opt.classList.add('correct');
+      } else if(selected && val === selected.value && val !== correct){
+        opt.classList.add('incorrect');
+      }
+    });
+
+    if(!selected){
+      unanswered++;
+    } else if(selected.value === correct){
+      score++;
+    }
+
+    explanation.classList.add('show');
+  });
+
+  const total = cards.length;
+  resultScore.textContent = score + ' / ' + total + ' (' + Math.round(score / total * 100) + ' %)';
+  const detail = [...cards].map(card => {
+    const choisi = card.querySelector('input:checked');
+    const bon = card.querySelector('input[value="' + card.getAttribute('data-correct') + '"]');
+    return {
+      q: card.querySelector('.q-text').textContent.trim(),
+      donne: choisi ? choisi.closest('.option').textContent.trim() : 'sans réponse',
+      bonne: bon.closest('.option').textContent.trim(),
+      ok: !!choisi && choisi.value === card.getAttribute('data-correct')
+    };
+  });
+  ResultatActivite.noter({ titre: "L'environnement Windows 11", type: 'Quiz', score, total, detail });
+
+  let msg = '';
+  const pct = (score/total)*100;
+  if(pct === 100){
+    msg = "🎉 Score parfait ! Vous maîtrisez parfaitement l'environnement Windows 11.";
+  } else if(pct >= 70){
+    msg = '👍 Très bon résultat ! Quelques notions à revoir page 7-8.';
+  } else if(pct >= 50){
+    msg = '🙂 Bon début, relisez les pages 7 et 8 pour consolider les notions.';
+  } else {
+    msg = '📖 Pensez à relire les pages 7 et 8 du livret avant de continuer.';
+  }
+  if(unanswered > 0){
+    msg += ' (' + unanswered + ' question(s) sans réponse)';
+  }
+  resultMsg.textContent = msg;
+
+  result.classList.add('show');
+  submitBtn.style.display = 'none';
+  resetBtn.style.display = 'inline-block';
+  result.scrollIntoView({behavior:'smooth'});
+});
+
+resetBtn.addEventListener('click', function(){
+  document.querySelectorAll('.q-card').forEach(card => {
+    card.querySelectorAll('input').forEach(inp => { inp.checked = false; inp.disabled = false; });
+    card.querySelectorAll('.option').forEach(opt => opt.classList.remove('correct','incorrect','disabled'));
+    card.querySelector('.explanation').classList.remove('show');
+  });
+  result.classList.remove('show');
+  submitBtn.style.display = 'inline-block';
+  resetBtn.style.display = 'none';
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+</script>
+
+</body>
+</html>

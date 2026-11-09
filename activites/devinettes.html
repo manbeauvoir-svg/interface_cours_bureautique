@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Devinettes du numérique</title>
+<style>
+  :root {
+    --encre: #1b2a33; --doux: #4b5c66; --fond: #fff8ec; --teinte: #a21caf;
+    --bon: #14652f; --bon-fond: #d3f4dc; --faux: #a11616; --faux-fond: #fbd5d5;
+    --titres: "Fredoka", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fond); color: var(--encre); font: 500 18px/1.45 "Nunito", "Segoe UI", system-ui, sans-serif; }
+  :focus-visible { outline: 3px solid #e8590c; outline-offset: 2px; }
+  [hidden] { display: none !important; }
+  main { max-width: 760px; margin: 0 auto; padding: 24px 20px 56px; }
+  h1 { margin: 0; font: 700 clamp(1.8rem, 5vw, 2.6rem)/1.1 var(--titres); color: var(--teinte); }
+  .aide { margin: 6px 0 18px; color: var(--doux); }
+  button { font: 800 1rem "Nunito", sans-serif; cursor: pointer; }
+  button[disabled] { opacity: .5; cursor: default; }
+  .themes { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .themes button, .bouton { min-height: 46px; padding: 6px 16px; border-radius: 99px; background: #fff; color: var(--teinte); border: 2px solid var(--teinte); }
+  .themes button[aria-pressed="true"], .principal { background: var(--teinte); color: #fff; }
+  .etat { display: flex; justify-content: space-between; gap: 12px; font-weight: 800; margin-bottom: 10px; }
+  .carte { background: #fff; border: 3px solid var(--teinte); border-radius: 22px; box-shadow: 0 7px 0 var(--teinte); padding: 22px; }
+  .enigme { margin: 0 0 16px; font: 600 1.3rem/1.35 var(--titres); }
+  .enigme::before { content: "🤔 "; }
+  label { display: block; margin-bottom: 4px; font-weight: 800; }
+  input {
+    width: 100%; min-height: 52px; padding: 8px 16px; font: 700 1.15rem "Nunito", sans-serif; color: inherit;
+    background: #fff; border: 2px solid #66757e; border-radius: 14px;
+  }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  #indice { margin: 14px 0 0; padding: 8px 14px; background: #fff0c2; border-radius: 12px; font-weight: 700; }
+  #retour { min-height: 1.5em; margin: 14px 0 0; font-weight: 800; }
+  #retour.oui { color: var(--bon); }
+  #retour.non { color: var(--faux); }
+  #savoir { margin: 10px 0 0; padding: 10px 14px; background: var(--bon-fond); border-radius: 12px; }
+  .fin { text-align: center; }
+  .fin h2 { margin: 0; font: 700 2rem var(--titres); color: var(--teinte); }
+</style>
+<link rel="stylesheet" href="livret/polices/polices.css">
+</head>
+<body>
+<main>
+  <h1>🕵️ Devinettes du numérique</h1>
+  <p class="aide">Lisez l'énigme et écrivez la réponse. Les accents et les majuscules ne comptent pas.</p>
+  <div id="themes" class="themes" role="group" aria-label="Choisir un thème"></div>
+
+  <section id="jeu">
+    <div class="etat"><span id="compteur"></span><span id="points"></span></div>
+    <form id="formulaire" class="carte" autocomplete="off">
+      <p id="enigme" class="enigme"></p>
+      <label for="reponse">Votre réponse</label>
+      <input id="reponse" type="text" spellcheck="false" autocapitalize="off">
+      <div class="actions">
+        <button id="valider" class="bouton principal" type="submit">Valider</button>
+        <button id="aide" class="bouton" type="button">💡 Un indice</button>
+        <button id="donner" class="bouton" type="button">Je donne ma langue au chat</button>
+        <button id="suite" class="bouton principal" type="button" hidden>Devinette suivante →</button>
+      </div>
+      <p id="indice" hidden></p>
+      <p id="retour" role="status"></p>
+      <p id="savoir" hidden></p>
+    </form>
+  </section>
+
+  <section id="fin" class="carte fin" hidden tabindex="-1">
+    <h2 id="score"></h2>
+    <p id="bilan"></p>
+    <button id="rejouer" class="bouton principal" type="button">🔄 Rejouer ce thème</button>
+  </section>
+</main>
+
+<script src="livret/resultat-activite.js"></script>
+<script>
+  /*
+    POUR AJOUTER UNE DEVINETTE : copiez un bloc.
+    q : l'énigme ; r : les réponses acceptées, la première est celle affichée ;
+    i : un indice ; s : une phrase à retenir, montrée après la réponse.
+    Pour créer un thème, copiez tout un thème et changez son nom.
+  */
+  const DEVINETTES = {
+    "Culture bureautique": [
+      { q: "Mon dessin de disquette sert encore à enregistrer, alors que presque plus personne ne m'utilise.", r: ["La disquette"], i: "Un petit carré de plastique.", s: "L'icône d'enregistrement reprend la forme de la disquette, un ancien support de stockage." },
+      { q: "Mes six premières lettres forment mon nom, et je suis né sur les machines à écrire.", r: ["AZERTY", "Le clavier AZERTY", "Clavier AZERTY"], i: "Regardez la première ligne de lettres.", s: "La disposition AZERTY vient des machines à écrire. Elle est toujours utilisée en France." },
+      { q: "Je suis le logiciel qui fait les comptes, avec des lignes, des colonnes et des cellules.", r: ["Excel", "Microsoft Excel", "Le tableur", "Tableur"], i: "Mes fichiers finissent par .xlsx.", s: "Excel est un tableur : il calcule à partir des données des cellules." },
+      { q: "Je suis le traitement de texte le plus connu, et mes fichiers finissent par .docx.", r: ["Word", "Microsoft Word"], i: "Mon nom veut dire « mot » en anglais.", s: "Word est un traitement de texte de la suite Microsoft Office." },
+      { q: "On me projette en réunion, diapositive après diapositive.", r: ["PowerPoint", "Power Point", "Microsoft PowerPoint"], i: "Mes fichiers finissent par .pptx.", s: "PowerPoint sert à créer des présentations." },
+      { q: "Je rassemble Word, Excel et PowerPoint. Quelle suite de logiciels suis-je ?", r: ["Office", "Microsoft Office", "Pack Office", "Le pack Office"], i: "Le mot anglais pour « bureau ».", s: "La suite Office s'appelle aujourd'hui aussi Microsoft 365 dans ses formules par abonnement." },
+      { q: "Je garde la même apparence sur tous les ordinateurs, et mon nom tient en trois lettres.", r: ["PDF", "Le PDF", "Format PDF"], i: "Mon extension, c'est aussi mon nom.", s: "Le format PDF conserve la mise en page, quel que soit l'appareil." },
+      { q: "Je porte le nom d'un petit rongeur, et on m'a inventée dans les années 1960.", r: ["La souris", "Souris"], i: "Mon fil ressemblait à une queue.", s: "Douglas Engelbart a mis au point la première souris dans les années 1960." },
+      { q: "Je vide le bureau de ses vieux papiers, et je peux tout rendre tant qu'on ne m'a pas vidée.", r: ["La Corbeille", "Corbeille"], i: "Je me trouve sur le Bureau de Windows.", s: "Un fichier reste récupérable dans la Corbeille tant qu'elle n'a pas été vidée." },
+      { q: "Associé à Paul Allen, j'ai cofondé Microsoft en 1975. Qui suis-je ?", r: ["Bill Gates", "Gates"], i: "Mon prénom est le diminutif de William.", s: "Bill Gates et Paul Allen ont fondé Microsoft en 1975." }
+    ],
+    "Internet": [
+      { q: "Je vous ouvre les portes du Web : je m'appelle Chrome, Edge ou Firefox. Que suis-je ?", r: ["Un navigateur", "Navigateur", "Navigateur web", "Navigateur internet"], i: "On dit aussi qu'on « navigue » sur Internet.", s: "Le navigateur est le logiciel qui affiche les pages web." },
+      { q: "On me pose des questions et je trouve des pages : Google, Bing ou Qwant. Que suis-je ?", r: ["Un moteur de recherche", "Moteur de recherche"], i: "Trois mots, et le dernier est « recherche ».", s: "Ne confondez pas : Chrome est un navigateur, Google est un moteur de recherche." },
+      { q: "Je suis souvent bleu et souligné, et il suffit de cliquer sur moi pour changer de page.", r: ["Un lien", "Lien", "Lien hypertexte", "Un lien hypertexte", "Hyperlien"], i: "On dit aussi « hypertexte ».", s: "Un lien hypertexte mène vers une autre page ou un autre document." },
+      { q: "Je suis l'adresse complète d'une page, et je commence souvent par https.", r: ["Une URL", "URL", "Adresse web", "Une adresse web", "L'URL"], i: "Trois lettres, ou « adresse web ».", s: "Le « s » de https indique que les échanges avec le site sont chiffrés." },
+      { q: "Je relie vos appareils sans fil, et ma clé est souvent écrite au dos de la box.", r: ["Le Wi-Fi", "Wi-Fi", "Wifi", "Le wifi"], i: "Deux petites syllabes presque pareilles.", s: "Le Wi-Fi relie les appareils au réseau sans câble." },
+      { q: "Faux message de la banque ou de la poste, je cherche à voler vos informations.", r: ["Le hameçonnage", "Hameçonnage", "Phishing", "Le phishing"], i: "Comme à la pêche.", s: "En cas de doute, ne cliquez pas : allez directement sur le site officiel." },
+      { q: "Mon symbole, l'arobase, sépare le nom du domaine dans mon adresse. Que suis-je ?", r: ["Un e-mail", "E-mail", "Email", "Un mail", "Mail", "Un courriel", "Courriel", "Une adresse mail", "Adresse mail", "Adresse e-mail"], i: "On dit aussi « courriel ».", s: "Une adresse de messagerie s'écrit sous la forme nom@domaine.fr." },
+      { q: "Je voyage attachée à un e-mail, sous la forme d'un fichier.", r: ["Une pièce jointe", "Pièce jointe", "La pièce jointe"], i: "On me reconnaît souvent à un trombone.", s: "Méfiez-vous des pièces jointes envoyées par un expéditeur inconnu." },
+      { q: "Petit fichier déposé par un site, je porte le nom d'un biscuit.", r: ["Un cookie", "Cookie", "Les cookies", "Cookies"], i: "En anglais, on me mange au goûter.", s: "Les cookies mémorisent des informations sur votre visite d'un site." },
+      { q: "Je suis long, je mélange lettres, chiffres et symboles, et je ne dois jamais être partagé.", r: ["Un mot de passe", "Mot de passe", "Le mot de passe"], i: "On me tape pour se connecter.", s: "Un mot de passe solide est long et différent pour chaque compte." }
+    ],
+    "Intelligence artificielle": [
+      { q: "Deux lettres seulement pour me nommer : je réalise des tâches qui semblaient réservées à l'humain.", r: ["L'IA", "IA", "I.A.", "Intelligence artificielle", "L'intelligence artificielle"], i: "Les initiales du thème.", s: "IA signifie « intelligence artificielle »." },
+      { q: "On discute avec moi sur un site ou une application, et je réponds automatiquement.", r: ["Un chatbot", "Chatbot", "Un agent conversationnel", "Agent conversationnel", "Un robot conversationnel", "Robot conversationnel"], i: "Un mot anglais : « discuter » + « robot ».", s: "En français, on dit « agent conversationnel »." },
+      { q: "Je suis la consigne écrite que l'on donne à une IA.", r: ["Un prompt", "Prompt", "Le prompt", "Une invite", "Invite", "Une consigne", "Consigne"], i: "Un mot anglais de six lettres.", s: "Plus la consigne est précise, plus la réponse a de chances d'être utile." },
+      { q: "Je suis une suite d'instructions, comme une recette de cuisine pour une machine.", r: ["Un algorithme", "Algorithme", "L'algorithme"], i: "Mon nom commence par « algo ».", s: "Tout programme informatique repose sur des algorithmes." },
+      { q: "Sans moi, une IA ne peut rien apprendre : textes, images, chiffres…", r: ["Les données", "Données", "La donnée", "Data", "Les data"], i: "En anglais, on dit « data ».", s: "La qualité d'une IA dépend beaucoup des données utilisées pour l'entraîner." },
+      { q: "L'IA invente parfois une réponse fausse mais présentée avec assurance. Comment appelle-t-on cette erreur ?", r: ["Une hallucination", "Hallucination", "Les hallucinations", "Hallucinations"], i: "Le même mot que pour voir ce qui n'existe pas.", s: "Il faut toujours vérifier ce qu'affirme une IA." },
+      { q: "Fausse vidéo ou fausse voix très réaliste, je suis fabriqué par une IA.", r: ["Un deepfake", "Deepfake", "Le deepfake", "Un hypertrucage", "Hypertrucage"], i: "Un mot anglais qui contient « fake », le faux.", s: "En français, on dit « hypertrucage ». Vérifiez la source d'une vidéo surprenante." },
+      { q: "Mathématicien britannique, j'ai imaginé en 1950 un test pour savoir si une machine pense. Qui suis-je ?", r: ["Alan Turing", "Turing"], i: "Mon test porte mon nom.", s: "Alan Turing est l'un des pères de l'informatique." },
+      { q: "On appelle ainsi la capacité d'une machine à progresser à partir d'exemples, sans règle écrite à la main.", r: ["L'apprentissage automatique", "Apprentissage automatique", "Machine learning", "Le machine learning"], i: "Deux mots : « apprentissage »…", s: "En anglais : « machine learning »." },
+      { q: "Je suis un type d'IA qui crée du texte ou des images à la demande. Je suis une IA…", r: ["Générative", "Generative", "IA générative", "L'IA générative"], i: "Vient du verbe « générer ».", s: "L'IA générative produit des contenus nouveaux à partir d'une consigne." }
+    ],
+    "Informatique et web": [
+      { q: "Quatre lettres pour le langage qui structure les pages web : titres, paragraphes, liens.", r: ["HTML", "Le HTML"], i: "Ses balises s'écrivent entre < et >.", s: "HTML donne la structure d'une page web." },
+      { q: "Trois lettres pour le langage qui habille une page : couleurs, polices, disposition.", r: ["CSS", "Le CSS"], i: "C'est la décoration du site.", s: "CSS s'occupe de l'apparence d'une page web." },
+      { q: "Malgré mon nom proche de Java, je suis un autre langage : je rends les pages interactives.", r: ["JavaScript", "Java Script", "Le JavaScript", "JS"], i: "Mon nom commence par « Java ».", s: "JavaScript fait réagir la page aux actions de l'utilisateur." },
+      { q: "Je suis une erreur dans un programme, et mon nom veut dire « insecte » en anglais.", r: ["Un bug", "Bug", "Un bogue", "Bogue", "Le bug"], i: "Trois lettres.", s: "En français, on écrit aussi « bogue »." },
+      { q: "Je suis l'unité de base : je ne vaux que 0 ou 1.", r: ["Le bit", "Bit", "Un bit"], i: "Trois lettres, à ne pas confondre avec l'octet.", s: "Huit bits forment un octet." },
+      { q: "Je suis un groupe de huit bits, et mon nom contient le nombre huit en latin.", r: ["Un octet", "Octet", "L'octet"], i: "On parle de kilo, méga, giga…", s: "Un gigaoctet représente environ un milliard d'octets." },
+      { q: "Je suis le tout petit point qui compose une image à l'écran.", r: ["Un pixel", "Pixel", "Le pixel"], i: "Plus on en a, plus l'image est nette.", s: "La résolution d'un écran se compte en pixels." },
+      { q: "Ordinateur toujours allumé, je fournis les pages web aux visiteurs.", r: ["Un serveur", "Serveur", "Le serveur"], i: "Comme au restaurant, je sers ce qu'on demande.", s: "Le navigateur demande une page, et le serveur la lui envoie." },
+      { q: "Au XIXe siècle, j'ai écrit ce qui est considéré comme le premier programme informatique. Qui suis-je ?", r: ["Ada Lovelace", "Lovelace", "Ada"], i: "Mon prénom compte trois lettres et un langage le porte.", s: "Ada Lovelace travaillait sur la machine analytique de Charles Babbage." },
+      { q: "J'ai inventé le Web en 1989, lorsque je travaillais au CERN. Qui suis-je ?", r: ["Tim Berners-Lee", "Berners-Lee", "Tim Berners Lee", "Berners Lee"], i: "Mon prénom est Tim.", s: "Internet est le réseau ; le Web est l'un des services qui l'utilisent." }
+    ]
+  };
+
+  const $ = id => document.getElementById(id);
+  const ARTICLES = /^(le |la |les |l'|un |une |des |du |de |d')/;
+  const normal = t => t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[’]/g, "'")
+    .trim().replace(ARTICLES, "").replace(/[\s.\-]+/g, "");
+  const melanger = t => {
+    const a = t.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+
+  let theme = Object.keys(DEVINETTES)[0], partie = [], rang = 0, points = 0, indiceVu = false, reglee = false;
+
+  function commencer() {
+    partie = melanger(DEVINETTES[theme]);
+    rang = points = 0;
+    $("fin").hidden = true;
+    $("jeu").hidden = false;
+    document.querySelectorAll("#themes button").forEach(b => b.setAttribute("aria-pressed", b.textContent === theme));
+    poser();
+  }
+
+  function poser() {
+    const d = partie[rang];
+    reglee = indiceVu = false;
+    $("compteur").textContent = `Devinette ${rang + 1} sur ${partie.length}`;
+    $("points").textContent = `⭐ ${points}`;
+    $("enigme").textContent = d.q;
+    $("reponse").value = "";
+    $("reponse").readOnly = false;
+    $("indice").hidden = true;
+    $("retour").textContent = "";
+    $("retour").className = "";
+    $("savoir").hidden = true;
+    ["valider", "aide", "donner"].forEach(id => { $(id).hidden = false; });
+    $("aide").disabled = false;
+    $("suite").hidden = true;
+    $("reponse").focus();
+  }
+
+  let reponses = [];
+  function conclure(trouve) {
+    const d = partie[rang];
+    reglee = true;
+    if (rang === 0) reponses = [];
+    reponses.push({ q: d.q, donne: trouve ? d.r[0] : "pas trouvée", bonne: d.r[0], ok: trouve });
+    if (trouve) points++;
+    $("points").textContent = `⭐ ${points}`;
+    $("retour").textContent = trouve ? `✅ Bravo ! C'était bien : ${d.r[0]}.` : `La réponse était : ${d.r[0]}.`;
+    $("retour").className = trouve ? "oui" : "non";
+    $("savoir").textContent = "📌 " + d.s;
+    $("savoir").hidden = false;
+    $("reponse").readOnly = true;
+    ["valider", "aide", "donner"].forEach(id => { $(id).hidden = true; });
+    $("suite").textContent = rang + 1 < partie.length ? "Devinette suivante →" : "Voir mon résultat →";
+    $("suite").hidden = false;
+    $("suite").focus();
+  }
+
+  $("formulaire").addEventListener("submit", e => {
+    e.preventDefault();
+    if (reglee) return;
+    const texte = $("reponse").value;
+    if (!texte.trim()) { $("reponse").focus(); return; }
+    const d = partie[rang];
+    if (d.r.some(r => normal(r) === normal(texte))) {
+      conclure(true);
+    } else {
+      $("retour").textContent = "Ce n'est pas ça, réessayez !";
+      $("retour").className = "non";
+      $("reponse").select();
+    }
+  });
+
+  $("aide").addEventListener("click", () => {
+    $("indice").textContent = "💡 " + partie[rang].i;
+    $("indice").hidden = false;
+    $("aide").disabled = true;
+    $("reponse").focus();
+  });
+  $("donner").addEventListener("click", () => conclure(false));
+  $("suite").addEventListener("click", () => {
+    rang++;
+    if (rang < partie.length) poser();
+    else {
+      $("jeu").hidden = true;
+      $("fin").hidden = false;
+      $("score").textContent = `⭐ ${points} / ${partie.length}`;
+      ResultatActivite.terminer({ apres: $("bilan"), titre: "Devinettes", type: "Jeu", score: points, total: partie.length, detail: reponses });
+      const part = points / partie.length;
+      $("bilan").textContent = part === 1 ? "🏆 Tout trouvé !" : part >= .7 ? "👍 Très bien !" : part >= .4 ? "🙂 Bon début !" : "💪 Rejouez pour retenir les réponses !";
+      $("fin").focus();
+    }
+  });
+  $("rejouer").addEventListener("click", commencer);
+
+  Object.keys(DEVINETTES).forEach(nom => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = nom;
+    b.addEventListener("click", () => { theme = nom; commencer(); });
+    $("themes").append(b);
+  });
+  commencer();
+</script>
+</body>
+</html>

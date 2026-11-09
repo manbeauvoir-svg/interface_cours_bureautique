@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Le Ruban d'Excel - Interactif</title>
+<style>
+  :root{--green:#1d9e75;--green-dark:#0f6e56;--card:#ffffff;--text:#22314a;--muted:#5c6b82;--border:#dbe9e2;}
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:linear-gradient(160deg,#eef9f4,#e3f4ec);color:var(--text);padding:30px 16px 60px;}
+  .wrap{max-width:1000px;margin:0 auto;}
+  h1{text-align:center;font-size:26px;color:var(--green-dark);margin-bottom:4px;}
+  .subtitle{text-align:center;color:var(--muted);margin-bottom:26px;font-size:15px;}
+  .word-window{background:var(--card);border-radius:10px;box-shadow:0 12px 30px rgba(20,90,70,0.15);overflow:hidden;border:1px solid var(--border);}
+  .titlebar{background:var(--green-dark);color:#fff;font-size:13px;padding:8px 14px;display:flex;align-items:center;gap:8px;}
+  .titlebar .dot{width:10px;height:10px;border-radius:50%;}
+  .titlebar .dot.r{background:#ff5f57;} .titlebar .dot.y{background:#febc2e;} .titlebar .dot.g{background:#28c840;}
+  .titlebar span.name{margin-left:8px;opacity:0.9;}
+  .tabs{display:flex;flex-wrap:wrap;background:#fbfefc;border-bottom:1px solid var(--border);padding:0 8px;}
+  .tab{padding:11px 16px;font-size:14px;cursor:pointer;color:var(--muted);border-bottom:3px solid transparent;transition:.15s;user-select:none;white-space:nowrap;}
+  .tab:hover{color:var(--green-dark);background:#e9f8f1;}
+  .tab.active{color:var(--green-dark);font-weight:600;border-bottom:3px solid var(--green);background:#e9f8f1;}
+  .ribbon{background:#f7fbf9;padding:14px 18px;display:flex;gap:0;flex-wrap:wrap;min-height:120px;}
+  .group{display:flex;flex-direction:column;align-items:center;padding:6px 16px;border-right:1px solid var(--border);min-width:120px;}
+  .group:last-child{border-right:none;}
+  .group-tools{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;flex:1;}
+  .tool{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 8px;border-radius:6px;cursor:pointer;transition:.15s;width:70px;}
+  .tool:hover{background:#d7f3e6;}
+  .tool.selected{background:#bdeed7;box-shadow:inset 0 0 0 1px var(--green);}
+  .tool-icon{width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+  .tool-label{font-size:10.5px;text-align:center;color:var(--text);line-height:1.15;}
+  .group-name{font-size:11px;color:var(--muted);margin-top:6px;text-align:center;}
+  .explain{margin-top:22px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px 22px;min-height:110px;box-shadow:0 6px 18px rgba(20,90,70,0.08);}
+  .explain-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+  .explain-icon{width:40px;height:40px;border-radius:10px;background:#eef9f4;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+  .explain h3{margin:0;color:var(--green-dark);font-size:17px;}
+  .explain .role{margin:0 0 10px;color:var(--text);font-size:14.5px;line-height:1.5;}
+  .explain .howto{margin:0;color:var(--muted);font-size:13.5px;line-height:1.5;background:#eef9f4;border-left:3px solid var(--green);padding:8px 12px;border-radius:4px;}
+  .explain .howto b{color:var(--green-dark);}
+  .explain .placeholder{color:#9aa8bd;font-style:italic;}
+  .tab-tip{margin-top:14px;background:#fff8e1;border-left:4px solid #ffc107;border-radius:8px;padding:10px 14px;font-size:13.5px;color:#5c5240;line-height:1.5;}
+  .tab-tip b{color:#a8781a;}
+  .tab-tip.hidden{display:none;}
+  .hint{text-align:center;margin-top:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Le Ruban d'Excel</h1>
+  <p class="subtitle">Cliquez sur un onglet, puis sur un outil, pour voir son rôle et comment l'utiliser.</p>
+  <div class="word-window">
+    <div class="titlebar"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div><span class="name">Classeur1 - Excel</span></div>
+    <div class="tabs" id="tabs"></div>
+    <div class="ribbon" id="ribbon"></div>
+  </div>
+  <div class="explain" id="explain"><p class="placeholder">Sélectionnez un outil dans le ruban ci-dessus pour afficher son explication ici.</p></div>
+  <div class="tab-tip hidden" id="tabTip"></div>
+  <p class="hint">Astuce : chaque onglet regroupe les outils liés à une même tâche.</p>
+</div>
+<script>
+const DATA = {
+  "Fichier": { icon:"📁", tip:"Ctrl+S enregistre rapidement. Utilisez « Enregistrer sous » pour changer le format ou l'emplacement.", groups:[
+    {name:"Gestion du classeur", tools:[
+      {icon:"🆕", label:"Nouveau", role:"Crée un classeur vierge ou à partir d'un modèle.", howto:"Fichier → Nouveau → choisissez « Classeur vierge » ou un modèle."},
+      {icon:"📂", label:"Ouvrir", role:"Ouvre un classeur déjà existant.", howto:"Fichier → Ouvrir → parcourez vos dossiers ou fichiers récents."},
+      {icon:"💾", label:"Enregistrer", role:"Sauvegarde les modifications du classeur.", howto:"Cliquez sur Enregistrer ou Ctrl+S."},
+      {icon:"🖨️", label:"Imprimer", role:"Lance l'impression et règle la mise en page.", howto:"Fichier → Imprimer (Ctrl+P), vérifiez l'aperçu, imprimez."},
+      {icon:"📤", label:"Exporter", role:"Convertit le classeur, par exemple en PDF.", howto:"Fichier → Exporter → Créer un document PDF/XPS."}
+    ]}
+  ]},
+  "Accueil": { icon:"🏠", tip:"Sigma (Somme automatique) propose déjà la bonne plage la plupart du temps : vérifiez puis validez avec Entrée.", groups:[
+    {name:"Presse-papiers", tools:[
+      {icon:"📋", label:"Coller", role:"Insère le contenu copié ou coupé.", howto:"Sélectionnez la cellule destination puis Ctrl+V."},
+      {icon:"✂️", label:"Couper", role:"Retire les cellules pour les déplacer.", howto:"Sélectionnez, Ctrl+X, puis Ctrl+V à la destination."},
+      {icon:"📄", label:"Copier", role:"Duplique le contenu sélectionné.", howto:"Sélectionnez, Ctrl+C, puis Ctrl+V où vous voulez."},
+      {icon:"🖌️", label:"Reproduire la mise en forme", role:"Copie la mise en forme d'une cellule pour l'appliquer ailleurs.", howto:"Sélectionnez la cellule modèle, cliquez sur le pinceau, puis cliquez sur la cellule cible."}
+    ]},
+    {name:"Police", tools:[
+      {icon:"𝐁", label:"Gras", role:"Met le texte de la cellule en gras.", howto:"Sélectionnez la cellule puis Ctrl+G."},
+      {icon:"𝐼", label:"Italique", role:"Met le texte de la cellule en italique.", howto:"Sélectionnez la cellule puis Ctrl+I."},
+      {icon:"U̲", label:"Souligné", role:"Souligne le texte de la cellule.", howto:"Sélectionnez la cellule puis Ctrl+U."},
+      {icon:"🎨", label:"Couleur de remplissage", role:"Colore le fond des cellules.", howto:"Sélectionnez les cellules, cliquez sur la flèche du pot de peinture, choisissez une couleur."},
+      {icon:"🔤", label:"Couleur de police", role:"Change la couleur du texte.", howto:"Sélectionnez les cellules, cliquez sur la flèche du « A » coloré, choisissez une couleur."},
+      {icon:"🔲", label:"Bordures", role:"Ajoute un contour aux cellules.", howto:"Sélectionnez la plage, cliquez sur l'icône Bordures, choisissez le contour."}
+    ]},
+    {name:"Alignement", tools:[
+      {icon:"↔️", label:"Aligner", role:"Positionne le contenu dans la cellule.", howto:"Sélectionnez les cellules puis cliquez sur l'alignement voulu."},
+      {icon:"⧉", label:"Fusionner et centrer", role:"Fusionne des cellules et centre le contenu (titre).", howto:"Sélectionnez les cellules puis « Fusionner et centrer »."},
+      {icon:"↩️", label:"Renvoyer à la ligne", role:"Affiche tout le texte d'une cellule sur plusieurs lignes au lieu de le tronquer.", howto:"Sélectionnez la cellule, Accueil → Renvoyer à la ligne automatiquement."}
+    ]},
+    {name:"Nombre", tools:[
+      {icon:"€", label:"Format monétaire", role:"Affiche les nombres avec le symbole de devise.", howto:"Sélectionnez les cellules, liste « Format » → Monétaire."},
+      {icon:"%", label:"Pourcentage", role:"Affiche le nombre en pourcentage.", howto:"Sélectionnez les cellules puis cliquez sur le bouton %."},
+      {icon:"📅", label:"Format standard/date", role:"Change le format d'affichage du contenu (nombre, date, texte...).", howto:"Sélectionnez les cellules, ouvrez la liste déroulante « Standard », choisissez un format."},
+      {icon:".00", label:"Décimales", role:"Ajoute ou retire des chiffres après la virgule.", howto:"Sélectionnez les cellules, cliquez sur les icônes « Ajouter/Réduire une décimale »."}
+    ]},
+    {name:"Cellules", tools:[
+      {icon:"➕", label:"Insérer", role:"Ajoute une nouvelle ligne, colonne ou cellule.", howto:"Sélectionnez l'emplacement, Accueil → Insérer → choisissez le type."},
+      {icon:"➖", label:"Supprimer", role:"Retire une ligne, colonne ou cellule sélectionnée.", howto:"Sélectionnez l'élément, Accueil → Supprimer."},
+      {icon:"📐", label:"Format", role:"Ajuste la largeur de colonne, la hauteur de ligne, ou verrouille des cellules.", howto:"Accueil → Format → choisissez l'option (largeur de colonne, masquer...)."}
+    ]},
+    {name:"Édition", tools:[
+      {icon:"Σ", label:"Somme automatique", role:"Additionne rapidement une plage de cellules.", howto:"Cliquez sous la colonne, cliquez sur Σ, validez avec Entrée."},
+      {icon:"🔤", label:"Trier et filtrer", role:"Classe ou filtre les données.", howto:"Accueil → Trier et filtrer → Croissant, Décroissant ou Filtre."},
+      {icon:"🔍", label:"Rechercher et sélectionner", role:"Recherche une valeur ou sélectionne des cellules selon un critère.", howto:"Ctrl+F pour rechercher, ou Accueil → Rechercher et sélectionner."}
+    ]}
+  ]},
+  "Insertion": { icon:"➕", tip:"Un graphique reste lié aux données : si vous modifiez un chiffre, il se met à jour automatiquement.", groups:[
+    {name:"Tableaux", tools:[
+      {icon:"▦", label:"Tableau", role:"Transforme une plage en tableau structuré avec filtres.", howto:"Sélectionnez vos données, Insertion → Tableau, cochez « En-têtes »."}
+    ]},
+    {name:"Illustrations", tools:[
+      {icon:"🖼️", label:"Images", role:"Insère une image dans la feuille.", howto:"Insertion → Images → choisissez le fichier."},
+      {icon:"🔺", label:"Formes", role:"Ajoute des formes géométriques.", howto:"Insertion → Formes → choisissez une forme puis dessinez-la."},
+      {icon:"🧩", label:"Icônes", role:"Insère une icône vectorielle prête à l'emploi.", howto:"Insertion → Icônes, choisissez-en une, cliquez sur Insérer."},
+      {icon:"🗂️", label:"SmartArt", role:"Insère un schéma visuel (organigramme, liste...).", howto:"Insertion → SmartArt, choisissez un modèle, remplissez le texte."}
+    ]},
+    {name:"Graphiques", tools:[
+      {icon:"📊", label:"Graphique recommandé", role:"Propose automatiquement un type de graphique adapté.", howto:"Sélectionnez vos données, Insertion → Graphiques recommandés."},
+      {icon:"🥧", label:"Graphique en secteurs", role:"Représente des données en camembert.", howto:"Sélectionnez vos données, Insertion → Graphique en secteurs."}
+    ]},
+    {name:"Texte", tools:[
+      {icon:"📝", label:"Zone de texte", role:"Ajoute un bloc de texte librement positionnable sur la feuille.", howto:"Insertion → Zone de texte, cliquez-glissez pour dessiner la zone."},
+      {icon:"📑", label:"En-tête et pied de page", role:"Ajoute un texte répété en haut ou en bas de chaque page imprimée.", howto:"Insertion → En-tête et pied de page, tapez le texte dans la zone concernée."}
+    ]},
+    {name:"Liens", tools:[
+      {icon:"🔗", label:"Lien hypertexte", role:"Insère un lien vers un site, fichier ou une autre feuille.", howto:"Sélectionnez la cellule, Insertion → Lien, saisissez l'adresse."}
+    ]}
+  ]},
+  "Mise en page": { icon:"📐", tip:"L'Aperçu des sauts de page (onglet Affichage) montre comment le tableau sera découpé en pages avant impression.", groups:[
+    {name:"Mise en page", tools:[
+      {icon:"↔️", label:"Marges", role:"Définit l'espace autour des données à l'impression.", howto:"Mise en page → Marges → choisissez un modèle."},
+      {icon:"🔄", label:"Orientation", role:"Bascule la page en portrait ou paysage.", howto:"Mise en page → Orientation → Portrait ou Paysage."}
+    ]},
+    {name:"Mise à l'échelle", tools:[
+      {icon:"📏", label:"Largeur", role:"Force le tableau à tenir sur une page en largeur.", howto:"Mise en page → Largeur → sélectionnez « 1 page »."}
+    ]},
+    {name:"Options de la feuille", tools:[
+      {icon:"▤", label:"Quadrillage", role:"Affiche ou masque les lignes de séparation.", howto:"Mise en page → cochez/décochez « Afficher » sous Quadrillage."}
+    ]}
+  ]},
+  "Formules": { icon:"🧮", tip:"Toute formule commence par le signe =. Exemple : =SOMME(A1:A10) additionne les cellules de A1 à A10.", groups:[
+    {name:"Bibliothèque de fonctions", tools:[
+      {icon:"Σ", label:"Somme automatique", role:"Accède aux fonctions courantes (Somme, Moyenne...).", howto:"Cliquez sur la cellule résultat, Formules → Somme automatique."},
+      {icon:"🔣", label:"Fonction logique", role:"Insère une fonction de condition, comme SI.", howto:"Formules → Logique → SI → renseignez test / vrai / faux."}
+    ]},
+    {name:"Noms définis", tools:[
+      {icon:"🏷️", label:"Définir un nom", role:"Donne un nom à une cellule ou une plage.", howto:"Sélectionnez la plage, Formules → Définir un nom."}
+    ]},
+    {name:"Audit de formules", tools:[
+      {icon:"🔍", label:"Repérer les antécédents", role:"Montre par des flèches les cellules utilisées dans la formule.", howto:"Cliquez sur la cellule, Formules → Repérer les antécédents."}
+    ]}
+  ]},
+  "Données": { icon:"🗂️", tip:"Le Filtre ajoute des flèches sur les en-têtes : cliquez dessus pour cocher les valeurs à afficher.", groups:[
+    {name:"Trier et filtrer", tools:[
+      {icon:"🔤", label:"Trier", role:"Classe les lignes selon une colonne.", howto:"Cliquez dans le tableau, Données → Trier, choisissez colonne et ordre."},
+      {icon:"🔽", label:"Filtrer", role:"Ajoute des flèches pour n'afficher que certaines lignes.", howto:"Sélectionnez le tableau, Données → Filtrer."}
+    ]},
+    {name:"Outils de données", tools:[
+      {icon:"✅", label:"Validation des données", role:"Limite ce qu'on peut saisir dans une cellule.", howto:"Sélectionnez la cellule, Données → Validation des données."},
+      {icon:"📊", label:"Texte en colonnes", role:"Répartit le contenu d'une colonne en plusieurs colonnes selon un séparateur.", howto:"Sélectionnez la colonne, Données → Texte en colonnes, suivez l'assistant."},
+      {icon:"🗑️", label:"Supprimer les doublons", role:"Retire les lignes identiques d'un tableau.", howto:"Sélectionnez le tableau, Données → Supprimer les doublons, validez les colonnes à comparer."}
+    ]}
+  ]},
+  "Révision": { icon:"✔️", tip:"Protégez toujours une feuille contenant des formules importantes avant de la partager.", groups:[
+    {name:"Vérification", tools:[
+      {icon:"🔤", label:"Orthographe", role:"Vérifie l'orthographe du texte saisi.", howto:"Révision → Orthographe (ou F7)."}
+    ]},
+    {name:"Commentaires", tools:[
+      {icon:"💬", label:"Nouveau commentaire", role:"Ajoute une remarque sur une cellule.", howto:"Sélectionnez la cellule, Révision → Nouveau commentaire."}
+    ]},
+    {name:"Protéger", tools:[
+      {icon:"🔒", label:"Protéger la feuille", role:"Empêche la modification des cellules.", howto:"Révision → Protéger la feuille, définissez un mot de passe si besoin."}
+    ]}
+  ]},
+  "Affichage": { icon:"👁️", tip:"Figer les volets est très utile pour garder les noms de colonnes visibles dans un long tableau.", groups:[
+    {name:"Modes d'affichage", tools:[
+      {icon:"🖨️", label:"Normal", role:"Vue de travail habituelle.", howto:"Affichage → Normal (mode actif par défaut)."},
+      {icon:"📄", label:"Aperçu des sauts de page", role:"Montre le découpage en pages à l'impression.", howto:"Affichage → Aperçu des sauts de page."}
+    ]},
+    {name:"Afficher", tools:[
+      {icon:"▤", label:"Quadrillage", role:"Affiche ou masque la grille à l'écran.", howto:"Affichage → cochez/décochez Quadrillage."},
+      {icon:"🧮", label:"Barre de formule", role:"Affiche ou masque la barre de formules.", howto:"Affichage → cochez/décochez Barre de formule."}
+    ]},
+    {name:"Zoom", tools:[
+      {icon:"🔍", label:"Zoom", role:"Agrandit ou réduit l'affichage.", howto:"Affichage → Zoom, ou Ctrl + molette de la souris."}
+    ]},
+    {name:"Figer les volets", tools:[
+      {icon:"📌", label:"Figer les volets", role:"Garde les en-têtes visibles en faisant défiler un grand tableau.", howto:"Sélectionnez la cellule sous/à droite à figer, Affichage → Figer les volets."}
+    ]}
+  ]}
+};
+const tabsEl = document.getElementById('tabs');
+const ribbonEl = document.getElementById('ribbon');
+const explainEl = document.getElementById('explain');
+let activeTab = "Fichier";
+function renderTabs(){
+  tabsEl.innerHTML = '';
+  Object.keys(DATA).forEach(name=>{
+    const t = document.createElement('div');
+    t.className = 'tab' + (name===activeTab ? ' active' : '');
+    t.textContent = DATA[name].icon + '  ' + name;
+    t.onclick = ()=>{ activeTab = name; renderTabs(); renderRibbon(); resetExplain(); showTabTip(); };
+    tabsEl.appendChild(t);
+  });
+}
+function showTabTip(){
+  const tipEl = document.getElementById('tabTip');
+  const tip = DATA[activeTab].tip;
+  if(tip){
+    tipEl.innerHTML = `💡 <b>Astuce :</b> ${tip}`;
+    tipEl.classList.remove('hidden');
+  } else {
+    tipEl.classList.add('hidden');
+  }
+}
+function renderRibbon(){
+  ribbonEl.innerHTML = '';
+  DATA[activeTab].groups.forEach(group=>{
+    const g = document.createElement('div'); g.className = 'group';
+    const toolsWrap = document.createElement('div'); toolsWrap.className = 'group-tools';
+    group.tools.forEach(tool=>{
+      const tEl = document.createElement('div'); tEl.className = 'tool';
+      tEl.innerHTML = `<div class="tool-icon">${tool.icon}</div><div class="tool-label">${tool.label}</div>`;
+      tEl.onclick = ()=>{
+        document.querySelectorAll('.tool').forEach(x=>x.classList.remove('selected'));
+        tEl.classList.add('selected');
+        showExplain(tool.icon, tool.label, tool.role, tool.howto);
+      };
+      toolsWrap.appendChild(tEl);
+    });
+    g.appendChild(toolsWrap);
+    const nameEl = document.createElement('div'); nameEl.className = 'group-name'; nameEl.textContent = group.name;
+    g.appendChild(nameEl);
+    ribbonEl.appendChild(g);
+  });
+}
+function showExplain(icon, label, role, howto){
+  explainEl.innerHTML = `<div class="explain-head"><div class="explain-icon">${icon}</div><h3>${label}</h3></div><p class="role">${role}</p><p class="howto"><b>Comment l'utiliser :</b> ${howto}</p>`;
+}
+function resetExplain(){ explainEl.innerHTML = `<p class="placeholder">Sélectionnez un outil dans le ruban ci-dessus pour afficher son explication ici.</p>`; }
+renderTabs(); renderRibbon();
+showTabTip();
+</script>
+</body>
+</html>

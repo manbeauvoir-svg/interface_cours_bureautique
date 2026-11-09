@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activité pratique Hardware - Mission Équipement</title>
+<style>
+  :root {
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #eaf2fb;
+    --color-text-primary: #1a1a18;
+    --color-text-secondary: #5f5e5a;
+    --color-border-tertiary: rgba(0,102,204,0.18);
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+    --ugecam-blue: #0066cc;
+    --ugecam-orange: #ff9933;
+    --ugecam-green: #99cc00;
+    --ugecam-pink: #cc0066;
+    --ugecam-lightblue: #c7def1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-text-primary);
+    background: var(--color-background-primary);
+    margin: 0;
+    padding: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  h1 { font-size: 24px; font-weight: 700; margin: 0 0 1.5rem; color: var(--ugecam-blue); }
+  h2 { font-size: 18px; font-weight: 500; }
+  h3 { font-size: 16px; font-weight: 500; color: var(--ugecam-blue); }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    overflow: hidden; clip: rect(0,0,0,0);
+  }
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+  @media (max-width: 640px) {
+    .metrics, .metrics-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .metrics-3 { grid-template-columns: 1fr; }
+  }
+  .metric-card {
+    background: var(--color-background-secondary);
+    border-radius: var(--border-radius-md);
+    padding: 1rem;
+    border-left: 3px solid var(--ugecam-blue);
+  }
+  .metric-card p:first-child {
+    font-size: 13px; color: var(--color-text-secondary); margin: 0 0 4px;
+  }
+  .metric-card p:last-child {
+    font-size: 24px; font-weight: 700; margin: 0; color: var(--ugecam-blue);
+  }
+  .metrics-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 12px;
+    margin: 1.5rem 0;
+  }
+  .metrics-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 12px;
+    margin: 1.5rem 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th, td {
+    padding: 8px 6px;
+    text-align: left;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+  th {
+    font-weight: 700;
+    color: var(--ugecam-blue);
+    background: var(--color-background-secondary);
+  }
+  .price-col, th.price-col, td.price-col { text-align: right; }
+  .center-col { text-align: center; }
+  select, input[type="text"] {
+    width: 100%;
+    font-size: 13px;
+    padding: 6px 8px;
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    background: var(--color-background-primary);
+    color: var(--color-text-primary);
+  }
+  input[type="checkbox"] {
+    width: 18px; height: 18px;
+  }
+  button {
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    border-radius: var(--border-radius-md);
+    background: var(--ugecam-blue);
+    color: #ffffff;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: background 0.15s ease;
+  }
+  button:hover { background: #004f9e; }
+  .table-wrap { overflow-x: auto; }
+  select:focus, input[type="text"]:focus {
+    outline: none;
+    border-color: var(--ugecam-blue);
+    box-shadow: 0 0 0 2px rgba(0,102,204,0.15);
+  }
+  #correction {
+    border: 2px solid var(--ugecam-pink);
+    border-radius: var(--border-radius-lg);
+    padding: 1.25rem;
+    background: #fdf2f8;
+  }
+  .row-ind { background: rgba(153,204,0,0.12); }
+  .row-confort { background: rgba(255,153,51,0.12); }
+  .row-exclu { text-decoration: line-through; color: var(--color-text-secondary); opacity: 0.6; }
+  .row-exclu td { text-decoration: line-through; }
+  .budget-positive { color: var(--ugecam-green) !important; }
+  .budget-negative { color: var(--ugecam-pink) !important; }
+  .note { color: var(--color-text-secondary); }
+</style>
+</head>
+<body>
+
+<h1>🛒 Activité pratique Hardware - Mission Équipement</h1>
+<h2 class="sr-only">Sélectionnez pour chaque équipement s'il est indispensable, confort/productivité ou optionnel, justifiez votre choix, suivez le budget en temps réel, puis consultez la correction.</h2>
+
+<p style="font-weight: 500;">Modalité : 👤 Individuel ou 👥 Binôme</p>
+
+<h3 style="margin-top: 1.5rem;">Contexte</h3>
+<p>Vous venez d'être recruté(e) par une entreprise pour équiper le poste de travail d'un nouveau salarié administratif.</p>
+<p>Pour cette mission, vous disposez d'un budget de <strong>800 €</strong>.</p>
+<p>Votre objectif est de sélectionner les équipements qui vous semblent indispensables ou optionnels pour permettre au salarié de travailler efficacement.</p>
+<p>Pour chaque équipement :</p>
+<ul style="padding-left: 1.5rem;">
+  <li>Pour chaque équipement, choisissez l'une des 3 catégories :</li>
+  <li><strong>Indispensable</strong> : nécessaire dès le premier jour pour que le poste fonctionne. <u>Seuls ces équipements sont comptés dans le budget de 800 €.</u></li>
+  <li><strong>Confort / productivité</strong> : utile sans être vital. Ces équipements ne sont <u>pas</u> comptés dans les 800 € — ils forment une liste de candidats pour le bonus de 300 € (étape suivante).</li>
+  <li><strong>Optionnel</strong> : pas pertinent pour ce poste — l'équipement sera alors barré et exclu de tous les calculs.</li>
+  <li>Justifiez votre choix.</li>
+</ul>
+<p style="background: #fdf2f8; border-left: 3px solid var(--ugecam-pink); padding: 0.75rem 1rem; border-radius: var(--border-radius-md);">
+  <strong>⚠️ Attention :</strong> demandez-vous si, avec uniquement les équipements que vous classez en "Indispensable", le salarié pourrait réellement allumer son ordinateur et travailler dès le premier jour. Un classement qui respecte le budget mais ne permettrait pas un poste fonctionnel ne sera pas considéré comme valide.
+</p>
+
+<h3 style="margin-top: 2rem;">🛍️ Catalogue et sélection</h3>
+
+<div class="metrics">
+  <div class="metric-card">
+    <p>Indispensable</p>
+    <p id="tot-ind">0 €</p>
+  </div>
+  <div class="metric-card">
+    <p>Confort / productivité (candidats)</p>
+    <p id="tot-confort">0 €</p>
+  </div>
+  <div class="metric-card">
+    <p>Budget restant (800 €)</p>
+    <p id="tot-rest">800 €</p>
+  </div>
+</div>
+
+<div id="warning-core" style="display: none; background: #fdf2f8; border-left: 3px solid var(--ugecam-pink); color: var(--ugecam-pink); padding: 0.75rem 1rem; border-radius: var(--border-radius-md); margin-bottom: 1.5rem; font-weight: 500;">
+  <span aria-hidden="true">⚠️</span>
+  <span id="warning-core-text"></span>
+</div>
+
+<div class="table-wrap">
+<table>
+  <colgroup>
+    <col style="width: 26%;"><col style="width: 9%;"><col style="width: 21%;"><col style="width: 30%;"><col style="width: 14%;">
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Équipement</th>
+      <th class="price-col">Prix</th>
+      <th>Statut</th>
+      <th>Justification</th>
+      <th class="center-col">Bonus +300€</th>
+    </tr>
+  </thead>
+  <tbody id="rows"></tbody>
+</table>
+</div>
+
+<h3 style="margin-top: 2rem;">🎉 Bonne nouvelle !</h3>
+<p>Votre responsable vous accorde un budget supplémentaire de <strong>300 €</strong>.</p>
+<p>Vous disposez maintenant d'un budget total de <strong>1 100 €</strong>.</p>
+<p>À l'aide de vos choix précédents, cochez dans la colonne "Bonus +300€" du tableau les équipements classés "Confort / productivité" que vous ajouteriez pour améliorer le confort ou la productivité du salarié.</p>
+
+<div class="metrics-3">
+  <div class="metric-card">
+    <p>Confort / productivité sélectionné (bonus)</p>
+    <p id="tot-bonus-selected">0 €</p>
+  </div>
+  <div class="metric-card">
+    <p>Nouveau total (avec bonus 1 100 €)</p>
+    <p id="tot-bonus">0 €</p>
+  </div>
+  <div class="metric-card">
+    <p>Budget restant (1 100 €)</p>
+    <p id="tot-bonus-rest">1 100 €</p>
+  </div>
+</div>
+
+<button id="toggle-correction">
+  <span aria-hidden="true">👁️</span>
+  Afficher la correction proposée
+</button>
+
+<div id="correction" style="display: none;">
+  <h3 style="margin: 0 0 0.75rem;">Correction — phase 1 : équipements indispensables (budget 800 €)</h3>
+  <table style="margin-bottom: 1rem;">
+    <thead>
+      <tr>
+        <th>Équipement</th>
+        <th class="price-col">Prix</th>
+        <th>Statut</th>
+        <th>Justification</th>
+      </tr>
+    </thead>
+    <tbody id="correction-rows-1"></tbody>
+  </table>
+  <div class="metrics-2" style="margin-bottom: 1.5rem;">
+    <div class="metric-card">
+      <p>Total indispensable</p>
+      <p style="font-size: 18px;">778 €</p>
+    </div>
+    <div class="metric-card">
+      <p>Budget restant (800 €)</p>
+      <p style="font-size: 18px;">22 €</p>
+    </div>
+  </div>
+
+  <h3 style="margin: 0 0 0.75rem;">Correction — phase bonus : équipements confort/productivité retenus (+300 €, budget total 1 100 €)</h3>
+  <table style="margin-bottom: 1rem;">
+    <thead>
+      <tr>
+        <th>Équipement ajouté</th>
+        <th class="price-col">Prix</th>
+        <th>Justification</th>
+      </tr>
+    </thead>
+    <tbody id="correction-rows-2"></tbody>
+  </table>
+  <div class="metrics-3">
+    <div class="metric-card">
+      <p>Confort / productivité sélectionné (bonus)</p>
+      <p style="font-size: 18px;">305 €</p>
+    </div>
+    <div class="metric-card">
+      <p>Nouveau total</p>
+      <p style="font-size: 18px;">1 083 €</p>
+    </div>
+    <div class="metric-card">
+      <p>Budget restant (1 100 €)</p>
+      <p style="font-size: 18px;">17 €</p>
+    </div>
+  </div>
+</div>
+
+<script src="livret/resultat-activite.js"></script>
+<script>
+const items = [
+  {name:"Webcam HD", price:45},
+  {name:"Unité centrale", price:550},
+  {name:"Enceinte Bluetooth", price:60},
+  {name:"Clavier", price:25},
+  {name:"Disque dur externe 1 To", price:80},
+  {name:"Support écran réglable", price:40},
+  {name:"Casque gamer RGB", price:90},
+  {name:"Souris", price:20},
+  {name:"Scanner", price:90},
+  {name:"Imprimante multifonction", price:120},
+  {name:"Tapis de souris ergonomique", price:18},
+  {name:"Écran 24 pouces", price:150},
+  {name:"Repose-poignets", price:15},
+  {name:"Clé USB 64 Go", price:15},
+  {name:"Haut-parleurs", price:35},
+  {name:"Deuxième écran", price:150},
+  {name:"Casque avec micro", price:40},
+  {name:"Lampe de bureau USB", price:25},
+  {name:"Vidéoprojecteur", price:250},
+  {name:"Tablette graphique", price:110}
+];
+
+const correctionPhase1 = {
+  "Unité centrale": {status:"Indispensable", note:"Élément central, indispensable au fonctionnement du poste"},
+  "Clavier": {status:"Indispensable", note:"Périphérique de saisie de base"},
+  "Souris": {status:"Indispensable", note:"Périphérique de pointage de base"},
+  "Écran 24 pouces": {status:"Indispensable", note:"Confort visuel minimal pour travailler"},
+  "Repose-poignets": {status:"Indispensable", note:"Faible coût, prévention des TMS"},
+  "Tapis de souris ergonomique": {status:"Indispensable", note:"Faible coût, confort quotidien"},
+  "Clé USB 64 Go": {status:"Confort / productivité", note:"Faible coût, très pratique pour transférer des fichiers, candidat pour le bonus"},
+  "Webcam HD": {status:"Confort / productivité", note:"Utile pour la visio, mais non retenu dans le budget initial"},
+  "Enceinte Bluetooth": {status:"Confort / productivité", note:"Confort sonore, non prioritaire dans le budget initial"},
+  "Disque dur externe 1 To": {status:"Confort / productivité", note:"Utile pour la sauvegarde, mais souvent remplaçable par le réseau de l'entreprise"},
+  "Scanner": {status:"Confort / productivité", note:"Utile ponctuellement, souvent mutualisé en entreprise"},
+  "Imprimante multifonction": {status:"Confort / productivité", note:"Souvent partagée en réseau, pas indispensable individuellement"},
+  "Deuxième écran": {status:"Confort / productivité", note:"Gain de productivité important (multitâche), candidat naturel pour le bonus"},
+  "Casque avec micro": {status:"Confort / productivité", note:"Permet les appels/visios sans déranger, candidat pour le bonus"},
+  "Support écran réglable": {status:"Confort / productivité", note:"Améliore l'ergonomie, candidat pour le bonus"},
+  "Haut-parleurs": {status:"Confort / productivité", note:"Confort multimédia, candidat pour le bonus"},
+  "Lampe de bureau USB": {status:"Confort / productivité", note:"Confort visuel au poste, candidat pour le bonus"},
+  "Casque gamer RGB": {status:"Optionnel", note:"Matériel orienté gaming, sans rapport avec un usage administratif"},
+  "Vidéoprojecteur": {status:"Optionnel", note:"Équipement de salle de réunion, pas un équipement de poste individuel"},
+  "Tablette graphique": {status:"Optionnel", note:"Pas d'utilité pour un poste administratif classique"}
+};
+
+const coreItems = ["Unité centrale", "Écran 24 pouces", "Clavier", "Souris"];
+
+const bonusAdditions = {
+  "Clé USB 64 Go": "Faible coût, très pratique pour transférer des fichiers",
+  "Deuxième écran": "Gain de productivité important (multitâche)",
+  "Casque avec micro": "Permet les appels/visios sans déranger",
+  "Support écran réglable": "Améliore l'ergonomie avec le 2e écran",
+  "Haut-parleurs": "Confort multimédia",
+  "Lampe de bureau USB": "Confort visuel au poste"
+};
+
+const tbody = document.getElementById('rows');
+items.forEach((item, i) => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${item.name}</td>
+    <td class="price-col">${item.price} €</td>
+    <td>
+      <select data-idx="${i}" class="status-select">
+        <option value="">—</option>
+        <option value="ind">Indispensable</option>
+        <option value="confort">Confort / productivité</option>
+        <option value="exclu">Optionnel</option>
+      </select>
+    </td>
+    <td><input type="text" placeholder="Pourquoi ?"></td>
+    <td class="center-col"><input type="checkbox" data-idx="${i}" class="bonus-check"></td>
+  `;
+  tbody.appendChild(tr);
+});
+
+function fmt(n){ return new Intl.NumberFormat('fr-FR').format(Math.round(n)) + ' €'; }
+
+function setBudgetClass(el, value){
+  el.classList.remove('budget-positive', 'budget-negative');
+  el.classList.add(value >= 0 ? 'budget-positive' : 'budget-negative');
+}
+
+function recalc(){
+  let totInd = 0, totConfort = 0, totBonusSelected = 0;
+  document.querySelectorAll('.status-select').forEach(sel => {
+    const idx = +sel.dataset.idx;
+    const tr = sel.closest('tr');
+    tr.classList.remove('row-ind', 'row-confort', 'row-exclu');
+    const justifInput = tr.querySelector('input[type="text"]');
+    const bonusChk = tr.querySelector('.bonus-check');
+    if (sel.value === 'ind') {
+      totInd += items[idx].price; tr.classList.add('row-ind');
+      justifInput.disabled = false;
+      bonusChk.disabled = true; bonusChk.checked = false;
+    } else if (sel.value === 'confort') {
+      totConfort += items[idx].price; tr.classList.add('row-confort');
+      justifInput.disabled = false; bonusChk.disabled = false;
+    } else if (sel.value === 'exclu') {
+      tr.classList.add('row-exclu');
+      justifInput.disabled = true;
+      bonusChk.disabled = true; bonusChk.checked = false;
+    } else {
+      justifInput.disabled = false;
+      bonusChk.disabled = true; bonusChk.checked = false;
+    }
+  });
+  document.querySelectorAll('.bonus-check').forEach(chk => {
+    const idx = +chk.dataset.idx;
+    if (chk.checked) totBonusSelected += items[idx].price;
+  });
+  document.getElementById('tot-ind').textContent = fmt(totInd);
+  document.getElementById('tot-confort').textContent = fmt(totConfort);
+  const restEl = document.getElementById('tot-rest');
+  restEl.textContent = fmt(800 - totInd);
+  setBudgetClass(restEl, 800 - totInd);
+
+  document.getElementById('tot-bonus-selected').textContent = fmt(totBonusSelected);
+  const newTotal = totInd + totBonusSelected;
+  document.getElementById('tot-bonus').textContent = fmt(newTotal);
+  const restBonusEl = document.getElementById('tot-bonus-rest');
+  restBonusEl.textContent = fmt(1100 - newTotal);
+  setBudgetClass(restBonusEl, 1100 - newTotal);
+
+  const missing = [];
+  coreItems.forEach(name => {
+    const idx = items.findIndex(it => it.name === name);
+    const sel = document.querySelector(`.status-select[data-idx="${idx}"]`);
+    if (sel.value !== 'ind') missing.push(name);
+  });
+  const warningEl = document.getElementById('warning-core');
+  const warningTextEl = document.getElementById('warning-core-text');
+  if (missing.length > 0) {
+    warningEl.style.display = 'block';
+    warningTextEl.textContent = `Avec votre sélection actuelle, le poste de travail ne serait probablement pas fonctionnel. Relisez vos choix "Indispensable" : un poste a besoin d'éléments de base pour démarrer et pour saisir/afficher des informations.`;
+  } else {
+    warningEl.style.display = 'none';
+  }
+}
+
+document.querySelectorAll('.status-select, .bonus-check').forEach(el => {
+  el.addEventListener('change', recalc);
+});
+recalc();
+
+const corr1 = document.getElementById('correction-rows-1');
+items.forEach(item => {
+  const c = correctionPhase1[item.name];
+  const tr = document.createElement('tr');
+  if (c && c.status === "Optionnel") tr.classList.add('row-exclu');
+  tr.innerHTML = `
+    <td>${item.name}</td>
+    <td class="price-col">${item.price} €</td>
+    <td>${c ? c.status : '—'}</td>
+    <td class="note">${c ? c.note : ''}</td>
+  `;
+  corr1.appendChild(tr);
+});
+
+const corr2 = document.getElementById('correction-rows-2');
+Object.entries(bonusAdditions).forEach(([name, note]) => {
+  const item = items.find(it => it.name === name);
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${name}</td>
+    <td class="price-col">${item.price} €</td>
+    <td class="note">${note}</td>
+  `;
+  corr2.appendChild(tr);
+});
+
+const correctionPanel = document.getElementById('correction');
+const toggleBtn = document.getElementById('toggle-correction');
+function noterClassement() {
+  const nom = { ind: "Indispensable", confort: "Confort / productivité", exclu: "Non retenu" };
+  const genre = s => s.startsWith("Indisp") ? "ind" : s.startsWith("Confort") ? "confort" : "exclu";
+  const detail = items.map((it, idx) => {
+    const sel = document.querySelector(`.status-select[data-idx="${idx}"]`);
+    const c = correctionPhase1[it.name];
+    return { q: it.name, donne: nom[sel.value] || "pas classé", bonne: c.status, ok: sel.value === genre(c.status) };
+  });
+  const score = detail.filter(x => x.ok).length;
+  const zone = document.getElementById('ra-mission') || (() => { const d = document.createElement('div'); d.id = 'ra-mission'; correctionPanel.prepend(d); return d; })();
+  ResultatActivite.terminer({ zone, titre: "Mission Équipement", type: "Exercice", score, total: items.length, detail, unite: "équipements bien classés" });
+}
+toggleBtn.addEventListener('click', () => {
+  const hidden = correctionPanel.style.display === 'none';
+  if (hidden) noterClassement();
+  correctionPanel.style.display = hidden ? 'block' : 'none';
+  toggleBtn.innerHTML = hidden
+    ? '<span aria-hidden="true">🙈</span>Masquer la correction proposée'
+    : '<span aria-hidden="true">👁️</span>Afficher la correction proposée';
+});
+</script>
+</body>
+</html>

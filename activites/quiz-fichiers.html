@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz : Les fichiers et dossiers</title>
+<link rel="stylesheet" href="livret/livret.css">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js"></script>
+<script src="livret/exercices.js"></script>
+<script src="livret/livret.js"></script>
+<script>
+Livret.demarrer({
+  id: "quiz-fichiers",
+  etiquette: "QUIZ",
+  titre: "Quiz : Les fichiers et dossiers",
+  icone: "📁",
+  couleur: "#a21caf",
+  pale: "#f8e8fb",
+  accroche: "Commencez par le quiz de positionnement pour connaître vos priorités. Entraînez-vous thème par thème, puis validez le module avec le quiz final.",
+  cours: "livret-fichiers",
+  notions: {
+    "icones": {
+      "titre": "les icônes",
+      "va": "Chaque icône a un rôle",
+      "jeu": {
+        "fichier": "icones-extensions",
+        "titre": "Icônes, noms et extensions"
+      }
+    },
+    "ext": {
+      "titre": "les extensions",
+      "va": "Les familles d'extensions",
+      "jeu": {
+        "fichier": "icones-extensions",
+        "titre": "Icônes, noms et extensions"
+      }
+    },
+    "affich": {
+      "titre": "les modes d'affichage",
+      "va": "Changer de mode d'affichage",
+      "jeu": {
+        "fichier": "explorateur-fichiers",
+        "titre": "l'activité Explorateur"
+      }
+    },
+    "nom": {
+      "titre": "les règles de nommage",
+      "va": "Un nom clair, ça change tout"
+    },
+    "deplacer": {
+      "titre": "déplacer ou copier",
+      "va": "Déplacer ou copier ?"
+    },
+    "selection": {
+      "titre": "sélectionner plusieurs fichiers",
+      "va": "Avant toute action : sélectionner"
+    },
+    "arbo": {
+      "titre": "l'arborescence",
+      "va": "Une structure en niveaux"
+    },
+    "manip": {
+      "titre": "créer, renommer, supprimer",
+      "va": "Trois méthodes pour chaque action",
+      "jeu": {
+        "fichier": "quiz-raccourcis",
+        "titre": "le quiz des raccourcis"
+      }
+    }
+  },
+  etapes: [
+    {
+      titre: "Quiz de positionnement",
+      icone: "🧭",
+      resume: "Pour savoir par où commencer.",
+      ecrans: [
+        { t: "Quiz de positionnement", b: [
+          { depart: true, titre: "Quiz de positionnement", quiz: [
+            {"v":"icones","q":"À quoi servent les dossiers ?","r":["À organiser les fichiers et les sous-dossiers","À lancer les logiciels","À imprimer"]},
+            {"v":"affich","q":"Quel mode affiche la date et la taille des fichiers ?","r":["Détails","Grandes icônes","Liste"]},
+            {"v":"arbo","q":"Dans un chemin d'accès, quel élément vient en premier ?","r":["Le disque, par exemple C:","Le fichier","L'extension"]},
+            {"v":"ext","q":"Quelle extension correspond à un tableau Excel ?","r":[".xlsx",".docx",".jpg"]},
+            {"v":"ext","q":"Quelle extension correspond à un document Word ?","r":[".docx",".xlsx",".pptx"]},
+            {"v":"deplacer","q":"Quel raccourci déplace un fichier, avant de le coller ?","r":["{Ctrl+X}","{Ctrl+C}","{Ctrl+Z}"]},
+            {"v":"selection","q":"Quelle touche maintenir pour sélectionner des fichiers qui ne se suivent pas ?","r":["{Ctrl}","{Maj}","{Alt}"]},
+            {"v":"nom","q":"Quel nom de fichier respecte les règles ?","r":["Rapport_Ventes_2024-05.xlsx","rapport final.xlsx","nouveau.xlsx"]},
+            {"v":"arbo","q":"Que montre le chemin d'accès d'un fichier ?","r":["L'endroit où il est rangé","Sa taille","Son auteur"]},
+            {"v":"manip","q":"Quelle touche renomme un fichier sélectionné ?","r":["{F2}","{F5}","{Suppr}"]}
+          ] }
+        ] }
+      ]
+    },
+    {
+      titre: "La fenêtre de l'Explorateur",
+      icone: "❓",
+      resume: "10 questions",
+      ecrans: [
+        { t: "La fenêtre de l'Explorateur", b: [
+          { quiz: [
+            {"v":"affich","q":"Combien de modes d'affichage le cours présente-t-il ?","r":["5 : Icônes, Liste, Détails, Mosaïques, Contenu","2 : Grand et Petit","1 seul"]},
+            {"v":"affich","q":"Où changer de mode d'affichage ?","r":["Dans l'onglet Affichage ou avec le bouton en haut à droite","Dans la Corbeille","Dans Word"]},
+            {"v":"affich","q":"Quel mode montre des vignettes en grille ?","r":["Icônes","Détails","Liste"]},
+            {"v":"affich","q":"Quel mode affiche une icône moyenne avec le nom ?","r":["Mosaïques","Détails","Liste"]},
+            {"v":"affich","q":"Quel mode donne un aperçu rapide sur une ligne, avec des informations ?","r":["Contenu","Mosaïques","Grandes icônes"]},
+            {"v":"manip","q":"Où se trouvent Accès rapide, Ce PC et Réseau ?","r":["Dans le volet de navigation","Dans la zone principale","Dans le ruban"]},
+            {"v":"manip","q":"Que trouve-t-on dans la barre d'adresse ?","r":["Le chemin du dossier ouvert","Le texte du fichier","La taille de l'écran"]},
+            {"v":"manip","q":"Que montre la zone principale de l'Explorateur ?","r":["Le contenu du dossier ouvert","Les réglages de l'imprimante","Les onglets de Word"]},
+            { v: "affich", q: "Quel mode choisir pour trier et comparer des fichiers par date ou par taille ?", r: ["Détails", "Grandes icônes", "Mosaïques"] },
+            { v: "affich", q: "Quel mode pour parcourir très vite un grand nombre de fichiers ?", r: ["Liste", "Contenu", "Très grandes icônes"] }
+          ], titre: "Quel affichage choisir ?" }
+        ] }
+      ]
+    },
+    {
+      titre: "Quiz final",
+      icone: "🏁",
+      resume: "12 questions pour valider le module.",
+      ecrans: [
+        { t: "Quiz final", b: [
+          { final: true, titre: "Quiz final", quiz: [
+            {"v":"icones","q":"De quelle couleur sont en général les icônes de dossiers ?","r":["Jaune","Rouge","Bleu"]},
+            {"v":"icones","q":"Où vont en général les fichiers supprimés ?","r":["Dans la Corbeille","Dans Documents","Sur le Bureau"]},
+            {"v":"ext","q":"Quelle extension correspond à une image ?","r":[".png",".mp3",".xlsx"]},
+            {"v":"ext","q":"Quelle pièce jointe est la plus risquée si l'expéditeur est inconnu ?","r":[".exe",".pdf",".txt"]},
+            {"v":"affich","q":"Quel mode montre la date, le type et la taille des fichiers ?","r":["Détails","Grandes icônes","Mosaïques"]},
+            {"v":"manip","q":"Quel raccourci crée un nouveau dossier ?","r":["{Ctrl+Maj+N}","{Ctrl+N}","{F2}"]},
+            {"v":"deplacer","q":"Après un copier-coller, combien d'exemplaires du fichier existe-t-il ?","r":["Deux","Un seul","Aucun"]},
+            {"v":"deplacer","q":"Quel raccourci annule immédiatement une erreur ?","r":["{Ctrl+Z}","{Ctrl+Y}","{Ctrl+A}"]},
+            {"v":"manip","q":"Que fait {Maj+Suppr} ?","r":["Il supprime définitivement","Il envoie à la Corbeille","Il renomme"]},
+            {"v":"selection","q":"Comment sélectionner des fichiers qui se suivent ?","r":["Clic sur le premier, {Maj}, clic sur le dernier","Double-clic sur chacun","{Ctrl+P}"]},
+            {"v":"arbo","q":"Quel est le point de départ de l'arborescence ?","r":["Le disque dur (C:)","Le Bureau","La Corbeille"]},
+            {"v":"nom","q":"Pourquoi éviter les espaces et les accents dans les noms de fichiers ?","r":["Pour des noms clairs et sans problème de compatibilité","Pour que le fichier soit moins lourd","Pour le protéger des virus"]}
+          ] }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

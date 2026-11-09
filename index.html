@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cours de bureautique</title>
+<meta name="description" content="Cours, exercices, jeux et évaluations de bureautique.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='85'%3E🎲%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --encre: #1b2a33;
+    --doux: #4b5c66;
+    --fond: #fff8ec;
+    --nuit: #17324d;
+    --nuit-2: #24507a;
+    --soleil: #ffc83d;
+    --soleil-bord: #c98a00;
+    --titres: "Fredoka", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--fond);
+    color: var(--encre);
+    font: 500 18px/1.5 "Nunito", "Segoe UI", system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+  :focus-visible { outline: 4px solid #e8590c; outline-offset: 3px; }
+  [hidden] { display: none !important; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  .invisible {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip-path: inset(50%); white-space: nowrap;
+  }
+
+  /* ---------- Bandeau ---------- */
+  .bandeau {
+    position: relative; overflow: hidden; color: #fff;
+    background: linear-gradient(120deg, var(--nuit), var(--nuit-2));
+    padding: 44px 24px 92px;
+  }
+  .bandeau::after {
+    content: ""; position: absolute; left: -5%; right: -5%; bottom: -46px; height: 92px;
+    background: var(--fond); border-radius: 50%;
+  }
+  .bandeau-in {
+    position: relative; z-index: 1; max-width: 1120px; margin: 0 auto;
+    display: grid; grid-template-columns: 1.25fr 1fr; gap: 28px 40px; align-items: center;
+  }
+  .bandeau h1 {
+    margin: 0; font: 700 clamp(2.3rem, 6vw, 4rem)/1.04 var(--titres); letter-spacing: -.01em;
+  }
+  .bandeau h1 em { font-style: normal; color: var(--soleil); }
+  .accroche { margin: 12px 0 0; font-size: 1.15rem; max-width: 30em; }
+
+  .flottant {
+    position: absolute; z-index: 0; font-size: 2.6rem; opacity: .2;
+    animation: flotte 7s ease-in-out infinite alternate; user-select: none;
+  }
+  @keyframes flotte {
+    from { transform: translateY(-10px) rotate(-8deg); }
+    to   { transform: translateY(14px) rotate(10deg); }
+  }
+
+  .panneau {
+    background: rgba(255, 255, 255, .1); border: 2px solid rgba(255, 255, 255, .28);
+    border-radius: 22px; padding: 18px 20px 20px;
+  }
+  .parcours-tete { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-weight: 800; }
+  .compte { font: 700 1.5rem var(--titres); color: var(--soleil); white-space: nowrap; }
+  .jauge { height: 16px; margin: 6px 0 8px; border-radius: 99px; background: rgba(0, 0, 0, .3); overflow: hidden; }
+  .jauge-plein {
+    height: 100%; width: 0; border-radius: 99px;
+    background: linear-gradient(90deg, #ffc83d, #ff8a3d);
+    transition: width .7s cubic-bezier(.3, 1.5, .5, 1);
+  }
+  .message { margin: 0 0 14px; min-height: 1.5em; font-size: .98rem; }
+
+  .de {
+    display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 58px;
+    padding: 8px 16px; border: 0; border-radius: 16px;
+    background: var(--soleil); color: #2a1e00; font: 600 1.2rem/1.2 var(--titres);
+    box-shadow: 0 6px 0 var(--soleil-bord); transition: transform .1s, box-shadow .1s;
+  }
+  .de:hover { transform: translateY(-2px); box-shadow: 0 8px 0 var(--soleil-bord); }
+  .de:active, .de[disabled] { transform: translateY(5px); box-shadow: 0 1px 0 var(--soleil-bord); }
+  .de[disabled] { cursor: default; }
+  .de-face { font-size: 1.7rem; line-height: 1; display: inline-block; }
+  .de[disabled] .de-face { animation: roule .35s linear infinite; }
+  @keyframes roule { to { transform: rotate(360deg); } }
+  .mon-bilan {
+    display: block; margin-top: 12px; padding: 9px 12px; border: 2px solid #fff; border-radius: 12px;
+    color: #fff; font-weight: 800; text-align: center; text-decoration: none;
+  }
+  .mon-bilan:hover { background: rgba(255, 255, 255, .16); }
+  .info-donnees { position: relative; z-index: 3; margin: 0 0 30px; padding: 11px 15px; border-radius: 14px; background: #fff; border: 2px solid var(--nuit); font-size: 1rem; }
+  .info-donnees button { margin-left: 8px; min-height: 38px; padding: 2px 12px; border: 2px solid var(--nuit); border-radius: 10px; background: var(--soleil); font-weight: 800; }
+  .pied { margin-top: 44px; text-align: center; font-weight: 700; }
+  .pied a { color: var(--nuit-2); }
+  .carte-etat { margin-top: 6px; padding: 4px 9px; border-radius: 9px; background: #e2f6ea; color: #0f5132 !important; font-size: .86rem !important; font-weight: 800; }
+  .sous-tuiles { margin-top: 0; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+  .sous-tuiles .tuile { min-height: 230px; }
+  .sous-tuiles .tuile-icone { font-size: 3.8rem; }
+  .sous-tuiles .tuile strong { font-size: clamp(1.4rem, 2.4vw, 1.8rem); }
+  /* Dans une rubrique, le bandeau devient une simple ligne de titre. */
+  .compact .bandeau { padding: 14px 24px 44px; }
+  .compact .bandeau::after { bottom: -30px; height: 60px; }
+  .compact .bandeau-in { display: block; }
+  .compact .bandeau h1 { font-size: 1.7rem; }
+  .compact .bandeau h1 br { display: none; }
+  .compact .panneau, .compact .accroche, .compact .flottant { display: none; }
+  .compact .rubrique { margin-top: 16px; }
+  .compact .rubrique-tete { margin-bottom: 8px; }
+  .compact .rubrique-synthese { margin-bottom: 14px; }
+  .groupe { margin-bottom: 30px; }
+  .groupe h3 { margin: 0 0 14px; font: 600 1.32rem/1.2 var(--titres); color: var(--encre); }
+  .rubrique-synthese { margin: 0 0 16px; padding: 9px 14px; border-radius: 12px; background: #fff; border-left: 6px solid var(--teinte); font-weight: 700; color: var(--doux); }
+  .zero {
+    display: block; margin: 14px auto 0; padding: 4px 8px; background: none; border: 0;
+    color: #fff; font-size: .9rem; font-weight: 700; text-decoration: underline;
+  }
+
+  /* ---------- Outils ---------- */
+  .contenu { max-width: 1120px; margin: 0 auto; padding: 0 24px 72px; }
+  .outils { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: center; justify-content: flex-end; position: relative; z-index: 2; margin-top: -18px; }
+  .filtres { display: flex; flex-wrap: wrap; gap: 8px; flex: 1 1 auto; }
+  .filtre {
+    display: inline-flex; align-items: center; gap: 7px; min-height: 46px; padding: 6px 16px;
+    background: #fff; border: 2px solid var(--teinte, var(--nuit)); border-radius: 99px;
+    color: var(--teinte, var(--nuit)); font-weight: 800; transition: transform .15s;
+  }
+  .filtre:hover { transform: translateY(-3px); }
+  .filtre[aria-pressed="true"] { background: var(--teinte, var(--nuit)); color: #fff; }
+  .recherche { flex: 0 1 300px; min-width: 220px; }
+  .recherche input {
+    width: 100%; min-height: 46px; padding: 8px 18px; font: inherit; color: inherit;
+    background: #fff; border: 2px solid #66757e; border-radius: 99px;
+  }
+
+  /* ---------- Première page : les grandes rubriques ---------- */
+  .tuiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; margin-top: 30px; }
+  .tuile {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+    min-height: 300px; padding: 26px 18px 22px; text-align: center; text-decoration: none; color: #fff;
+    background: var(--teinte); border-radius: 28px; box-shadow: 0 9px 0 rgba(0, 0, 0, .28);
+    transition: transform .16s, box-shadow .16s;
+  }
+  .tuile:hover { transform: translateY(-7px); box-shadow: 0 16px 0 rgba(0, 0, 0, .28); }
+  .tuile:active { transform: translateY(6px); box-shadow: 0 3px 0 rgba(0, 0, 0, .28); }
+  .tuile-icone { font-size: 5rem; line-height: 1.1; }
+  .tuile:hover .tuile-icone { animation: danse .6s ease-in-out; }
+  .tuile strong { font: 700 clamp(1.8rem, 3vw, 2.4rem)/1.08 var(--titres); }
+  .tuile-intro { font-size: 1.02rem; line-height: 1.35; }
+  .tuile-compte { margin-top: auto; padding: 4px 14px; border-radius: 99px; background: rgba(0, 0, 0, .24); font-weight: 800; font-size: .95rem; }
+  .vers-rubriques {
+    display: inline-flex; align-items: center; min-height: 46px; padding: 6px 16px; border-radius: 99px;
+    background: var(--nuit); color: #fff; font-weight: 800; text-decoration: none; white-space: nowrap;
+  }
+  .vers-rubriques:hover { background: var(--nuit-2); }
+
+  /* ---------- Rubriques et tuiles ---------- */
+  .rubrique { margin-top: 42px; }
+  .rubrique-tete { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .rubrique-icone {
+    display: grid; place-items: center; width: 52px; height: 52px; flex: none;
+    border-radius: 16px; font-size: 1.6rem; background: var(--teinte); transform: rotate(-5deg);
+  }
+  .rubrique h2 { margin: 0; font: 700 1.75rem/1.1 var(--titres); color: var(--teinte); }
+  .rubrique-tete p { margin: 2px 0 0; color: var(--doux); }
+  .grille { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr)); gap: 20px; margin: 0; padding: 0; list-style: none; }
+  .grille li { display: flex; }
+
+  .carte {
+    position: relative; display: flex; flex-direction: column; width: 100%; overflow: hidden;
+    background: #fff; border: 3px solid var(--teinte); border-radius: 22px; color: inherit; text-decoration: none;
+    box-shadow: 0 7px 0 var(--teinte);
+    animation: arrive .45s cubic-bezier(.3, 1.4, .5, 1) backwards;
+    animation-delay: calc(var(--i) * 45ms);
+    transition: transform .16s, box-shadow .16s;
+  }
+  @keyframes arrive { from { opacity: 0; transform: translateY(26px) scale(.92); } }
+  .carte:hover { transform: translateY(-6px) rotate(-1deg); box-shadow: 0 13px 0 var(--teinte); }
+  .carte:active { transform: translateY(5px); box-shadow: 0 2px 0 var(--teinte); }
+  .carte-icone { display: grid; place-items: center; height: 96px; background: var(--teinte); font-size: 3.1rem; line-height: 1; }
+  .carte-icone span { display: inline-block; }
+  .carte:hover .carte-icone span { animation: danse .6s ease-in-out; }
+  @keyframes danse {
+    25% { transform: rotate(-14deg) scale(1.2); }
+    60% { transform: rotate(10deg) scale(1.15); }
+  }
+  .carte-texte { display: flex; flex-direction: column; flex: 1; gap: 4px; padding: 14px 16px 16px; }
+  .carte strong { font: 600 1.2rem/1.22 var(--titres); }
+  .carte-texte > span { color: var(--doux); font-size: .96rem; line-height: 1.4; }
+  .carte .theme { margin-top: auto; padding-top: 10px; color: var(--teinte); font-size: .84rem; font-weight: 800; }
+  .vu {
+    position: absolute; top: 10px; right: 10px; display: grid; place-items: center; width: 34px; height: 34px;
+    border-radius: 50%; background: #fff; color: #17803d; font-size: 1.15rem; font-weight: 800;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .3);
+  }
+  .aucun { margin-top: 40px; text-align: center; font: 600 1.3rem var(--titres); }
+
+  /* ---------- Confettis ---------- */
+  .confetti {
+    position: fixed; z-index: 50; width: 11px; height: 11px; border-radius: 3px; pointer-events: none;
+    animation: eclate 1.1s cubic-bezier(.15, .7, .4, 1) forwards;
+  }
+  @keyframes eclate {
+    to { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; }
+  }
+
+  /* ---------- Vue d'une activité ---------- */
+  .vue { display: flex; flex-direction: column; height: 100vh; height: 100dvh; background: #fff; }
+  .barre {
+    display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 7px 12px;
+    background: var(--nuit); color: #fff; flex: none;
+  }
+  .barre a {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; flex: none;
+    border-radius: 12px; color: #fff; font-weight: 800; font-size: .95rem; text-decoration: none; white-space: nowrap;
+  }
+  .barre a:hover { background: rgba(255, 255, 255, .16); }
+  .barre .retour { border: 2px solid #fff; }
+  .barre .suivante { background: var(--soleil); color: #2a1e00; }
+  .barre .suivante:hover { background: #ffd666; }
+  .barre :focus-visible { outline-color: #ffd27a; }
+  .barre h1 { flex: 1; min-width: 0; margin: 0; font: 600 1.1rem var(--titres); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .cadre { flex: 1; min-height: 0; animation: glisse .35s ease-out; }
+  @keyframes glisse { from { opacity: 0; transform: translateY(16px); } }
+  iframe { width: 100%; height: 100%; border: 0; display: block; background: #fff; }
+
+  @media (max-width: 980px) { .tuiles { grid-template-columns: repeat(2, 1fr); } .tuile { min-height: 240px; } }
+  @media (max-width: 480px) { .tuiles { gap: 16px; } .tuile { min-height: 200px; padding: 18px 10px 16px; } .tuile-icone { font-size: 3.6rem; } .tuile-intro { font-size: .92rem; } }
+  @media (max-width: 800px) {
+    .bandeau { padding: 30px 16px 84px; }
+    .bandeau-in { grid-template-columns: 1fr; }
+    .contenu { padding: 0 16px 56px; }
+    .recherche { flex: 1 1 100%; }
+    .flottant { display: none; }
+  }
+  @media (max-width: 560px) {
+    .barre { gap: 6px; padding: 6px 8px; }
+    .barre h1, .barre .seul { display: none; }
+    .barre .retour { margin-right: auto; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+<link rel="stylesheet" href="activites/livret/polices/polices.css">
+</head>
+<body>
+
+<div id="sommaire">
+  <header class="bandeau">
+    <span class="flottant" aria-hidden="true" style="left:4%;top:12%">⌨️</span>
+    <span class="flottant" aria-hidden="true" style="left:44%;top:10%;animation-delay:-2s">🖱️</span>
+    <span class="flottant" aria-hidden="true" style="left:52%;top:62%;animation-delay:-4s">📊</span>
+    <span class="flottant" aria-hidden="true" style="left:93%;top:8%;animation-delay:-3s">📁</span>
+    <div class="bandeau-in">
+      <div>
+        <h1>Cours de <em>bureautique</em></h1>
+        <p class="accroche">Choisissez une rubrique, ou laissez le dé décider pour vous.</p>
+      </div>
+      <div class="panneau">
+        <div class="parcours-tete">
+          <span>Votre parcours</span>
+          <span id="compte" class="compte"></span>
+        </div>
+        <div id="jauge" class="jauge" role="progressbar" aria-label="Activités déjà ouvertes" aria-valuemin="0">
+          <div id="jauge-plein" class="jauge-plein"></div>
+        </div>
+        <p id="message" class="message" role="status"></p>
+        <button id="de" class="de" type="button">
+          <span class="de-face" aria-hidden="true">🎲</span>
+          <span id="de-texte">Au hasard !</span>
+        </button>
+        <a id="lien-positionnement" class="mon-bilan" href="#/quiz-positionnement">🧭 Par où commencer ? Le quiz de positionnement</a>
+        <a class="mon-bilan" href="bilan.html">📊 Mon bilan : progression et résultats</a>
+        <button id="zero" class="zero" type="button">Remettre le parcours à zéro</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="contenu">
+    <p id="info-donnees" class="info-donnees" hidden>🔒 Vos résultats restent sur ce poste, rien n'est envoyé sur Internet, et ils sont conservés pendant votre formation. <a href="confidentialite.html">En savoir plus</a> <button id="info-ok" type="button">J'ai compris</button></p>
+    <div class="outils">
+      <a id="vers-rubriques" class="vers-rubriques" href="#" hidden>← Toutes les rubriques</a>
+      <div id="filtres" class="filtres" role="group" aria-label="Afficher une rubrique"></div>
+      <div class="recherche">
+        <label for="recherche" class="invisible">Rechercher une activité</label>
+        <input id="recherche" type="search" placeholder="🔍 Rechercher…" autocomplete="off">
+      </div>
+    </div>
+    <nav id="tuiles" class="tuiles" aria-label="Les rubriques"></nav>
+    <div id="rubriques"></div>
+    <p id="aucun" class="aucun" role="status" hidden>Rien trouvé. Essayez un autre mot !</p>
+    <footer class="pied"><a href="confidentialite.html">🔒 Vos données personnelles</a></footer>
+  </main>
+</div>
+
+<div id="vue" class="vue" hidden>
+  <div class="barre">
+    <a id="vue-retour" class="retour" href="#">← Sommaire</a>
+    <h1 id="vue-titre" tabindex="-1"></h1>
+    <a id="vue-seul" class="seul" target="_blank" rel="noopener">Ouvrir dans un onglet</a>
+    <a id="vue-suivante" class="suivante">Suivante →</a>
+  </div>
+  <div id="cadre" class="cadre"></div>
+</div>
+
+<script src="catalogue.js"></script>
+<script src="bilan-commun.js"></script>
+<script>
+  const $ = id => document.getElementById(id);
+  const baseTitre = document.title;
+  const CLE = "cours-bureautique:ouvertes";
+  const calme = matchMedia("(prefers-reduced-motion: reduce)");
+  const idDe = a => a.fichier.replace(/\.html?$/i, "");
+  const slug = t => (t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const normal = t => (t || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+
+  function creer(balise, attributs, texte) {
+    const el = document.createElement(balise);
+    Object.assign(el, attributs);
+    if (texte) el.textContent = texte;
+    return el;
+  }
+
+  // Une activité dont la rubrique est mal écrite reste visible au lieu de disparaître.
+  const connues = new Set(RUBRIQUES.map(r => r.id));
+  const rubriques = RUBRIQUES.slice();
+  if (ACTIVITES.some(a => !connues.has(a.rubrique))) {
+    rubriques.push({ id: "autres", titre: "Autres", icone: "✨", couleur: "#17324d" });
+  }
+  const rubriqueDe = a => connues.has(a.rubrique) ? a.rubrique : "autres";
+  const rubriqueDeId = id => rubriques.find(r => r.id === id);
+  const dansParcours = ACTIVITES.filter(a => !rubriqueDeId(rubriqueDe(a)).horsParcours);
+
+  /* ---------- Parcours, gardé uniquement dans ce navigateur ---------- */
+  function lire() {
+    try { return new Set(JSON.parse(localStorage.getItem(CLE)) || []); }
+    catch { return new Set(); }
+  }
+  function ecrire() {
+    try { localStorage.setItem(CLE, JSON.stringify([...ouvertes])); } catch {}
+  }
+  let ouvertes = lire();
+  let aFeter = false;
+
+  function majParcours() {
+    const total = dansParcours.length;
+    const n = dansParcours.filter(a => ouvertes.has(idDe(a))).length;
+    $("compte").textContent = `${n} / ${total}`;
+    $("jauge").setAttribute("aria-valuemax", total);
+    $("jauge").setAttribute("aria-valuenow", n);
+    $("jauge-plein").style.width = total ? (n / total * 100) + "%" : "0";
+    const part = total ? n / total : 0;
+    $("message").textContent =
+      n === 0 ? "Aucune activité ouverte pour le moment. À vous de jouer !" :
+      part >= 1 ? "Bravo, vous avez tout ouvert ! 🏆" :
+      part >= .5 ? "Plus de la moitié, continuez !" :
+      "Beau début, continuez !";
+    $("zero").hidden = ouvertes.size === 0;
+    document.querySelectorAll(".sous-tuile").forEach(tuile => {
+      const liste = ACTIVITES.filter(a => rubriqueDe(a) === tuile.dataset.parent && (a.groupe || "") === tuile.dataset.groupe);
+      const vues = liste.filter(a => ouvertes.has(idDe(a))).length;
+      tuile.querySelector(".tuile-compte").textContent = `${vues} / ${liste.length} ouverte${liste.length > 1 ? "s" : ""}`;
+    });
+    document.querySelectorAll(".tuile:not(.sous-tuile)").forEach(tuile => {
+      const liste = ACTIVITES.filter(a => rubriqueDe(a) === tuile.dataset.rubrique);
+      const vues = liste.filter(a => ouvertes.has(idDe(a))).length;
+      tuile.querySelector(".tuile-compte").textContent = rubriqueDeId(tuile.dataset.rubrique).horsParcours
+        ? `${liste.length} au total`
+        : `${vues} / ${liste.length} ouvertes`;
+    });
+    const lignesBilan = Bilan.lignesActivites();
+    const posGeneral = Bilan.lireJson("cours-bureautique:positionnement", { modules: {} }).modules || {};
+    const pct = r => r.total ? Math.round(r.meilleur / r.total * 100) : 0;
+    let positionnementFait = false;
+    document.querySelectorAll(".carte").forEach(carte => {
+      const id = carte.dataset.id;
+      const ligne = lignesBilan.find(l => l.id === id);
+      const morceaux = [];
+      const posModule = posGeneral[id.replace(/^quiz-/, "")];
+      if (id === "quiz-positionnement") {
+        const r = ligne && ligne.resultats.find(x => x.type === "Positionnement");
+        if (r) { morceaux.push(`✓ Fait : ${pct(r)} %`); positionnementFait = true; }
+      } else if (id.startsWith("quiz-")) {
+        if (posModule) morceaux.push(`✓ Positionnement : ${Math.round(posModule.n / posModule.t * 100)} %`);
+        const f = ligne && ligne.resultats.find(x => x.type === "Quiz final");
+        if (f) morceaux.push(`${pct(f) >= 80 ? "🏅" : "🏁"} Final : ${pct(f)} %`);
+      } else if (ligne && ligne.resultats.length) {
+        const moy = Math.round(ligne.resultats.reduce((s, x) => s + pct(x), 0) / ligne.resultats.length);
+        morceaux.push(`🎯 ${moy} % de réussite`);
+      }
+      let zone = carte.querySelector(".carte-etat");
+      if (!morceaux.length) { if (zone) zone.remove(); return; }
+      if (!zone) {
+        zone = creer("span", { className: "carte-etat" });
+        carte.querySelector(".carte-texte").append(zone);
+      }
+      zone.textContent = morceaux.join(" · ");
+    });
+    $("lien-positionnement").textContent = positionnementFait ? "✓ Quiz de positionnement fait : voir mes priorités" : "🧭 Par où commencer ? Le quiz de positionnement";
+    document.querySelectorAll(".rubrique").forEach(section => {
+      const c = Bilan.cumul(lignesBilan.filter(l => l.rubrique === section.dataset.rubrique));
+      section.querySelector(".rubrique-synthese").textContent = [
+        `${c.ouvertes} / ${c.activites} ouvertes`,
+        c.terminees ? `${c.terminees} terminé${c.terminees > 1 ? "s" : ""}` : "",
+        c.etoiles ? `⭐ ${c.etoiles}` : "",
+        c.reussite !== null ? `${c.reussite} % de réussite` : "",
+        c.essais ? `${c.essais} essai${c.essais > 1 ? "s" : ""}` : "",
+        Bilan.duree(c.temps)
+      ].filter(Boolean).join(" · ");
+    });
+    document.querySelectorAll(".carte").forEach(carte => {
+      const vu = carte.querySelector(".vu");
+      const ouverte = ouvertes.has(carte.dataset.id);
+      if (ouverte && !vu) {
+        const pastille = creer("span", { className: "vu" }, "✓");
+        pastille.title = "Déjà ouverte";
+        pastille.append(creer("span", { className: "invisible" }, " Déjà ouverte"));
+        carte.append(pastille);
+      } else if (!ouverte && vu) {
+        vu.remove();
+      }
+    });
+  }
+
+  function confettis(nombre) {
+    if (calme.matches) return;
+    const zone = $("jauge").getBoundingClientRect();
+    const couleurs = ["#ffc83d", "#ff6b6b", "#4dabf7", "#51cf66", "#cc5de8"];
+    for (let i = 0; i < nombre; i++) {
+      const c = creer("span", { className: "confetti" });
+      c.setAttribute("aria-hidden", "true");
+      c.style.left = zone.left + zone.width * Math.random() + "px";
+      c.style.top = zone.top + "px";
+      c.style.background = couleurs[i % couleurs.length];
+      c.style.setProperty("--x", (Math.random() * 360 - 180) + "px");
+      c.style.setProperty("--y", (Math.random() * 300 - 90) + "px");
+      c.style.setProperty("--r", (Math.random() * 720 - 360) + "deg");
+      c.addEventListener("animationend", () => c.remove());
+      document.body.append(c);
+    }
+  }
+
+  /* ---------- Sommaire ---------- */
+  rubriques.forEach(r => {
+    const activites = ACTIVITES.filter(a => rubriqueDe(a) === r.id);
+    if (!activites.length) return;
+
+    const tuile = creer("a", { className: "tuile", href: "#/rubrique/" + r.id });
+    tuile.dataset.rubrique = r.id;
+    tuile.style.setProperty("--teinte", r.couleur || "#17324d");
+    const grandeIcone = creer("span", { className: "tuile-icone" }, r.icone || "✨");
+    grandeIcone.setAttribute("aria-hidden", "true");
+    tuile.append(grandeIcone, creer("strong", {}, r.titre));
+    if (r.intro) tuile.append(creer("span", { className: "tuile-intro" }, r.intro));
+    tuile.append(creer("span", { className: "tuile-compte" }));
+    $("tuiles").append(tuile);
+
+    const section = creer("section", { className: "rubrique" });
+    section.dataset.rubrique = r.id;
+    section.style.setProperty("--teinte", r.couleur || "#17324d");
+    const tete = creer("div", { className: "rubrique-tete" });
+    const icone = creer("span", { className: "rubrique-icone" }, r.icone || "✨");
+    icone.setAttribute("aria-hidden", "true");
+    const textes = creer("div");
+    textes.append(creer("h2", {}, r.titre));
+    if (r.intro) textes.append(creer("p", {}, r.intro));
+    tete.append(icone, textes);
+
+    // Une rubrique peut être découpée en groupes : chacun a son sous-titre et sa grille.
+    const groupes = [...new Set(activites.map(a => a.groupe || ""))];
+    const blocsGroupes = groupes.map(g => {
+      const bloc = creer("div", { className: "groupe" });
+      if (g) bloc.append(creer("h3", {}, g));
+      const grille = creer("ul", { className: "grille" });
+      bloc.append(grille);
+      return { g, bloc, grille };
+    });
+    activites.forEach((a, i) => {
+      const li = creer("li");
+      li.dataset.texte = normal([a.titre, a.description, a.theme, a.groupe, r.titre].join(" "));
+      const carte = creer("a", { className: "carte", href: "#/" + idDe(a) });
+      carte.dataset.id = idDe(a);
+      carte.style.setProperty("--i", i);
+      const haut = creer("span", { className: "carte-icone" });
+      const emoji = creer("span", {}, a.icone || "⭐");
+      emoji.setAttribute("aria-hidden", "true");
+      haut.append(emoji);
+      const texte = creer("span", { className: "carte-texte" });
+      texte.append(creer("strong", {}, a.titre), creer("span", {}, a.description));
+      if (a.theme) texte.append(creer("span", { className: "theme" }, a.theme));
+      carte.append(haut, texte);
+      li.append(carte);
+      blocsGroupes.find(x => x.g === (a.groupe || "")).grille.append(li);
+    });
+    section.append(tete, creer("p", { className: "rubrique-synthese" }));
+    // Une rubrique découpée en groupes commence, comme l'accueil, par de grandes tuiles.
+    if (groupes.some(Boolean)) {
+      const sous = creer("nav", { className: "tuiles sous-tuiles" });
+      sous.setAttribute("aria-label", "Les sous-rubriques de " + r.titre);
+      groupes.forEach(g => {
+        const info = (r.groupes && r.groupes[g]) || {};
+        const liste = activites.filter(a => (a.groupe || "") === g);
+        // Une seule activité dans le groupe : la tuile y mène directement.
+        const tuile = creer("a", { className: "tuile sous-tuile", href: liste.length === 1 ? "#/" + idDe(liste[0]) : `#/rubrique/${r.id}/${slug(g)}` });
+        tuile.dataset.groupe = g;
+        tuile.dataset.parent = r.id;
+        tuile.style.setProperty("--teinte", r.couleur || "#17324d");
+        const icone = creer("span", { className: "tuile-icone" }, info.icone || r.icone || "✨");
+        icone.setAttribute("aria-hidden", "true");
+        tuile.append(icone, creer("strong", {}, g || "Autres"));
+        if (info.intro) tuile.append(creer("span", { className: "tuile-intro" }, info.intro));
+        tuile.append(creer("span", { className: "tuile-compte" }));
+        sous.append(tuile);
+      });
+      section.append(sous);
+    }
+    blocsGroupes.forEach(x => {
+      x.bloc.dataset.groupe = x.g;
+      section.append(x.bloc);
+    });
+    $("rubriques").append(section);
+  });
+
+  /* ---------- Filtres et recherche ---------- */
+  let filtre = "tout";
+  let sousGroupe = "";
+  function ajouterFiltre(id, titre, icone, couleur) {
+    const b = creer("button", { className: "filtre", type: "button" });
+    b.dataset.filtre = id;
+    b.setAttribute("aria-pressed", id === filtre);
+    if (couleur) b.style.setProperty("--teinte", couleur);
+    const e = creer("span", {}, icone);
+    e.setAttribute("aria-hidden", "true");
+    b.append(e, document.createTextNode(titre));
+    b.addEventListener("click", () => { location.hash = "#/rubrique/" + id; });
+    $("filtres").append(b);
+  }
+  rubriques.forEach(r => {
+    if (ACTIVITES.some(a => rubriqueDe(a) === r.id)) ajouterFiltre(r.id, r.titre, r.icone || "✨", r.couleur);
+  });
+
+  function appliquer() {
+    const q = normal($("recherche").value.trim());
+    const accueil = filtre === "tout" && !q;   // la première page ne montre que les grandes rubriques
+    $("tuiles").hidden = !accueil;
+    $("filtres").hidden = filtre === "tout";
+    $("vers-rubriques").hidden = filtre === "tout" && !q;
+    // Dans une sous-rubrique, le lien remonte d'un seul niveau.
+    const titreRubrique = rubriqueDeId(filtre) ? rubriqueDeId(filtre).titre : "";
+    $("vers-rubriques").href = sousGroupe && !q ? "#/rubrique/" + filtre : "#";
+    $("vers-rubriques").textContent = sousGroupe && !q ? "← " + titreRubrique : "← Toutes les rubriques";
+    // Le bandeau se fait discret dès qu'on est entré dans une rubrique : moins de défilement.
+    $("sommaire").classList.toggle("compact", filtre !== "tout" || !!q);
+    document.querySelectorAll(".filtre").forEach(x => x.setAttribute("aria-pressed", x.dataset.filtre === filtre));
+    const mots = q.split(/\s+/).filter(Boolean);
+    let total = 0;
+    document.querySelectorAll(".rubrique").forEach(section => {
+      let visibles = 0;
+      const permise = filtre === "tout" || section.dataset.rubrique === filtre;
+      const sousTuiles = section.querySelector(".sous-tuiles");
+      // Une rubrique à groupes montre ses tuiles tant qu'aucun groupe n'est choisi et qu'on ne cherche rien.
+      const surTuiles = !!sousTuiles && permise && !accueil && !q && !sousGroupe;
+      if (sousTuiles) sousTuiles.hidden = !surTuiles;
+      section.querySelectorAll(".grille li").forEach(li => {
+        // Tous les mots cherchés doivent être présents, dans n'importe quel ordre.
+        const dansGroupe = q || !sousGroupe || li.closest(".groupe").dataset.groupe === sousGroupe;
+        const ok = !accueil && permise && !surTuiles && dansGroupe && mots.every(m => li.dataset.texte.includes(m));
+        li.hidden = !ok;
+        if (ok) visibles++;
+      });
+      section.querySelectorAll(".groupe").forEach(g => { g.hidden = !g.querySelector("li:not([hidden])"); });
+      section.hidden = visibles === 0 && !surTuiles;
+      total += visibles + (surTuiles ? 1 : 0);
+    });
+    $("aucun").hidden = accueil || total > 0;
+  }
+  $("recherche").addEventListener("input", appliquer);
+  $("vers-rubriques").addEventListener("click", () => {
+    // Vide la recherche : sinon le lien ne change rien quand on est déjà à l'accueil.
+    $("recherche").value = "";
+    appliquer();
+  });
+
+  /* ---------- Le dé : une activité pas encore ouverte, de préférence ---------- */
+  const texteDe = $("de-texte").textContent;
+  $("de").addEventListener("click", () => {
+    const nouvelles = dansParcours.filter(a => !ouvertes.has(idDe(a)));
+    const tirage = nouvelles.length ? nouvelles : dansParcours;
+    if (!tirage.length) return;
+    const choix = tirage[Math.floor(Math.random() * tirage.length)];
+    if (calme.matches) { location.hash = "#/" + idDe(choix); return; }
+
+    $("de").disabled = true;
+    let tour = 0;
+    const tours = 11;
+    (function suivant() {
+      if (tour++ < tours) {
+        const a = dansParcours[Math.floor(Math.random() * dansParcours.length)];
+        $("de-texte").textContent = a.titre;
+        setTimeout(suivant, 55 + tour * tour * 2.2);
+      } else {
+        $("de-texte").textContent = choix.titre;
+        setTimeout(() => {
+          $("de").disabled = false;
+          $("de-texte").textContent = texteDe;
+          location.hash = "#/" + idDe(choix);
+        }, 480);
+      }
+    })();
+  });
+
+  $("zero").addEventListener("click", () => {
+    if (!confirm("Effacer toute la progression, les résultats et les temps enregistrés sur ce poste ?")) return;
+    ouvertes = new Set();
+    ecrire();
+    // Les étoiles des modules du livret repartent aussi de zéro.
+    try {
+      Object.keys(localStorage).filter(k => k.startsWith("cours-bureautique:livret:") && !k.endsWith(":grand")).forEach(k => localStorage.removeItem(k));
+      localStorage.removeItem("cours-bureautique:visites");
+      localStorage.removeItem("cours-bureautique:positionnement");
+    } catch {}
+    majParcours();
+    $("de").focus();
+  });
+
+  /* ---------- Navigation ---------- */
+  let positionSommaire = 0;
+  const CLE_PILE = "cours-bureautique:livret:pile";
+  const lirePileRetour = () => { try { return JSON.parse(sessionStorage.getItem(CLE_PILE)) || []; } catch { return []; } };
+  let positionDemandee = null;
+
+  // Venu d'une leçon : le bouton ramène à l'écran quitté. Sinon, à la rubrique.
+  function majBarreRetour(activite) {
+    const pile = lirePileRetour();
+    const origine = pile[pile.length - 1];
+    if (origine && origine.vers === idDe(activite)) {
+      $("vue-retour").href = "#/" + origine.de;
+      $("vue-retour").textContent = origine.texte;
+      $("vue-retour").onclick = () => {
+        pile.pop();
+        try { sessionStorage.setItem(CLE_PILE, JSON.stringify(pile)); } catch {}
+        positionDemandee = origine.e !== null ? { e: origine.e, c: origine.c } : null;
+      };
+    } else {
+      const r = rubriqueDeId(rubriqueDe(activite));
+      const seul = ACTIVITES.filter(a => rubriqueDe(a) === r.id && a.groupe && a.groupe === activite.groupe).length === 1;
+      $("vue-retour").href = activite.groupe && !seul ? `#/rubrique/${r.id}/${slug(activite.groupe)}` : "#/rubrique/" + r.id;
+      $("vue-retour").textContent = "← " + (activite.groupe && !seul ? activite.groupe : r.titre);
+      $("vue-retour").onclick = null;
+    }
+  }
+  // Les pages de cours annoncent ici d'où vient le stagiaire.
+  addEventListener("message", ev => {
+    const cadre = document.querySelector("#cadre iframe");
+    if (!cadre || ev.source !== cadre.contentWindow || !ev.data || ev.data.type !== "cours-pile" || !Array.isArray(ev.data.pile)) return;
+    try { sessionStorage.setItem(CLE_PILE, JSON.stringify(ev.data.pile)); } catch {}
+  });
+
+  // Le temps passé sur une activité, plafonné pour ne pas compter un poste resté allumé.
+  let enCours = null;
+  function noterVisite() {
+    if (!enCours) return;
+    const visites = Bilan.lireJson(Bilan.PREFIXE + "visites", {});
+    const v = visites[enCours.id] || { n: 0, ms: 0 };
+    v.ms += Math.min(Date.now() - enCours.debut, 2 * 3600 * 1000);
+    visites[enCours.id] = v;
+    try { localStorage.setItem(Bilan.PREFIXE + "visites", JSON.stringify(visites)); } catch {}
+    enCours.debut = Date.now();
+  }
+  function ouvrirVisite(id) {
+    const visites = Bilan.lireJson(Bilan.PREFIXE + "visites", {});
+    const v = visites[id] || { n: 0, ms: 0 };
+    v.n++;
+    visites[id] = v;
+    try { localStorage.setItem(Bilan.PREFIXE + "visites", JSON.stringify(visites)); } catch {}
+    enCours = { id, debut: Date.now() };
+  }
+  addEventListener("pagehide", noterVisite);
+  document.addEventListener("visibilitychange", noterVisite);
+
+  function afficher() {
+    const id = decodeURIComponent(location.hash.replace(/^#\/?/, ""));
+    const activite = ACTIVITES.find(a => idDe(a) === id);
+    const dansVue = !$("vue").hidden;
+    noterVisite();
+    if (!activite) enCours = null;
+    else if (!enCours || enCours.id !== id) ouvrirVisite(id);
+
+    if (!activite) {
+      const [, demandee = "tout", slugGroupe = ""] = id.startsWith("rubrique/") ? id.split("/") : [];
+      const nouvelle = rubriqueDeId(demandee) ? demandee : "tout";
+      const groupesDe = ACTIVITES.filter(a => rubriqueDe(a) === nouvelle && a.groupe).map(a => a.groupe);
+      const nouveauGroupe = groupesDe.find(g => slug(g) === slugGroupe) || "";
+      const change = nouvelle !== filtre || nouveauGroupe !== sousGroupe;
+      filtre = nouvelle;
+      sousGroupe = nouveauGroupe;
+      if (change && !dansVue) $("recherche").value = "";
+      appliquer();
+      if (change && !dansVue) window.scrollTo(0, 0);
+      $("cadre").replaceChildren();   // retire la page : un son en cours s'arrête aussi
+      $("vue").hidden = true;
+      $("sommaire").hidden = false;
+      document.title = baseTitre;
+      if (dansVue) window.scrollTo(0, positionSommaire);
+      majParcours();
+      if (aFeter) {
+        const fini = dansParcours.every(a => ouvertes.has(idDe(a)));
+        confettis(fini ? 90 : 26);
+        aFeter = false;
+      }
+      return;
+    }
+
+    if (!dansVue) positionSommaire = window.scrollY;
+    if (dansParcours.includes(activite) && !ouvertes.has(id)) aFeter = true;
+    ouvertes.add(id);
+    ecrire();
+
+    const chemin = "activites/" + activite.fichier;
+    const suffixe = positionDemandee ? `?e=${positionDemandee.e}&c=${positionDemandee.c}` : "";
+    positionDemandee = null;
+    const cadre = creer("iframe", { src: chemin + suffixe, title: activite.titre });
+    cadre.allow = "autoplay; fullscreen; clipboard-write";
+    $("cadre").replaceChildren(cadre);
+    $("vue-titre").textContent = activite.titre;
+    const rubriqueActivite = rubriqueDeId(rubriqueDe(activite));
+    majBarreRetour(activite);
+    $("vue-seul").href = chemin;
+
+    const memeRubrique = ACTIVITES.filter(a => rubriqueDe(a) === rubriqueDe(activite));
+    const suivante = memeRubrique[memeRubrique.indexOf(activite) + 1];
+    $("vue-suivante").hidden = !suivante;
+    if (suivante) {
+      $("vue-suivante").href = "#/" + idDe(suivante);
+      $("vue-suivante").title = suivante.titre;
+    }
+
+    $("sommaire").hidden = true;
+    $("vue").hidden = false;
+    document.title = activite.titre + " · " + baseTitre;
+    $("vue-titre").focus({ preventScroll: true });
+  }
+
+  try { $("info-donnees").hidden = !!localStorage.getItem("cours-bureautique:info-lue"); } catch { $("info-donnees").hidden = false; }
+  $("info-ok").addEventListener("click", () => {
+    $("info-donnees").hidden = true;
+    try { localStorage.setItem("cours-bureautique:info-lue", "1"); } catch {}
+  });
+
+  window.addEventListener("hashchange", afficher);
+  majParcours();
+  appliquer();
+  afficher();
+</script>
+</body>
+</html>
