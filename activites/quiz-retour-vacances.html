@@ -167,7 +167,7 @@ body{font-family:Nunito,sans-serif;background:#f4f6fb;color:#1a1a2e;line-height:
 
 .footer{text-align:center;color:#aaa;font-size:0.72rem;font-weight:700;margin-top:2rem;}
 </style>
-<link rel="stylesheet" href="livret/polices/polices.css?v=202611091450">
+<link rel="stylesheet" href="livret/polices/polices.css?v=202611091530">
 </head>
 <body>
 
@@ -1024,7 +1024,8 @@ body{font-family:Nunito,sans-serif;background:#f4f6fb;color:#1a1a2e;line-height:
 
 <div class="footer" id="main-footer">UGECAM Île-de-France — Formation Numérique Complète · Quiz Retour Vacances</div>
 
-<script src="livret/resultat-activite.js?v=202611091450"></script>
+<script src="livret/export-resultat.js?v=202611091530"></script>
+<script src="livret/resultat-activite.js?v=202611091530"></script>
 <script>
   // Les résultats restent sur ce poste : rien n'est envoyé sur Internet.
   const CLE_RETOUR = 'cours-bureautique:retour-vacances';
@@ -1400,7 +1401,7 @@ async function showFinal(){
   const moy=Math.round(sumPct/acts.length);
 
   document.getElementById('fscore').textContent=grand+' / '+grandTot+' ('+Math.round(grand/grandTot*100)+' %)';
-  ResultatActivite.noter({titre:'Quiz du retour de vacances',type:'Quiz',score:grand,total:grandTot,detail:acts.map(a=>({q:a.label,donne:a.sc+' / '+a.tot,ok:a.sc===a.tot}))});
+  ResultatActivite.noterEtExporter('fmsg', {titre:'Quiz du retour de vacances',type:'Quiz',score:grand,total:grandTot,detail:acts.map(a=>({q:a.label,donne:a.sc+' / '+a.tot,ok:a.sc===a.tot}))});
   document.getElementById('fstars').textContent=moy===100?'⭐⭐⭐':moy>=70?'⭐⭐':'⭐';
   document.getElementById('fmsg').textContent=moy>=80?'Excellent ! Vos acquis sont bien consolidés.':moy>=60?'Bon rappel ! Quelques notions à retravailler.':'Certaines notions nécessitent une révision — revoyez le livret.';
   document.getElementById('header-name6').textContent='👤 '+userName;

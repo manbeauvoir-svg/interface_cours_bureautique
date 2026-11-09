@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vos données personnelles</title>
-<link rel="stylesheet" href="bilan.css?v=202611091450">
+<link rel="stylesheet" href="bilan.css?v=202611091530">
 </head>
 <body>
 <header class="tete">
@@ -36,7 +36,7 @@
     <ul>
       <li>Elles sont enregistrées <strong>dans le navigateur de ce poste</strong>. Le site ne les envoie à aucun serveur, et ne les transmet à aucune entreprise extérieure.</li>
       <li>Vous pouvez les consulter à tout moment dans <a href="bilan.html">Mon bilan</a>.</li>
-      <li>Votre formateur peut les consulter sur ce poste, ou dans le fichier de bilan que vous lui remettez.</li>
+      <li>Votre formateur peut les consulter sur ce poste, ou dans les fichiers que vous exportez (bilan, résultats d'exercices) et rangez dans votre dossier sur le réseau.</li>
       <li>Le code n'est pas un mot de passe : toute personne qui utilise le même navigateur sur ce poste et connaît votre code peut voir votre progression. En partant, cliquez sur « Ce n'est pas moi » ou fermez votre session.</li>
     </ul>
   </section>
@@ -63,8 +63,8 @@
     <p id="message" class="message" role="status"></p>
   </section>
 </main>
-<script src="catalogue.js?v=202611091450"></script>
-<script src="bilan-commun.js?v=202611091450"></script>
+<script src="catalogue.js?v=202611091530"></script>
+<script src="bilan-commun.js?v=202611091530"></script>
 <script>
   document.getElementById("duree").textContent = CONSERVATION_MOIS;
   document.getElementById("effacer").addEventListener("click", () => {

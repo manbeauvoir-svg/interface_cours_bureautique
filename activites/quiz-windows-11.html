@@ -57,7 +57,7 @@ body{font-family:Nunito,sans-serif;background:#f4f6fb;color:#1a1a2e;line-height:
 
 .footer{text-align:center;color:#aaa;font-size:0.75rem;font-weight:700;margin-top:2rem;}
 </style>
-<link rel="stylesheet" href="livret/polices/polices.css?v=202611091450">
+<link rel="stylesheet" href="livret/polices/polices.css?v=202611091530">
 </head>
 <body>
 
@@ -211,7 +211,8 @@ body{font-family:Nunito,sans-serif;background:#f4f6fb;color:#1a1a2e;line-height:
 
 </div>
 
-<script src="livret/resultat-activite.js?v=202611091450"></script>
+<script src="livret/export-resultat.js?v=202611091530"></script>
+<script src="livret/resultat-activite.js?v=202611091530"></script>
 <script>
 const form = document.getElementById('quiz-form');
 const result = document.getElementById('result');
@@ -266,7 +267,7 @@ form.addEventListener('submit', function(e){
       ok: !!choisi && choisi.value === card.getAttribute('data-correct')
     };
   });
-  ResultatActivite.noter({ titre: "L'environnement Windows 11", type: 'Quiz', score, total, detail });
+  ResultatActivite.noterEtExporter(resultMsg, { titre: "L'environnement Windows 11", type: 'Quiz', score, total, detail });
 
   let msg = '';
   const pct = (score/total)*100;

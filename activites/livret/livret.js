@@ -104,6 +104,25 @@ const Livret = (() => {
         !x.ok && x.bonne ? el("span", { class: "bonne", html: "Bonne réponse : " + x.bonne }) : null,
         !x.ok && x.e ? el("small", { html: x.e }) : null))));
   }
+  // Le fichier de résultat, que le stagiaire range lui-même dans son dossier sur le réseau.
+  function boutonExport(cle) {
+    if (typeof ExportResultat === "undefined") return null;
+    return ExportResultat.bouton(() => {
+      const r = etat.resultats[cle];
+      if (!r) return null;
+      const cours = M.titre.replace(/<[^>]+>/g, "").replace(/^Quiz : /, "");
+      const revoir = [];
+      (r.detail || []).filter(x => !x.ok).forEach(x => {
+        const n = x.v && M.notions && M.notions[x.v];
+        const ligne = n ? `${n.titre} : cours « ${cours} »${n.va ? `, écran « ${n.va} »` : ""}` : null;
+        if (ligne && !revoir.includes(ligne)) revoir.push(ligne);
+      });
+      // Sans notion précise : l'étape du cours où se trouve l'activité.
+      if (!revoir.length && !M.cours && !/^Exercice/.test(r.type) && (r.detail || []).some(x => !x.ok)) revoir.push(`L'étape « ${r.etape} » du cours « ${cours} »`);
+      return { titre: r.titre, module: M.titre.replace(/<[^>]+>/g, ""), type: r.type, score: r.dernier, total: r.total, meilleur: r.meilleur, essais: r.essais, temps: r.dernierTemps, detail: r.detail, revoir,
+        unite: /^Exercice/.test(r.type) ? "étapes justes" : null };
+    });
+  }
   // En revenant sur un écran : le dernier résultat reste visible au-dessus du jeu.
   function dernierResultat(cle) {
     const r = etat.resultats[cle];
@@ -113,7 +132,8 @@ const Livret = (() => {
       el("ul", {}, ...r.detail.map(x => el("li", { class: x.ok ? "ok" : "ko" },
         el("strong", { html: (x.ok ? "✓ " : "✗ ") + x.q }),
         x.donne ? el("span", { html: "Votre réponse : " + x.donne }) : null,
-        !x.ok && x.bonne ? el("span", { class: "bonne", html: "Bonne réponse : " + x.bonne }) : null))));
+        !x.ok && x.bonne ? el("span", { class: "bonne", html: "Bonne réponse : " + x.bonne }) : null))),
+      el("div", { class: "barre-btn" }, boutonExport(cle)));
   }
   // La réussite moyenne d'une étape, ou du module si aucun préfixe n'est donné.
   function reussite(prefixe = "") {
@@ -773,7 +793,7 @@ const Livret = (() => {
         rates.length && conseils ? el("p", { style: "margin:12px 0 6px;font-weight:800" }, b.depart ? "🎯 À travailler en priorité :" : "Pour progresser sur ce que vous avez manqué :") : null,
         b.depart && !rates.length ? el("p", { class: "retour ok" }, "Vous semblez déjà à l'aise : allez directement au quiz final, ou piochez dans le module ce qui vous intéresse.") : null,
         conseils,
-        el("div", { class: "barre-btn" }, boutonRetour(), el("button", { class: "btn btn-petit", type: "button", onclick: () => { nouvellePartie(); question(); } }, b.final && !valide ? "Repasser le quiz final" : "Recommencer")),
+        el("div", { class: "barre-btn" }, boutonRetour(), el("button", { class: "btn btn-petit", type: "button", onclick: () => { nouvellePartie(); question(); } }, b.final && !valide ? "Repasser le quiz final" : "Recommencer"), boutonExport(cle)),
         listeCorrection(detail));
     }
     // En revenant : le quiz en cours reprend, un quiz terminé montre son résultat et ses réponses.
@@ -831,7 +851,7 @@ const Livret = (() => {
       const detail = items.map(([texte, bon]) => ({ q: texte, donne: essais[texte] ? essais[texte][0] : bacs[bon], bonne: bacs[bon], ok: !essais[texte] }));
       const score = detail.filter(x => x.ok).length;
       noterResultat(cle, "Jeu de tri", titre || M.etapes[numEtape].titre, score, items.length, debut, detail);
-      remplir(jeu, tete(), blocScore(score, items.length), listeCorrection(detail),
+      remplir(jeu, tete(), blocScore(score, items.length), listeCorrection(detail), el("div", { class: "barre-btn" }, boutonExport(cle)),
         el("p", { class: "question" }, erreurs === 0 ? "🌟 Tout est bien rangé, sans erreur ! ⭐" : `👏 Tout est rangé, avec ${erreurs} essai${erreurs > 1 ? "s" : ""} en plus. ⭐`),
         vuRange(), erreurs >= 2 && v ? aides([v]) : null,
         el("div", { class: "barre-btn" }, el("button", { class: "btn btn-petit", type: "button", onclick: depart }, "Recommencer")));
@@ -870,7 +890,7 @@ const Livret = (() => {
             jeu.append(blocScore(score, b.associer.length));
             const liste = listeCorrection(detail);
             if (liste) jeu.append(liste);
-            jeu.append(el("div", { class: "barre-btn" }, el("button", { class: "btn btn-petit", type: "button", onclick: depart }, "Recommencer")));
+            jeu.append(el("div", { class: "barre-btn" }, el("button", { class: "btn btn-petit", type: "button", onclick: depart }, "Recommencer"), boutonExport(cle)));
           }
         } else {
           const a = choisi;
@@ -938,6 +958,7 @@ const Livret = (() => {
           jeu.append(blocScore(score, bon.length));
           const liste = listeCorrection(detail, "📋 Votre premier essai");
           if (liste) jeu.append(liste);
+          jeu.append(el("div", { class: "barre-btn" }, boutonExport(cle)));
           retour.className = "retour ok";
           retour.textContent = "🌟 C'est le bon ordre ! ⭐";
         } else {
@@ -1055,7 +1076,7 @@ const Livret = (() => {
       const memo = etat.memo[cle];
       if (memo && memo.fait) {
         const r = etat.resultats[cle];
-        zone.append(actions, blocScore(r.dernier, r.total, "étapes justes"), el("p", { class: "exo-note" }, "Votre auto-évaluation, étape par étape."), listeCorrection(r.detail) || "");
+        zone.append(actions, blocScore(r.dernier, r.total, "étapes justes"), el("p", { class: "exo-note" }, "Votre auto-évaluation, étape par étape."), listeCorrection(r.detail) || "", el("div", { class: "barre-btn" }, boutonExport(cle)));
         return zone;
       }
       const reponses = (memo && memo.reponses) || {};
