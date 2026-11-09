@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Windows 11</title>
-<link rel="stylesheet" href="livret/livret.css?v=202611091441">
+<link rel="stylesheet" href="livret/livret.css?v=202611091450">
 </head>
 <body>
 <div id="livret"></div>
-<script src="livret/simulations.js?v=202611091441"></script>
-<script src="livret/exercices.js?v=202611091441"></script>
-<script src="livret/livret.js?v=202611091441"></script>
+<script src="livret/simulations.js?v=202611091450"></script>
+<script src="livret/exercices.js?v=202611091450"></script>
+<script src="livret/livret.js?v=202611091450"></script>
 <script>
 Livret.demarrer({
   id: "windows",
@@ -142,21 +142,133 @@ Livret.demarrer({
       resume: "Garder une image de ce qu'on voit.",
       ecrans: [
         { t: "Capturer son écran", b: [
-          { p: "La capture d'écran enregistre tout ou partie de l'écran. L'outil est représenté par des ciseaux dans la barre de recherche." },
+          { p: "La capture d'écran permet de garder une image de <strong>tout ou partie de l'écran</strong> : une erreur à montrer, une page à garder, une illustration pour un document." },
+          { p: "Windows 11 a un outil pour cela : l'<strong>Outil Capture d'écran</strong>. Son icône représente des ciseaux sur un cercle ; on le trouve en tapant son nom dans la barre de recherche." },
+          { img: "capture_outil", alt: "La fenêtre de l'Outil Capture d'écran : le bouton Nouveau, les modes image et vidéo, le choix du type de capture et le retardateur.", leg: "L'Outil Capture d'écran de Windows 11" },
+          { retenir: "Le plus simple : la touche {Impr écran} du clavier. L'outil s'ouvre et la capture est <strong>enregistrée toute seule</strong>." }
+        ] },
+        { t: "Quatre façons d'ouvrir l'outil", b: [
+          { onglets: [
+            ["Touche Impr écran", { p: "Appuyez simplement sur la touche {Impr écran} (parfois notée « Impr. écran Syst »), en haut à droite du clavier, à côté de {F12} : l'outil s'ouvre tout de suite. C'est la façon la plus simple." }],
+            ["Image", { p: "{Windows+Maj+S} : pour une capture d'<strong>image fixe</strong>. L'écran s'assombrit, il reste à choisir la zone." }],
+            ["Vidéo", { p: "{Windows+Maj+R} : pour une capture <strong>vidéo</strong> d'une partie de l'écran." }],
+            ["Menu Démarrer", { pas: [
+              "Cliquez sur le bouton <strong>Démarrer</strong>.",
+              "Tapez « outil capture d'écran ».",
+              "Cliquez sur l'outil dans les résultats."
+            ], progressif: false }]
+          ] }
+        ] },
+        { t: "Faire une capture, pas à pas", b: [
+          { pas: [
+            "Appuyez sur la touche {Impr écran} : l'écran s'assombrit et une petite barre d'outils apparaît en haut.",
+            "Choisissez le <strong>type de capture</strong> : rectangle, fenêtre, plein écran ou forme libre.",
+            "Sélectionnez la zone de l'écran à capturer.",
+            "C'est fini : la capture est <strong>enregistrée automatiquement</strong>, il n'y a rien à enregistrer."
+          ] }
+        ] },
+        { t: "Les types de capture", b: [
+          { p: "Retournez les cartes pour découvrir les cinq façons de capturer." },
+          { cartes: [
+            ["✏️ Forme libre", "Dessinez une forme libre autour d'un objet."],
+            ["⬛ Rectangle", "Faites glisser le curseur autour d'un objet pour former un rectangle."],
+            ["🪟 Fenêtre", "Sélectionnez une fenêtre à capturer, par exemple une boîte de dialogue."],
+            ["🖥️ Plein écran", "Capturez tout l'écran."],
+            ["🎬 Capture vidéo", "Filmez une sélection rectangulaire de n'importe quelle partie de l'écran."]
+          ] }
+        ] },
+        { t: "Après la capture", b: [
+          { p: "La capture est <strong>enregistrée automatiquement</strong> sur l'ordinateur : plus besoin de l'enregistrer vous-même." },
+          { retenir: "Pour la retrouver : Explorateur de fichiers > <strong>Images</strong> > <strong>Captures d'écran</strong>." },
+          { p: "En cliquant sur la notification qui apparaît, la capture s'ouvre dans l'Outil Capture d'écran. Vous pouvez alors :" },
+          { liste: [
+            "la <strong>partager</strong> ou l'<strong>imprimer</strong> ;",
+            "copier ou modifier le texte qu'elle contient ;",
+            "l'agrandir, la faire pivoter ou la <strong>rogner</strong> ;",
+            "ajouter des légendes ou du son à une capture vidéo."
+          ] },
+          { astuce: "La capture est aussi copiée : il suffit de faire {Ctrl+V} pour la coller dans un document Word ou dans un mail." }
+        ] },
+        { t: "Vérifier : les façons de capturer", b: [
           { associer: [
+            ["{Impr écran}", "Ouvrir l'outil d'un seul geste"],
             ["{Windows+Maj+S}", "Une capture d'image"],
             ["{Windows+Maj+R}", "Une capture vidéo"],
-            ["Forme libre", "Dessiner autour d'un objet"],
             ["Rectangle", "Tracer un rectangle autour d'un objet"],
             ["Fenêtre", "Capturer une seule fenêtre"],
             ["Plein écran", "Capturer tout l'écran"]
           ], titre: "Les façons de capturer" },
-          { fiche: { titre: "L'outil capture d'écran", fichier: "windows/capture-ecran.docx", gros: "windows/capture-ecran-gros.docx" } },
-          { fiche: { titre: "Les raccourcis clavier de base", fichier: "windows/raccourcis-clavier.docx" } },
           { activite: { fichier: "quiz-windows", etape: "La capture d'écran", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
         ] },
         { t: "À vous : une capture d'écran", b: [
           { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Windows", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Ma première capture d'écran", icone: "📝" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Les raccourcis clavier",
+      icone: "⌨️",
+      resume: "Gagner du temps avec quelques touches.",
+      ecrans: [
+        { t: "Les raccourcis de base", b: [
+          { p: "Les raccourcis clavier font les actions qu'on répète souvent, sans passer par les menus. Ils fonctionnent dans Word, Excel et la plupart des logiciels." },
+          { astuce: "Maintenez la première touche ({Ctrl}, {Alt} ou {Windows}) enfoncée, puis appuyez sur la suivante." },
+          { table: { tete: ["Appuyez sur", "Pour…"], lignes: [
+            ["{Ctrl+A}", "Sélectionner tout le texte"],
+            ["{Ctrl+C}", "Copier l'élément sélectionné"],
+            ["{Ctrl+X}", "Couper l'élément sélectionné"],
+            ["{Ctrl+V}", "Coller l'élément copié ou coupé"],
+            ["{Ctrl+Z}", "Annuler la dernière action"],
+            ["{Ctrl+S}", "Enregistrer le document"],
+            ["{Ctrl+P}", "Imprimer"]
+          ] } }
+        ] },
+        { t: "Les raccourcis généraux", b: [
+          { table: { tete: ["Appuyez sur", "Pour…"], lignes: [
+            ["{Alt+F4}", "Fermer la fenêtre ou quitter le logiciel"],
+            ["{Windows+L}", "Verrouiller son PC"],
+            ["{Windows+D}", "Afficher ou masquer le Bureau"],
+            ["{F5}", "Actualiser la fenêtre"],
+            ["{Ctrl+Y}", "Rétablir ce qu'on vient d'annuler"],
+            ["{Ctrl+Échap}", "Ouvrir le menu Démarrer"],
+            ["{Ctrl+Maj+Échap}", "Ouvrir le Gestionnaire des tâches"],
+            ["{Maj+F10}", "Afficher le menu contextuel (comme un clic droit)"],
+            ["{Échap}", "Arrêter ou interrompre ce qui est en cours"]
+          ] } }
+        ] },
+        { t: "Dans l'Explorateur de fichiers", b: [
+          { table: { tete: ["Appuyez sur", "Pour…"], lignes: [
+            ["{Ctrl+N}", "Ouvrir une nouvelle fenêtre"],
+            ["{Ctrl+W}", "Fermer la fenêtre"],
+            ["{Ctrl} + roulette de la souris", "Changer la taille des icônes et la présentation"],
+            ["{Ctrl+Maj+N}", "Créer un dossier"],
+            ["{Alt+P}", "Afficher le volet de visualisation"],
+            ["{Alt+Entrée}", "Ouvrir les Propriétés de l'élément sélectionné"],
+            ["{F4}", "Afficher la liste de la barre d'adresse"],
+            ["{F11}", "Agrandir ou réduire la fenêtre"]
+          ] } }
+        ] },
+        { t: "Avec la touche Windows", b: [
+          { table: { tete: ["Appuyez sur", "Pour…"], lignes: [
+            ["{Windows}", "Ouvrir le menu Démarrer"],
+            ["{Windows+I}", "Ouvrir les Paramètres de Windows"],
+            ["{Windows+L}", "Verrouiller son PC"],
+            ["{Windows+D}", "Afficher le Bureau"],
+            ["{Windows+E}", "Ouvrir l'Explorateur de fichiers"],
+            ["{Windows+Maj+S}", "Faire une capture d'écran"],
+            ["{Impr écran}", "Ouvrir l'outil Capture d'écran"]
+          ] } }
+        ] },
+        { t: "Vérifier : quel raccourci ?", b: [
+          { associer: [
+            ["{Ctrl+C}", "Copier"],
+            ["{Ctrl+V}", "Coller"],
+            ["{Ctrl+Z}", "Annuler"],
+            ["{Ctrl+S}", "Enregistrer"],
+            ["{Windows+L}", "Verrouiller son PC"],
+            ["{Windows+E}", "Ouvrir l'Explorateur"]
+          ], titre: "Les raccourcis à connaître" },
+          { activite: { fichier: "quiz-raccourcis", titre: "S'entraîner : le quiz des raccourcis", texte: "Dans la rubrique Jeux et quiz.", icone: "🎮" } }
         ] }
       ]
     },

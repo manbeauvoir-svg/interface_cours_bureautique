@@ -194,8 +194,8 @@ const EXERCICES = {
   /* ---------- WINDOWS ET INTERNET ---------- */
   "win-capture": {
     app: "windows", niveau: 1, duree: "10 min", titre: "Ma première capture d'écran",
-    objectif: "Capturer une partie de l'écran et l'enregistrer.",
-    taches: ["Appuyez sur {Windows+Maj+S}.", "Choisissez la capture Rectangle et sélectionnez une zone de l'écran.", "Cliquez sur la notification, puis enregistrez l'image dans votre dossier avec un nom clair.", "Refaites une capture en choisissant cette fois le mode Fenêtre."]
+    objectif: "Capturer une partie de l'écran et retrouver la capture.",
+    taches: ["Appuyez sur la touche {Impr écran} : l'outil Capture d'écran s'ouvre.", "Choisissez la capture Rectangle et sélectionnez une zone de l'écran.", "Ouvrez l'Explorateur de fichiers, puis Images > Captures d'écran : votre capture y est déjà enregistrée.", "Refaites une capture en choisissant cette fois le mode Fenêtre, et retrouvez-la dans le même dossier."]
   },
   "net-recherches": {
     app: "internet", niveau: 2, duree: "45 min", titre: "Recherches sur Internet",
