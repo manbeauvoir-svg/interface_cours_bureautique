@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Suivi formateur</title>
-<link rel="stylesheet" href="bilan.css?v=202611091530">
+<link rel="stylesheet" href="bilan.css?v=202611091537">
 </head>
 <body>
 <header class="tete">
@@ -15,7 +15,8 @@
       <label class="btn fort" for="dossier">📁 Choisir le dossier des bilans</label>
       <input id="dossier" type="file" webkitdirectory multiple hidden>
       <label class="btn" for="fichiers">Ou choisir des fichiers</label>
-      <input id="fichiers" type="file" accept=".json" multiple hidden>
+      <input id="fichiers" type="file" accept=".xlsx,.json" multiple hidden>
+      <button id="excel" class="btn" type="button" hidden>📊 Tout télécharger en Excel</button>
     </div>
   </div>
 </header>
@@ -29,9 +30,10 @@
     <button id="vider" class="btn" type="button">Effacer les progressions de tous les stagiaires de ce poste</button>
   </section>
 </main>
-<script src="catalogue.js?v=202611091530"></script>
-<script src="bilan-commun.js?v=202611091530"></script>
-<script src="bilan-vue.js?v=202611091530"></script>
+<script src="catalogue.js?v=202611091537"></script>
+<script src="xlsx.js?v=202611091537"></script>
+<script src="bilan-commun.js?v=202611091537"></script>
+<script src="bilan-vue.js?v=202611091537"></script>
 <script>
   const $ = id => document.getElementById(id);
   const creer = BilanVue.creer;
@@ -41,15 +43,17 @@
     const parCode = new Map();
     let ignores = 0;
     for (const f of fichiers) {
-      if (!f.name.toLowerCase().endsWith(".json")) continue;
+      if (!/\.(xlsx|json)$/i.test(f.name) || f.name.startsWith("~$")) continue;
       try {
-        const b = JSON.parse(await f.text());
+        const b = await Bilan.lireFichier(f);
+        if (!b) { ignores++; continue; }
         if (b.format !== "bilan-cours-bureautique-1" || !b.code) { ignores++; continue; }
         // Un stagiaire peut déposer plusieurs bilans : on garde le plus récent.
         if (!parCode.has(b.code) || parCode.get(b.code).date < b.date) parCode.set(b.code, b);
       } catch { ignores++; }
     }
     bilans = [...parCode.values()].sort((a, b) => a.code.localeCompare(b.code, "fr"));
+    $("excel").hidden = !bilans.length;
     $("message").textContent = `${bilans.length} stagiaire${bilans.length > 1 ? "s" : ""}` + (ignores ? ` · ${ignores} fichier${ignores > 1 ? "s" : ""} ignoré${ignores > 1 ? "s" : ""}` : "");
     dessiner();
   }
@@ -98,6 +102,7 @@
     zone.scrollIntoView();
   }
 
+  $("excel").addEventListener("click", () => Xlsx.telecharger(Bilan.feuillesFormateur(bilans), `suivi_stagiaires_${new Date().toISOString().slice(0, 10)}.xlsx`));
   $("dossier").addEventListener("change", e => charger(e.target.files));
   $("fichiers").addEventListener("change", e => charger(e.target.files));
   // Fin de formation : chaque poste garde les progressions des stagiaires qui s'y sont connectés.

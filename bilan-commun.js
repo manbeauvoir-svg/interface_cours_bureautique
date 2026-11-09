@@ -149,6 +149,94 @@ const Bilan = (() => {
   }
   verifierConservation();
 
-  return { lignesActivites, cumul, duree, exporter, PREFIXE, lireJson, toutEffacer, verifierConservation,
+  /* ---------- Le bilan en Excel ----------
+     Des feuilles lisibles (Synthèse, Résultats, Réponses, Activités), plus une feuille cachée
+     qui garde le bilan complet pour la page du formateur. */
+  const FEUILLE_DONNEES = "donnees";
+  function texteSimple(t) {
+    const html = String(t ?? "").replace(/\{([^{}]+)\}/g, (m, s) => s.split("+").map(x => x.trim()).join(" + "));
+    return (new DOMParser().parseFromString(html, "text/html").body.textContent || "").replace(/\s+/g, " ").trim();
+  }
+  const minutes = ms => Math.round((ms || 0) / 60000);
+  const pct = (s, t) => t ? { v: Math.round(s / t * 100) / 100, s: "pct" } : "";
+  const pctMoyen = x => x === null || x === undefined ? "–" : { v: x / 100, s: "pct" };
+  const dateFr = d => d ? new Date(d).toLocaleDateString("fr-FR") : "";
+  const titreRubrique = id => (RUBRIQUES.find(r => r.id === id) || {}).titre || id;
+  const tete = l => l.map(v => ({ v, s: "tete" }));
+  const resultatsDe = b => b.activites.flatMap(l => (l.resultats || []).map(r => ({ l, r })));
+
+  function lignesResultats(b, code) {
+    return resultatsDe(b).map(({ l, r }) => [...(code ? [b.code] : []), titreRubrique(l.rubrique), l.titre, texteSimple(r.titre || r.etape), r.type || "",
+      r.dernier ?? r.meilleur, r.total, pct(r.dernier ?? r.meilleur, r.total), pct(r.meilleur, r.total), r.essais || 0, minutes(r.temps), dateFr(r.date)]);
+  }
+  function lignesReponses(b, code) {
+    return resultatsDe(b).flatMap(({ l, r }) => (r.detail || []).map((x, i) => [...(code ? [b.code] : []), l.titre, texteSimple(r.titre || r.etape), i + 1,
+      texteSimple(x.q), texteSimple(x.donne), x.ok ? "" : texteSimple(x.bonne), x.ok ? "✓ juste" : "✗ à revoir", x.ok ? "" : texteSimple(x.e)]));
+  }
+  const TETE_RESULTATS = ["Rubrique", "Activité", "Exercice ou étape", "Type", "Score", "Sur", "Réussite", "Meilleur score", "Essais", "Temps (min)", "Date"];
+  const TETE_REPONSES = ["Activité", "Exercice ou étape", "N°", "Question", "Réponse donnée", "Bonne réponse", "Résultat", "Explication"];
+  // Le bilan complet, découpé en morceaux (une cellule Excel contient au plus 32 767 caractères).
+  function feuilleDonnees(b) {
+    const json = JSON.stringify(b), morceaux = [];
+    for (let i = 0; i < json.length; i += 30000) morceaux.push([json.slice(i, i + 30000)]);
+    return { nom: FEUILLE_DONNEES, cachee: true, lignes: morceaux };
+  }
+
+  function feuillesExcel(b) {
+    const g = b.global;
+    return [
+      { nom: "Synthèse", largeurs: [30, 14, 10, 12, 12, 10, 12], lignes: [
+        [{ v: "Bilan du cours de bureautique", s: "titre" }],
+        [],
+        [{ v: "Code stagiaire", s: "gras" }, b.code],
+        [{ v: "Date du bilan", s: "gras" }, new Date(b.date).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" })],
+        [],
+        tete(["Indicateur", "Valeur"]),
+        ["Activités ouvertes", g.ouvertes],
+        ["Activités au total", g.activites],
+        ["Modules terminés", g.terminees],
+        ["Quiz finals validés (80 %)", g.valides || 0],
+        ["Étoiles", g.etoiles],
+        ["Réussite moyenne", pctMoyen(g.reussite)],
+        ["Essais", g.essais],
+        ["Temps de travail (min)", minutes(g.temps)],
+        [],
+        tete(["Rubrique", "Ouvertes", "Sur", "Terminées", "Réussite", "Essais", "Temps (min)"]),
+        ...b.rubriques.map(r => [r.titre, r.ouvertes, r.activites, r.terminees, pctMoyen(r.reussite), r.essais, minutes(r.temps)])
+      ] },
+      { nom: "Résultats", entete: true, largeurs: [16, 30, 34, 18, 8, 6, 10, 14, 8, 11, 11], lignes: [TETE_RESULTATS, ...lignesResultats(b)] },
+      { nom: "Réponses", entete: true, largeurs: [26, 28, 5, 50, 30, 30, 11, 40], lignes: [TETE_REPONSES, ...lignesReponses(b)] },
+      { nom: "Activités", entete: true, largeurs: [16, 34, 9, 13, 8, 8, 12, 11], lignes: [
+        ["Rubrique", "Activité", "Visites", "Étapes faites", "Étapes", "Étoiles", "Étoiles max", "Temps (min)"],
+        ...b.activites.map(l => [titreRubrique(l.rubrique), l.titre, l.visites, l.etapesFaites, l.etapes, l.etoiles, l.etoilesMax, minutes(l.temps)])
+      ] },
+      feuilleDonnees(b)
+    ];
+  }
+
+  // Le classeur du formateur : tous les stagiaires réunis.
+  function feuillesFormateur(bilans) {
+    const rub = bilans.length ? bilans[0].rubriques.map(r => r.titre) : [];
+    return [
+      { nom: "Stagiaires", entete: true, largeurs: [14, 12, 10, 6, 10, 12, 8, 10, 8, 11, ...rub.map(() => 14)], lignes: [
+        ["Code", "Mis à jour", "Ouvertes", "Sur", "Terminés", "Quiz finals validés", "Étoiles", "Réussite", "Essais", "Temps (min)", ...rub.map(r => r + " (ouvertes)")],
+        ...bilans.map(b => { const g = b.global; return [b.code, dateFr(b.date), g.ouvertes, g.activites, g.terminees, g.valides || 0, g.etoiles, pctMoyen(g.reussite), g.essais, minutes(g.temps), ...b.rubriques.map(r => `${r.ouvertes} / ${r.activites}`)]; })
+      ] },
+      { nom: "Résultats", entete: true, largeurs: [14, 16, 30, 34, 18, 8, 6, 10, 14, 8, 11, 11], lignes: [["Code", ...TETE_RESULTATS], ...bilans.flatMap(b => lignesResultats(b, true))] },
+      { nom: "Réponses", entete: true, largeurs: [14, 26, 28, 5, 50, 30, 30, 11, 40], lignes: [["Code", ...TETE_REPONSES], ...bilans.flatMap(b => lignesReponses(b, true))] }
+    ];
+  }
+
+  // Un fichier de bilan déposé par un stagiaire : Excel (.xlsx) ou ancien format (.json).
+  async function lireFichier(f) {
+    const nom = f.name.toLowerCase();
+    if (nom.endsWith(".json")) return JSON.parse(await f.text());
+    if (!nom.endsWith(".xlsx") || nom.startsWith("~$")) return null;
+    const feuilles = await Xlsx.lire(await f.arrayBuffer());
+    const d = feuilles[FEUILLE_DONNEES];
+    return d ? JSON.parse(d.map(l => (l && l[0]) || "").join("")) : null;
+  }
+
+  return { lignesActivites, cumul, duree, exporter, PREFIXE, lireJson, toutEffacer, verifierConservation, feuillesExcel, feuillesFormateur, lireFichier,
     codeActif, verifierCode, entrer, quitter, stagiairesDuPoste, effacerLePoste };
 })();

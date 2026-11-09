@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mon bilan</title>
-<link rel="stylesheet" href="bilan.css?v=202611091530">
+<link rel="stylesheet" href="bilan.css?v=202611091537">
 </head>
 <body>
 <header class="tete">
@@ -23,15 +23,16 @@
     <div class="ligne">
       <label for="code">Mon code stagiaire</label>
       <input id="code" type="text" autocomplete="off" maxlength="30" >
-      <button id="exporter" class="btn fort" type="button">Enregistrer mon bilan</button>
+      <button id="exporter" class="btn fort" type="button">📊 Enregistrer mon bilan (Excel)</button>
       <button id="imprimer" class="btn" type="button">Imprimer</button>
     </div>
     <p id="message" class="message" role="status"></p>
   </section>
 </main>
-<script src="catalogue.js?v=202611091530"></script>
-<script src="bilan-commun.js?v=202611091530"></script>
-<script src="bilan-vue.js?v=202611091530"></script>
+<script src="catalogue.js?v=202611091537"></script>
+<script src="xlsx.js?v=202611091537"></script>
+<script src="bilan-commun.js?v=202611091537"></script>
+<script src="bilan-vue.js?v=202611091537"></script>
 <script>
   const lignes = Bilan.lignesActivites();
   const $ = id => document.getElementById(id);
@@ -48,14 +49,9 @@
       $("code").focus();
       return;
     }
-    const data = new Blob([JSON.stringify(Bilan.exporter(code), null, 1)], { type: "application/json" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(data);
-    a.download = `bilan_${code}_${new Date().toISOString().slice(0, 10)}.json`;
-    document.body.append(a);
-    a.click();
-    a.remove();
-    $("message").textContent = `Fichier créé : ${a.download}. Rangez-le dans le dossier indiqué par votre formateur.`;
+    const nom = `bilan_${code}_${new Date().toISOString().slice(0, 10)}.xlsx`;
+    Xlsx.telecharger(Bilan.feuillesExcel(Bilan.exporter(code)), nom);
+    $("message").textContent = `Fichier Excel créé dans Téléchargements : ${nom}. Rangez-le dans votre dossier sur le réseau.`;
   });
   $("imprimer").addEventListener("click", () => {
     document.querySelectorAll("details").forEach(d => d.open = true);
