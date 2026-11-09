@@ -56,7 +56,7 @@ const ACTIVITES = [
   },
   {
     titre: "Le clavier AZERTY",
-    description: "Guide interactif pour se repérer sur le clavier.",
+    description: "Guide interactif pour se repérer sur le clavier et bien placer ses doigts, avec l'exercice « Quel doigt ? ».",
     icone: "⌨️",
     rubrique: "cours",
     groupe: "L'ordinateur et Windows",

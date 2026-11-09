@@ -62,14 +62,76 @@ h1 { font-size: 16px; font-weight: 700; color: #1a1a1a; margin-bottom: 3px; text
 .tt-name { font-size: 13px; font-weight: 700; color: #111; margin-bottom: 4px; }
 .tt-desc { font-size: 11px; color: #555; line-height: 1.6; }
 .tt-badge { display: inline-block; font-size: 10px; border-radius: 4px; padding: 2px 8px; margin-top: 6px; font-weight: 700; }
+/* ---------- Le placement des doigts ---------- */
+.modes { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 12px; }
+.modes button { padding: 8px 16px; border: 2px solid #17324d; border-radius: 12px; background: #fff; color: #17324d; font: 700 14px 'Segoe UI', sans-serif; cursor: pointer; }
+.modes button[aria-pressed="true"] { background: #17324d; color: #fff; }
+.panneau-doigts { max-width: 1000px; width: 100%; margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; justify-content: center; }
+.mains { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px 34px; align-items: flex-end; }
+.main { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.main-doigts { display: flex; gap: 5px; align-items: flex-end; }
+.main-nom { margin-top: 14px; font-size: 12px; font-weight: 700; color: #444; }
+.doigt { width: 46px; border-radius: 22px 22px 8px 8px; border: 2px solid rgba(0,0,0,.25); cursor: pointer; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 5px; font: 700 10px 'Segoe UI', sans-serif; color: #1a1a1a; }
+.doigt:hover { filter: brightness(.92); }
+.doigt[aria-pressed="true"] { outline: 3px solid #17324d; outline-offset: 2px; }
+.doigt.pouce { margin-bottom: -14px; }
+.conseils { max-width: 430px; font-size: 13px; color: #333; line-height: 1.5; background: #fff; border-radius: 12px; padding: 10px 14px; border: 1px solid #ddd; }
+.conseils b { color: #17324d; }
+.conseils ul { margin: 4px 0 0 18px; }
+.f-aur { background: #f8c9c9; } .f-ann { background: #fbdcae; } .f-maj { background: #fff0a0; }
+.f-ind { background: #c9ecbb; } .f-pou { background: #cfe0fb; }
+.doigts .key { background: #f1f1ed; color: #9a9a95; }
+.doigts .key.f-aur { background: #f8c9c9; color: #1a1a1a; } .doigts .key.f-ann { background: #fbdcae; color: #1a1a1a; }
+.doigts .key.f-maj { background: #fff0a0; color: #1a1a1a; } .doigts .key.f-ind { background: #c9ecbb; color: #1a1a1a; }
+.doigts .key.f-pou { background: #cfe0fb; color: #1a1a1a; }
+.doigts .key.repos { outline: 2px solid #17324d; outline-offset: -2px; }
+.doigts .key.eteinte { opacity: .2; }
+/* Pendant une question, le clavier est gris : la couleur donnerait la réponse. */
+body.doigts.en-quiz .key { background: #f1f1ed; color: #1a1a1a; }
+.key.repere::after { content: ""; width: 12px; height: 2px; margin-top: 3px; border-radius: 2px; background: currentColor; }
+.key.montre { animation: montre .5s ease-in-out 3; }
+@keyframes montre { 50% { transform: translateY(-4px) scale(1.15); box-shadow: 0 0 0 4px #e8590c; } }
+.quel { max-width: 1000px; width: 100%; margin-top: 16px; background: #fff; border-radius: 14px; padding: 14px 16px; border: 1px solid #ddd; text-align: center; font-size: 14px; }
+.quel h2 { font-size: 17px; color: #17324d; margin-bottom: 4px; }
+.quel p { color: #444; margin-bottom: 8px; }
+.quel .touche { display: inline-flex; align-items: center; justify-content: center; min-width: 70px; height: 70px; padding: 0 16px; margin: 6px 0 10px; border-radius: 12px; background: #ddeeff; border: 1px solid rgba(0,0,0,.2); box-shadow: 0 3px 0 rgba(0,0,0,.25); font: 700 30px 'Segoe UI', sans-serif; color: #0C447C; }
+.choix { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.choix button, .quel .action { padding: 8px 12px; border-radius: 10px; border: 2px solid rgba(0,0,0,.25); font: 700 13px 'Segoe UI', sans-serif; cursor: pointer; color: #1a1a1a; }
+.choix button:disabled { cursor: default; opacity: .55; }
+.choix button.bon { opacity: 1; outline: 3px solid #1a7f4b; }
+.choix button.faux { opacity: 1; outline: 3px solid #b42318; }
+.quel .action { background: #ffc83d; border-color: #c98a00; margin-top: 10px; }
+.retour-q { min-height: 1.5em; margin-top: 8px; font-weight: 700; }
+.retour-q.ok { color: #1a7f4b; } .retour-q.ko { color: #b42318; }
+[hidden] { display: none !important; }
 </style>
 </head>
 <body>
 
 <h1>Clavier AZERTY — guide interactif</h1>
-<p class="subtitle">Passez la souris sur une touche pour voir son nom et son rôle.</p>
+<p class="subtitle" id="sous-titre">Passez la souris sur une touche pour voir son nom et son rôle.</p>
 
-<div class="legend">
+<div class="modes" role="group" aria-label="Ce que montre le clavier">
+  <button type="button" id="mode-role" aria-pressed="true">⌨️ Le rôle des touches</button>
+  <button type="button" id="mode-doigts" aria-pressed="false">🖐️ Le placement des doigts</button>
+</div>
+
+<div class="panneau-doigts" id="panneau-doigts" hidden>
+  <div class="mains" id="mains" aria-label="Les doigts : cliquez sur un doigt pour voir ses touches"></div>
+  <div class="conseils">
+    <b>La position de repos</b>
+    <ul>
+      <li>Les <b>index</b> sur <b>F</b> et <b>J</b> : ces deux touches ont un petit relief, on les trouve sans regarder.</li>
+      <li>Les autres doigts sur <b>Q S D</b> et <b>K L M</b> (touches encadrées).</li>
+      <li>Les <b>pouces</b> sur la barre d'espace.</li>
+      <li>Après chaque touche, le doigt revient à sa place de repos.</li>
+      <li>Pour une majuscule, tenez la touche <b>Maj</b> de l'autre main.</li>
+      <li>Regardez l'écran plutôt que le clavier, poignets légèrement relevés.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="legend" id="legende">
   <div class="leg"><div class="leg-dot" style="background:#e8e6f8"></div>Touches de fonction</div>
   <div class="leg"><div class="leg-dot" style="background:#e6f4d8"></div>Chiffres / symboles</div>
   <div class="leg"><div class="leg-dot" style="background:#ddeeff"></div>Lettres</div>
@@ -82,12 +144,21 @@ h1 { font-size: 16px; font-weight: 700; color: #1a1a1a; margin-bottom: 3px; text
 
 <div class="kboard" id="kb"></div>
 
+<section class="quel" id="quel" hidden>
+  <h2>🎯 Quel doigt ?</h2>
+  <div id="quel-zone">
+    <p>Une touche s'affiche : choisissez le doigt qui doit la frapper. 10 questions.</p>
+    <button type="button" class="action" id="quel-go">Commencer</button>
+  </div>
+</section>
+
 <div class="tooltip" id="tt">
   <div class="tt-name" id="tt-n"></div>
   <div class="tt-desc" id="tt-d"></div>
   <div id="tt-b"></div>
 </div>
 
+<script src="livret/resultat-activite.js?v=202611091432"></script>
 <script>
 var D = {
   "Echap":  {n:"Echap (Escape)",            d:"Quitter une fenetre, fermer un menu, annuler une action en cours.",    z:"z-mod"},
@@ -214,6 +285,7 @@ var zbg = {
 function k(id, html, cls) {
   var el = document.createElement('div');
   el.className = 'key ' + (cls || '');
+  el.dataset.k = id;
   var info = D[id];
   if (info) el.classList.add(info.z);
   el.innerHTML = html;
@@ -335,6 +407,152 @@ var pad = document.createElement('div'); pad.className = 'section';
 kb.appendChild(main);
 kb.appendChild(nav);
 kb.appendChild(pad);
+
+/* ---------- Le placement des doigts ---------- */
+var DOIGTS = [
+  { id: 'g5', nom: 'Auriculaire gauche', court: 'Auric.', f: 'f-aur', h: 62, touches: ['c2','c1','A','Q','W','Tab','VMAj','MajG','CtrlG'] },
+  { id: 'g4', nom: 'Annulaire gauche', court: 'Annul.', f: 'f-ann', h: 84, touches: ['c2b','Z','S','X'] },
+  { id: 'g3', nom: 'Majeur gauche', court: 'Majeur', f: 'f-maj', h: 94, touches: ['c3','E','D','C'] },
+  { id: 'g2', nom: 'Index gauche', court: 'Index', f: 'f-ind', h: 84, touches: ['c4','c5','R','T','F','G','V','B'] },
+  { id: 'pg', nom: 'Pouce gauche', court: 'Pouce', f: 'f-pou', h: 50, touches: ['Espace','AltG'] },
+  { id: 'pd', nom: 'Pouce droit', court: 'Pouce', f: 'f-pou', h: 50, touches: ['Espace','AltGr','P0'] },
+  { id: 'd2', nom: 'Index droit', court: 'Index', f: 'f-ind', h: 84, touches: ['c6','c7','Y','U','H','J','N','cvir','VNum','P7','P4','P1'] },
+  { id: 'd3', nom: 'Majeur droit', court: 'Majeur', f: 'f-maj', h: 94, touches: ['c8','I','K','cpt','Pdiv','P8','P5','P2'] },
+  { id: 'd4', nom: 'Annulaire droit', court: 'Annul.', f: 'f-ann', h: 84, touches: ['c9','O','L','cdp','Pmul','P9','P6','P3','Pvir'] },
+  { id: 'd5', nom: 'Auriculaire droit', court: 'Auric.', f: 'f-aur', h: 62, touches: ['c0','cpar','cegal','Retarr','P','ccirc','cdol','Entree','M','cuu','cast','cex','MajD','CtrlD','Pmoins','Pplus','PEntr'] }
+];
+var REPOS = ['Q','S','D','F','J','K','L','M'];
+// Le doigt (ou les pouces) qui frappe une touche
+function doigtsDe(id) { return DOIGTS.filter(function (d) { return d.touches.indexOf(id) >= 0; }); }
+function nomDoigt(id) {
+  var l = doigtsDe(id);
+  if (!l.length) return '';
+  return l.length > 1 ? 'Les pouces' : l[0].nom;
+}
+
+document.querySelectorAll('.key').forEach(function (el) {
+  var l = doigtsDe(el.dataset.k);
+  if (l.length) el.classList.add(l[0].f);
+  if (REPOS.indexOf(el.dataset.k) >= 0) el.classList.add('repos');
+  if (el.dataset.k === 'F' || el.dataset.k === 'J') el.classList.add('repere');
+  // En mode doigts, le doigt s'ajoute à la bulle d'aide
+  el.addEventListener('mouseenter', function () {
+    if (!document.body.classList.contains('doigts')) return;
+    var n = nomDoigt(el.dataset.k);
+    document.getElementById('tt-b').innerHTML = '<span class="tt-badge ' + (l[0] ? l[0].f : '') + '">👉 ' + (n || "Pas d'un doigt précis") + '</span>';
+  });
+});
+
+// Les deux mains : un clic sur un doigt montre seulement ses touches
+var choisi = null;
+function montrerDoigt(d, bouton) {
+  choisi = choisi === d ? null : d;
+  document.querySelectorAll('.doigt').forEach(function (b) { b.setAttribute('aria-pressed', String(b === bouton && !!choisi)); });
+  document.querySelectorAll('.key').forEach(function (el) {
+    el.classList.toggle('eteinte', !!choisi && choisi.touches.indexOf(el.dataset.k) < 0);
+  });
+}
+[['Main gauche', DOIGTS.slice(0, 5)], ['Main droite', DOIGTS.slice(5)]].forEach(function (m) {
+  var main = document.createElement('div'); main.className = 'main';
+  var ligne = document.createElement('div'); ligne.className = 'main-doigts';
+  m[1].forEach(function (d) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'doigt ' + d.f + (d.f === 'f-pou' ? ' pouce' : '');
+    b.style.height = d.h + 'px';
+    b.textContent = d.court;
+    b.title = d.nom;
+    b.setAttribute('aria-label', d.nom + ' : voir ses touches');
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', function () { montrerDoigt(d, b); });
+    ligne.appendChild(b);
+  });
+  var nom = document.createElement('div'); nom.className = 'main-nom'; nom.textContent = m[0];
+  main.appendChild(ligne); main.appendChild(nom);
+  document.getElementById('mains').appendChild(main);
+});
+
+function choisirMode(doigts) {
+  document.body.classList.toggle('doigts', doigts);
+  document.getElementById('mode-role').setAttribute('aria-pressed', String(!doigts));
+  document.getElementById('mode-doigts').setAttribute('aria-pressed', String(doigts));
+  document.getElementById('panneau-doigts').hidden = !doigts;
+  document.getElementById('quel').hidden = !doigts;
+  document.getElementById('legende').hidden = doigts;
+  document.getElementById('sous-titre').textContent = doigts
+    ? 'Chaque couleur est un doigt. Cliquez sur un doigt pour voir ses touches, ou passez la souris sur une touche.'
+    : 'Passez la souris sur une touche pour voir son nom et son rôle.';
+  if (!doigts && choisi) montrerDoigt(choisi, null);
+  document.body.classList.remove('en-quiz');
+}
+document.getElementById('mode-role').addEventListener('click', function () { choisirMode(false); });
+document.getElementById('mode-doigts').addEventListener('click', function () { choisirMode(true); });
+if (location.hash === '#doigts') choisirMode(true);
+
+/* ---------- Exercice « Quel doigt ? » ---------- */
+var AFFICHE = { cvir: ', ?', cpt: '; .', cdp: ': /', cex: '! §', Espace: 'Espace', c2b: 'é 2', c7: 'è 7', c9: 'ç 9', c0: 'à 0', cuu: 'ù %' };
+var POOL = 'AZERTYUIOPQSDFGHJKLMWXCVBN'.split('').concat(['cvir','cpt','cdp','cex','Espace','c2b','c7','c9','c0','cuu']);
+var CHOIX = [
+  { nom: 'Auriculaire gauche', f: 'f-aur' }, { nom: 'Annulaire gauche', f: 'f-ann' }, { nom: 'Majeur gauche', f: 'f-maj' }, { nom: 'Index gauche', f: 'f-ind' },
+  { nom: 'Les pouces', f: 'f-pou' },
+  { nom: 'Index droit', f: 'f-ind' }, { nom: 'Majeur droit', f: 'f-maj' }, { nom: 'Annulaire droit', f: 'f-ann' }, { nom: 'Auriculaire droit', f: 'f-aur' }
+];
+var serie = [], num = 0, bonnes = 0, detail = [];
+function melange(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var x = a[i]; a[i] = a[j]; a[j] = x; } return a; }
+function commencer() {
+  serie = melange(POOL).slice(0, 10); num = 0; bonnes = 0; detail = [];
+  if (choisi) montrerDoigt(choisi, null);
+  question();
+}
+function question() {
+  var zone = document.getElementById('quel-zone');
+  var id = serie[num];
+  var bonne = nomDoigt(id);
+  document.body.classList.add('en-quiz');
+  zone.innerHTML = '';
+  var p = document.createElement('p'); p.textContent = 'Question ' + (num + 1) + ' / 10 : quel doigt frappe cette touche ?';
+  var touche = document.createElement('div'); touche.className = 'touche'; touche.textContent = AFFICHE[id] || id;
+  var choix = document.createElement('div'); choix.className = 'choix';
+  var retour = document.createElement('div'); retour.className = 'retour-q'; retour.setAttribute('role', 'status');
+  CHOIX.forEach(function (c) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = c.f; b.textContent = c.nom;
+    b.addEventListener('click', function () {
+      var ok = c.nom === bonne;
+      document.body.classList.remove('en-quiz');
+      if (ok) bonnes++;
+      detail.push({ q: 'Touche ' + (AFFICHE[id] || id), ok: ok, donne: c.nom, bonne: bonne });
+      choix.querySelectorAll('button').forEach(function (x) {
+        x.disabled = true;
+        if (x.textContent === bonne) x.classList.add('bon');
+        else if (x === b) x.classList.add('faux');
+      });
+      retour.className = 'retour-q ' + (ok ? 'ok' : 'ko');
+      retour.textContent = ok ? '✓ Bravo !' : '✗ Non : la bonne réponse est « ' + bonne + ' ». Regardez la touche sur le clavier.';
+      var cible = document.querySelector('.key[data-k="' + id + '"]');
+      if (cible) { cible.classList.remove('montre'); void cible.offsetWidth; cible.classList.add('montre'); }
+      var suite = document.createElement('button');
+      suite.type = 'button'; suite.className = 'action';
+      suite.textContent = num < 9 ? 'Question suivante →' : 'Voir mon score';
+      suite.addEventListener('click', function () { num++; if (num < 10) question(); else fin(); });
+      zone.appendChild(suite);
+      suite.focus();
+    });
+    choix.appendChild(b);
+  });
+  zone.appendChild(p); zone.appendChild(touche); zone.appendChild(choix); zone.appendChild(retour);
+}
+function fin() {
+  var zone = document.getElementById('quel-zone');
+  zone.innerHTML = '';
+  var res = document.createElement('div');
+  var encore = document.createElement('button');
+  encore.type = 'button'; encore.className = 'action'; encore.textContent = 'Recommencer';
+  encore.addEventListener('click', commencer);
+  zone.appendChild(res); zone.appendChild(encore);
+  ResultatActivite.terminer({ zone: res, titre: 'Quel doigt ?', type: 'Exercice', score: bonnes, total: 10, detail: detail });
+}
+document.getElementById('quel-go').addEventListener('click', commencer);
 </script>
 </body>
 </html>
