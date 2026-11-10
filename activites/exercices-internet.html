@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Internet et mails</title>
+<link rel="stylesheet" href="livret/livret.css?v=202611101556">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js?v=202611101556"></script>
+<script src="livret/exercices.js?v=202611101556"></script>
+<script src="livret/export-resultat.js?v=202611101556"></script>
+<script src="livret/livret.js?v=202611101556"></script>
+<script>
+Livret.demarrer({
+  id: "exercices-internet",
+  etiquette: "EXERCICES",
+  titre: "Internet et mails",
+  icone: "🌐",
+  couleur: "#b45309",
+  pale: "#fdf1e0",
+  accroche: "Chercher sur Internet, corriger et rédiger des mails.",
+  etapes: [
+    {
+      titre: "Internet et mails",
+      icone: "🌐",
+      resume: "5 exercices",
+      ecrans: [
+        { t: "Internet et mails", b: [
+          { exo: "net-recherches" },
+          { exo: "net-corriger-mail" },
+          { exo: "net-repondre-mail" },
+          { exo: "defi-internet-1" },
+          { exo: "defi-internet-2" }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

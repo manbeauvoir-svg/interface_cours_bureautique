@@ -1,0 +1,57 @@
+/* Les jeux et évaluations par thème */
+:root { --encre: #1b2a33; --doux: #4b5c66; --fond: #fff8ec; --nuit: #17324d; --teinte: #a21caf; --pale: #f8e8fb; --vert: #1a7f4b; --vert-pale: #e2f6ea; --rouge: #b42318; --rouge-pale: #fdeceb; --soleil: #ffc83d; --soleil-bord: #c98a00; --trait: #e6dcc8; }
+.evaluation { --teinte: #4338ca; --pale: #ecebfd; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fond); color: var(--encre); font: 500 1.0625rem/1.5 "Nunito", "Segoe UI", system-ui, sans-serif; }
+.jx { max-width: 820px; margin: 0 auto; padding: 18px 16px 48px; }
+.jx-tete { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.jx-titre { display: flex; align-items: center; gap: 12px; }
+.jx-ico { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 14px; background: var(--teinte); font-size: 1.8rem; }
+.jx-titre small { display: block; font-weight: 800; color: var(--teinte); }
+.jx-titre h1 { margin: 0; font: 600 1.7rem/1.15 "Fredoka", "Segoe UI", sans-serif; color: var(--nuit); }
+.jx-compte { font-weight: 800; color: var(--doux); }
+.jx-intro { margin: 0 0 10px; }
+.jx-barre { height: 10px; border-radius: 99px; background: #eadfca; overflow: hidden; margin-bottom: 14px; }
+.jx-barre i { display: block; height: 100%; background: var(--teinte); border-radius: inherit; transition: width .3s; }
+.jx-theme { margin: 0 0 4px; font-weight: 800; color: var(--teinte); font-size: .95rem; }
+.jx-question { font-size: 1.2rem; font-weight: 800; margin: 0 0 12px; }
+.jx-question.grand { font-size: 1.4rem; padding: 18px; background: #fff; border: 2px solid var(--trait); border-radius: 16px; }
+.jx-choix { display: grid; gap: 8px; }
+.jx-rep, .jx-carte { text-align: left; width: 100%; min-height: 52px; padding: 10px 14px; border: 2px solid var(--trait); border-radius: 12px; background: #fff; font: 700 1.05rem "Nunito", sans-serif; color: var(--encre); cursor: pointer; }
+.jx-rep:hover:not(:disabled), .jx-carte:hover:not(:disabled) { border-color: var(--teinte); }
+.jx-cartes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.jx-carte { text-align: center; min-height: 80px; font-size: 1.15rem; }
+.jx-vfs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.jx-vf { min-height: 70px; border-radius: 16px; border: 3px solid; font: 800 1.3rem "Nunito", sans-serif; cursor: pointer; background: #fff; }
+.jx-vf.vrai { border-color: var(--vert); color: var(--vert); }
+.jx-vf.faux { border-color: var(--rouge); color: var(--rouge); }
+.ok:is(.jx-rep, .jx-carte, .jx-vf) { background: var(--vert-pale); border-color: var(--vert); }
+.ko:is(.jx-rep, .jx-carte, .jx-vf) { background: var(--rouge-pale); border-color: var(--rouge); }
+button:disabled { cursor: default; }
+.jx-retour { min-height: 1.4em; margin: 12px 0 0; padding: 0; font-weight: 700; }
+.jx-retour.ok, .jx-retour.ko { padding: 10px 14px; border-radius: 12px; }
+.jx-retour.ok { background: var(--vert-pale); color: #0f5132; }
+.jx-retour.ko { background: var(--rouge-pale); color: #8a1c12; }
+.jx-revoir { display: inline-block; margin: 4px 6px 0 0; padding: 5px 10px; border: 2px solid var(--nuit); border-radius: 10px; background: #fff; color: var(--nuit); font-weight: 800; text-decoration: none; font-size: .95rem; }
+.jx-liens { display: flex; flex-wrap: wrap; gap: 6px; }
+.jx-bilan h2 { font: 600 1.2rem "Fredoka", sans-serif; color: var(--nuit); margin: 14px 0 6px; }
+.jx-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.jx-btn { min-height: 46px; padding: 8px 18px; border-radius: 12px; border: 2px solid var(--nuit); background: #fff; color: var(--nuit); font: 800 1rem "Nunito", sans-serif; cursor: pointer; }
+.jx-btn.fort { background: var(--soleil); border-color: var(--soleil-bord); color: #2f2300; box-shadow: 0 3px 0 var(--soleil-bord); }
+kbd { display: inline-block; padding: 0 .4em; border: 1px solid #b9c4cb; border-bottom-width: 3px; border-radius: 6px; background: #fff; font: 700 .9em "Segoe UI", sans-serif; }
+code { background: #eef2f5; border-radius: 5px; padding: .05em .35em; font: 700 .95em Consolas, "Courier New", monospace; }
+.jx-mm { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 18px; align-items: start; }
+.jx-grille { display: grid; gap: 3px; max-width: 520px; }
+.jx-l { aspect-ratio: 1 / 1; padding: 0; border: 1px solid var(--trait); border-radius: 6px; background: #fff; font: 800 clamp(.8rem, 2.6vw, 1.15rem) Consolas, monospace; color: var(--nuit); cursor: pointer; }
+.jx-l.choisi { background: var(--soleil); border-color: var(--soleil-bord); }
+.jx-l.trouve { background: var(--vert-pale); border-color: var(--vert); color: #0f5132; }
+.jx-l.montre { background: #ffe1c2; border-color: #d9822b; }
+.jx-mm h2 { margin: 0 0 6px; font: 600 1.1rem "Fredoka", sans-serif; color: var(--nuit); }
+.jx-mots { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font: 700 .95rem Consolas, monospace; }
+.jx-mots li.ok { color: var(--vert); text-decoration: line-through; }
+:focus-visible { outline: 4px solid #e8590c; outline-offset: 2px; }
+@media (max-width: 640px) {
+  .jx-mm { grid-template-columns: 1fr; }
+  .jx-mots { grid-template-columns: repeat(2, 1fr); }
+  .jx-cartes { grid-template-columns: 1fr; }
+}

@@ -4,14 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Microsoft PowerPoint</title>
-<link rel="stylesheet" href="livret/livret.css?v=202611091537">
+<link rel="stylesheet" href="livret/livret.css?v=202611101556">
 </head>
 <body>
 <div id="livret"></div>
-<script src="livret/simulations.js?v=202611091537"></script>
-<script src="livret/exercices.js?v=202611091537"></script>
-<script src="livret/export-resultat.js?v=202611091537"></script>
-<script src="livret/livret.js?v=202611091537"></script>
+<script src="livret/simulations.js?v=202611101556"></script>
+<script src="livret/exercices.js?v=202611101556"></script>
+<script src="livret/export-resultat.js?v=202611101556"></script>
+<script src="livret/icones-ruban.js?v=202611101556"></script>
+<script src="livret/livret.js?v=202611101556"></script>
 <script>
 Livret.demarrer({
   id: "powerpoint",
@@ -60,7 +61,7 @@ Livret.demarrer({
       "va": "L'exercice : une présentation complète"
     }
   },
-  plus: {"fichier": "exercices-fichiers-excel-powerpoint", "titre": "les exercices Fichiers, Excel et PowerPoint"},
+  plus: {"fichier": "exercices-powerpoint", "titre": "les exercices PowerPoint"},
   quizPage: "quiz-powerpoint",
   etapes: [
     {
@@ -104,7 +105,7 @@ Livret.demarrer({
           { astuce: "Moins c'est plus : une idée par diapositive, peu de texte et des visuels forts pour capter l'attention." }
         ] },
         { t: "À vous : Bienvenue chez Formatech", b: [
-          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "PowerPoint", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Bienvenue chez Formatech", icone: "📝" } }
+          { activite: { fichier: "exercices-powerpoint", etape: "PowerPoint", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Bienvenue chez Formatech", icone: "📝" } }
         ] },
         { t: "Quiz : les bases", b: [
           { activite: { fichier: "quiz-powerpoint", etape: "Les bases", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
@@ -118,10 +119,10 @@ Livret.demarrer({
       ecrans: [
         { t: "Quatre façons d'enrichir une présentation", b: [
           { cartes: [
-            ["🎬 Vidéos", "Démonstrations, témoignages. Insertion > Vidéo > Cet appareil (locale) ou Vidéos en ligne (YouTube)."],
-            ["🎵 Audio", "Narration, musique d'ambiance, extraits. Insertion > Audio > Audio sur mon PC ou Enregistrer l'audio."],
-            ["📊 Graphiques", "Visualiser des données ou des relations d'idées. Outils SmartArt pour les schémas, graphiques Excel pour les chiffres."],
-            ["🗂️ Tableaux", "Organiser des données clairement. Insertion > Tableau, ou Objet pour un tableau Excel."]
+            ["Vidéos", "Démonstrations, témoignages. Insertion > Vidéo > Cet appareil (locale) ou Vidéos en ligne (YouTube).", { i: "video", ou: ["Insertion", "Média", "Vidéo"] }],
+            ["Audio", "Narration, musique d'ambiance, extraits. Insertion > Audio > Audio sur mon PC ou Enregistrer l'audio.", { i: "audio", ou: ["Insertion", "Média", "Audio"] }],
+            ["Graphiques", "Visualiser des données ou des relations d'idées. Outils SmartArt pour les schémas, graphiques Excel pour les chiffres.", { i: "graphique", ou: ["Insertion", "Illustrations", "Graphique ou SmartArt"] }],
+            ["Tableaux", "Organiser des données clairement. Insertion > Tableau, ou Objet pour un tableau Excel.", { i: "tableau", ou: ["Insertion", "Tableaux"] }]
           ] },
           { attention: "Les médias doivent compléter votre message, pas le remplacer ni le distraire. Testez-les toujours avant la présentation !" }
         ] },
@@ -159,6 +160,84 @@ Livret.demarrer({
       ]
     },
     {
+      titre: "Transitions et animations",
+      icone: "✨",
+      resume: "Donner du mouvement, sans en faire trop.",
+      ecrans: [
+        { t: "Transition ou animation ?", b: [
+          { p: "Les deux mettent du mouvement dans une présentation, mais pas au même endroit." },
+          { cartes: [
+            ["🔀 La transition", "Elle se joue <strong>entre deux diapositives</strong>, quand on passe à la suivante : fondu, poussée, rideaux…", { ou: ["Transitions", "Transition vers cette diapositive"] }],
+            ["🎬 L'animation", "Elle se joue <strong>sur un élément</strong> de la diapositive : un titre, une image, une liste à puces…", { ou: ["Animations", "Animation"] }]
+          ] },
+          { retenir: "Peu d'effets, toujours les mêmes : le public doit écouter votre message, pas regarder les effets." }
+        ] },
+        { t: "Appliquer une transition", b: [
+          { pas: [
+            "Dans le volet des miniatures, à gauche, cliquez sur la diapositive.",
+            "Onglet <strong>Transitions</strong> : choisissez un effet, par exemple <strong>Fondu</strong>. PowerPoint montre un aperçu.",
+            "<strong>Options d'effet</strong> : choisissez le sens ou la variante de l'effet.",
+            "<strong>Durée</strong> : réglez la vitesse de l'effet.",
+            "Pour mettre le même effet sur toutes les diapositives, cliquez sur <strong>Appliquer partout</strong>."
+          ] },
+          { astuce: "Dans le groupe Minutage, « Après » fait passer la diapositive toute seule au bout de quelques secondes : pratique pour un diaporama qui tourne en boucle sur un écran d'accueil." }
+        ] },
+        { t: "Animer un élément", b: [
+          { pas: [
+            "Cliquez sur l'élément à animer : un titre, une image, une zone de puces.",
+            "Onglet <strong>Animations</strong> : choisissez un effet dans la galerie.",
+            "<strong>Options d'effet</strong> : le sens de l'effet ; pour une liste, « Par paragraphe » fait arriver les puces une par une.",
+            "<strong>Démarrer</strong> : « Au clic », « Avec la précédente » ou « Après la précédente ».",
+            "Réglez la <strong>Durée</strong> et, si besoin, le <strong>Délai</strong>.",
+            "<strong>Volet Animation</strong> : il montre toutes les animations de la diapositive, dans l'ordre ; faites-les glisser pour changer cet ordre."
+          ] },
+          { cartes: [
+            ["🟢 Ouverture", "L'élément apparaît : Apparaître, Fondu, Entrée brusque…"],
+            ["🟡 Emphase", "L'élément attire l'attention : Impulsion, Rotation, Agrandir/Réduire…"],
+            ["🔴 Fermeture", "L'élément disparaît : Disparaître, Fondu, Sortie brusque…"],
+            ["〰️ Trajectoire", "L'élément se déplace sur la diapositive en suivant un chemin."]
+          ] }
+        ] },
+        { t: "Vérifier : transition ou animation ?", b: [
+          { trier: {
+            titre: "Transition ou animation ?",
+            bacs: ["🔀 Transition", "🎬 Animation"],
+            items: [
+              ["Un fondu entre la diapositive 2 et la diapositive 3", 0], ["Les puces qui arrivent une par une", 1],
+              ["Le même effet sur toutes les diapositives avec « Appliquer partout »", 0], ["Une image qui clignote pour attirer l'attention", 1],
+              ["Le passage automatique à la diapositive suivante après 10 secondes", 0], ["Un titre qui s'envole à la fin", 1]
+            ]
+          } },
+          { activite: { fichier: "jeu-powerpoint", titre: "S'entraîner : le jeu de PowerPoint", texte: "Dans la rubrique Jeux et quiz.", icone: "🎮" } }
+        ] }
+      ]
+    },
+    {
+      titre: "Les commentaires",
+      icone: "💬",
+      resume: "Annoter et travailler à plusieurs.",
+      ecrans: [
+        { t: "À quoi servent les commentaires ?", b: [
+          { p: "Un commentaire est une petite note posée sur une diapositive, sans modifier son contenu. Il sert à <strong>relire</strong> et à <strong>travailler à plusieurs</strong> : « Ajouter le logo », « Vérifier ce chiffre »…" },
+          { cartes: [
+            ["💬 Les commentaires", "Des échanges pendant la préparation. Ils n'apparaissent pas pendant le diaporama.", { ou: ["Révision", "Commentaires"] }],
+            ["📝 Les notes", "Ce que l'on veut dire à l'oral, sous chaque diapositive. Elles ne s'affichent que pour la personne qui présente."]
+          ] }
+        ] },
+        { t: "Ajouter, répondre, résoudre", b: [
+          { pas: [
+            "Cliquez sur la diapositive, ou sur l'élément concerné.",
+            "Onglet <strong>Révision</strong> > <strong>Nouveau commentaire</strong> (ou Insertion > Commentaire).",
+            "Tapez votre commentaire, puis publiez-le avec la flèche ou {Ctrl+Entrée}.",
+            "Pour répondre : cliquez dans la zone <strong>Répondre</strong> sous le commentaire.",
+            "Quand c'est réglé : les trois points <strong>…</strong> > <strong>Résoudre le fil</strong>. Pour l'effacer : <strong>Supprimer le fil</strong>.",
+            "<strong>Révision</strong> > <strong>Précédent</strong> / <strong>Suivant</strong> pour passer d'un commentaire à l'autre."
+          ] },
+          { astuce: "Le bouton Commentaires, en haut à droite de la fenêtre, ouvre le volet qui montre tous les commentaires de la présentation." }
+        ] }
+      ]
+    },
+    {
       titre: "Présenter comme un pro",
       icone: "🎤",
       resume: "Structurer, puis prendre la parole.",
@@ -170,6 +249,35 @@ Livret.demarrer({
             "<strong>Concevoir les diapositives :</strong> une idée, un titre clair, un visuel fort, peu de texte (règle des 6x6).",
             "<strong>Répéter :</strong> se chronométrer et s'entraîner avec le mode Présentateur."
           ], titre: "Les 4 étapes", consigne: "Remettez-les dans le bon ordre." }
+        ] },
+        { t: "Avant le jour J", b: [
+          { pas: [
+            "Écrivez vos <strong>notes</strong> sous chaque diapositive : quelques mots-clés, pas des phrases à lire.",
+            "Répétez à voix haute et chronométrez-vous : <strong>Diaporama</strong> > <strong>Vérification du minutage</strong>.",
+            "Vérifiez que les vidéos et le son fonctionnent sur l'ordinateur de la salle.",
+            "Faites une copie de secours : sur une clé USB, et en PDF (Fichier > Exporter).",
+            "Préparez une réponse aux questions que l'on risque de vous poser."
+          ] }
+        ] },
+        { t: "Le jour J : lancer le diaporama", b: [
+          { pas: [
+            "Branchez l'ordinateur au vidéoprojecteur, puis {Windows+P} > <strong>Étendre</strong> : le public voit la présentation, vous voyez vos notes.",
+            "Ouvrez la présentation.",
+            "<strong>Diaporama</strong> > <strong>À partir du début</strong> ({F5}), ou directement en mode Présentateur avec {Alt+F5}.",
+            "Sur votre écran : la diapositive en cours, la suivante, vos notes et le minuteur.",
+            "Avancez avec les flèches, la souris ou une télécommande. {B} met l'écran en noir pour une pause.",
+            "À la fin, {Échap} quitte le diaporama."
+          ] }
+        ] },
+        { t: "Bien parler devant un groupe", b: [
+          { liste: [
+            "Présentez-vous et annoncez le sujet en une phrase.",
+            "Regardez le public, pas l'écran.",
+            "Ne lisez pas vos diapositives : le public les lit déjà. Expliquez-les.",
+            "Parlez lentement et assez fort ; marquez des pauses.",
+            "Terminez par une conclusion claire, puis invitez aux questions."
+          ] },
+          { retenir: "Une diapositive dure en général une à deux minutes à l'oral." }
         ] },
         { t: "Prenez les commandes du diaporama", b: [
           { sim: "diaporama" },
@@ -193,8 +301,9 @@ Livret.demarrer({
           { retenir: "<strong>Le mode Présentateur :</strong> clic droit > « Afficher le mode Présentateur ». Vous voyez vos notes, la diapositive suivante et un minuteur. Votre audience ne voit que la présentation." }
         ] },
         { t: "L'exercice : une présentation complète", b: [
+          { activite: { fichier: "exercices-powerpoint", etape: "PowerPoint", titre: "Présenter à l'oral : l'exercice", texte: "Préparer ses notes, se chronométrer et présenter devant le groupe", icone: "🎤" } },
           { p: "Utilisez le fichier « Présentation Société – Exercice PowerPoint », dans votre dossier réseau P:." },
-          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "PowerPoint", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Une présentation professionnelle", icone: "📝" } }
+          { activite: { fichier: "exercices-powerpoint", etape: "PowerPoint", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Une présentation professionnelle", icone: "📝" } }
         ] },
         { t: "Quiz : présentation professionnelle", b: [
           { activite: { fichier: "quiz-powerpoint", etape: "Présenter comme un pro", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
@@ -224,10 +333,10 @@ Livret.demarrer({
           { activite: { fichier: "quiz-powerpoint", etape: "Quiz final", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
         ] },
         { t: "Défi 1 : Ma_Presentation", b: [
-          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "PowerPoint", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Une présentation de 5 diapositives", icone: "📝" } }
+          { activite: { fichier: "exercices-powerpoint", etape: "PowerPoint", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Une présentation de 5 diapositives", icone: "📝" } }
         ] },
         { t: "Défi 2 : passer au niveau pro", b: [
-          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "PowerPoint", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Masque, transitions et mode Présentateur", icone: "📝" } }
+          { activite: { fichier: "exercices-powerpoint", etape: "PowerPoint", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Masque, transitions et mode Présentateur", icone: "📝" } }
         ] }
       ]
     }

@@ -603,15 +603,22 @@ const Livret = (() => {
     z.addEventListener("keydown", e => { if (e.key === "Escape") z.click(); });
   }
 
+  // Une carte de fonction peut porter l'icône du ruban (au recto) et l'endroit où la trouver (au verso) :
+  // ["Barré", "Ce que ça fait", { i: "barre", ou: ["Accueil", "Police"] }]
   function cartes(t) {
     return el("div", {},
-      el("div", { class: "cartes" }, ...t.map(([recto, verso]) => {
-        const c = el("button", { class: "carte-r", type: "button", "aria-expanded": "false" },
-          el("strong", { html: recto }), el("small", {}, "Retourner la carte ↻"));
+      el("div", { class: "cartes" }, ...t.map(([recto, verso, info = {}]) => {
+        const icone = info.i && typeof ICONE_RUBAN !== "undefined" ? el("span", { class: "ico-tuile", html: ICONE_RUBAN(info.i) }) : null;
+        const lieu = !info.ou ? null : el("span", { class: "carte-lieu", html: Array.isArray(info.ou)
+          ? `📍 Onglet <b>${info.ou[0]}</b>, groupe <b>${info.ou[1]}</b>${info.ou[2] ? ` (${info.ou[2]})` : ""}`
+          : "📍 " + info.ou });
+        const titre = () => el("strong", { html: recto });
+        const c = el("button", { class: "carte-r" + (icone ? " avec-icone" : ""), type: "button", "aria-expanded": "false" },
+          icone, titre(), el("small", {}, "Retourner la carte ↻"));
         c.addEventListener("click", () => {
           const vue = c.classList.toggle("vue");
           c.setAttribute("aria-expanded", String(vue));
-          c.replaceChildren(el("strong", { html: recto }), vue ? el("span", { html: verso }) : el("small", {}, "Retourner la carte ↻"));
+          c.replaceChildren(...[icone, titre(), ...(vue ? [lieu, el("span", { html: verso })] : [el("small", {}, "Retourner la carte ↻")])].filter(Boolean));
         });
         return c;
       })));

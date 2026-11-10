@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Les fichiers et dossiers</title>
-<link rel="stylesheet" href="livret/livret.css?v=202611091537">
+<link rel="stylesheet" href="livret/livret.css?v=202611101556">
 </head>
 <body>
 <div id="livret"></div>
-<script src="livret/simulations.js?v=202611091537"></script>
-<script src="livret/exercices.js?v=202611091537"></script>
-<script src="livret/export-resultat.js?v=202611091537"></script>
-<script src="livret/livret.js?v=202611091537"></script>
+<script src="livret/simulations.js?v=202611101556"></script>
+<script src="livret/exercices.js?v=202611101556"></script>
+<script src="livret/export-resultat.js?v=202611101556"></script>
+<script src="livret/livret.js?v=202611101556"></script>
 <script>
 Livret.demarrer({
   id: "fichiers",
@@ -27,16 +27,16 @@ Livret.demarrer({
       "titre": "les icônes",
       "va": "Chaque icône a un rôle",
       "jeu": {
-        "fichier": "icones-extensions",
-        "titre": "Icônes, noms et extensions"
+        "fichier": "jeu-icones",
+        "titre": "le jeu des icônes"
       }
     },
     "ext": {
       "titre": "les extensions",
       "va": "Les familles d'extensions",
       "jeu": {
-        "fichier": "icones-extensions",
-        "titre": "Icônes, noms et extensions"
+        "fichier": "jeu-extensions",
+        "titre": "le jeu des extensions"
       }
     },
     "affich": {
@@ -52,7 +52,7 @@ Livret.demarrer({
       "va": "Un nom clair, ça change tout"
     }
   },
-  plus: {"fichier": "exercices-fichiers-excel-powerpoint", "titre": "les grands exercices de classement"},
+  plus: {"fichier": "exercices-fichiers-windows", "titre": "les grands exercices de classement"},
   quizPage: "quiz-fichiers",
   etapes: [
     {
@@ -74,7 +74,8 @@ Livret.demarrer({
             v: "icones",
             bacs: ["⚙️ Programme", "📁 Dossier", "📄 Fichier"],
             items: [["Microsoft Word (le logiciel)", 0], ["Le navigateur Edge", 0], ["01_RH_ET_SOCIAL", 1], ["Téléchargements", 1], ["rapport.docx", 2], ["photo.jpg", 2], ["budget.xlsx", 2]]
-          } }
+          } },
+          { activite: { fichier: "jeu-icones", titre: "Jouer : le jeu des icônes", texte: "Dans la rubrique Jeux et quiz.", icone: "🎮" } }
         ] }
       ]
     },
@@ -102,7 +103,8 @@ Livret.demarrer({
             v: "ext",
             bacs: ["📄 Document", "🖼️ Image", "🎵 Audio ou vidéo", "🗜️ Archive", "⚙️ Exécutable"],
             items: [[".docx", 0], [".xlsx", 0], [".txt", 0], [".jpg", 1], [".png", 1], [".mp3", 2], [".mp4", 2], [".zip", 3], [".rar", 3], [".exe", 4], [".bat", 4]]
-          } }
+          } },
+          { activite: { fichier: "jeu-extensions", titre: "Jouer : le jeu des extensions", texte: "Dans la rubrique Jeux et quiz, avec le memory des fichiers.", icone: "🎮" } }
         ] }
       ]
     },
@@ -121,7 +123,7 @@ Livret.demarrer({
           ] }
         ] },
         { t: "Le défi : créer un PDF de 3 façons", b: [
-          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Ranger, renommer, trier", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Créer un PDF depuis Word", icone: "📝" } }
+          { activite: { fichier: "exercices-fichiers-windows", etape: "Ranger, renommer, trier", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Créer un PDF depuis Word", icone: "📝" } }
         ] },
         { t: "Bilan : icônes, extensions et PDF", b: [
           { qqc: {
@@ -208,10 +210,10 @@ Livret.demarrer({
           { retenir: "<strong>Déplacer ({Ctrl+X})</strong> : l'élément n'existe plus qu'à un seul endroit. <strong>Copier ({Ctrl+C})</strong> : il existe en deux exemplaires. En cas d'erreur, {Ctrl+Z} annule immédiatement." }
         ] },
         { t: "À vous : le cabinet et le garage", b: [
-          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Ranger, renommer, trier", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Le cabinet Quichon et le garage Arkanault", icone: "📝" } }
+          { activite: { fichier: "exercices-fichiers-windows", etape: "Ranger, renommer, trier", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Le cabinet Quichon et le garage Arkanault", icone: "📝" } }
         ] },
         { t: "À vous : le vide-grenier", b: [
-          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Ranger, renommer, trier", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Le vide-grenier de la famille Quichon", icone: "📝" } }
+          { activite: { fichier: "exercices-fichiers-windows", etape: "Ranger, renommer, trier", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Le vide-grenier de la famille Quichon", icone: "📝" } }
         ] },
         { t: "Bilan et premier classement", b: [
           { qqc: {
@@ -220,7 +222,7 @@ Livret.demarrer({
             comment: "Toute action se fait via 3 méthodes : le ruban, le clic droit ou un raccourci clavier."
           } },
           { activite: { fichier: "explorateur-fichiers", titre: "L'Explorateur de fichiers", texte: "Les quiz et l'activité pratique.", icone: "📁" } },
-          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Ranger, renommer, trier", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Premier classement numérique", icone: "📝" } }
+          { activite: { fichier: "exercices-fichiers-windows", etape: "Ranger, renommer, trier", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Premier classement numérique", icone: "📝" } }
         ] }
       ]
     },
@@ -290,7 +292,7 @@ Livret.demarrer({
         ] },
         { t: "À vous : la maison de Nathalie et Paul", b: [
           { fiche: { titre: "Le nommage de fichiers", fichier: "fichiers-dossiers/nommage-de-fichiers.docx" } },
-          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Ranger, renommer, trier", titre: "Faire l'exercice dans la rubrique Exercices", texte: "La maison de Nathalie et Paul", icone: "📝" } }
+          { activite: { fichier: "exercices-fichiers-windows", etape: "Ranger, renommer, trier", titre: "Faire l'exercice dans la rubrique Exercices", texte: "La maison de Nathalie et Paul", icone: "📝" } }
         ] },
         { t: "Organiser ses dossiers", b: [
           { cartes: [
@@ -310,7 +312,7 @@ Livret.demarrer({
         ] },
         { t: "Le grand défi : Lumina Design", b: [
           { p: "Vous êtes assistant(e) chez Lumina Design. Votre responsable vous demande de créer et d'organiser les fichiers de l'entreprise." },
-          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Ranger, renommer, trier", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Créer une arborescence avec nommage", icone: "📝" } }
+          { activite: { fichier: "exercices-fichiers-windows", etape: "Ranger, renommer, trier", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Créer une arborescence avec nommage", icone: "📝" } }
         ] }
       ]
     }

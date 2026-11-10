@@ -4,14 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Microsoft Word</title>
-<link rel="stylesheet" href="livret/livret.css?v=202611091537">
+<link rel="stylesheet" href="livret/livret.css?v=202611101556">
 </head>
 <body>
 <div id="livret"></div>
-<script src="livret/simulations.js?v=202611091537"></script>
-<script src="livret/exercices.js?v=202611091537"></script>
-<script src="livret/export-resultat.js?v=202611091537"></script>
-<script src="livret/livret.js?v=202611091537"></script>
+<script src="livret/simulations.js?v=202611101556"></script>
+<script src="livret/exercices.js?v=202611101556"></script>
+<script src="livret/export-resultat.js?v=202611101556"></script>
+<script src="livret/icones-ruban.js?v=202611101556"></script>
+<script src="livret/livret.js?v=202611101556"></script>
 <script>
 Livret.demarrer({
   id: "word",
@@ -181,9 +182,9 @@ Livret.demarrer({
         { t: "Trois façons d'enregistrer", b: [
           { p: "Ouvrir Word → Nouveau document → saisir le texte → Enregistrer." },
           { cartes: [
-            ["Enregistrer {Ctrl+S}", "Enregistre à l'emplacement actuel, sans boîte de dialogue. Idéal pour sauvegarder rapidement en cours de travail."],
-            ["Enregistrer sous {F12}", "Permet de choisir l'emplacement, le nom et le format : .docx (Word), .pdf (partage), .odt (LibreOffice)…"],
-            ["Enregistrement automatique", "Disponible quand le fichier est sur OneDrive. S'active dans la barre de titre et sauvegarde en temps réel."]
+            ["Enregistrer {Ctrl+S}", "Enregistre à l'emplacement actuel, sans boîte de dialogue. Idéal pour sauvegarder rapidement en cours de travail.", { i: "enregistrer", ou: "Onglet <b>Fichier</b> > Enregistrer, ou la disquette de la barre d'accès rapide" }],
+            ["Enregistrer sous {F12}", "Permet de choisir l'emplacement, le nom et le format : .docx (Word), .pdf (partage), .odt (LibreOffice)…", { i: "enregistrer-sous", ou: "Onglet <b>Fichier</b> > Enregistrer sous" }],
+            ["Enregistrement automatique", "Disponible quand le fichier est sur OneDrive. S'active dans la barre de titre et sauvegarde en temps réel.", { i: "auto", ou: "Dans la barre de titre, tout en haut à gauche de la fenêtre" }]
           ] },
           { img: "p027_0", alt: "L'écran Fichier > Nouveau de Word avec les modèles proposés.", leg: "Fichier > Nouveau" },
           { img: "p027_1", alt: "La fenêtre Enregistrer sous, avec le choix de l'emplacement, du nom et du format.", leg: "Enregistrer sous" }
@@ -283,14 +284,14 @@ Livret.demarrer({
       ecrans: [
         { t: "Les options de la police", b: [
           { cartes: [
-            ["Barré", "Barre le texte d'une ligne, sans le supprimer."],
-            ["Indice", "Écrit en petit, sous la ligne : H<sub>2</sub>O."],
-            ["Exposant", "Écrit en petit, au-dessus de la ligne : 1<sup>er</sup>."],
-            ["Surlignage", "Colore le fond derrière le texte, comme un surligneur."],
-            ["Effets de texte", "Ajoute une ombre, un reflet, une lumière ou un contour."],
-            ["Petites majuscules", "Dans la boîte de dialogue Police : des majuscules de petite taille."],
-            ["Espacement", "Dans la boîte de dialogue Police, onglet Paramètres avancés : écarte les lettres, par exemple de 5 points."],
-            ["Effacer la mise en forme", "Remet le texte à son style par défaut, sans le supprimer."]
+            ["Barré", "Barre le texte d'une ligne, sans le supprimer.", { i: "barre", ou: ["Accueil", "Police"] }],
+            ["Indice", "Écrit en petit, sous la ligne : H<sub>2</sub>O.", { i: "indice", ou: ["Accueil", "Police"] }],
+            ["Exposant", "Écrit en petit, au-dessus de la ligne : 1<sup>er</sup>.", { i: "exposant", ou: ["Accueil", "Police"] }],
+            ["Surlignage", "Colore le fond derrière le texte, comme un surligneur.", { i: "surlignage", ou: ["Accueil", "Police", "Couleur de surbrillance du texte"] }],
+            ["Effets de texte", "Ajoute une ombre, un reflet, une lumière ou un contour.", { i: "effets", ou: ["Accueil", "Police", "Effets de texte et typographie"] }],
+            ["Petites majuscules", "Dans la boîte de dialogue Police : des majuscules de petite taille.", { i: "petites-maj", ou: ["Accueil", "Police", "petite flèche du groupe, en bas à droite"] }],
+            ["Espacement", "Dans la boîte de dialogue Police, onglet Paramètres avancés : écarte les lettres, par exemple de 5 points.", { i: "espacement", ou: ["Accueil", "Police", "petite flèche du groupe, onglet Paramètres avancés"] }],
+            ["Effacer la mise en forme", "Remet le texte à son style par défaut, sans le supprimer.", { i: "effacer", ou: ["Accueil", "Police"] }]
           ] },
           { astuce: "La petite flèche en bas à droite du groupe Police ouvre la boîte de dialogue complète. Raccourci : {Ctrl+D}." },
           { activite: { fichier: "jeu-police", titre: "Le quiz de la police", texte: "Quinze questions sur toutes ces options.", icone: "🔤" } }
@@ -308,17 +309,17 @@ Livret.demarrer({
         { t: "Les alignements", b: [
           { p: "L'alignement détermine la position du texte par rapport aux marges." },
           { cartes: [
-            ["À gauche", "Par défaut dans Word. Le texte suit la marge de gauche et reste irrégulier à droite."],
-            ["Centré", "Le texte est centré entre les marges. Souvent utilisé pour les titres."],
-            ["À droite", "Le texte suit la marge de droite. Souvent utilisé pour les dates et les signatures."],
-            ["Justifié", "Le texte suit les deux marges. Une apparence nette, fréquente dans les documents professionnels."]
+            ["À gauche", "Par défaut dans Word. Le texte suit la marge de gauche et reste irrégulier à droite.", { i: "align-g", ou: ["Accueil", "Paragraphe"] }],
+            ["Centré", "Le texte est centré entre les marges. Souvent utilisé pour les titres.", { i: "align-c", ou: ["Accueil", "Paragraphe"] }],
+            ["À droite", "Le texte suit la marge de droite. Souvent utilisé pour les dates et les signatures.", { i: "align-d", ou: ["Accueil", "Paragraphe"] }],
+            ["Justifié", "Le texte suit les deux marges. Une apparence nette, fréquente dans les documents professionnels.", { i: "justifie", ou: ["Accueil", "Paragraphe"] }]
           ] },
           { h: "Les retraits" },
           { p: "Le retrait détermine l'espace entre le texte et les marges. Il se règle dans <strong>Accueil > Paragraphe</strong> ou <strong>Disposition > Paragraphe</strong>." },
           { cartes: [
-            ["Retrait de première ligne", "Un espace au début de la première ligne de chaque paragraphe. Courant dans les rapports."],
-            ["Retrait négatif", "La première ligne est moins avancée que les autres. Utilisé dans les bibliographies."],
-            ["Retrait gauche ou droit", "Tout le paragraphe est décalé, sans changer l'alignement."]
+            ["Retrait de première ligne", "Un espace au début de la première ligne de chaque paragraphe. Courant dans les rapports.", { i: "retrait-1", ou: ["Accueil", "Paragraphe", "petite flèche du groupe, ou la règle"] }],
+            ["Retrait négatif", "La première ligne est moins avancée que les autres. Utilisé dans les bibliographies.", { i: "retrait-neg", ou: ["Accueil", "Paragraphe", "petite flèche du groupe, ou la règle"] }],
+            ["Retrait gauche ou droit", "Tout le paragraphe est décalé, sans changer l'alignement.", { i: "retrait", ou: ["Accueil", "Paragraphe", "Augmenter ou Diminuer le retrait"] }]
           ] },
           { fiche: { titre: "Alignements et retraits", fichier: "word/fiches/alignement-et-retrait.docx", gros: "word/fiches/alignement-et-retrait-gros.docx" } }
         ] },
@@ -337,12 +338,49 @@ Livret.demarrer({
       resume: "Des listes claires.",
       ecrans: [
         { t: "Puces, numéros, listes à niveaux", b: [
+          { p: "Les listes rendent un texte plus clair. Word propose trois boutons, dans l'onglet <strong>Accueil</strong>, groupe <strong>Paragraphe</strong>." },
+          { img: "puces_paragraphe", alt: "Le groupe Paragraphe de Word : en haut à gauche, les boutons Puces, Numérotation et Liste à plusieurs niveaux, chacun avec sa petite flèche.", leg: "Les trois boutons de listes, en haut à gauche du groupe Paragraphe" },
           { cartes: [
-            ["Les puces", "Une liste sans ordre : chaque élément est précédé d'un symbole. « Définir une puce » permet d'en créer une personnalisée."],
-            ["Les numéros", "Une liste ordonnée : chiffres arabes (1, 2, 3), romains (I, II, III) ou lettres (a, b, c)."],
-            ["Les listes à niveaux", "Une liste hiérarchisée, avec des retraits, pour structurer les documents complexes."]
+            ["Les puces", "Une liste <strong>non ordonnée</strong> : chaque élément est précédé d'un symbole (la puce).", { i: "puces", ou: ["Accueil", "Paragraphe"] }],
+            ["Les numéros", "Une liste <strong>ordonnée</strong> : chaque élément est précédé d'un numéro ou d'une lettre.", { i: "numeros", ou: ["Accueil", "Paragraphe", "Numérotation"] }],
+            ["Les listes à niveaux", "Une liste <strong>hiérarchisée</strong>, avec des retraits : idéale pour structurer un document complexe.", { i: "niveaux", ou: ["Accueil", "Paragraphe", "Liste à plusieurs niveaux"] }]
+          ] }
+        ] },
+        { t: "Créer une liste, pas à pas", b: [
+          { pas: [
+            "Sélectionnez le texte à transformer en liste.",
+            "Onglet <strong>Accueil</strong>, groupe <strong>Paragraphe</strong> : cliquez sur le bouton <strong>Puces</strong> ou <strong>Numérotation</strong>.",
+            "Pour choisir un autre symbole ou un autre format, cliquez sur la <strong>petite flèche</strong> à côté du bouton.",
+            "Pour une liste à plusieurs niveaux, choisissez un style, puis utilisez les boutons <strong>Augmenter</strong> et <strong>Diminuer le retrait</strong> pour monter ou descendre d'un niveau."
           ] },
-          { fiche: { titre: "Puces et numéros", fichier: "word/fiches/puces-et-numeros.docx", gros: "word/fiches/puces-et-numeros-gros.docx" } },
+          { astuce: "Dans une liste, {Tab} en début de ligne fait descendre d'un niveau, et {Maj+Tab} fait remonter." }
+        ] },
+        { t: "Personnaliser les puces et les numéros", b: [
+          { onglets: [
+            ["Les puces", { liste: [
+              "<strong>Types de puces</strong> : des points, des carrés, des cercles…",
+              "<strong>Bibliothèque de puces</strong> : les puces prêtes à l'emploi que propose Word.",
+              "<strong>Définir une puce</strong> : créer une puce personnalisée, avec un symbole ou une image.",
+              "<strong>Ajuster le retrait</strong> : l'espace entre la puce et le texte."
+            ] }],
+            ["Les numéros", { liste: [
+              "<strong>Formats de numéros</strong> : chiffres arabes (1, 2, 3), chiffres romains (I, II, III), lettres (a, b, c)…",
+              "<strong>Bibliothèque de numérotation</strong> : les formats prêts à l'emploi.",
+              "<strong>Définir un format de numérotation</strong> : personnaliser le format.",
+              "<strong>Ajuster le retrait</strong> : l'espace entre le numéro et le texte."
+            ] }]
+          ] },
+          { p: "On y accède avec la petite flèche du bouton, puis « Définir une puce » ou « Définir un format de numérotation »." }
+        ] },
+        { t: "Les listes à plusieurs niveaux", b: [
+          { p: "Elles combinent puces et numéros sur plusieurs niveaux : 1, puis a, puis i, par exemple." },
+          { img: "puces_niveaux", alt: "Le menu Liste à plusieurs niveaux : la liste actuelle, la bibliothèque de listes (1. a. i., 1. 1.1. 1.1.1., Article, Chapitre…) et en bas Définir une nouvelle liste à plusieurs niveaux.", leg: "Le menu du bouton Liste à plusieurs niveaux" },
+          { liste: [
+            "<strong>Bibliothèque de listes</strong> : des styles prêts à l'emploi, qui mélangent puces et numéros.",
+            "<strong>Définir une nouvelle liste à plusieurs niveaux</strong> : choisir soi-même la puce ou le numéro de chaque niveau, et leur format."
+          ] }
+        ] },
+        { t: "Vérifier : puces ou numéros ?", b: [
           { trier: {
             titre: "Puces ou numéros ?",
             v: "puces",
@@ -361,7 +399,48 @@ Livret.demarrer({
       resume: "Mettre un texte en valeur.",
       ecrans: [
         { t: "Mettre un paragraphe en valeur", b: [
-          { p: "Sélectionnez le texte, puis onglet <strong>Accueil</strong>, groupe Paragraphe, bouton <strong>Bordures</strong> > <strong>Bordure et trame</strong>. La fenêtre compte trois onglets : Bordures, Bordure de page et Trame de fond." },
+          { p: "Une bordure encadre un paragraphe, une trame de fond le colore : c'est idéal pour faire ressortir un titre ou une information importante." },
+          { pas: [
+            "Sélectionnez le texte ou le paragraphe.",
+            "Onglet <strong>Accueil</strong>, groupe <strong>Paragraphe</strong> : cliquez sur la petite flèche du bouton <strong>Bordures</strong>.",
+            "Tout en bas du menu, choisissez <strong>Bordure et trame…</strong>"
+          ] },
+          { img: "bordures_menu", alt: "Le menu du bouton Bordures : bordure inférieure, supérieure, gauche, droite, aucune bordure, toutes les bordures… et tout en bas Bordure et trame.", leg: "Le menu du bouton Bordures : « Bordure et trame… » est tout en bas" },
+          { cartes: [
+            ["Bordures", "Le style, la couleur et l'épaisseur des bordures du texte ou du paragraphe sélectionné."],
+            ["Bordure de page", "Une bordure autour de toute la page, ou de certaines sections du document."],
+            ["Trame de fond", "Une couleur ou un motif derrière le texte ou le paragraphe."]
+          ] }
+        ] },
+        { t: "Les types de bordures", b: [
+          { img: "bordures_onglet", alt: "La fenêtre Bordure et trame, onglet Bordures : à gauche les types Aucune, Encadrement, Ombre, 3D et Personnalisé ; au centre le style, la couleur et la largeur ; à droite l'aperçu et Appliquer à : Paragraphe.", leg: "La fenêtre Bordure et trame, onglet Bordures" },
+          { liste: [
+            "<strong>Encadrement</strong> : une bordure tout autour du texte, en lignes continues ou stylisées.",
+            "<strong>Ombre</strong> : une bordure avec une ombre, en général à droite et en bas, qui donne du relief.",
+            "<strong>3D</strong> : une bordure qui donne une impression de profondeur.",
+            "<strong>Personnalisé</strong> : un style, une épaisseur et une couleur différents pour chaque côté."
+          ] },
+          { astuce: "Pour une bordure personnalisée, cliquez sur chaque côté de l'aperçu, à droite de la fenêtre." }
+        ] },
+        { t: "Régler et appliquer une bordure", b: [
+          { pas: [
+            "Dans la fenêtre <strong>Bordure et trame</strong>, restez sur l'onglet <strong>Bordures</strong>.",
+            "Choisissez le <strong>type</strong> : encadrement, ombre, 3D ou personnalisé.",
+            "Réglez le <strong>style</strong> du trait, la <strong>couleur</strong> et la <strong>largeur</strong>.",
+            "Vérifiez <strong>Appliquer à</strong> : paragraphe.",
+            "Cliquez sur <strong>OK</strong>."
+          ] },
+          { retenir: "Les bordures et la trame de fond s'appliquent au paragraphe. La bordure de page s'applique à toute la page, ou à une section du document." }
+        ] },
+        { t: "La trame de fond", b: [
+          { img: "bordures_trame", alt: "L'onglet Trame de fond : Remplissage (Aucune couleur), Trame avec Style (Transparente) et Couleur, l'aperçu et Appliquer à : Paragraphe.", leg: "L'onglet Trame de fond" },
+          { liste: [
+            "<strong>Remplissage</strong> : la couleur de fond du texte ou du paragraphe.",
+            "<strong>Trame</strong> : un motif (hachures, points…) choisi dans <strong>Style</strong>, avec sa <strong>Couleur</strong>.",
+            "<strong>Aperçu</strong> : le résultat avant de valider."
+          ] }
+        ] },
+        { t: "Vérifier : les types de bordures", b: [
           { associer: [
             ["Encadrement", "Une bordure tout autour du texte"],
             ["Ombre", "Une bordure avec un effet de relief, à droite et en bas"],
@@ -369,16 +448,28 @@ Livret.demarrer({
             ["Personnalisé", "Un style différent pour chaque côté"],
             ["Trame de fond", "Une couleur derrière le paragraphe"]
           ], titre: "Les types de bordures" },
-          { fiche: { titre: "Bordures et trames", fichier: "word/fiches/bordures-et-trames.docx", gros: "word/fiches/bordures-et-trames-gros.docx" } }
         ] },
         { t: "La lettrine", b: [
-          { p: "La lettrine met le premier caractère d'un paragraphe en grande taille." },
+          { p: "La lettrine met le <strong>premier caractère</strong> d'un paragraphe en grande taille, comme dans les livres anciens ou au début des chapitres." },
+          { img: "lettrine_exemple", alt: "Une page de manuscrit ancien commençant par une grande lettre décorée.", leg: "Une lettrine dans un manuscrit ancien" },
           { pas: [
             "Sélectionnez le paragraphe.",
             "Onglet <strong>Insertion</strong>, icône <strong>Lettrine</strong>.",
-            "Choisissez <strong>Dans le texte</strong> : le paragraphe continue sous la lettrine. Ou <strong>Dans la marge</strong> : il n'y a jamais de texte dessous."
+            "Choisissez la position : <strong>Dans le texte</strong> ou <strong>Dans la marge</strong>."
           ] },
-          { fiche: { titre: "La lettrine", fichier: "word/fiches/lettrine.docx" } },
+          { cartes: [
+            ["Dans le texte", "La suite du paragraphe continue sous la lettrine, dès que sa hauteur est atteinte."],
+            ["Dans la marge", "La lettrine est dans la marge : il n'y a jamais de texte en dessous, même si le paragraphe est long."]
+          ] }
+        ] },
+        { t: "Les options de la lettrine", b: [
+          { p: "Onglet <strong>Insertion</strong>, <strong>Lettrine</strong>, puis <strong>Options de lettrine</strong> :" },
+          { img: "lettrine_options", alt: "La fenêtre Lettrine : position Aucune, Dans le texte ou Dans la marge, puis les options Police, Hauteur (lignes) et Distance du texte.", leg: "La fenêtre Lettrine" },
+          { liste: [
+            "<strong>Police</strong> : la lettrine peut avoir une police différente du texte, comme au début des chapitres d'un livre.",
+            "<strong>Hauteur</strong> : 3 lignes par défaut ; les petites flèches l'augmentent ou la diminuent.",
+            "<strong>Distance du texte</strong> : 0 cm par défaut, la lettrine touche le texte ; augmentez-la pour les écarter."
+          ] },
           { activite: { fichier: "exercices-word", etape: "La mise en page", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Les effets spéciaux au cinéma", icone: "📝" } }
         ] }
       ]
@@ -423,10 +514,10 @@ Livret.demarrer({
         { t: "Insérer et habiller", b: [
           { p: "Tout se trouve dans l'onglet <strong>Insertion</strong> : Images, Formes et WordArt. Une fois l'image insérée, l'<strong>habillage</strong> décide comment le texte se place autour d'elle." },
           { cartes: [
-            ["Aligné sur le texte", "L'image se comporte comme une lettre dans la ligne."],
-            ["Carré", "Le texte contourne l'image en suivant un rectangle."],
-            ["Rapproché", "Le texte suit au plus près la forme de l'image."],
-            ["Devant ou derrière le texte", "L'image se pose par-dessus le texte, ou passe dessous."]
+            ["Aligné sur le texte", "L'image se comporte comme une lettre dans la ligne.", { i: "hab-ligne", ou: ["Format de l'image", "Organiser", "Habillage du texte"] }],
+            ["Carré", "Le texte contourne l'image en suivant un rectangle.", { i: "hab-carre", ou: ["Format de l'image", "Organiser", "Habillage du texte"] }],
+            ["Rapproché", "Le texte suit au plus près la forme de l'image.", { i: "hab-rapproche", ou: ["Format de l'image", "Organiser", "Habillage du texte"] }],
+            ["Devant ou derrière le texte", "L'image se pose par-dessus le texte, ou passe dessous.", { i: "hab-devant", ou: ["Format de l'image", "Organiser", "Habillage du texte"] }]
           ] },
           { activite: { fichier: "quiz-word", etape: "Images, formes et WordArt", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
         ] },
@@ -441,9 +532,24 @@ Livret.demarrer({
       resume: "Économiser le papier.",
       ecrans: [
         { t: "Le recto-verso depuis Word", b: [
-          { p: "Par défaut, les impressions se font en recto seul. Le recto-verso se demande depuis l'ordinateur, et cela fonctionne aussi avec les autres logiciels." },
-          { ordre: ["Menu Fichier", "Imprimer", "Propriétés de l'imprimante", "Onglet Mise en page", "Impression recto verso : choisir « Imprimer recto verso »"], titre: "Remettez le chemin dans l'ordre" },
-          { fiche: { titre: "Le recto-verso", fichier: "word/fiches/recto-verso.docx" } }
+          { p: "Par défaut, les impressions se font en <strong>recto</strong> seul : une seule face de chaque feuille." },
+          { p: "Pour imprimer en <strong>recto-verso</strong>, il faut le demander depuis l'ordinateur, dans Word. Cela fonctionne de la même façon avec les autres logiciels." },
+          { retenir: "Le recto-verso divise par deux le nombre de feuilles : c'est bon pour le budget et pour la planète." }
+        ] },
+        { t: "Pas à pas", b: [
+          { pas: [
+            "Ouvrez le menu <strong>Fichier</strong>.",
+            "Cliquez sur <strong>Imprimer</strong>.",
+            "Cliquez sur <strong>Propriétés de l'imprimante</strong>.",
+            "Allez dans l'onglet <strong>Mise en page</strong>.",
+            "Dans la zone <strong>Impression recto verso</strong>, cliquez sur la petite flèche noire et choisissez <strong>Imprimer recto verso</strong>.",
+            "Validez avec <strong>OK</strong>, puis lancez l'impression."
+          ] },
+          { img: "recto_verso", alt: "La fenêtre Préférences d'impression, onglet Mise en page : dans la zone Impression recto verso, la liste est ouverte sur « Imprimer recto verso ».", leg: "Les propriétés d'une imprimante Lexmark : la fenêtre change selon la marque, mais on retrouve toujours « recto verso »." },
+          { astuce: "Sur beaucoup d'imprimantes, Word le propose aussi directement : sous <strong>Paramètres</strong>, à la place de « Imprimer en recto », choisissez « Impression recto verso »." }
+        ] },
+        { t: "Vérifier : le bon chemin", b: [
+          { ordre: ["Menu Fichier", "Imprimer", "Propriétés de l'imprimante", "Onglet Mise en page", "Impression recto verso : choisir « Imprimer recto verso »"], titre: "Remettez le chemin dans l'ordre" }
         ] }
       ]
     },
@@ -454,10 +560,10 @@ Livret.demarrer({
       ecrans: [
         { t: "Quatre modes, quatre usages", b: [
           { cartes: [
-            ["Mode Page", "Le mode par défaut : le document tel qu'il sera imprimé. Idéal pour la mise en page et l'insertion d'images ou de tableaux."],
-            ["Mode Lecture", "Lecture confortable en plein écran. Les outils de modification sont désactivés pour éviter toute erreur : parfait pour relire."],
-            ["Mode Plan", "Structure le document selon ses titres. Très utile pour réorganiser les sections d'un rapport ou d'un livre."],
-            ["Mode Brouillon", "Simplifié, sans marges ni graphiques. Rapide, idéal pour éditer du texte brut dans un document très volumineux."]
+            ["Mode Page", "Le mode par défaut : le document tel qu'il sera imprimé. Idéal pour la mise en page et l'insertion d'images ou de tableaux.", { i: "mode-page", ou: ["Affichage", "Affichages"] }],
+            ["Mode Lecture", "Lecture confortable en plein écran. Les outils de modification sont désactivés pour éviter toute erreur : parfait pour relire.", { i: "mode-lecture", ou: ["Affichage", "Affichages"] }],
+            ["Mode Plan", "Structure le document selon ses titres. Très utile pour réorganiser les sections d'un rapport ou d'un livre.", { i: "mode-plan", ou: ["Affichage", "Affichages"] }],
+            ["Mode Brouillon", "Simplifié, sans marges ni graphiques. Rapide, idéal pour éditer du texte brut dans un document très volumineux.", { i: "mode-brouillon", ou: ["Affichage", "Affichages"] }]
           ] },
           { img: "p032_0", alt: "Le groupe Affichages du ruban : mode Lecture, Page, Web, Plan et Brouillon.", leg: "Onglet Affichage" }
         ] },
@@ -494,9 +600,9 @@ Livret.demarrer({
           { p: "Un style est un <strong>ensemble de formats</strong> (police, taille, couleur, espacement…) à appliquer en un seul clic à un texte, un paragraphe ou un tableau. Il garantit la cohérence et le professionnalisme de vos écrits, et les rend plus faciles à modifier." },
           { img: "p034_0", alt: "La galerie des styles dans l'onglet Accueil : Normal, Sans interligne, Titre 1, Titre 2, Titre et d'autres.", leg: "La galerie des styles, onglet Accueil" },
           { cartes: [
-            ["Appliquer", "Utilisez les styles prédéfinis de l'onglet Accueil pour une mise en forme rapide."],
-            ["Modifier et créer", "Personnalisez les styles existants ou créez les vôtres, selon vos besoins et votre charte graphique."],
-            ["Gérer via le volet", "Le volet des styles donne une vue d'ensemble de tous les styles du document."]
+            ["Appliquer", "Utilisez les styles prédéfinis de l'onglet Accueil pour une mise en forme rapide.", { i: "styles", ou: ["Accueil", "Styles"] }],
+            ["Modifier et créer", "Personnalisez les styles existants ou créez les vôtres, selon vos besoins et votre charte graphique.", { i: "styles-modifier", ou: ["Accueil", "Styles", "clic droit sur un style > Modifier"] }],
+            ["Gérer via le volet", "Le volet des styles donne une vue d'ensemble de tous les styles du document.", { i: "styles-volet", ou: ["Accueil", "Styles", "petite flèche du groupe"] }]
           ] },
           { astuce: "Pour ouvrir le volet des styles, cliquez sur la petite flèche en bas à droite du groupe « Styles », dans l'onglet Accueil." },
           { img: "p034_1", alt: "Le bas de la galerie des styles avec Créer un style, Effacer la mise en forme et Appliquer les styles.", leg: "Créer un style, effacer la mise en forme" }

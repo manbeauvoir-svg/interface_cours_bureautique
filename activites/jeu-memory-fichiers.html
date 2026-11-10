@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le memory des fichiers</title>
+<link rel="stylesheet" href="livret/polices/polices.css?v=202611101556">
+<style>
+  :root { --encre: #1b2a33; --doux: #4b5c66; --fond: #fff8ec; --nuit: #17324d; --teinte: #a21caf; --pale: #f8e8fb; --vert: #1a7f4b; --soleil: #ffc83d; --soleil-bord: #c98a00; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fond); color: var(--encre); font: 500 1.0625rem/1.5 "Nunito", "Segoe UI", system-ui, sans-serif; }
+  .page { max-width: 760px; margin: 0 auto; padding: 18px 16px 48px; }
+  h1 { margin: 0 0 4px; font: 600 1.8rem/1.2 "Fredoka", "Segoe UI", sans-serif; color: var(--nuit); }
+  .intro { margin: 0 0 14px; color: var(--doux); }
+  .compteurs { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-bottom: 12px; font-weight: 800; }
+  .grille { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .carte { aspect-ratio: 1 / 1; border: 0; padding: 0; border-radius: 16px; cursor: pointer; perspective: 600px; background: none; }
+  .carte .face { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; border-radius: 16px; backface-visibility: hidden; transition: transform .35s; border: 2px solid rgba(0,0,0,.12); }
+  .carte { position: relative; }
+  .dos { background: linear-gradient(135deg, var(--teinte), #6b21a8); color: #fff; font: 600 2rem "Fredoka", sans-serif; }
+  .devant { background: #fff; transform: rotateY(180deg); font: 700 clamp(.85rem, 3.4vw, 1.25rem) Consolas, "Courier New", monospace; color: var(--nuit); text-align: center; padding: 6px; }
+  .devant small { font: 700 .72rem "Nunito", sans-serif; color: var(--doux); }
+  .carte.visible .dos { transform: rotateY(180deg); }
+  .carte.visible .devant { transform: rotateY(360deg); }
+  .carte.trouvee .devant { border-color: var(--vert); background: #e2f6ea; }
+  .carte:focus-visible { outline: 4px solid #e8590c; outline-offset: 3px; }
+  .carte .icone-dessin { width: 58%; height: auto; }
+  .barre { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+  .btn { min-height: 44px; padding: 8px 16px; border-radius: 12px; border: 2px solid var(--nuit); background: #fff; color: var(--nuit); font: 800 1rem "Nunito", sans-serif; cursor: pointer; }
+  .btn.fort { background: var(--soleil); border-color: var(--soleil-bord); }
+  .retour { min-height: 1.6em; margin-top: 10px; font-weight: 800; }
+  @media (prefers-reduced-motion: reduce) { .carte .face { transition: none; } }
+</style>
+</head>
+<body>
+<main class="page">
+  <h1>🃏 Le memory des fichiers</h1>
+  <p class="intro">Retournez deux cartes : retrouvez chaque <strong>extension</strong> et l'<strong>icône</strong> du fichier qui va avec. Essayez de finir en un minimum de coups !</p>
+  <div class="compteurs"><span id="paires">0 / 8 paires</span><span id="coups">0 coup</span></div>
+  <div class="grille" id="grille" aria-label="Les cartes du memory"></div>
+  <p class="retour" id="retour" role="status"></p>
+  <div class="barre"><button class="btn fort" type="button" id="rejouer">🔄 Nouvelle partie</button></div>
+  <div id="resultat"></div>
+</main>
+<script src="livret/icones-fichiers.js?v=202611101556"></script>
+<script src="livret/export-resultat.js?v=202611101556"></script>
+<script src="livret/resultat-activite.js?v=202611101556"></script>
+<script>
+const PAIRES = [
+  [".docx", "word"], [".xlsx", "excel"], [".pptx", "powerpoint"], [".pdf", "pdf"],
+  [".jpg", "image"], [".mp3", "musique"], [".mp4", "video"], [".zip", "zip"]
+];
+const $ = id => document.getElementById(id);
+let ouvertes = [], trouvees = 0, coups = 0, bloque = false, erreurs = {};
+
+function melange(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function compter() {
+  $("paires").textContent = `${trouvees} / ${PAIRES.length} paires`;
+  $("coups").textContent = `${coups} coup${coups > 1 ? "s" : ""}`;
+}
+function partie() {
+  ouvertes = []; trouvees = 0; coups = 0; bloque = false; erreurs = {};
+  $("retour").textContent = ""; $("resultat").replaceChildren();
+  const cartes = melange(PAIRES.flatMap(([ext, ico], i) => [{ i, html: ext, nom: "l'extension " + ext }, { i, html: ICONE(ico) + `<small>${ICONES[ico].nom}</small>`, nom: "l'icône : " + ICONES[ico].nom }]));
+  $("grille").replaceChildren(...cartes.map(c => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "carte"; b.dataset.i = c.i;
+    b.setAttribute("aria-label", "Carte cachée");
+    b.innerHTML = `<span class="face dos" aria-hidden="true">?</span><span class="face devant">${c.html}</span>`;
+    b.addEventListener("click", () => retourner(b, c));
+    return b;
+  }));
+  compter();
+}
+function retourner(b, c) {
+  if (bloque || b.classList.contains("visible")) return;
+  b.classList.add("visible");
+  b.setAttribute("aria-label", c.nom);
+  ouvertes.push(b);
+  if (ouvertes.length < 2) return;
+  coups++;
+  const [a, d] = ouvertes;
+  if (a.dataset.i === d.dataset.i) {
+    [a, d].forEach(x => { x.classList.add("trouvee"); x.disabled = true; });
+    trouvees++;
+    ouvertes = [];
+    $("retour").textContent = `✓ Bravo : ${PAIRES[a.dataset.i][0]} va bien avec cette icône !`;
+    compter();
+    if (trouvees === PAIRES.length) fin();
+  } else {
+    [a, d].forEach(x => { erreurs[x.dataset.i] = (erreurs[x.dataset.i] || 0) + 1; });
+    bloque = true;
+    $("retour").textContent = "Ces deux cartes ne vont pas ensemble.";
+    compter();
+    setTimeout(() => {
+      [a, d].forEach(x => { x.classList.remove("visible"); x.setAttribute("aria-label", "Carte cachée"); });
+      ouvertes = []; bloque = false;
+    }, 1100);
+  }
+}
+function fin() {
+  // Une paire est « réussie » si on s'est trompé au plus une fois avec elle (il faut bien la découvrir).
+  const detail = PAIRES.map(([ext, ico], i) => ({ q: `${ext} et ${ICONES[ico].nom}`, ok: (erreurs[i] || 0) <= 1, donne: `${erreurs[i] || 0} erreur${(erreurs[i] || 0) > 1 ? "s" : ""}` }));
+  const score = detail.filter(x => x.ok).length;
+  $("retour").textContent = `🎉 Toutes les paires sont trouvées en ${coups} coups ! (le minimum possible est 8)`;
+  ResultatActivite.terminer({ zone: $("resultat"), titre: "Le memory des fichiers", type: "Jeu", score, total: PAIRES.length, detail, unite: "paires trouvées sans hésiter" });
+}
+$("rejouer").addEventListener("click", partie);
+partie();
+</script>
+</body>
+</html>

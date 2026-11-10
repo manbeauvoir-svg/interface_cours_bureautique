@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le jeu des icônes</title>
+<link rel="stylesheet" href="livret/livret.css?v=202611101556">
+<style>
+  .question .icone-dessin { display: block; margin: 2px 0 10px; }
+  .pile .icone-dessin, .paire .icone-dessin { vertical-align: middle; }
+  .pile { display: flex; align-items: center; gap: 12px; }
+</style>
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js?v=202611101556"></script>
+<script src="livret/exercices.js?v=202611101556"></script>
+<script src="livret/icones-fichiers.js?v=202611101556"></script>
+<script src="livret/export-resultat.js?v=202611101556"></script>
+<script src="livret/livret.js?v=202611101556"></script>
+<script>
+const I = (cle, t) => ICONE(cle, t || 64);
+Livret.demarrer({
+  id: "jeu-icones",
+  etiquette: "JEU",
+  titre: "Le jeu des icônes",
+  icone: "🧩",
+  couleur: "#a21caf",
+  pale: "#f8e8fb",
+  accroche: "Reconnaître une icône d'un coup d'œil : dossiers, fichiers, logiciels et outils de Windows. Les icônes sont dessinées simplement : elles ressemblent à celles de votre ordinateur.",
+  etapes: [
+    {
+      titre: "Quelle est cette icône ?",
+      icone: "👀",
+      resume: "Douze icônes à reconnaître.",
+      ecrans: [
+        { t: "Quelle est cette icône ?", b: [
+          { quiz: [
+            { q: I("dossier") + "Quelle est cette icône ?", r: ["Un dossier", "Un fichier PDF", "La Corbeille"], e: "Le dossier jaune range les fichiers et d'autres dossiers." },
+            { q: I("corbeille") + "Quelle est cette icône ?", r: ["La Corbeille", "Ce PC", "Les Paramètres"], e: "La Corbeille garde les fichiers supprimés : on peut encore les restaurer." },
+            { q: I("word") + "Quelle est cette icône ?", r: ["Microsoft Word", "Microsoft Excel", "Microsoft PowerPoint"], e: "Word, le traitement de texte, a la lettre W sur fond bleu." },
+            { q: I("excel") + "Quelle est cette icône ?", r: ["Microsoft Excel", "Microsoft Word", "Un dossier compressé"], e: "Excel, le tableur, a la lettre X sur fond vert." },
+            { q: I("powerpoint") + "Quelle est cette icône ?", r: ["Microsoft PowerPoint", "Un fichier PDF", "Microsoft Excel"], e: "PowerPoint, pour les présentations, a la lettre P sur fond orange." },
+            { q: I("pdf") + "Quelle est cette icône ?", r: ["Un fichier PDF", "Un fichier texte", "Une image"], e: "Le PDF se reconnaît à son étiquette rouge." },
+            { q: I("pc") + "Quelle est cette icône ?", r: ["Ce PC", "Le navigateur Internet", "La messagerie"], e: "Ce PC montre les disques et la clé USB branchée." },
+            { q: I("explorateur") + "Quelle est cette icône ?", r: ["L'Explorateur de fichiers", "Le dossier Téléchargements", "Un dossier compressé"], e: "L'Explorateur est un dossier jaune barré de bleu, dans la barre des tâches." },
+            { q: I("parametres") + "Quelle est cette icône ?", r: ["Les Paramètres", "La Corbeille", "Un programme d'installation"], e: "L'engrenage ouvre les Paramètres de Windows." },
+            { q: I("zip") + "Quelle est cette icône ?", r: ["Un dossier compressé (zip)", "L'Explorateur de fichiers", "Un dossier"], e: "La fermeture éclair indique un dossier compressé : il faut l'extraire." },
+            { q: I("image") + "Quelle est cette icône ?", r: ["Une image", "Une vidéo", "Un fichier texte"], e: "Le paysage avec un soleil représente une photo ou une image." },
+            { q: I("telechargements") + "Quelle est cette icône ?", r: ["Le dossier Téléchargements", "Un dossier compressé", "Ce PC"], e: "La flèche vers le bas : c'est là qu'arrivent les fichiers téléchargés." }
+          ], titre: "Quelle est cette icône ?" }
+        ] }
+      ]
+    },
+    {
+      titre: "À quoi sert-elle ?",
+      icone: "🎯",
+      resume: "L'icône à ouvrir pour chaque besoin.",
+      ecrans: [
+        { t: "Quelle icône ouvrir ?", b: [
+          { quiz: [
+            { q: "Vous avez supprimé un fichier par erreur. Quelle icône ouvrez-vous pour le récupérer ?", r: [I("corbeille", 44) + " La Corbeille", I("telechargements", 44) + " Téléchargements", I("parametres", 44) + " Les Paramètres"], e: "Dans la Corbeille : clic droit sur le fichier > Restaurer." },
+            { q: "Vous voulez changer le fond d'écran. Quelle icône ouvrez-vous ?", r: [I("parametres", 44) + " Les Paramètres", I("pc", 44) + " Ce PC", I("image", 44) + " Une image"], e: "Paramètres > Personnalisation > Arrière-plan." },
+            { q: "Vous venez de brancher une clé USB. Où la voir ?", r: [I("pc", 44) + " Ce PC", I("corbeille", 44) + " La Corbeille", I("mail", 44) + " La messagerie"], e: "La clé apparaît dans Ce PC, avec les disques." },
+            { q: "Vous avez téléchargé une attestation sur Internet. Où la retrouver ?", r: [I("telechargements", 44) + " Téléchargements", I("dossier", 44) + " Un dossier au hasard", I("parametres", 44) + " Les Paramètres"], e: "Les fichiers téléchargés arrivent dans le dossier Téléchargements." },
+            { q: "Vous voulez ranger vos documents dans des dossiers. Quelle icône ouvrez-vous ?", r: [I("explorateur", 44) + " L'Explorateur de fichiers", I("navigateur", 44) + " Le navigateur", I("word", 44) + " Word"], e: "L'Explorateur sert à créer, déplacer et renommer fichiers et dossiers." },
+            { q: "Vous voulez chercher les horaires de la piscine. Quelle icône ouvrez-vous ?", r: [I("navigateur", 44) + " Le navigateur Internet", I("explorateur", 44) + " L'Explorateur", I("excel", 44) + " Excel"], e: "Le navigateur (Edge, Chrome, Firefox…) ouvre les sites Internet." },
+            { q: "Vous devez écrire une lettre de motivation. Quelle icône ouvrez-vous ?", r: [I("word", 44) + " Word", I("excel", 44) + " Excel", I("powerpoint", 44) + " PowerPoint"], e: "Word sert à écrire et mettre en forme des textes." },
+            { q: "Vous devez calculer votre budget du mois. Quelle icône ouvrez-vous ?", r: [I("excel", 44) + " Excel", I("word", 44) + " Word", I("pdf", 44) + " Un PDF"], e: "Excel fait les calculs dans un tableau." },
+            { q: "Vous devez présenter votre projet devant le groupe. Quelle icône ouvrez-vous ?", r: [I("powerpoint", 44) + " PowerPoint", I("word", 44) + " Word", I("video", 44) + " Une vidéo"], e: "PowerPoint crée des diapositives à projeter." },
+            { q: "Votre conseillère vous a écrit. Quelle icône ouvrez-vous pour lire son message ?", r: [I("mail", 44) + " La messagerie", I("texte", 44) + " Un fichier texte", I("corbeille", 44) + " La Corbeille"], e: "La messagerie (Outlook, Gmail…) reçoit et envoie les mails." }
+          ], titre: "Quelle icône ouvrir ?" }
+        ] }
+      ]
+    },
+    {
+      titre: "Les paires",
+      icone: "🔗",
+      resume: "Relier chaque icône à son nom.",
+      ecrans: [
+        { t: "Relier l'icône et son nom", b: [
+          { associer: [
+            [I("explorateur", 40), "L'Explorateur de fichiers"],
+            [I("pc", 40), "Ce PC"],
+            [I("navigateur", 40), "Le navigateur Internet"],
+            [I("zip", 40), "Un dossier compressé"],
+            [I("musique", 40), "Un fichier de musique"],
+            [I("usb", 40), "Une clé USB"]
+          ], titre: "Les icônes et leurs noms" }
+        ] }
+      ]
+    },
+    {
+      titre: "Dossier, fichier ou programme ?",
+      icone: "🗂️",
+      resume: "Ranger chaque icône dans sa famille.",
+      ecrans: [
+        { t: "Dossier, fichier ou programme ?", b: [
+          { trier: {
+            titre: "Dans quelle famille ?",
+            consigne: "Une icône s'affiche : cliquez sur sa famille.",
+            bacs: ["📁 Dossier", "📄 Fichier", "⚙️ Logiciel ou outil"],
+            items: [
+              [I("dossier", 44) + " Factures", 0], [I("telechargements", 44) + " Téléchargements", 0],
+              [I("pdf", 44) + " attestation.pdf", 1], [I("image", 44) + " photo-identite.jpg", 1], [I("texte", 44) + " notes.txt", 1], [I("video", 44) + " tutoriel.mp4", 1],
+              [I("word", 44) + " Word", 2], [I("navigateur", 44) + " Navigateur Internet", 2], [I("parametres", 44) + " Paramètres", 2]
+            ]
+          } },
+          { activite: { fichier: "livret-fichiers", etape: "Les icônes", titre: "Revoir le cours : les icônes", icone: "📁" } }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

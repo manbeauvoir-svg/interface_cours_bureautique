@@ -147,15 +147,147 @@ const EXERCICES = {
   "xl-budget": {
     app: "excel", niveau: 1, duree: "20 min", titre: "Le budget fournitures",
     objectif: "Créer un petit tableau, avec ses formules et sa mise en forme.",
-    corrige: "excel/budget-fournitures-corrige.pdf",
+    corrige: "excel/budget-fournitures-corrige.pdf", suite: "xl-facture",
     consigne: "excel/budget-fournitures.pdf", consigneGros: "excel/budget-fournitures-gros.pdf",
     taches: ["Créez un classeur nommé <code>Exo Excel.xlsx</code> dans votre dossier Excel.", "En A1, tapez le titre : Budget Fournitures.", "En ligne 3, créez les colonnes : Article (A3), Prix Unitaire (B3), Quantité (C3) et Total (D3).", "Remplissez les lignes 4 et 5 avec les données de la consigne.", "En D4 et D5, calculez le total de chaque ligne (prix × quantité).", "En D7, calculez le total général avec <code>=SOMME(D4:D5)</code>.", "Mettez les colonnes B et D au format monétaire (€) et les titres de la ligne 3 en gras.", "Appliquez un remplissage jaune à la cellule D7."]
+  },
+  "xl-courses": {
+    app: "excel", niveau: 1, duree: "20 min", titre: "Ma liste de courses", objectif: "Calculer le prix de chaque article, le total des courses et ce qu'il reste sur le budget.", fichier: "excel/liste-courses.xlsx", corrige: "excel/liste-courses-corrige.pdf", suite: "xl-semaine",
+    taches: [
+      "Ouvrez le fichier <code>liste-courses.xlsx</code> et enregistrez-le dans votre dossier Excel.",
+      "En D4, calculez le total du lait : <code>=B4*C4</code>.",
+      "Recopiez la formule jusqu'en D11 avec la poignée de recopie (le petit carré en bas à droite de la cellule).",
+      "En D12, calculez le total des courses : <code>=SOMME(D4:D11)</code>.",
+      "En G4, calculez ce qu'il vous reste sur votre budget : <code>=G3-D12</code>.",
+      "Mettez les prix et les totaux au format Monétaire (€), puis la cellule D12 en gras sur fond jaune.",
+      "Vérifiez : les courses coûtent 27,60 € et il vous reste 22,40 €."
+    ]
+  },
+  "xl-semaine": {
+    app: "excel", niveau: 1, duree: "20 min", titre: "Ma semaine de travail", objectif: "Compter ses heures de la semaine et les comparer à son contrat avec la fonction SI.", fichier: "excel/semaine-travail.xlsx", corrige: "excel/semaine-travail-corrige.pdf", suite: "xl-depenses",
+    taches: [
+      "Ouvrez le fichier <code>semaine-travail.xlsx</code> et enregistrez-le dans votre dossier Excel.",
+      "En D4, additionnez le matin et l'après-midi : <code>=B4+C4</code>, puis recopiez jusqu'en D8.",
+      "En D9, le total de la semaine : <code>=SOMME(D4:D8)</code>.",
+      "En B11, la moyenne par jour : <code>=MOYENNE(D4:D8)</code>. En B12, la journée la plus longue : <code>=MAX(D4:D8)</code>.",
+      "En B14, comparez au contrat : <code>=SI(D9>=B13;&quot;Contrat respecté&quot;;&quot;Il manque des heures&quot;)</code>.",
+      "Vérifiez : 34,5 heures dans la semaine, il manque donc des heures."
+    ]
+  },
+  "xl-depenses": {
+    app: "excel", niveau: 1, duree: "25 min", titre: "Mes dépenses du mois en graphique", objectif: "Faire le total de ses dépenses et les montrer dans un graphique.", fichier: "excel/depenses-mois.xlsx", corrige: "excel/depenses-mois-corrige.pdf", suite: "xl-facture",
+    taches: [
+      "Ouvrez le fichier <code>depenses-mois.xlsx</code> et enregistrez-le dans votre dossier Excel.",
+      "En B10, le total des dépenses : <code>=SOMME(B4:B9)</code>.",
+      "Sélectionnez A3:B9, puis Insertion > Graphique en secteurs.",
+      "Titre du graphique : « Répartition de mes dépenses ». Affichez les pourcentages : bouton + du graphique > Étiquettes de données.",
+      "Créez un second graphique, en histogramme, avec les mêmes données, et placez-le sous le premier.",
+      "Vérifiez : le loyer représente un peu plus de la moitié des dépenses (52 %)."
+    ]
+  },
+  "xl-facture": {
+    app: "excel", niveau: 2, duree: "30 min", titre: "La facture du client", objectif: "Calculer une facture avec la TVA, grâce à une référence absolue ($).", fichier: "excel/facture.xlsx", corrige: "excel/facture-corrige.pdf", suite: "xl-ventes",
+    taches: [
+      "Ouvrez le fichier <code>facture.xlsx</code> et enregistrez-le dans votre dossier Excel.",
+      "En D7, le total HT de la ligne : <code>=B7*C7</code>.",
+      "En E7, la TVA : <code>=D7*$I$6</code>. Les $ bloquent la cellule du taux quand on recopie la formule (<code>F4</code> les ajoute).",
+      "En F7, le total TTC : <code>=D7+E7</code>.",
+      "Sélectionnez D7:F7 et recopiez jusqu'à la ligne 11.",
+      "Ligne 13 : faites la somme de chaque colonne (<code>=SOMME(D7:D11)</code>, puis recopiez vers la droite).",
+      "Format Monétaire pour les montants. Vérifiez : la facture fait 147,42 € TTC."
+    ]
+  },
+  "xl-ventes": {
+    app: "excel", niveau: 2, duree: "30 min", titre: "Les ventes de l'équipe", objectif: "Savoir qui atteint son objectif avec SI et NB.SI, et le voir en couleur.", fichier: "excel/ventes-equipe.xlsx", corrige: "excel/ventes-equipe-corrige.pdf", suite: "xl-commandes",
+    taches: [
+      "Ouvrez le fichier <code>ventes-equipe.xlsx</code> et enregistrez-le dans votre dossier Excel.",
+      "En E4, le total du trimestre : <code>=SOMME(B4:D4)</code>, puis recopiez jusqu'en E9.",
+      "En F4 : <code>=SI(E4>=$I$3;&quot;Oui&quot;;&quot;Non&quot;)</code>, puis recopiez jusqu'en F9.",
+      "En F11, comptez les vendeurs qui atteignent l'objectif : <code>=NB.SI(F4:F9;&quot;Oui&quot;)</code>.",
+      "Sélectionnez E4:E9 : Accueil > Mise en forme conditionnelle. En rouge les totaux inférieurs à l'objectif, en vert les autres.",
+      "Vérifiez : 3 vendeurs atteignent l'objectif."
+    ]
+  },
+  "xl-commandes": {
+    app: "excel", niveau: 2, duree: "25 min", titre: "Trier et filtrer les commandes", objectif: "Retrouver vite une information dans une longue liste.", fichier: "excel/commandes.xlsx", corrige: "excel/commandes-corrige.pdf",
+    taches: [
+      "Ouvrez le fichier <code>commandes.xlsx</code> et enregistrez-le dans votre dossier Excel.",
+      "Triez du plus gros au plus petit montant : cliquez dans la colonne Montant, puis Données > Trier du plus grand au plus petit.",
+      "Activez les filtres : Données > Filtrer.",
+      "N'affichez que les commandes d'Évry (flèche de la colonne Ville).",
+      "Effacez ce filtre, puis n'affichez que les écrans (colonne Produit).",
+      "Figez la ligne des titres : Affichage > Figer les volets > Figer la ligne supérieure.",
+      "Vérifiez : la plus grosse commande fait 420 € et 9 commandes viennent d'Évry."
+    ]
   },
   "ppt-formatech": {
     app: "powerpoint", niveau: 1, duree: "25 min", titre: "Bienvenue chez Formatech",
     objectif: "Créer une courte présentation de 3 diapositives.",
-    corrige: "powerpoint/formatech-corrige.pdf",
+    corrige: "powerpoint/formatech-corrige.pdf", suite: "ppt-schema",
     taches: ["Créez une présentation <code>test_ppt.pptx</code> dans votre dossier PowerPoint.", "<strong>Diapositive 1 :</strong> titre « Bienvenue chez Formatech » (Aptos Display, taille 60), sous-titre « Rapport d'activité 2026 » (Aptos, taille 24).", "<strong>Diapositive 2 :</strong> titre « Nos Résultats » (taille 44). Insérez une forme contenant « +15% de croissance » (Aptos gras, taille 36).", "<strong>Diapositive 3 :</strong> titre « Contact » (taille 44). Insérez une image et une zone de texte en bas : « Fin de présentation » (Aptos, taille 28)."]
+  },
+
+  "ppt-moi": {
+    app: "powerpoint", niveau: 1, duree: "25 min", titre: "Me présenter en 4 diapositives", objectif: "Une courte présentation de soi, à réutiliser pour un entretien ou un stage.", corrige: "powerpoint/me-presenter-corrige.pdf", suite: "ppt-affiche",
+    taches: [
+      "Créez une présentation vide et enregistrez-la sous <code>Me_presenter.pptx</code> dans votre dossier PowerPoint.",
+      "Choisissez un thème : onglet Création.",
+      "<strong>Diapositive 1</strong> (Titre) : votre prénom et votre nom, et le sous-titre « Mon parcours et mon projet ».",
+      "<strong>Diapositive 2</strong> « Mes expériences » : 3 puces sur vos expériences (emploi, stage, bénévolat…).",
+      "<strong>Diapositive 3</strong> « Mes compétences » : 4 puces sur ce que vous savez faire.",
+      "<strong>Diapositive 4</strong> « Mon projet » : 3 puces sur votre projet professionnel.",
+      "Ajoutez les numéros de diapositives : Insertion > En-tête et pied de page.",
+      "Lancez le diaporama avec {F5}. Le corrigé montre un exemple : vos textes seront différents."
+    ]
+  },
+  "ppt-affiche": {
+    app: "powerpoint", niveau: 1, duree: "25 min", titre: "Une affiche pour un événement", objectif: "Mettre en page une affiche sur une seule diapositive, puis l'enregistrer en PDF.", consigne: "powerpoint/affiche-consigne.pdf", consigneGros: "powerpoint/affiche-consigne-gros.pdf", corrige: "powerpoint/affiche-corrige.pdf", suite: "ppt-formatech",
+    taches: [
+      "Créez une présentation, puis passez la diapositive en disposition Vide (Accueil > Disposition > Vide).",
+      "Changez la couleur de fond : Création > Mettre en forme l'arrière-plan.",
+      "Le titre en WordArt : Insertion > WordArt, avec le titre de la consigne.",
+      "Une zone de texte (Insertion > Zone de texte) pour la date, le lieu et les animations, centrée, taille 28.",
+      "Une forme (Insertion > Formes > rectangle à coins arrondis) avec le texte des inscriptions, en gras.",
+      "Une petite décoration : une étoile ou une icône (Insertion > Icônes).",
+      "Enregistrez l'affiche en PDF : Fichier > Exporter > Créer un document PDF."
+    ]
+  },
+  "ppt-schema": {
+    app: "powerpoint", niveau: 2, duree: "25 min", titre: "Un schéma SmartArt et un tableau", objectif: "Présenter des étapes avec un SmartArt et un planning avec un tableau.", consigne: "powerpoint/schema-tableau-consigne.pdf", consigneGros: "powerpoint/schema-tableau-consigne-gros.pdf", corrige: "powerpoint/schema-tableau-corrige.pdf", suite: "ppt-animer",
+    taches: [
+      "Créez une présentation de 2 diapositives en disposition « Titre seul ».",
+      "<strong>Diapositive 1</strong> : titre « Ma recherche d'emploi », puis Insertion > SmartArt > Processus > Processus de base.",
+      "Tapez les 5 étapes de la consigne. S'il manque une case : Création SmartArt > Ajouter une forme.",
+      "Changez les couleurs du SmartArt : Création SmartArt > Modifier les couleurs.",
+      "<strong>Diapositive 2</strong> : titre « Mon planning de la semaine », puis Insertion > Tableau de 3 colonnes et 6 lignes.",
+      "Remplissez le tableau avec la consigne et choisissez un style de tableau.",
+      "Enregistrez sous <code>Ma_recherche.pptx</code>."
+    ]
+  },
+  "ppt-presenter": {
+    app: "powerpoint", niveau: 2, duree: "45 min", titre: "Présenter à l'oral",
+    objectif: "Préparer ses notes, se chronométrer, puis présenter sa présentation devant le groupe pendant 2 minutes.",
+    taches: [
+      "Ouvrez votre présentation « Me présenter » (ou le fichier des bons réflexes numériques de l'exercice précédent).",
+      "Sous chaque diapositive, écrivez vos notes : 3 ou 4 mots-clés, pas de phrases complètes.",
+      "Répétez à voix haute avec Diaporama > Vérification du minutage : visez 2 minutes en tout.",
+      "Lancez le diaporama en mode Présentateur avec {Alt+F5} et repérez vos notes, le minuteur et la diapositive suivante.",
+      "Présentez devant le groupe ou le formateur : annoncez le sujet, expliquez chaque diapositive sans la lire, concluez.",
+      "Répondez à une question du public.",
+      "Auto-évaluation : j'ai regardé le public, je n'ai pas lu mes diapositives, j'ai parlé assez fort et lentement, j'ai tenu les 2 minutes."
+    ]
+  },
+  "ppt-animer": {
+    app: "powerpoint", niveau: 2, duree: "30 min", titre: "Animer une présentation", objectif: "Ajouter transitions, animations et notes, puis présenter.", fichier: "powerpoint/bons-reflexes-numeriques.pptx", suite: "ppt-presenter",
+    taches: [
+      "Ouvrez le fichier <code>bons-reflexes-numeriques.pptx</code> et enregistrez-le dans votre dossier PowerPoint.",
+      "Onglet Transitions : choisissez Fondu, puis Appliquer partout.",
+      "Diapositive 2 : sélectionnez la zone des puces, puis Animations > Apparaître. Les puces arrivent une par une.",
+      "Faites de même pour les diapositives 3 à 5 (astuce : Animations > Reproduire l'animation).",
+      "Sous la diapositive 3, dans les notes, écrivez : « Montrer un exemple de mail frauduleux ».",
+      "Masquez la diapositive 6 : clic droit sur sa miniature > Masquer la diapositive.",
+      "Lancez le diaporama ({F5}), vérifiez que tout s'enchaîne, puis enregistrez."
+    ]
   },
 
   /* ---------- FICHIERS ET DOSSIERS ---------- */

@@ -272,7 +272,7 @@
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
 </style>
-<link rel="stylesheet" href="activites/livret/polices/polices.css?v=202611091537">
+<link rel="stylesheet" href="activites/livret/polices/polices.css?v=202611101556">
 </head>
 <body>
 
@@ -348,14 +348,14 @@
   <div id="cadre" class="cadre"></div>
 </div>
 
-<script src="catalogue.js?v=202611091537"></script>
-<script src="bilan-commun.js?v=202611091537"></script>
+<script src="catalogue.js?v=202611101556"></script>
+<script src="bilan-commun.js?v=202611101556"></script>
 <script>
   const $ = id => document.getElementById(id);
   const baseTitre = document.title;
   const CLE = "cours-bureautique:ouvertes";
   // Remplacé à chaque mise en ligne : les pages d'activités sont rechargées, jamais prises dans une vieille mémoire.
-  const VERSION_SITE = "202611091537";
+  const VERSION_SITE = "202611101556";
   const calme = matchMedia("(prefers-reduced-motion: reduce)");
   const idDe = a => a.fichier.replace(/\.html?$/i, "");
   const slug = t => (t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");

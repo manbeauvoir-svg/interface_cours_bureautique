@@ -8,11 +8,11 @@ const ResultatActivite = (() => {
   const debut = Date.now();
   const pourcent = (s, t) => t ? Math.round(s / t * 100) : 0;
 
-  function noter({ titre, type, score, total, detail }) {
+  function noter({ titre, type, score, total, detail, cle = "partie" }) {
     try {
       const etat = JSON.parse(localStorage.getItem(CLE + id)) || { etoiles: {}, faites: {}, temps: {}, resultats: {} };
       etat.meta = { fichier: id, titre, etapes: 0, etoiles: 0 };
-      const r = etat.resultats.partie || { type, titre, etape: titre, essais: 0, meilleur: 0, total, temps: 0 };
+      const r = etat.resultats[cle] || { type, titre, etape: titre, essais: 0, meilleur: 0, total, temps: 0 };
       const duree = Math.min(Date.now() - debut, 4 * 3600 * 1000);
       r.essais++;
       r.dernier = score;
@@ -23,7 +23,7 @@ const ResultatActivite = (() => {
       r.dernierTemps = duree;
       r.date = new Date().toISOString();
       r.detail = detail || [];
-      etat.resultats.partie = r;
+      etat.resultats[cle] = r;
       localStorage.setItem(CLE + id, JSON.stringify(etat));
     } catch {}
   }

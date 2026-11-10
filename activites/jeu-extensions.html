@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le jeu des extensions</title>
+<link rel="stylesheet" href="livret/livret.css?v=202611101556">
+<style>
+  .question .icone-dessin { display: block; margin: 2px 0 10px; }
+  .pile { display: flex; align-items: center; gap: 12px; }
+</style>
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js?v=202611101556"></script>
+<script src="livret/exercices.js?v=202611101556"></script>
+<script src="livret/icones-fichiers.js?v=202611101556"></script>
+<script src="livret/export-resultat.js?v=202611101556"></script>
+<script src="livret/livret.js?v=202611101556"></script>
+<script>
+const F = n => `<code>${n}</code>`;
+Livret.demarrer({
+  id: "jeu-extensions",
+  etiquette: "JEU",
+  titre: "Le jeu des extensions",
+  icone: "🔖",
+  couleur: "#a21caf",
+  pale: "#f8e8fb",
+  accroche: "Les lettres après le point disent ce qu'est un fichier et quel logiciel l'ouvre. Quatre manches pour ne plus se tromper, et éviter les pièges.",
+  etapes: [
+    {
+      titre: "Quel logiciel l'ouvre ?",
+      icone: "🖱️",
+      resume: "Douze fichiers, douze logiciels.",
+      ecrans: [
+        { t: "Quel logiciel ouvre ce fichier ?", b: [
+          { quiz: [
+            { q: "Avec quoi ouvrir " + F("lettre-motivation.docx") + " ?", r: ["Word", "Excel", "PowerPoint"], e: ".docx : un document Word." },
+            { q: "Avec quoi ouvrir " + F("budget-mars.xlsx") + " ?", r: ["Excel", "Word", "Le Bloc-notes"], e: ".xlsx : un classeur Excel." },
+            { q: "Avec quoi ouvrir " + F("presentation-projet.pptx") + " ?", r: ["PowerPoint", "Excel", "Le lecteur vidéo"], e: ".pptx : une présentation PowerPoint." },
+            { q: "Avec quoi ouvrir " + F("attestation-caf.pdf") + " ?", r: ["Un lecteur PDF ou le navigateur", "Excel", "Le lecteur de musique"], e: "Le PDF s'ouvre avec Acrobat Reader ou directement dans le navigateur (Edge, Chrome…)." },
+            { q: "Avec quoi ouvrir " + F("photo-identite.jpg") + " ?", r: ["L'application Photos", "Word", "Le Bloc-notes"], e: ".jpg : une image, ouverte par la visionneuse Photos." },
+            { q: "Avec quoi ouvrir " + F("chanson.mp3") + " ?", r: ["Un lecteur de musique", "PowerPoint", "Excel"], e: ".mp3 : un fichier audio (Lecteur multimédia, VLC…)." },
+            { q: "Avec quoi ouvrir " + F("tutoriel.mp4") + " ?", r: ["Un lecteur vidéo", "Le Bloc-notes", "Word"], e: ".mp4 : une vidéo." },
+            { q: "Avec quoi ouvrir " + F("liste-courses.txt") + " ?", r: ["Le Bloc-notes", "PowerPoint", "Le lecteur vidéo"], e: ".txt : du texte simple, sans mise en forme." },
+            { q: "Que faire avec " + F("photos-vacances.zip") + " ?", r: ["L'extraire avec l'Explorateur", "L'ouvrir avec Word", "Le renommer en .jpg"], e: ".zip : un dossier compressé. Clic droit > Extraire tout." },
+            { q: "Qu'est-ce que " + F("installation.exe") + " ?", r: ["Un programme qui s'installe ou se lance", "Un document à lire", "Une image"], e: ".exe : un programme. À n'ouvrir que s'il vient d'une source sûre." },
+            { q: "Avec quoi ouvrir " + F("contacts.csv") + " ?", r: ["Excel", "PowerPoint", "Le lecteur de musique"], e: ".csv : des données séparées par des points-virgules, qu'Excel range en colonnes." },
+            { q: "Avec quoi ouvrir " + F("cv.odt") + " ?", r: ["LibreOffice Writer, ou Word", "Excel", "Le lecteur vidéo"], e: ".odt : un document texte de LibreOffice, que Word sait aussi ouvrir." }
+          ], titre: "Quel logiciel l'ouvre ?" }
+        ] }
+      ]
+    },
+    {
+      titre: "Range les fichiers",
+      icone: "🗂️",
+      resume: "Chaque fichier dans sa famille.",
+      ecrans: [
+        { t: "Range les fichiers", b: [
+          { trier: {
+            titre: "Quelle famille ?",
+            consigne: "Un fichier s'affiche : cliquez sur sa famille.",
+            bacs: ["📄 Document", "🖼️ Image", "🎬 Son ou vidéo", "🗜️ Archive", "⚙️ Programme"],
+            items: [
+              [F("rapport.docx"), 0], [F("facture.pdf"), 0], [F("tableau.xlsx"), 0], [F("notes.txt"), 0],
+              [F("logo.png"), 1], [F("photo.jpg"), 1], [F("animation.gif"), 1],
+              [F("musique.mp3"), 2], [F("film.mp4"), 2], [F("message-vocal.wav"), 2],
+              [F("dossier.zip"), 3], [F("archives.rar"), 3],
+              [F("setup.exe"), 4], [F("lancer.bat"), 4]
+            ]
+          } }
+        ] }
+      ]
+    },
+    {
+      titre: "Les paires",
+      icone: "🔗",
+      resume: "L'extension et son icône.",
+      ecrans: [
+        { t: "Relier l'extension à son icône", b: [
+          { associer: [
+            [F(".docx"), ICONE("word", 40)],
+            [F(".xlsx"), ICONE("excel", 40)],
+            [F(".pptx"), ICONE("powerpoint", 40)],
+            [F(".pdf"), ICONE("pdf", 40)],
+            [F(".mp4"), ICONE("video", 40)],
+            [F(".zip"), ICONE("zip", 40)]
+          ], titre: "Les extensions et leurs icônes" }
+        ] }
+      ]
+    },
+    {
+      titre: "Attention aux pièges",
+      icone: "⚠️",
+      resume: "Les bons réflexes avec les extensions.",
+      ecrans: [
+        { t: "Attention aux pièges", b: [
+          { quiz: [
+            { q: "Vous recevez un mail avec la pièce jointe " + F("facture.pdf.exe") + ". Qu'est-ce que c'est ?", r: ["Un programme déguisé en PDF : danger, ne pas l'ouvrir", "Un PDF normal", "Une facture en image"], e: "Seule la dernière extension compte : .exe. C'est une ruse classique des pirates." },
+            { q: "Vous renommez " + F("photo.jpg") + " en " + F("photo.pdf") + ". Que se passe-t-il ?", r: ["Le fichier ne devient pas un PDF, il risque de ne plus s'ouvrir", "Il devient un vrai PDF", "La photo s'imprime"], e: "Changer l'extension ne transforme pas le fichier. Pour un PDF : Fichier > Enregistrer sous ou Imprimer en PDF." },
+            { q: "Que sépare le point dans " + F("rapport.docx") + " ?", r: ["Le nom du fichier et son extension", "Deux mots du nom", "Le dossier et le fichier"], e: "Avant le point, le nom ; après le point, l'extension." },
+            { q: "Vous envoyez votre CV et vous ne voulez pas qu'on le modifie. Quel format choisir ?", r: ["PDF", "DOCX", "TXT"], e: "Le PDF garde la mise en page et se modifie difficilement." },
+            { q: "Vous devez envoyer 20 photos en une seule pièce jointe. Que faites-vous ?", r: ["Je les compresse dans un fichier .zip", "Je les renomme en .pdf", "Je les colle dans le Bloc-notes"], e: "Clic droit > Compresser dans un fichier ZIP : un seul fichier, plus léger." },
+            { q: "Vos fichiers s'appellent « rapport » sans extension visible. Pourquoi ?", r: ["Windows cache les extensions par défaut", "Le fichier est abîmé", "Le fichier n'a pas de type"], e: "Dans l'Explorateur : menu Afficher, puis Afficher > Extensions de noms de fichiers." },
+            { q: "Quelle est la différence entre " + F(".doc") + " et " + F(".docx") + " ?", r: ["Ce sont deux formats Word : .doc est l'ancien", "Le .doc est une image", "Le .docx est un PDF"], e: "Le .docx existe depuis Word 2007 ; Word ouvre toujours les anciens .doc." },
+            { q: "Une image avec un fond transparent (un logo, par exemple) est souvent au format…", r: [".png", ".mp3", ".xlsx"], e: "Le .png garde la transparence ; le .jpg convient aux photos." },
+            { q: "Un site vous propose " + F("codes-gratuits.exe") + " à télécharger. Que faites-vous ?", r: ["Je ne le télécharge pas : un programme inconnu peut contenir un virus", "Je l'ouvre pour voir", "Je l'envoie à mes collègues"], e: "N'installez que des programmes venant de sites officiels, et demandez en cas de doute." },
+            { q: "Dans quel format le Bloc-notes enregistre-t-il ?", r: [".txt", ".docx", ".pdf"], e: "Le Bloc-notes fait du texte simple : .txt." }
+          ], titre: "Attention aux pièges" },
+          { activite: { fichier: "livret-fichiers", etape: "Les extensions", titre: "Revoir le cours : les extensions", icone: "📁" } }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

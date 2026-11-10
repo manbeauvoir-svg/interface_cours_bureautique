@@ -50,7 +50,7 @@
   .texte ins { background: var(--bon-fond); color: var(--bon); padding: 1px 4px; border-radius: 4px; font-weight: 800; text-decoration: none; }
   .legende { margin: 14px 0 0; font-size: .95rem; color: var(--doux); }
 </style>
-<link rel="stylesheet" href="livret/polices/polices.css?v=202611091537">
+<link rel="stylesheet" href="livret/polices/polices.css?v=202611101556">
 </head>
 <body>
 <main>
@@ -94,8 +94,8 @@
   </section>
 </main>
 
-<script src="livret/export-resultat.js?v=202611091537"></script>
-<script src="livret/resultat-activite.js?v=202611091537"></script>
+<script src="livret/export-resultat.js?v=202611101556"></script>
+<script src="livret/resultat-activite.js?v=202611101556"></script>
 <script>
   /*
     POUR AJOUTER UNE DICTÉE : copiez un bloc et changez le texte.
@@ -117,6 +117,66 @@
       titre: "Un courrier soigné",
       niveau: "Plus difficile",
       texte: "Avant d'envoyer une lettre, l'assistante relit attentivement son texte. Elle corrige les fautes qu'elle a repérées, puis elle choisit une police lisible. Les marges et les titres donnent au document une présentation agréable. Enfin, elle enregistre le fichier au format PDF afin que la mise en page reste identique sur tous les ordinateurs."
+    },
+    {
+      titre: "Le message à un collègue",
+      niveau: "Facile",
+      texte: "Bonjour Paul, je t'envoie le planning de la semaine. La réunion aura lieu mardi à dix heures. Peux-tu me confirmer ta présence ? Merci et bonne journée."
+    },
+    {
+      titre: "La clé USB",
+      niveau: "Facile",
+      texte: "J'ai branché ma clé USB sur l'ordinateur. Un dossier s'est ouvert tout seul. J'ai copié mes photos, puis j'ai retiré la clé sans rien abîmer."
+    },
+    {
+      titre: "Imprimer un document",
+      niveau: "Facile",
+      texte: "Je veux imprimer ma lettre. Je clique sur le menu Fichier, puis sur Imprimer. Je choisis deux copies et je lance l'impression."
+    },
+    {
+      titre: "Le mot de passe",
+      niveau: "Facile",
+      texte: "Mon mot de passe est secret. Je ne le donne à personne, même à un ami. Il contient des lettres, des chiffres et des symboles."
+    },
+    {
+      titre: "Prendre un rendez-vous",
+      niveau: "Moyen",
+      texte: "Madame, je souhaiterais prendre rendez-vous avec ma conseillère la semaine prochaine. Je suis disponible le lundi matin et le jeudi après-midi. Je vous remercie par avance de votre réponse."
+    },
+    {
+      titre: "Le budget du mois",
+      niveau: "Moyen",
+      texte: "Chaque mois, je note mes dépenses dans un tableau. Le loyer, les courses et le transport occupent la plus grande partie de mon budget. Grâce aux formules, le total se calcule tout seul et je sais ce qu'il me reste."
+    },
+    {
+      titre: "Une recherche sur Internet",
+      niveau: "Moyen",
+      texte: "Pour trouver une formation, j'ouvre le navigateur et je tape quelques mots-clés dans le moteur de recherche. Je compare plusieurs sites avant de faire confiance à une information. Je vérifie toujours la date et la source."
+    },
+    {
+      titre: "Attention aux arnaques",
+      niveau: "Moyen",
+      texte: "Hier, j'ai reçu un message inquiétant qui me demandait mes coordonnées bancaires. L'adresse de l'expéditeur était bizarre et le texte contenait des fautes. Je n'ai pas cliqué sur le lien et j'ai supprimé le message."
+    },
+    {
+      titre: "La lettre de motivation",
+      niveau: "Plus difficile",
+      texte: "Madame, Monsieur, actuellement en formation, je souhaiterais intégrer votre entreprise en tant qu'assistant administratif. Rigoureux et organisé, j'ai acquis des compétences solides en bureautique. Je serais heureux de vous présenter mon parcours lors d'un entretien."
+    },
+    {
+      titre: "Le compte rendu de réunion",
+      niveau: "Plus difficile",
+      texte: "Lors de la réunion du quinze novembre, l'équipe a examiné les résultats du trimestre. Les ventes ont progressé, mais certaines commandes ont été livrées en retard. Chacun s'est engagé à améliorer le suivi des livraisons avant la fin de l'année."
+    },
+    {
+      titre: "Le travail à distance",
+      niveau: "Plus difficile",
+      texte: "Depuis qu'elle travaille à distance deux jours par semaine, Sophie organise soigneusement ses journées. Elle participe aux réunions en visioconférence et partage ses documents dans un espace commun. Ainsi, ses collègues retrouvent toujours la dernière version des fichiers."
+    },
+    {
+      titre: "Les sauvegardes",
+      niveau: "Plus difficile",
+      texte: "Un ordinateur peut tomber en panne sans prévenir. C'est pourquoi les entreprises effectuent des sauvegardes régulières sur des disques externes ou dans le cloud. En cas de problème, les fichiers perdus peuvent être récupérés rapidement, ce qui évite bien des soucis."
     }
   ];
 
@@ -254,7 +314,7 @@
       ? `Les ${attendu.length} mots et signes sont justes.`
       : `${erreurs} erreur${erreurs > 1 ? "s" : ""} sur ${attendu.length} mots et signes de ponctuation.`;
     $("correction").hidden = false;
-    ResultatActivite.terminer({ apres: $("note"), titre: "Dictées", type: "Dictée", score: Math.max(0, attendu.length - erreurs), total: attendu.length, detail: fautes, unite: "mots et signes justes" });
+    ResultatActivite.terminer({ apres: $("note"), titre: "Dictée : " + dictee.titre, cle: "dictee-" + DICTEES.indexOf(dictee), type: "Dictée", score: Math.max(0, attendu.length - erreurs), total: attendu.length, detail: fautes, unite: "mots et signes justes" });
     $("correction").focus({ preventScroll: true });
     $("correction").scrollIntoView({ behavior: "smooth", block: "start" });
   });

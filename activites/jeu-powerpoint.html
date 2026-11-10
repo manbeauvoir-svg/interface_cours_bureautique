@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le jeu de PowerPoint</title>
+<link rel="stylesheet" href="livret/livret.css?v=202611101556">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js?v=202611101556"></script>
+<script src="livret/exercices.js?v=202611101556"></script>
+<script src="livret/export-resultat.js?v=202611101556"></script>
+<script src="livret/livret.js?v=202611101556"></script>
+<script>
+Livret.demarrer({
+  id: "jeu-powerpoint",
+  etiquette: "JEU",
+  titre: "Le jeu de PowerPoint",
+  icone: "🎞️",
+  couleur: "#c43e1c",
+  pale: "#fbeae5",
+  accroche: "Transition ou animation ? Quelle touche pour lancer le diaporama ? Dans quel onglet ? Quatre manches pour préparer une présentation sans hésiter.",
+  etapes: [
+    {
+      titre: "Transition ou animation ?",
+      icone: "✨",
+      resume: "Entre deux diapositives, ou sur un élément ?",
+      ecrans: [
+        { t: "Transition ou animation ?", b: [
+          { p: "Une <strong>transition</strong> se joue entre deux diapositives. Une <strong>animation</strong> se joue sur un élément de la diapositive : un titre, une image, une puce." },
+          { trier: {
+            titre: "Transition ou animation ?",
+            bacs: ["🔀 Transition", "🎬 Animation"],
+            items: [
+              ["Un fondu entre la diapositive 2 et la diapositive 3", 0], ["Un titre qui apparaît au clic", 1],
+              ["La diapositive qui se tourne comme une page", 0], ["Les puces qui arrivent une par une", 1],
+              ["Une image qui s'envole à la fin", 1], ["Le même effet appliqué à toutes les diapositives", 0],
+              ["Un mot qui grossit pour attirer l'attention", 1], ["Le passage automatique à la diapositive suivante après 5 secondes", 0]
+            ]
+          } }
+        ] }
+      ]
+    },
+    {
+      titre: "Touches et boutons",
+      icone: "⌨️",
+      resume: "Les réflexes du présentateur.",
+      ecrans: [
+        { t: "Touches et boutons", b: [
+          { quiz: [
+            { q: "Quelle touche lance le diaporama depuis le début ?", r: ["{F5}", "{F12}", "{Échap}"], e: "F5 : diaporama depuis la première diapositive." },
+            { q: "Et pour le lancer depuis la diapositive affichée ?", r: ["{Maj+F5}", "{Ctrl+F5}", "{Alt+F4}"], e: "Maj + F5 : on reprend là où l'on en est." },
+            { q: "Quelle touche quitte le diaporama ?", r: ["{Échap}", "{Entrée}", "{Suppr}"], e: "Échap ramène à l'écran de travail." },
+            { q: "Quel raccourci ajoute une nouvelle diapositive ?", r: ["{Ctrl+M}", "{Ctrl+N}", "{Ctrl+D}"], e: "Ctrl + M : nouvelle diapositive. Ctrl + N crée une nouvelle présentation." },
+            { q: "Pendant le diaporama, la touche {B} …", r: ["met l'écran en noir, pour faire une pause", "ferme PowerPoint", "passe à la fin"], e: "B (comme « black ») noircit l'écran ; on appuie à nouveau pour revenir." },
+            { q: "Pour voir toutes les diapositives en petit et les réorganiser, on choisit…", r: ["Le mode Trieuse de diapositives", "Le mode Lecture", "Le masque des diapositives"], e: "Affichage > Trieuse de diapositives : on les déplace par glisser-déposer." },
+            { q: "Pour mettre un logo sur toutes les diapositives d'un coup, on utilise…", r: ["Le masque des diapositives", "Une transition", "Le mode Présentateur"], e: "Affichage > Masque des diapositives : ce qu'on y place apparaît partout." },
+            { q: "Pour voir ses notes pendant que le public ne voit que les diapositives, on utilise…", r: ["Le mode Présentateur", "Le mode Plan", "Le mode Lecture"], e: "Le mode Présentateur affiche les notes, le minuteur et la diapositive suivante sur votre écran." },
+            { q: "Pour envoyer une présentation qu'on ne pourra pas modifier, on l'enregistre en…", r: ["PDF", ".pptx", ".potx"], e: "Fichier > Exporter > Créer un document PDF." },
+            { q: "Un fichier .potx, c'est…", r: ["Un modèle de présentation", "Une vidéo", "Une présentation abîmée"], e: "Le .potx est un modèle : il sert de point de départ à de nouvelles présentations." }
+          ], titre: "Touches et boutons" }
+        ] }
+      ]
+    },
+    {
+      titre: "Le bon onglet",
+      icone: "🎀",
+      resume: "Chaque action et son onglet.",
+      ecrans: [
+        { t: "Relier l'action et son onglet", b: [
+          { associer: [
+            ["Ajouter une nouvelle diapositive", "Accueil"],
+            ["Insérer une image ou un SmartArt", "Insertion"],
+            ["Choisir un thème", "Création"],
+            ["Appliquer un fondu entre les diapositives", "Transitions"],
+            ["Faire apparaître un titre au clic", "Animations"],
+            ["Lancer le diaporama", "Diaporama"]
+          ], titre: "Les actions et leurs onglets" }
+        ] }
+      ]
+    },
+    {
+      titre: "Préparer une présentation",
+      icone: "🗂️",
+      resume: "Les étapes dans l'ordre.",
+      ecrans: [
+        { t: "Préparer une présentation", b: [
+          { ordre: ["Choisir un thème", "Ajouter les diapositives", "Écrire les titres et les textes", "Insérer les images et les schémas", "Ajouter les transitions et les animations", "Vérifier en lançant le diaporama", "Enregistrer"], titre: "Remettez les étapes dans l'ordre" },
+          { activite: { fichier: "exercices-powerpoint", etape: "PowerPoint", titre: "Passer aux vrais exercices dans PowerPoint", texte: "Dans la rubrique Exercices : se présenter, une affiche, un schéma…", icone: "📝" } }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

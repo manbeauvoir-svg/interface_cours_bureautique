@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le jeu d'Excel</title>
+<link rel="stylesheet" href="livret/livret.css?v=202611101556">
+<style>
+  .mini-xl { border-collapse: collapse; margin: 4px 0 10px; font: 600 .98rem Consolas, "Courier New", monospace; }
+  .mini-xl th { background: #eef1ee; color: #555; font: 700 .8rem "Segoe UI", sans-serif; padding: 2px 10px; border: 1px solid #c6cbc6; }
+  .mini-xl td { min-width: 70px; padding: 4px 10px; border: 1px solid #c6cbc6; background: #fff; text-align: right; }
+  .mini-xl td.t { text-align: left; }
+  .barre-fx { display: inline-flex; gap: 8px; align-items: center; margin: 2px 0 8px; padding: 4px 10px; border: 1px solid #c6cbc6; border-radius: 6px; background: #fff; font: 600 1rem Consolas, monospace; }
+  .barre-fx b { color: #107c41; font-style: italic; font-family: "Segoe UI", sans-serif; }
+  .mini-xl td.cible { outline: 2.5px solid #107c41; outline-offset: -2px; background: #e6f4ea; color: #107c41; text-align: center; font-size: 1.1rem; }
+  .barre-fx .nom { padding-right: 8px; border-right: 1px solid #c6cbc6; color: #333; font-family: "Segoe UI", sans-serif; font-style: normal; }
+</style>
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js?v=202611101556"></script>
+<script src="livret/exercices.js?v=202611101556"></script>
+<script src="livret/export-resultat.js?v=202611101556"></script>
+<script src="livret/livret.js?v=202611101556"></script>
+<script>
+// Une petite feuille Excel : lignes = [["12"], ["8"], ...] pour la colonne A, ou plusieurs colonnes.
+const G = (lignes, entetes) => {
+  const cols = entetes || "ABCDEF".slice(0, lignes[0].length).split("");
+  return `<table class="mini-xl"><tr><th></th>${cols.map(c => `<th>${c}</th>`).join("")}</tr>${lignes.map((l, i) => `<tr><th>${i + 1}</th>${l.map(v => `<td class="${/^[\d,. €%-]+$/.test(v) ? "" : "t"}">${v}</td>`).join("")}</tr>`).join("")}</table>`;
+};
+const FX = f => `<span class="barre-fx"><b>fx</b>${f}</span>`;
+// La formule est tapée dans la cellule « ref » (ex. "A4") : elle apparaît encadrée, avec un « ? ».
+const Q = (lignes, ref, formule) => {
+  const col = ref.charCodeAt(0) - 65, lig = +ref.slice(1) - 1;
+  const l = lignes.map(x => x.slice());
+  while (l.length <= lig) l.push([]);
+  const nb = Math.max(col + 1, ...l.map(x => x.length));
+  l.forEach(x => { while (x.length < nb) x.push(""); });
+  l[lig][col] = "§";
+  const grille = G(l).replace('<td class="t">§</td>', '<td class="cible">?</td>');
+  return grille + `<span class="barre-fx"><span class="nom">${ref}</span><b>fx</b>${formule}</span><br>La formule est tapée dans la cellule <b>${ref}</b>. Qu'affichera la cellule ${ref} ?`;
+};
+Livret.demarrer({
+  id: "jeu-excel",
+  etiquette: "JEU",
+  titre: "Le jeu d'Excel",
+  icone: "📊",
+  couleur: "#107c41",
+  pale: "#e6f4ea",
+  accroche: "Deviner ce que va afficher la cellule où l'on tape une formule, repérer les formules fausses, et maîtriser le $ qui bloque une cellule. Cinq manches pour devenir à l'aise avec les formules.",
+  etapes: [
+    {
+      titre: "Que va afficher la cellule ?",
+      icone: "🔮",
+      resume: "Lire la formule, trouver le résultat.",
+      ecrans: [
+        { t: "Que va afficher la cellule ?", b: [
+          { quiz: [
+            { q: Q([["12"], ["8"], ["5"]], "A4", "=SOMME(A1:A3)"), r: ["25", "12", "A1:A3"], e: "SOMME additionne toutes les cellules de A1 à A3 : 12 + 8 + 5 = 25." },
+            { q: Q([["12"], ["8"], ["5"]], "A4", "=A1*A2"), r: ["96", "20", "128"], e: "L'étoile * multiplie : 12 × 8 = 96." },
+            { q: Q([["12"], ["8"], ["5"]], "A4", "=MAX(A1:A3)"), r: ["12", "5", "25"], e: "MAX donne la plus grande valeur." },
+            { q: Q([["12"], ["8"], ["5"]], "A4", "=MIN(A1:A3)"), r: ["5", "12", "8"], e: "MIN donne la plus petite valeur." },
+            { q: Q([["10"], ["14"], ["6"]], "A4", "=MOYENNE(A1:A3)"), r: ["10", "30", "14"], e: "MOYENNE : (10 + 14 + 6) ÷ 3 = 10." },
+            { q: Q([["Café", "3", "4,50 €"]], "D1", "=B1*C1"), r: ["13,50 €", "7,50 €", "4,50 €"], e: "3 paquets × 4,50 € = 13,50 €." },
+            { q: Q([["3"], ["4"]], "A3", "=A1+A2*2"), r: ["11", "14", "9"], e: "Comme en calcul, la multiplication passe avant l'addition : 4 × 2 = 8, puis 3 + 8 = 11. Pour faire l'addition d'abord : =(A1+A2)*2." },
+            { q: Q([["12"]], "B1", "=SI(A1>10;\"Oui\";\"Non\")"), r: ["Oui", "Non", "12"], e: "12 est plus grand que 10 : la condition est vraie, SI affiche « Oui »." },
+            { q: Q([["Oui"], ["Non"], ["Oui"], ["Oui"]], "A5", "=NB.SI(A1:A4;\"Oui\")"), r: ["3", "4", "Oui"], e: "NB.SI compte les cellules qui contiennent « Oui » : il y en a 3." },
+            { q: Q([["50"], ["0"]], "A3", "=A1/A2"), r: ["#DIV/0!", "0", "50"], e: "On ne peut pas diviser par zéro : Excel affiche l'erreur #DIV/0!." }
+          ], titre: "Que va afficher la cellule ?" }
+        ] }
+      ]
+    },
+    {
+      titre: "Le $ qui bloque",
+      icone: "📌",
+      resume: "Ce que devient une formule quand on la recopie.",
+      ecrans: [
+        { t: "Le $ qui bloque", b: [
+          { p: "Quand on recopie une formule vers le bas, Excel décale les cellules d'une ligne. Le <code>$</code> empêche ce décalage." },
+          { quiz: [
+            { q: "En D2, il y a " + FX("=B2*C2") + "On recopie vers le bas en D3. Que devient la formule ?", r: ["=B3*C3", "=B2*C2", "=B3*C2"], e: "Sans $, tout se décale d'une ligne." },
+            { q: "En E2, il y a " + FX("=D2*$H$1") + "(H1 contient le taux de TVA). On recopie en E3. Que devient la formule ?", r: ["=D3*$H$1", "=D3*$H$2", "=D2*$H$1"], e: "D2 se décale, mais $H$1 reste bloquée : c'est une référence absolue." },
+            { q: "Sans les $, " + FX("=D2*H1") + "recopiée en E3 deviendrait…", r: ["=D3*H2 : faux, car H2 est vide", "=D3*H1 : juste", "=D2*H1"], e: "H1 se décale en H2, une cellule vide : le résultat serait 0. D'où le $." },
+            { q: "Quelle touche ajoute les $ autour de la cellule sélectionnée dans la formule ?", r: ["{F4}", "{F2}", "{F5}"], e: "En tapant la formule, cliquez sur la cellule puis appuyez sur F4 : $H$1." },
+            { q: "Comment s'appelle une référence comme A1, qui se décale ?", r: ["Relative", "Absolue", "Fixe"], e: "Relative : elle change avec la recopie. Absolue ($A$1) : elle ne bouge pas." }
+          ], titre: "Le $ qui bloque" }
+        ] }
+      ]
+    },
+    {
+      titre: "Correcte ou erreur ?",
+      icone: "🔍",
+      resume: "Repérer les formules mal écrites.",
+      ecrans: [
+        { t: "Correcte ou erreur ?", b: [
+          { trier: {
+            titre: "Cette formule est-elle bien écrite ?",
+            consigne: "Une formule s'affiche : est-elle correcte, ou Excel va-t-il refuser ?",
+            bacs: ["✅ Correcte", "❌ Erreur"],
+            items: [
+              ["<code>=SOMME(A1:A5)</code>", 0, "Le signe =, la fonction, les deux points pour la plage : tout y est."],
+              ["<code>SOMME(A1:A5)</code>", 1, "Il manque le signe = au début : Excel l'affiche comme du texte."],
+              ["<code>=A1+B1</code>", 0, "Une addition simple de deux cellules."],
+              ["<code>=MOYENNE(A1:A5</code>", 1, "Il manque la parenthèse fermante."],
+              ["<code>=A1×B1</code>", 1, "Dans Excel, on multiplie avec l'étoile * (touche du pavé numérique), pas avec ×."],
+              ["<code>=SI(A1>10;\"Oui\";\"Non\")</code>", 0, "Condition, valeur si vrai, valeur si faux, séparées par des points-virgules."],
+              ["<code>=10/2</code>", 0, "Excel peut aussi calculer avec des nombres : 10 divisé par 2."],
+              ["<code>=SOMME(A1A5)</code>", 1, "Il manque les deux points entre A1 et A5."],
+              ["<code>=SI(A1>10;Oui;Non)</code>", 1, "Les textes doivent être entre guillemets : \"Oui\" et \"Non\"."]
+            ]
+          } }
+        ] }
+      ]
+    },
+    {
+      titre: "Les fonctions",
+      icone: "🔗",
+      resume: "Chaque fonction et son rôle.",
+      ecrans: [
+        { t: "Relier la fonction et son rôle", b: [
+          { associer: [
+            ["<code>SOMME</code>", "Additionner"],
+            ["<code>MOYENNE</code>", "Faire la moyenne"],
+            ["<code>MAX</code>", "Trouver la plus grande valeur"],
+            ["<code>MIN</code>", "Trouver la plus petite valeur"],
+            ["<code>SI</code>", "Afficher selon une condition"],
+            ["<code>NB.SI</code>", "Compter selon une condition"]
+          ], titre: "Les fonctions et leur rôle" }
+        ] }
+      ]
+    },
+    {
+      titre: "Faire un graphique",
+      icone: "📈",
+      resume: "Les étapes dans l'ordre.",
+      ecrans: [
+        { t: "Faire un graphique", b: [
+          { ordre: ["Sélectionner les données, titres compris", "Onglet Insertion", "Choisir le type de graphique (secteurs, histogramme…)", "Ajouter un titre au graphique", "Afficher les étiquettes de données"], titre: "Remettez les étapes dans l'ordre" },
+          { activite: { fichier: "exercices-excel", etape: "Excel", titre: "Passer aux vrais exercices dans Excel", texte: "Dans la rubrique Exercices : courses, facture, graphiques…", icone: "📝" } }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>

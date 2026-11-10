@@ -4,14 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Microsoft Excel</title>
-<link rel="stylesheet" href="livret/livret.css?v=202611091537">
+<link rel="stylesheet" href="livret/livret.css?v=202611101556">
 </head>
 <body>
 <div id="livret"></div>
-<script src="livret/simulations.js?v=202611091537"></script>
-<script src="livret/exercices.js?v=202611091537"></script>
-<script src="livret/export-resultat.js?v=202611091537"></script>
-<script src="livret/livret.js?v=202611091537"></script>
+<script src="livret/simulations.js?v=202611101556"></script>
+<script src="livret/exercices.js?v=202611101556"></script>
+<script src="livret/export-resultat.js?v=202611101556"></script>
+<script src="livret/icones-ruban.js?v=202611101556"></script>
+<script src="livret/livret.js?v=202611101556"></script>
 <script>
 Livret.demarrer({
   id: "excel",
@@ -88,7 +89,7 @@ Livret.demarrer({
       "va": "Un TCD, à quoi ça sert ?"
     }
   },
-  plus: {"fichier": "exercices-fichiers-excel-powerpoint", "titre": "les exercices Fichiers, Excel et PowerPoint"},
+  plus: {"fichier": "exercices-excel", "titre": "les exercices Excel"},
   quizPage: "quiz-excel",
   parties: [
     { titre: "Les bases et les calculs", icone: "🔢", intro: "L'interface, la saisie, la recopie, les calculs et les fonctions.", etapes: 5 },
@@ -201,7 +202,7 @@ Livret.demarrer({
           { activite: { fichier: "quiz-excel", etape: "Les calculs", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
         ] },
         { t: "À vous : le budget fournitures", b: [
-          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Excel", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Le budget fournitures", icone: "📝" } }
+          { activite: { fichier: "exercices-excel", etape: "Excel", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Le budget fournitures", icone: "📝" } }
         ] }
       ]
     },
@@ -409,11 +410,11 @@ Livret.demarrer({
         { t: "L'appliquer dans Excel", b: [
           { p: "Onglet <strong>Accueil</strong>, groupe <strong>Styles</strong> > <strong>Mise en forme conditionnelle</strong>." },
           { cartes: [
-            ["Règles de surbrillance", "Mettre en évidence selon un critère : Supérieur à, Inférieur à, Entre, Égal à, Texte qui contient."],
-            ["Valeurs les plus/moins élevées", "Repérer les N premiers ou derniers éléments, ou un pourcentage de la plage."],
-            ["Barres de données", "Une barre dans chaque cellule, dont la longueur suit la valeur."],
-            ["Nuances de couleurs", "Un dégradé selon la valeur. Utile pour les densités (performances régionales, risques)."],
-            ["Jeux d'icônes", "Flèches, feux, indicateurs : vert pour « bon », jaune pour « moyen », rouge pour « mauvais »."]
+            ["Règles de surbrillance", "Mettre en évidence selon un critère : Supérieur à, Inférieur à, Entre, Égal à, Texte qui contient.", { i: "mfc-surbrillance", ou: ["Accueil", "Styles", "Mise en forme conditionnelle"] }],
+            ["Valeurs les plus/moins élevées", "Repérer les N premiers ou derniers éléments, ou un pourcentage de la plage.", { i: "mfc-top", ou: ["Accueil", "Styles", "Mise en forme conditionnelle"] }],
+            ["Barres de données", "Une barre dans chaque cellule, dont la longueur suit la valeur.", { i: "mfc-barres", ou: ["Accueil", "Styles", "Mise en forme conditionnelle"] }],
+            ["Nuances de couleurs", "Un dégradé selon la valeur. Utile pour les densités (performances régionales, risques).", { i: "mfc-nuances", ou: ["Accueil", "Styles", "Mise en forme conditionnelle"] }],
+            ["Jeux d'icônes", "Flèches, feux, indicateurs : vert pour « bon », jaune pour « moyen », rouge pour « mauvais ».", { i: "mfc-icones", ou: ["Accueil", "Styles", "Mise en forme conditionnelle"] }]
           ] },
           { h: "Exemple : les ventes à alerter" },
           { pas: [
@@ -507,10 +508,10 @@ Livret.demarrer({
           { activite: { fichier: "quiz-excel", etape: "Quiz final", titre: "Vérifier ses connaissances : le quiz", texte: "Dans la rubrique Jeux et quiz.", icone: "❓" } }
         ] },
         { t: "Défi 1 : le tableau de produits", b: [
-          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Excel", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Tableau_Produits.xlsx", icone: "📝" } }
+          { activite: { fichier: "exercices-excel", etape: "Excel", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Tableau_Produits.xlsx", icone: "📝" } }
         ] },
         { t: "Défi 2 : analyser comme un pro", b: [
-          { activite: { fichier: "exercices-fichiers-excel-powerpoint", etape: "Excel", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Références, conditions et TCD", icone: "📝" } }
+          { activite: { fichier: "exercices-excel", etape: "Excel", titre: "Faire l'exercice dans la rubrique Exercices", texte: "Références, conditions et TCD", icone: "📝" } }
         ] }
       ]
     }

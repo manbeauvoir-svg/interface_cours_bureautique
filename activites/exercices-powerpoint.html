@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exercices PowerPoint</title>
+<link rel="stylesheet" href="livret/livret.css?v=202611101556">
+</head>
+<body>
+<div id="livret"></div>
+<script src="livret/simulations.js?v=202611101556"></script>
+<script src="livret/exercices.js?v=202611101556"></script>
+<script src="livret/export-resultat.js?v=202611101556"></script>
+<script src="livret/livret.js?v=202611101556"></script>
+<script>
+Livret.demarrer({
+  id: "exercices-powerpoint",
+  etiquette: "EXERCICES",
+  titre: "Exercices PowerPoint",
+  icone: "🎞️",
+  couleur: "#b45309",
+  pale: "#fdf1e0",
+  accroche: "De vraies présentations à faire dans PowerPoint : se présenter, une affiche, un SmartArt, des animations.",
+  etapes: [
+    {
+      titre: "PowerPoint",
+      icone: "🎞️",
+      resume: "4 exercices",
+      ecrans: [
+        { t: "PowerPoint", b: [
+          { exo: "ppt-moi" },
+          { exo: "ppt-affiche" },
+          { exo: "ppt-formatech" },
+          { exo: "ppt-schema" },
+          { exo: "ppt-animer" },
+          { exo: "ppt-presenter" },
+          { exo: "defi-powerpoint-1" },
+          { exo: "defi-powerpoint-2" },
+          { exo: "defi-powerpoint-3" }
+        ] }
+      ]
+    }
+  ]
+});
+</script>
+</body>
+</html>
