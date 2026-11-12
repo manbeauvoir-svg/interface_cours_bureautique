@@ -136,14 +136,14 @@ const DIAGRAMMES = (() => {
       return b;
     });
     // Les numéros posés sur un élément du dessin (sélecteur) suivent sa place, quelle que soit la largeur de l'écran.
-    const placer = () => D.zones.forEach(([, x], i) => {
+    const positionner = () => D.zones.forEach(([, x], i) => {
       if (typeof x === "number") return;
       const cible = schema.querySelector(x), a = schema.getBoundingClientRect(), c = cible.getBoundingClientRect();
       marques[i].style.left = ((c.left + c.width * .6 - a.left) / a.width * 100) + "%";
       marques[i].style.top = ((c.top + c.height / 2 - a.top) / a.height * 100) + "%";
     });
-    requestAnimationFrame(placer);
-    window.addEventListener("resize", placer);
+    requestAnimationFrame(positionner);
+    window.addEventListener("resize", positionner);
     const etiquettes = el("div", { class: "dg-etiquettes", role: "group", "aria-label": "Les étiquettes" },
       melange(D.zones).map(([, , , nom]) => el("button", { class: "dg-eti", type: "button", "data-nom": nom, onclick: e => clicEtiquette(nom, e.currentTarget) }, nom)));
     const liste = el("ol", { class: "dg-liste" }, D.zones.map(([n]) => el("li", {}, el("button", { class: "dg-ligne", type: "button", "data-n": n, onclick: () => clicNumero(n) },
