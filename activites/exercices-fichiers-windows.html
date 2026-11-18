@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fichiers et Windows</title>
-<link rel="stylesheet" href="livret/livret.css?v=202611121420">
+<link rel="stylesheet" href="livret/livret.css?v=202611181616">
 </head>
 <body>
 <div id="livret"></div>
-<script src="livret/simulations.js?v=202611121420"></script>
-<script src="livret/exercices.js?v=202611121420"></script>
-<script src="livret/export-resultat.js?v=202611121420"></script>
-<script src="livret/livret.js?v=202611121420"></script>
+<script src="livret/simulations.js?v=202611181616"></script>
+<script src="livret/exercices.js?v=202611181616"></script>
+<script src="livret/export-resultat.js?v=202611181616"></script>
+<script src="livret/livret.js?v=202611181616"></script>
 <script>
 Livret.demarrer({
   id: "exercices-fichiers-windows",
@@ -25,12 +25,17 @@ Livret.demarrer({
     {
       titre: "Ranger, renommer, trier",
       icone: "📁",
-      resume: "6 exercices",
+      resume: "Un parcours en 5 étapes et 3 défis",
       ecrans: [
-        { t: "Ranger, renommer, trier", b: [
+        { t: "Le parcours du dossier Bureautique", b: [
+          { p: "Ces 5 étapes se suivent : elles se font toutes dans <strong>le même dossier Bureautique</strong>, téléchargé une seule fois à l'étape 1. Faites-les dans l'ordre, sans effacer votre travail entre deux étapes." },
+          { exo: "gf-demarrage" },
           { exo: "gf-deplacer" },
           { exo: "gf-renommer" },
-          { exo: "gf-supprimer" },
+          { exo: "gf-nommage" },
+          { exo: "gf-supprimer" }
+        ] },
+        { t: "Les défis", b: [
           { exo: "defi-fichiers-1" },
           { exo: "defi-fichiers-2" },
           { exo: "defi-fichiers-3" }

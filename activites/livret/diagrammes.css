@@ -117,3 +117,13 @@ body { margin: 0; background: var(--fond); color: var(--encre); font: 500 1.0625
 .d-site-corps a { color: #1a5fb4; text-decoration: underline; }
 .d-image { display: grid; place-items: center; aspect-ratio: 4 / 3; background: #e8dff0; font-size: 4cqw; }
 .d-site-pied { padding: 1cqw 2cqw; background: #333; color: #ddd; font-size: 1.15cqw; }
+
+/* Comment jouer */
+.cj { flex-basis: 100%; margin: 4px 0 12px; border: 2px solid var(--soleil-bord); border-radius: 14px; background: #fff6d9; }
+.cj > summary { cursor: pointer; padding: 8px 14px; font-weight: 800; color: var(--nuit); list-style: none; }
+.cj > summary::-webkit-details-marker { display: none; }
+.cj > summary::after { content: " ▾"; color: var(--doux); }
+.cj[open] > summary::after { content: " ▴"; }
+.cj ol { margin: 0; padding: 0 16px 12px 38px; }
+.cj li { margin: 3px 0; }
+.cj li::marker { font-weight: 800; color: var(--soleil-bord); }

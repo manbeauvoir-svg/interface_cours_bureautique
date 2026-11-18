@@ -291,23 +291,38 @@ const EXERCICES = {
   },
 
   /* ---------- FICHIERS ET DOSSIERS ---------- */
+  "gf-demarrage": {
+    app: "windows", niveau: 1, duree: "20 min", titre: "Étape 1 : le dossier Bureautique",
+    objectif: "Téléchargez le dossier <strong>Bureautique</strong> : il sert pour les 5 étapes de ce parcours, qui se suivent. Commencez par ranger le dossier 1 - Base.",
+    pack: "packs/bureautique.zip", suite: "gf-deplacer",
+    taches: ["Téléchargez le dossier Bureautique, faites un clic droit dessus > Extraire tout, et placez-le dans votre dossier de formation.", "Ouvrez le dossier Bureautique, puis le dossier 1 - Base.", "Renommez « Nouveau dossier » en Word et « Nouveau dossier (2) » en Internet.", "Rangez les dossiers ExercicesWORD et ImagesWORD dans le dossier Word.", "Rangez le dossier RecherchesINTERNET dans le dossier Internet.", "Dans ExercicesWORD, créez 5 dossiers : 1 - Base, 2 - Police, 3 - Paragraphes, 4 - Tabulations, 5 - Mise en page.", "Respectez bien les majuscules, les minuscules, les espaces et les tirets. Prévenez le formateur : il valide avant l'étape suivante."]
+  },
   "gf-deplacer": {
-    app: "windows", niveau: 2, duree: "30 min", titre: "Le cabinet Quichon et le garage Arkanault",
-    objectif: "Un couple partage le même ordinateur, l'un est vétérinaire et l'autre garagiste. Suite à un bug, tout s'est mélangé : à vous de ranger.",
-    pack: "packs/entreprise.zip", consigne: "fichiers-dossiers/consignes-deplacer.pdf", consigneGros: "fichiers-dossiers/consignes-deplacer-gros.pdf", suite: "gf-renommer",
+    app: "windows", niveau: 2, duree: "30 min", titre: "Étape 2 : le cabinet Quichon et le garage Arkanault",
+    objectif: "Un couple partage le même ordinateur, l'un est vétérinaire et l'autre garagiste. Suite à un bug, tout s'est mélangé dans le dossier <strong>Entreprise</strong> : à vous de ranger. Continuez dans votre dossier <strong>Bureautique</strong>, celui de l'étape 1 : ne le téléchargez pas une deuxième fois.", consigne: "fichiers-dossiers/consignes-deplacer.pdf", consigneGros: "fichiers-dossiers/consignes-deplacer-gros.pdf", suite: "gf-renommer",
     taches: ["Dans le dossier Entreprise, créez ANIMAUX et VEHICULES s'ils n'existent pas.", "Déplacez Chats, Chiens, Insectes, Animaux Fermes et Animaux Exotiques dans ANIMAUX.", "Déplacez Autos, Bus, Motos, Utilitaires et Vélos-Trotinettes dans VEHICULES.", "Copiez Vaccinations2024 et Opérations2024 (dossier Chats) dans tous les dossiers d'ANIMAUX.", "Copiez Carrosserie et Mécanique (dossier Autos) dans tous les dossiers de VEHICULES.", "Déplacez ANIMAUX dans CABINET et VEHICULES dans GARAGE.", "Rangez les fichiers Comptabilité et Prospectus dans leur dossier. Déplacez Inventaire et Liste de clients dans CABINET, et copiez-les dans GARAGE."]
   },
   "gf-renommer": {
-    app: "windows", niveau: 2, duree: "30 min", titre: "La maison de Nathalie et Paul",
-    objectif: "Nathalie ne comprend pas le rangement de Paul : renommez leurs dossiers et leurs fichiers.",
-    pack: "packs/maison.zip", consigne: "fichiers-dossiers/consignes-renommer.pdf", consigneGros: "fichiers-dossiers/consignes-renommer-gros.pdf", suite: "gf-supprimer",
+    app: "windows", niveau: 2, duree: "30 min", titre: "Étape 3 : la maison de Nathalie et Paul",
+    objectif: "Nathalie ne comprend pas le rangement de Paul : renommez leurs dossiers et leurs fichiers, dans le dossier <strong>Maison</strong>. Continuez dans votre dossier <strong>Bureautique</strong>, celui de l'étape 1 : ne le téléchargez pas une deuxième fois.",
+    consigne: "fichiers-dossiers/consignes-renommer.pdf", consigneGros: "fichiers-dossiers/consignes-renommer-gros.pdf", suite: "gf-nommage",
     taches: ["Renommez les dossiers : Documents → PERSONNEL, Documents administratifs → ADMINISTRATIF, Documents emploi → EMPLOI, Documents fiscaux → FISCAL.", "Dans ADMINISTRATIF : cOURRIER mONSIEUR LE maire → Courrier Mairie 101223, Lettre de réclamation SFR → Prlv SFR 050124.", "Dans EMPLOI : renommez les contrats (CT NATHALIE 2010, CT PAUL 2015) et les statuts (Statuts GARAGE, Statuts CABINET).", "Renommez les deux fichiers Excel selon leur contenu : Budget famille 2024 et Budget vacances 2024.", "Suivez la suite de la consigne pour le dossier PERSONNEL."]
   },
+  "gf-nommage": {
+    app: "windows", niveau: 2, duree: "30 min", titre: "Étape 4 : visualiser et nommer des PDF",
+    objectif: "Le grand frère de Paul, fan de Disney et de smartphones, a copié des PDF numérotés dans le dossier <strong>Vide grenier</strong>. Renommez-les d'après leur contenu, sans les ouvrir. Continuez dans votre dossier <strong>Bureautique</strong>, celui de l'étape 1 : ne le téléchargez pas une deuxième fois.",
+    suite: "gf-supprimer",
+    taches: ["Ouvrez le dossier Vide grenier dans l'Explorateur de fichiers.", "Onglet Affichage > Volet de visualisation : cliquez sur un PDF pour voir son contenu sans l'ouvrir.", "Les fichiers qui commencent par 487 sont des affiches de films Disney : renommez-les NomDuFilm, tout attaché (exemple : LaPetiteSirene).", "Les fichiers qui commencent par 972 sont des fiches de smartphones : renommez-les Marque Modèle - Variante Couleur (exemple : Samsung Galaxy - J8 Or).", "Respectez exactement le format : majuscules, minuscules, espaces et tirets.", "Faites une capture d'écran où l'on voit les nouveaux noms ({Impr écran}), imprimez-la et remettez-la au formateur."]
+  },
   "gf-supprimer": {
-    app: "windows", niveau: 3, duree: "30 min", titre: "Le vide-grenier de la famille Quichon",
-    objectif: "Faire du tri : supprimer les dossiers et les fichiers inutiles, en une seule suppression par dossier.",
-    pack: "packs/vide-grenier.zip", consigne: "fichiers-dossiers/consignes-supprimer.pdf", consigneGros: "fichiers-dossiers/consignes-supprimer-gros.pdf",
-    taches: ["Supprimez les dossiers MOBILIER, SACS et VAISSELLE.", "Dans TELEPHONES, supprimez ALCATEL, NOKIA, SAGEM et SAMSUNG.", "Dans VIDEOTHEQUE, ne conservez que les séries américaines.", "Dans VIDEOTHEQUE, supprimez les fichiers notés « vendu », ainsi que les doublons.", "Dans VETEMENTS, supprimez les fichiers inutiles (vendu, déchiré…)."]
+    app: "windows", niveau: 3, duree: "30 min", titre: "Étape 5 : le vide-grenier de la famille Quichon",
+    objectif: "Faire du tri dans le dossier <strong>Vide grenier</strong> : supprimer les dossiers et les fichiers inutiles, en une seule suppression par dossier. Continuez dans votre dossier <strong>Bureautique</strong>, celui de l'étape 1 : ne le téléchargez pas une deuxième fois.", consigne: "fichiers-dossiers/consignes-supprimer.pdf", consigneGros: "fichiers-dossiers/consignes-supprimer-gros.pdf",
+    indices: [
+      ["série ou film ?", "Une <strong>série</strong> a plusieurs saisons et des épisodes : les sous-dossiers SAISON ou INTEGRALE sont un bon signe, mais tous les dossiers n'en ont pas. Un <strong>film</strong> raconte une histoire en une seule fois. Attention : certains dossiers sont des films américains… ce ne sont pas des séries !"],
+      ["américaine ou française ?", "Trois séries de la vidéothèque sont <strong>françaises</strong> : leurs héros parlent français et elles passent sur TF1. Pensez à une ange gardienne, à une commissaire de police et à une grande famille."],
+      ["la réponse", "À supprimer : les 3 films américains <strong>RAMBO</strong>, <strong>ROCKY</strong> et <strong>STAR WARS</strong>, et les 3 séries françaises <strong>JOSEPHINE ANGE GARDIEN</strong>, <strong>JULIE LESCAUT</strong> et <strong>UNE FAMILLE FORMIDABLE</strong>. Sélectionnez les 6 dossiers avec {Ctrl} enfoncé, puis supprimez-les en une seule fois."]
+    ],
+    taches: ["Supprimez les dossiers MOBILIER, SACS et VAISSELLE.", "Dans TELEPHONES, supprimez ALCATEL, NOKIA, SAGEM et SAMSUNG.", "Dans VIDEOTHEQUE, ne conservez que les séries américaines : 6 dossiers sont à supprimer (besoin d'aide ? ouvrez les 💡 indices juste sous cette liste).", "Dans VIDEOTHEQUE, supprimez les fichiers notés « vendu », ainsi que les doublons.", "Dans VETEMENTS, supprimez les fichiers inutiles (vendu, déchiré…)."]
   },
 
   /* ---------- FONCTIONS COMMUNES ---------- */

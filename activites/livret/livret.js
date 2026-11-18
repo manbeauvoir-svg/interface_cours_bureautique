@@ -850,7 +850,7 @@ const Livret = (() => {
     }
     const tete = () => el("div", {},
       el("div", { class: "jeu-titre" }, el("span", { html: titre || "Le tri" }), el("small", {}, `${items.length - pile.length} / ${items.length}`)),
-      consigne ? el("p", { html: consigne, style: "margin:0 0 9px" }) : null);
+      el("p", { html: consigne || "❓ Lisez la carte, puis cliquez sur la case où elle doit aller. Une erreur ? La carte tremble : essayez une autre case.", style: "margin:0 0 9px" }));
     const vuRange = () => el("div", { class: "ranges" }, ...bacs.map((nom, k) =>
       ranges[k].length ? el("div", {}, el("strong", { html: nom }), el("ul", {}, ...ranges[k].map(t => el("li", { html: t })))) : el("div", {})));
     function fini() {
@@ -1142,7 +1142,10 @@ const Livret = (() => {
     };
     dessine();
     bilan();
-    carte.append(liste, fin);
+    carte.append(liste);
+    if (x.indices) carte.append(el("div", { class: "exo-indices" }, ...x.indices.map(([titre, texte], i) =>
+      el("details", { class: "exo-indice" }, el("summary", {}, `💡 Indice ${i + 1} : ${titre}`), el("p", { html: texte })))));
+    carte.append(fin);
     return carte;
   }
 

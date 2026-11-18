@@ -29,8 +29,16 @@
     express: { titre: "Quiz express", icone: "⚡", type: "Quiz", intro: "10 questions tirées au hasard : elles changent à chaque partie. La correction s'affiche tout de suite." },
     "vrai-faux": { titre: "Vrai ou faux ?", icone: "✅", type: "Jeu", intro: "Une affirmation s'affiche : vraie ou fausse ? L'explication suit chaque réponse." },
     intrus: { titre: "Trouve l'intrus", icone: "🕵️", type: "Jeu", intro: "Quatre propositions : une seule n'a rien à faire là. Laquelle ?" },
-    "mots-meles": { titre: "Mots mêlés", icone: "🔠", type: "Jeu", intro: "Retrouvez les mots cachés dans la grille : cliquez sur la première lettre, puis sur la dernière. Les mots se lisent de gauche à droite, de haut en bas ou en diagonale." },
+    "mots-meles": { titre: "Mots mêlés", icone: "🔠", type: "Jeu", intro: "Retrouvez les mots cachés dans la grille." },
     evaluation: { titre: "Évaluation", icone: "🎓", type: "Évaluation", intro: "Répondez à toutes les questions : la correction et votre score s'affichent à la fin. L'évaluation est réussie à 80 %." }
+  };
+  // Le mode d'emploi de chaque jeu, affiché dans l'encadré « Comment jouer ».
+  const REGLES = {
+    express: ["Lisez la question.", "Cliquez sur la bonne réponse.", "La correction s'affiche tout de suite : la bonne réponse est en <strong>vert</strong>, lisez l'explication.", "Cliquez sur <strong>Question suivante</strong>. À la fin, votre score s'affiche."],
+    "vrai-faux": ["Lisez la phrase dans le cadre.", "Cliquez sur <strong>Vrai</strong> si elle est juste, sur <strong>Faux</strong> si elle est fausse.", "Lisez l'explication, puis cliquez sur <strong>Suivante</strong>."],
+    intrus: ["Regardez les quatre cartes : trois vont ensemble.", "Cliquez sur la carte qui n'a rien à faire avec les autres : c'est l'<strong>intrus</strong>.", "Lisez l'explication, puis cliquez sur <strong>Suivant</strong>."],
+    "mots-meles": ["Choisissez un mot dans la liste <strong>Les mots à trouver</strong>.", "Cherchez-le dans la grille : il se lit de gauche à droite, de haut en bas ou en diagonale.", "Cliquez sur la <strong>première lettre</strong> du mot : elle se colore.", "Cliquez ensuite sur la <strong>dernière lettre</strong> du mot : le mot entier se colore et il est barré dans la liste.", "Trompé de lettre ? Le jeu vous le signale : recommencez simplement par la première lettre du mot."],
+    evaluation: ["Lisez chaque question et cliquez sur la réponse de votre choix.", "Attention : on passe tout de suite à la question suivante, on ne peut pas revenir en arrière.", "La correction complète et votre score s'affichent à la fin. L'évaluation est réussie à 80 %."]
   };
   const mode = MODES[PAGE.mode];
   const nomTheme = theme.titre;
@@ -42,9 +50,12 @@
   const lienRevoir = (cours, revoir) => el("a", { class: "jx-revoir", href: "../index.html#/" + cours, target: "_top",
     onclick: () => { try { sessionStorage.setItem("cours-bureautique:livret:aller", revoir); } catch {} } }, "📖 Revoir : " + revoir);
   const chrono = () => { const d = Date.now(); return () => Math.round((Date.now() - d) / 1000); };
+  const commentJouer = (ouvert) => el("details", { class: "cj", open: ouvert },
+    el("summary", {}, "❓ Comment jouer"), el("ol", {}, REGLES[PAGE.mode].map(r => el("li", { html: r }))));
+  // Pendant la partie (extra = le compteur), l'encadré reste disponible, replié.
   const entete = (extra) => el("header", { class: "jx-tete" },
     el("div", { class: "jx-titre" }, el("span", { class: "jx-ico", "aria-hidden": "true" }, mode.icone), el("div", {}, el("small", {}, nomTheme), el("h1", {}, mode.titre))),
-    extra || null);
+    extra || null, extra ? commentJouer(false) : null);
   const barre = (i, n) => el("div", { class: "jx-barre", role: "progressbar", "aria-valuemin": 0, "aria-valuemax": n, "aria-valuenow": i }, el("i", { style: `width:${i / n * 100}%` }));
   const fin = (score, total, detail, unite, apres) => {
     const res = el("div", {});
@@ -183,7 +194,7 @@
     let premier = null;
     const cases = grille.map((l, y) => l.map((c, x) => el("button", { class: "jx-l", type: "button", "aria-label": `Lettre ${c}, ligne ${y + 1}, colonne ${x + 1}`, onclick: () => clic(x, y) }, c)));
     const liste = el("ul", { class: "jx-mots" }, mots.map(m => el("li", { "data-m": m }, m)));
-    const retour = el("p", { class: "jx-retour", role: "status" });
+    const retour = el("p", { class: "jx-retour", role: "status" }, "👉 Cliquez sur la première lettre d'un mot, puis sur sa dernière lettre.");
     const finir = el("button", { class: "jx-btn", type: "button", onclick: () => terminer(true) }, "Je donne ma langue au chat");
     zone.replaceChildren(entete(el("span", { class: "jx-compte" }, `0 / ${mots.length} mots`)), el("div", { class: "jx-mm" },
       el("div", { class: "jx-grille", style: `grid-template-columns:repeat(${N},1fr)` }, cases.flat()), el("div", {}, el("h2", {}, "Les mots à trouver"), liste)), retour, el("div", { class: "jx-actions" }, finir));
@@ -225,7 +236,7 @@
   }
   // L'écran d'accueil du jeu
   const nb = PAGE.mode === "evaluation" ? (tous ? BANQUE.length * 4 : 20) : PAGE.mode === "express" ? 10 : PAGE.mode === "vrai-faux" ? 10 : PAGE.mode === "intrus" ? INTRUS[theme.id].length : MOTS_MELES[theme.id].length;
-  zone.append(entete(), el("p", { class: "jx-intro" }, mode.intro),
+  zone.append(entete(), el("p", { class: "jx-intro" }, mode.intro), commentJouer(true),
     PAGE.mode === "evaluation" ? el("p", { class: "jx-intro" }, `${nb} questions${tous ? ", 4 par thématique" : ", tirées au hasard dans les quiz du module"}. Prenez votre temps.`) : "",
     el("div", { class: "jx-actions" }, el("button", { class: "jx-btn fort", type: "button", onclick: demarrer }, PAGE.mode === "evaluation" ? "Commencer l'évaluation" : "Commencer")));
 })();

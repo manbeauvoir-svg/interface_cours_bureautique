@@ -503,3 +503,9 @@ ul.liste li { margin-bottom: 6px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* Les indices des exercices, à ouvrir un par un */
+.exo-indices { display: grid; gap: 6px; margin-top: 10px; }
+.exo-indice { border: 2px dashed #c98a00; border-radius: 12px; background: #fff8e1; }
+.exo-indice > summary { cursor: pointer; padding: 7px 12px; font-weight: 800; }
+.exo-indice > p { margin: 0; padding: 0 12px 10px; }

@@ -153,6 +153,12 @@ const DIAGRAMMES = (() => {
     const res = el("div", {});
     zone.replaceChildren(
       el("header", { class: "dg-tete" }, el("span", { class: "dg-ico", "aria-hidden": "true" }, D.icone), el("div", {}, el("small", {}, "Diagramme à compléter"), el("h1", {}, D.titre))),
+      el("details", { class: "cj", open: true }, el("summary", {}, "❓ Comment jouer"), el("ol", {},
+        el("li", {}, "Sur l'image, chaque zone porte un numéro dans une pastille."),
+        el("li", {}, "Cliquez sur une étiquette (sous l'image), puis sur le numéro de la zone qui lui correspond, dans l'image ou dans la liste « Mes réponses »."),
+        el("li", {}, "Vous pouvez aussi faire l'inverse : le numéro d'abord, puis l'étiquette."),
+        el("li", {}, "Trompé ? Recommencez avec une autre étiquette sur le même numéro, ou cliquez sur « Tout effacer »."),
+        el("li", {}, "Quand toutes les zones ont une étiquette, cliquez sur « Vérifier »."))),
       schema, retour, el("h2", {}, "Les étiquettes"), etiquettes,
       el("h2", {}, "Mes réponses"), liste, el("div", { class: "dg-actions" }, verifier, el("button", { class: "dg-btn", type: "button", onclick: partie }, "Tout effacer")), res);
 

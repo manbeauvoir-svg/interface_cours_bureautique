@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Le memory des fichiers</title>
-<link rel="stylesheet" href="livret/polices/polices.css?v=202611121420">
+<link rel="stylesheet" href="livret/polices/polices.css?v=202611181616">
 <style>
   :root { --encre: #1b2a33; --doux: #4b5c66; --fond: #fff8ec; --nuit: #17324d; --teinte: #a21caf; --pale: #f8e8fb; --vert: #1a7f4b; --soleil: #ffc83d; --soleil-bord: #c98a00; }
   * { box-sizing: border-box; }
@@ -29,6 +29,15 @@
   .btn { min-height: 44px; padding: 8px 16px; border-radius: 12px; border: 2px solid var(--nuit); background: #fff; color: var(--nuit); font: 800 1rem "Nunito", sans-serif; cursor: pointer; }
   .btn.fort { background: var(--soleil); border-color: var(--soleil-bord); }
   .retour { min-height: 1.6em; margin-top: 10px; font-weight: 800; }
+/* Comment jouer */
+  .cj { flex-basis: 100%; margin: 4px 0 12px; border: 2px solid var(--soleil-bord); border-radius: 14px; background: #fff6d9; }
+  .cj > summary { cursor: pointer; padding: 8px 14px; font-weight: 800; color: var(--nuit); list-style: none; }
+  .cj > summary::-webkit-details-marker { display: none; }
+  .cj > summary::after { content: " ▾"; color: var(--doux); }
+  .cj[open] > summary::after { content: " ▴"; }
+  .cj ol { margin: 0; padding: 0 16px 12px 38px; }
+  .cj li { margin: 3px 0; }
+  .cj li::marker { font-weight: 800; color: var(--soleil-bord); }
   @media (prefers-reduced-motion: reduce) { .carte .face { transition: none; } }
 </style>
 </head>
@@ -36,15 +45,21 @@
 <main class="page">
   <h1>🃏 Le memory des fichiers</h1>
   <p class="intro">Retournez deux cartes : retrouvez chaque <strong>extension</strong> et l'<strong>icône</strong> du fichier qui va avec. Essayez de finir en un minimum de coups !</p>
+  <details class="cj" open><summary>❓ Comment jouer</summary><ol>
+    <li>Cliquez sur une carte : elle se retourne.</li>
+    <li>Cliquez sur une deuxième carte pour trouver la paire : une <strong>extension</strong> (.docx, .pdf…) et l'<strong>icône</strong> qui lui correspond.</li>
+    <li>Si les deux cartes vont ensemble, elles restent visibles. Sinon, elles se retournent : retenez bien où elles sont !</li>
+    <li>La partie est finie quand les 8 paires sont trouvées.</li>
+  </ol></details>
   <div class="compteurs"><span id="paires">0 / 8 paires</span><span id="coups">0 coup</span></div>
   <div class="grille" id="grille" aria-label="Les cartes du memory"></div>
   <p class="retour" id="retour" role="status"></p>
   <div class="barre"><button class="btn fort" type="button" id="rejouer">🔄 Nouvelle partie</button></div>
   <div id="resultat"></div>
 </main>
-<script src="livret/icones-fichiers.js?v=202611121420"></script>
-<script src="livret/export-resultat.js?v=202611121420"></script>
-<script src="livret/resultat-activite.js?v=202611121420"></script>
+<script src="livret/icones-fichiers.js?v=202611181616"></script>
+<script src="livret/export-resultat.js?v=202611181616"></script>
+<script src="livret/resultat-activite.js?v=202611181616"></script>
 <script>
 const PAIRES = [
   [".docx", "word"], [".xlsx", "excel"], [".pptx", "powerpoint"], [".pdf", "pdf"],

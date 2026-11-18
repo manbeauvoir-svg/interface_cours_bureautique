@@ -55,3 +55,13 @@ code { background: #eef2f5; border-radius: 5px; padding: .05em .35em; font: 700 
   .jx-mots { grid-template-columns: repeat(2, 1fr); }
   .jx-cartes { grid-template-columns: 1fr; }
 }
+
+/* Comment jouer */
+.cj { flex-basis: 100%; margin: 4px 0 12px; border: 2px solid var(--soleil-bord); border-radius: 14px; background: #fff6d9; }
+.cj > summary { cursor: pointer; padding: 8px 14px; font-weight: 800; color: var(--nuit); list-style: none; }
+.cj > summary::-webkit-details-marker { display: none; }
+.cj > summary::after { content: " ▾"; color: var(--doux); }
+.cj[open] > summary::after { content: " ▴"; }
+.cj ol { margin: 0; padding: 0 16px 12px 38px; }
+.cj li { margin: 3px 0; }
+.cj li::marker { font-weight: 800; color: var(--soleil-bord); }
