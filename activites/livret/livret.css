@@ -509,3 +509,5 @@ ul.liste li { margin-bottom: 6px; }
 .exo-indice { border: 2px dashed #c98a00; border-radius: 12px; background: #fff8e1; }
 .exo-indice > summary { cursor: pointer; padding: 7px 12px; font-weight: 800; }
 .exo-indice > p { margin: 0; padding: 0 12px 10px; }
+/* Dernier écran : « Terminer » attend la fin du quiz */
+.fin-attente { align-self: center; font-weight: 800; color: var(--doux); font-size: .95rem; text-align: right; }

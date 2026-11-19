@@ -147,9 +147,40 @@ const EXERCICES = {
   "xl-budget": {
     app: "excel", niveau: 1, duree: "20 min", titre: "Le budget fournitures",
     objectif: "Créer un petit tableau, avec ses formules et sa mise en forme.",
-    corrige: "excel/budget-fournitures-corrige.pdf", suite: "xl-facture",
+    corrige: "excel/budget-fournitures-corrige.pdf", suite: "xl-courses",
     consigne: "excel/budget-fournitures.pdf", consigneGros: "excel/budget-fournitures-gros.pdf",
     taches: ["Créez un classeur nommé <code>Exo Excel.xlsx</code> dans votre dossier Excel.", "En A1, tapez le titre : Budget Fournitures.", "En ligne 3, créez les colonnes : Article (A3), Prix Unitaire (B3), Quantité (C3) et Total (D3).", "Remplissez les lignes 4 et 5 avec les données de la consigne.", "En D4 et D5, calculez le total de chaque ligne (prix × quantité).", "En D7, calculez le total général avec <code>=SOMME(D4:D5)</code>.", "Mettez les colonnes B et D au format monétaire (€) et les titres de la ligne 3 en gras.", "Appliquez un remplissage jaune à la cellule D7."]
+  },
+  "xl-premier": {
+    app: "excel", niveau: 1, duree: "20 min", titre: "Mon premier tableau : le carnet d'adresses",
+    objectif: "Saisir un petit tableau dans un classeur vide, ajuster les colonnes et enregistrer.",
+    modele: "excel/carnet-adresses-modele.pdf", suite: "xl-entete",
+    taches: [
+      "Ouvrez Excel et choisissez <strong>Nouveau classeur vide</strong>.",
+      "Cliquez en A1 et tapez <code>Nom</code>, appuyez sur {Tab}, tapez <code>Prénom</code>, {Tab}, <code>Ville</code>, {Tab}, <code>Téléphone</code>, puis {Entrée}.",
+      "Saisissez les 5 premières personnes du modèle, une par ligne. Tapez les numéros de téléphone avec les espaces : sinon Excel efface le 0 du début.",
+      "Élargissez les colonnes : double-cliquez sur le trait entre deux lettres de colonnes (entre A et B, puis entre B et C…).",
+      "Mettez la ligne 1 en gras : cliquez sur le numéro 1 à gauche, puis {Ctrl+G}.",
+      "Enregistrez avec {F12} dans votre dossier Excel, sous le nom <code>Carnet d'adresses</code>.",
+      "Ajoutez la 6e personne (DUBOIS Marc) en ligne 7, puis enregistrez à nouveau avec {Ctrl+S}.",
+      "Corrigez une cellule : cliquez dessus, appuyez sur {F2}, modifiez, puis {Entrée}. Vérifiez : votre tableau ressemble au modèle."
+    ]
+  },
+  "xl-entete": {
+    app: "excel", niveau: 1, duree: "25 min", titre: "Un tableau avec un titre et des en-têtes : le planning",
+    objectif: "Présenter un tableau propre : un titre centré, une ligne d'en-têtes en couleur, des bordures.",
+    modele: "excel/planning-ateliers-modele.pdf", suite: "xl-budget",
+    taches: [
+      "Dans un nouveau classeur vide, tapez le titre en A1 : <code>Planning des ateliers - semaine du 7 décembre</code>.",
+      "En ligne 3, tapez les en-têtes : Jour (A3), Horaire (B3), Atelier (C3), Salle (D3), Places (E3).",
+      "Lignes 4 à 8 : saisissez les 5 ateliers du modèle. Ajustez la largeur des colonnes.",
+      "Le titre : sélectionnez A1:E1, puis Accueil > <strong>Fusionner et centrer</strong>. Mettez-le en gras, taille 16.",
+      "Les en-têtes : sélectionnez A3:E3, mettez-les en gras, centrés, avec une couleur de remplissage bleu clair (le pot de peinture).",
+      "Les bordures : sélectionnez A3:E8, puis Accueil > Bordures > <strong>Toutes les bordures</strong>.",
+      "Centrez les colonnes Salle et Places.",
+      "En D9, tapez <code>Total</code>. En E9, tapez <code>=SOMME(E4:E8)</code> puis {Entrée} : Excel affiche 44 places.",
+      "Vérifiez avec {Ctrl+P} : le tableau tient sur une page. Enregistrez sous <code>Planning des ateliers</code>."
+    ]
   },
   "xl-courses": {
     app: "excel", niveau: 1, duree: "20 min", titre: "Ma liste de courses", objectif: "Calculer le prix de chaque article, le total des courses et ce qu'il reste sur le budget.", fichier: "excel/liste-courses.xlsx", corrige: "excel/liste-courses-corrige.pdf", suite: "xl-semaine",
@@ -209,7 +240,7 @@ const EXERCICES = {
     ]
   },
   "xl-commandes": {
-    app: "excel", niveau: 2, duree: "25 min", titre: "Trier et filtrer les commandes", objectif: "Retrouver vite une information dans une longue liste.", fichier: "excel/commandes.xlsx", corrige: "excel/commandes-corrige.pdf",
+    app: "excel", niveau: 2, duree: "25 min", titre: "Trier et filtrer les commandes", objectif: "Retrouver vite une information dans une longue liste.", fichier: "excel/commandes.xlsx", corrige: "excel/commandes-corrige.pdf", suite: "xl-tcd",
     taches: [
       "Ouvrez le fichier <code>commandes.xlsx</code> et enregistrez-le dans votre dossier Excel.",
       "Triez du plus gros au plus petit montant : cliquez dans la colonne Montant, puis Données > Trier du plus grand au plus petit.",
@@ -218,6 +249,36 @@ const EXERCICES = {
       "Effacez ce filtre, puis n'affichez que les écrans (colonne Produit).",
       "Figez la ligne des titres : Affichage > Figer les volets > Figer la ligne supérieure.",
       "Vérifiez : la plus grosse commande fait 420 € et 9 commandes viennent d'Évry."
+    ]
+  },
+  "xl-tcd": {
+    app: "excel", niveau: 3, duree: "30 min", titre: "Le tableau croisé dynamique des commandes",
+    objectif: "Résumer une longue liste en quelques clics : le total des commandes par ville, puis par produit.",
+    fichier: "excel/commandes.xlsx", suite: "xl-recherchev",
+    taches: [
+      "Ouvrez le fichier <code>commandes.xlsx</code> et enregistrez-le sous <code>Commandes TCD</code> dans votre dossier Excel.",
+      "Cliquez dans le tableau, puis Insertion > <strong>Tableau croisé dynamique</strong> > Nouvelle feuille de calcul > OK.",
+      "Dans le volet de droite, faites glisser <strong>Ville</strong> dans Lignes et <strong>Montant</strong> dans Valeurs.",
+      "Mettez les montants au format Monétaire : clic droit sur un montant > Format de nombre > Monétaire.",
+      "Triez du plus grand au plus petit : clic droit sur un montant > Trier > Trier du plus grand au plus petit.",
+      "Ajoutez <strong>Produit</strong> dans Colonnes : vous voyez chaque produit, ville par ville.",
+      "Retirez Ville des Lignes et mettez Produit à la place : quel produit rapporte le plus ?",
+      "Vérifiez : Corbeil arrive en tête avec 798,80 €, devant Évry (793,90 €) qui a pourtant plus de commandes. Les écrans rapportent 759,60 €. Le total général fait 2 282,55 €."
+    ]
+  },
+  "xl-recherchev": {
+    app: "excel", niveau: 3, duree: "30 min", titre: "Le bon de commande avec RECHERCHEV",
+    objectif: "Remplir automatiquement un bon de commande à partir d'une liste de tarifs, sur une autre feuille.",
+    fichier: "excel/bon-commande.xlsx", corrige: "excel/bon-commande-corrige.pdf",
+    taches: [
+      "Ouvrez le fichier <code>bon-commande.xlsx</code> et enregistrez-le dans votre dossier Excel. Regardez les deux onglets en bas : Bon de commande et Tarifs.",
+      "Sur la feuille Bon de commande, en B5 : <code>=RECHERCHEV(A5;Tarifs!$A$4:$C$11;2;FAUX)</code>. Excel cherche la référence P03 dans les tarifs et affiche la 2e colonne : la désignation.",
+      "En C5, le prix : la même formule, mais avec 3 à la place de 2 (la 3e colonne des tarifs).",
+      "En E5, le total de la ligne : <code>=C5*D5</code>.",
+      "Sélectionnez B5:C5, recopiez jusqu'à la ligne 9, puis faites de même pour E5.",
+      "En E11, le total du bon : <code>=SOMME(E5:E9)</code>.",
+      "Testez : en A7, remplacez P05 par P07. La désignation, le prix et les totaux changent tout seuls.",
+      "Remettez P05, puis vérifiez : le bon de commande fait 142,30 €."
     ]
   },
   "ppt-formatech": {

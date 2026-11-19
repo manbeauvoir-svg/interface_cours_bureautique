@@ -433,7 +433,17 @@ const Livret = (() => {
       el("span", { class: "compteur" }, `${numEcran + 1} / ${n}`),
       numEcran < n - 1
         ? el("button", { class: "btn btn-fort", type: "button", onclick: () => ouvrir(numEtape, numEcran + 1) }, "Suivant →")
-        : el("button", { class: "btn btn-fort", type: "button", onclick: finEtape }, "Terminer ✓"));
+        : el("span", { class: "fin-etape" }, el("button", { class: "btn btn-fort", type: "button", onclick: finEtape }, "Terminer ✓"),
+            el("span", { class: "fin-attente", style: "display:none" }, "Finissez le quiz pour terminer ⬆️")));
+    // Sur le dernier écran, « Terminer » n'apparaît qu'une fois le quiz de l'écran fini.
+    majBas = () => {
+      const fin = bas.querySelector(".fin-etape");
+      if (!fin) return;
+      const enCours = !!ecran.querySelector(".jeu[data-en-cours]");
+      fin.firstChild.style.display = enCours ? "none" : "";
+      fin.lastChild.style.display = enCours ? "" : "none";
+    };
+    majBas();
 
     const bande = retourVers ? el("div", { class: "bande-retour" }, el("button", { class: "btn btn-petit btn-fort", type: "button", onclick: () => {
       const r = retourVers;
@@ -689,6 +699,7 @@ const Livret = (() => {
   }
 
   /* ---------- Quiz : une question à la fois, réponses mélangées ---------- */
+  let majBas = null;   // met à jour le bouton « Terminer » de l'écran affiché
   function quiz(b, cle) {
     const qs = b.quiz;
     const jeu = el("div", { class: "jeu" });
@@ -722,6 +733,8 @@ const Livret = (() => {
 
     function question() {
       if (!partie) nouvellePartie();
+      jeu.dataset.enCours = "1";
+      if (majBas) majBas();
       const q = qs[i];
       const dejaRepondu = partie.rep[i];
       const retour = el("div", { class: "retour", role: "status" });
@@ -785,6 +798,8 @@ const Livret = (() => {
       resultat();
     }
     function resultat() {
+      delete jeu.dataset.enCours;
+      if (majBas) majBas();
       const r = etat.resultats[cle];
       const detail = r.detail;
       const score = r.dernier;

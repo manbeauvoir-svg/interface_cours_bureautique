@@ -204,7 +204,7 @@ const ACTIVITES = [
     groupe: "Dans les logiciels"
   },
   {titre: "Fichiers et Windows",description: "Ranger, renommer et trier ses fichiers, capture d'écran : à faire sur l'ordinateur.",icone: "📁",rubrique: "exercices",theme: "Fichiers",fichier: "exercices-fichiers-windows.html",groupe: "Dans les logiciels"},
-  {titre: "Exercices Excel",description: "Courses, semaine de travail, dépenses en graphique, facture, ventes, commandes : avec les fichiers et les corrigés.",icone: "📊",rubrique: "exercices",theme: "Excel",fichier: "exercices-excel.html",groupe: "Dans les logiciels"},
+  {titre: "Exercices Excel",description: "Un parcours en 13 étapes, du premier tableau au tableau croisé dynamique et à RECHERCHEV, avec les fichiers et les corrigés.",icone: "📊",rubrique: "exercices",theme: "Excel",fichier: "exercices-excel.html",groupe: "Dans les logiciels"},
   {titre: "Exercices PowerPoint",description: "Se présenter, une affiche, un SmartArt et un tableau, animer une présentation.",icone: "🎞️",rubrique: "exercices",theme: "PowerPoint",fichier: "exercices-powerpoint.html",groupe: "Dans les logiciels"},
   {titre: "Internet et mails",description: "Chercher sur Internet, corriger et rédiger des mails.",icone: "🌐",rubrique: "exercices",theme: "Internet",fichier: "exercices-internet.html",groupe: "Dans les logiciels"},
   {titre: "Diagramme : Le Bureau de Windows 11",description: "Barre des tâches, bouton Démarrer, zone de notification…",icone: "🪟",rubrique: "exercices",theme: "Interface",fichier: "diagramme-bureau.html",groupe: "Les diagrammes à compléter"},
